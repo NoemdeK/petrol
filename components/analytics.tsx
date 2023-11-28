@@ -41,23 +41,7 @@ export const Analytics = () => {
     dispatch(setSelectedRegions(selectedRegions as Dataset[] | null));
   };
 
-  const cards = ['AGO', 'PMS', 'DPK', 'LPG'].map((_, idx) => {
-    return (
-      <div
-        key={idx}
-        className='bg-white rounded-xl shadow-md sm:w-full min-w-[100px]  p-2  flex items-center justify-between h-16 border-1 border'
-      >
-        <div className='flex gap-2 items-center mr-2'>
-          <div className='w-12 h-12 bg-green-100 rounded-md'></div>
-          <p className='text-[18px] font-semibold flex-1'>{_}</p>
-        </div>
-        <div className=' flex flex-col gap-1 text-[16px] text-end'>
-          <p className='font-medium  bg-white px-1 text-green-600'>+0.003%</p>
-          <p className='font-medium  bg-white px-1 text-green-600'>+117.2%</p>
-        </div>
-      </div>
-    );
-  });
+
 
   const analysis = [1, 2, 3, 4, 5].map((_, idx) => {
     return (
@@ -81,10 +65,10 @@ export const Analytics = () => {
 
   return (
     <main className='flex min-h-screen flex-col items-end justify-between  bg-white'>
-      <div className='border-l-2 border-slate-200 flex flex-col  min-h-screen w-full p-4 '>
+      <div className=' flex flex-col  min-h-screen w-full px-4 '>
         <HeaderStat />
         <div className='grid grid-cols-1 md:grid-cols-12 w-full gap-2  md:gap-4 flex-1 p-4'>
-          <div className='flex flex-col flex-1 w-full md:col-span-8 '>
+          <div className='flex flex-col flex-1 w-full md:col-span-7 '>
             <div className='flex flex-col justify-between md:items-end gap-2 md:flex-row'>
               <div className=''>
                 <p className='text-slate-400 text-xs mb-3'>Home &gt; PMS</p>
@@ -141,10 +125,11 @@ export const Analytics = () => {
                 Closed: Nov 24, 4:58:56PM UTC-5
               </p>
             </div>
-            <div className='border-x-2 border-b-2  border-slate-200 pb-2 md:pb-4 px-2 md:px-4 '>
+            <div className=' pb-2 md:pb-4 px-2 md:px-4 '>
               <FuelCharts />
             </div>
           </div>
+          <div className='md:col-span-1'></div>
           <div className='md:col-span-4'>
             Analysis & Projections
             <Separator className='h-[2px] my-1' />

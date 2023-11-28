@@ -114,3 +114,6 @@ html{
 .canvasjs-chart-toolbar{
   display: none;
 }
+tspan{
+  font-size: 0.875rem;
+}
