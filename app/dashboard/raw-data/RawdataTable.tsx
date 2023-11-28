@@ -13,7 +13,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+import {  MoreHorizontal } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -35,6 +35,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+
+import pdf from "@/assets/pdf.png"
+import excel from "@/assets/excel.png"
+import xls from "@/assets/xls.png"
+import Image from "next/image"
 
 const data: Payment[] = [
   {
@@ -140,29 +145,21 @@ export const columns: ColumnDef<Payment>[] = [
   {
     id: "actions",
     enableHiding: false,
-    cell: ({ row }) => {
-      const payment = row.original
+    header: "Actions",
+    cell: ({  }) => {
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+       <div className="flex items-center gap-2">
+        <div className="cursor-pointer hover:scale-95 transition-all">
+          <Image src={xls} alt="xls" width={20} height={20} />
+        </div>
+        <div className="cursor-pointer hover:scale-95 transition-all">
+          <Image src={pdf} alt="pdf" width={20} height={20} />
+        </div>
+        <div className="cursor-pointer hover:scale-95 transition-all">
+          <Image src={excel} alt="excel" width={20} height={20} />
+        </div>
+       </div>
       )
     },
   },

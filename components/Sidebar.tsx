@@ -32,7 +32,7 @@ export const Sidebar = () => {
   const pathname = usePathname();
 
   return (
-    <div className="space-y-4 py-4 my-4 rounded-lg flex flex-col h-full bg-[#ededed] text-black">
+    <div className="space-y-4 py-4 rounded-lg flex flex-col h-full bg-[#ededed] text-black">
       <div className="px-3 py-2 flex-1">
 
         <div className="space-y-1">

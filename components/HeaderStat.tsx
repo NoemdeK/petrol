@@ -60,11 +60,11 @@ const HeaderStat = () => {
         <section className='grid grid-cols-2 md:grid-cols-5 gap-4'>
             {
                 data.map((item, i) => (
-                    <div key={i} className='p-2 bg-white flex gap-3 rounded-md'>
-                        <div className={cn(" mr-3 p-2 rounded-md flex justify-center items-center", item.color )}>
+                    <div key={i} className='p-2 bg-white flex gap-2 rounded-md'>
+                        <div className={cn("p-2 rounded-md flex justify-center items-center", item.color )}>
                             <item.icon />
                         </div>
-                        <div>
+                        <div className='w-full'>
                             <h6 className='font-bold text-sm'>{item.label}</h6>
                             <h6 className='font-bold text-sm'>{item.label2}</h6>
                         </div>
