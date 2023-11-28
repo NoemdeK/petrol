@@ -1,4 +1,4 @@
-
+"use client"
 import React, { Component } from 'react';
 //@ts-ignore
 import CanvasJSReact from '@canvasjs/react-charts';

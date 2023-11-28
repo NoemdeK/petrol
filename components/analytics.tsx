@@ -14,6 +14,7 @@ import { nigeriaStates } from '../data/states';
 import { SearchBox } from './SearchBox';
 import FuelCharts from './fuelCharts';
 import HeaderStat from './HeaderStat';
+import SelectProduct from './SelectProduct';
 
 interface Dataset {
   label: string;
@@ -71,7 +72,7 @@ export const Analytics = () => {
           </p>
           <p className=''>
             Released November 22, 2023 | tags:{' '}
-            <span className='text-blue-200'>Liquid Fuel</span>
+            <span className='text-sky-800'>Liquid Fuel</span>
           </p>
         </div>
       </div>
@@ -82,8 +83,8 @@ export const Analytics = () => {
     <main className='flex min-h-screen flex-col items-end justify-between  bg-white'>
       <div className='border-l-2 border-slate-200 flex flex-col  min-h-screen w-full p-4 '>
         <HeaderStat />
-        <div className='flex flex-col md:flex-row w-full gap-2  md:gap-4 flex-1 p-4'>
-          <div className='flex flex-col flex-1 w-full '>
+        <div className='grid grid-cols-1 md:grid-cols-12 w-full gap-2  md:gap-4 flex-1 p-4'>
+          <div className='flex flex-col flex-1 w-full md:col-span-8 '>
             <div className='flex flex-col justify-between md:items-end gap-2 md:flex-row'>
               <div className=''>
                 <p className='text-slate-400 text-xs mb-3'>Home &gt; PMS</p>
@@ -94,8 +95,8 @@ export const Analytics = () => {
               <div className='flex  items-end gap-1 flex-col md:flex-row'>
                 <div className='w-full items-start flex flex-col justify-start  gap-2'>
                   <p className='text-[12px] font-semibold'>Product</p>
-
-                  <SearchBox
+                  <SelectProduct />
+                  {/* <SearchBox
                     options={nigeriaStates}
                     label='name'
                     id='id'
@@ -104,7 +105,7 @@ export const Analytics = () => {
                       dispatch(setSelectedState(val));
                       setValue(val);
                     }}
-                  />
+                  /> */}
                 </div>
 
                 <div className='w-full items-start flex flex-col justify-start  gap-2 '>
@@ -124,7 +125,7 @@ export const Analytics = () => {
             </div>
 
             <hr className='h-2 my-2' />
-            <div className=' w-full h-full p-2'>
+            <div className=' w-full h-20 p-2'>
               <div className='flex items-center gap-2 md:gap-4'>
                 <p className='text-2xl font-medium'>$10.40</p>
                 <div className='flex'>
@@ -144,7 +145,7 @@ export const Analytics = () => {
               <FuelCharts />
             </div>
           </div>
-          <div className=' '>
+          <div className='md:col-span-4'>
             Analysis & Projections
             <Separator className='h-[2px] my-1' />
             <div className='p2 md:p-4'>{analysis}</div>
