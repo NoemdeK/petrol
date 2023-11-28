@@ -1,7 +1,7 @@
 import React from 'react'
 
 //@ts-ignore
-import logo from "@/assets/Capture.PNG"
+import logo from "@/assets/petroDataLogo.png"
 import Image from 'next/image'
 
 const LogoDash = () => {

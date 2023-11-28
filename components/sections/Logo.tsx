@@ -1,12 +1,12 @@
 import React from 'react'
 
 //@ts-ignore
-import logo from "@/assets/logo.PNG"
+import logo from "@/assets/petroDataLogo.png"
 import Image from 'next/image'
 const Logo = () => {
   return (
     <div>
-        <Image src={logo} alt='logo' width={100} height={50} />
+        <Image src={logo} alt='logo' width={140} height={70} className='' />
     </div>
   )
 }

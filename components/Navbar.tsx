@@ -8,7 +8,7 @@ import LogoDash from './sections/LogoDash'
 const Navbar = () => {
   return (
     <div className="flex items-center justify-between  px-4  w-full ">
-        <Link href="/dashboard" className="flex items-center pl-3">
+        <Link href="/" className="flex items-center pl-3">
             <LogoDash />
         </Link>
     <div className="">

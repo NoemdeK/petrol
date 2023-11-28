@@ -52,7 +52,7 @@ export function LoginAccount() {
      
       // 2. Define a submit handler.
       function onSubmit(values: z.infer<typeof formSchema>) {
-        router.push('/dashboard/raw-data')
+        router.push('/dashboard/analytics')
         console.log(values)
       }
       const togglePasswordVisibility = () => {

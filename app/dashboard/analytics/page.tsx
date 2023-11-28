@@ -1,9 +1,8 @@
-import React from 'react'
+import { Analytics } from '@/components/analytics';
+import React from 'react';
 
 const Page = () => {
-  return (
-    <div>Page</div>
-  )
-}
+  return <Analytics />;
+};
 
-export default Page
+export default Page;

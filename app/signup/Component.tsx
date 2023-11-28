@@ -31,6 +31,7 @@ import { Eye, EyeOff, Github } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 import Logo from "@/components/sections/Logo"
+import { useRouter } from "next/navigation"
 
 const formSchema = z.object({
     email: z.string().email().min(2, {
@@ -41,6 +42,7 @@ const formSchema = z.object({
 
 export function CreateAccount() {
     const [showPassword, setShowPassword] = useState(false);
+    const router = useRouter()
 
     const togglePasswordVisibility = () => {
       setShowPassword(!showPassword);
@@ -56,7 +58,7 @@ export function CreateAccount() {
       function onSubmit(values: z.infer<typeof formSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
-        console.log(values)
+        router.push('/signin')
       }
   return (
     <Card className="w-96">
