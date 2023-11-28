@@ -1,8 +1,13 @@
 import React from 'react'
+import { CreateAccount } from './Component'
 
 const Page = () => {
   return (
-    <div>Page</div>
+    <div className='auth'>
+    <div className='h-full flex justify-center items-center'>
+      <CreateAccount />
+    </div>
+  </div>
   )
 }
 

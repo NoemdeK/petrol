@@ -1,7 +1,9 @@
+@import url("https://api.fontshare.com/v2/css?f[]=general-sans@500,300,600,400,700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
  
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -65,12 +67,29 @@
     --ring: 212.7 26.8% 83.9%;
   }
 }
+
+html{
+  height: 100%;
+  overflow-x: hidden
+}
  
 @layer base {
   * {
     @apply border-border;
+    font-family: 'General Sans', sans-serif;
+
   }
   body {
     @apply bg-background text-foreground;
+    font-family: 'General Sans', sans-serif;
+    height: 100%;
   }
+}
+
+.auth{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
 }
