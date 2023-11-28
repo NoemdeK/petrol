@@ -40,7 +40,7 @@ export default function Home() {
 
   ]
   return (
-    <main className="flex min-h-screen flex-col  gap-12 p-12 ">
+    <main className="flex min-h-screen flex-col justify-center  gap-12 p-12 ">
       <div className="z-10 w-full items-center justify-between lg:flex">
         <p className=" left-0 top-0 flex w-full justify-center text-xl md:text-5xl pb-6 pt-8 text-sky-400  lg:static lg:w-auto   lg:p-4 ">
           dio<span className='font-bold'>phalytics</span><span className='text-black'>.io</span>

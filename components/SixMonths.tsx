@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { LineChart } from './lineCharts';
 import { DataProps, Dataset, regionalOption } from '../types';
-import { Tab } from '@headlessui/react';
 import { AppDispatch, RootState } from '../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedRegions } from '../redux/prices.slice';
 import { AreaChartSX } from './AreaChart';
-// import { MyResponsiveLine } from './NewLineChart';
 
 const regionalOptions: regionalOption[] = [
   { label: 'South East', value: 'South East' },
