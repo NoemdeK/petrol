@@ -195,7 +195,7 @@ export function RawDataTable() {
 
   return (
     <div className="w-full m-4">
-      <div className="flex items-center py-4 justify-between">
+      <div className="flex items-center  justify-between">
         <div>
 
         </div>
