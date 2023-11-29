@@ -60,7 +60,7 @@ const HeaderStat = () => {
         <section className='flex  gap-4 overflow-x-scroll'>
             {
                 data.map((item, i) => (
-                    <div key={i} className='p-2 bg-white flex gap-2 rounded-md w-56'>
+                    <div key={i} className='p-2 bg-white flex gap-2 rounded-md min-w-56 w-full'>
                         <div className={cn("p-2 rounded-md flex justify-center items-center", item.color )}>
                             <item.icon />
                         </div>

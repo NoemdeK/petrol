@@ -13,7 +13,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import {  MoreHorizontal } from "lucide-react"
+import {  ArrowUpDown, MoreHorizontal } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -106,39 +106,69 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     accessorKey: "category",
-    header: "category",
-    cell: ({ row }) => <div className="">{row.getValue("category")}</div>,
+    header: ({ column }) => {
+      return(
+        <Button variant={"ghost"} onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Category <ArrowUpDown  className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => <div className="text-center">{row.getValue("category")}</div>,
   },
   {
     accessorKey: "product",
-    header: "Product",
-    cell: ({ row }) => <div className="capitalize">{row.getValue("product")}</div>,
+    header: ({ column }) => {
+      return(
+        <Button variant={"ghost"} onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Product <ArrowUpDown  className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => <div className="capitalize text-center">{row.getValue("product")}</div>,
   },
   
   {
     accessorKey: "dataset",
-    header: "dataset",
+    header:  "Dataset",
     cell: ({ row }) => (
       <div className="capitalize">{row.getValue("dataset")}</div>
     ),
   },
   {
     accessorKey: "period",
-    header: "period",
+    header:  ({ column }) => {
+      return(
+        <Button variant={"ghost"} onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Period <ArrowUpDown  className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("period")}</div>
+      <div className="capitalize text-center">{row.getValue("period")}</div>
     ),
   },
   {
     accessorKey: "year",
-    header: "Year",
-    cell: ({ row }) => <div className="lowercase text-cenjter">{row.getValue("year")}</div>,
+    header:  ({ column }) => {
+      return(
+        <Button variant={"ghost"} onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Year <ArrowUpDown  className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+    cell: ({ row }) => <div className="lowercase text-center">{row.getValue("year")}</div>,
   },
   {
     accessorKey: "source",
-    header: "source",
+    header: ({ column }) => {
+      return(
+        <Button variant={"ghost"} onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          Source <ArrowUpDown  className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("source")}</div>
+      <div className="capitalize text-center">{row.getValue("source")}</div>
     ),
   },
 
@@ -194,7 +224,7 @@ export function RawDataTable() {
   })
 
   return (
-    <div className="w-full m-4">
+    <div className="w-full my-4">
       <div className="flex items-center  justify-between">
         <div>
 

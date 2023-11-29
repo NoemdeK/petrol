@@ -41,9 +41,9 @@ export default function Home() {
 
   ]
   return (
-    <main className='min-h-screen h-full flex-col flex'>
-        <div className="z-10 w-full items-center justify-between flex p-4 md:p-8">
-          <p className=" left-0 top-0 flex w-full text-2xl md:text-5xl pb-6 pt-8 text-sky-400  lg:static lg:w-auto   lg:p-4 ">
+    <main className='min-h-screen h-full flex-col flex bg-gray-200'>
+        <div className="z-10 max-w-3xl w-full mx-auto items-center justify-between flex p-4 md:p-8">
+          <p className=" left-0 top-0 flex w-full text-2xl md:text-4xl pb-6 pt-8 text-sky-400  lg:static lg:w-auto   lg:p-4 ">
             dio<span className='font-bold'>phalytics</span><span className='text-black'>.io</span>
           </p>
 
@@ -74,26 +74,24 @@ export default function Home() {
           </div>
         </div>
       <div className="flex h-full flex-col justify-center w-full md:items-start gap-12 p-4 md:p-12 ">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 w-full gap-4">
 
-          <div className='h-full flex items-center flex-col justify-center text-center md:text-left md:items-start'>
-            <div className='h-full flex flex-col gap-8 mt-16 px-4 justify-center items-center md:items-start'>
+          <div className='h-full w-full flex items-center flex-col justify-center text-left md:text-lefkt md:itejms-start'>
+            <div className='h-full flex flex-col gap-8 mt-16 px-4 justify-center items-center md:items-stalrt'>
                 <h4 className='text-4xl sm:text-5xl lg:text-6xl font-bold '>
                   Solving the <span className='text-purple-800'>hardest</span> <br />
-                  data collection and 
-                  veification challenges
+                  data collection and <br />
+                  verification challenges
                 </h4>
-                <div className='flex items-center gap-4'>
-                  <p className='text-lg md:text-xl'>Check out our tools</p>
+                <div className='flex items-center gap-4 w-full'>
+                  <p className='text-lg md:text-xl  text-left'>Check out our tools</p>
                   <Link href={'/signin'} className='bg-white p-2 border rounded-md'>
                     <Logo />
                   </Link>
                 </div>
               </div>
           </div>
-          <div className='hidden lg:flex w-full '>
-            {/* <Canvas /> */}
-          </div>
+
         </div>
       
 
