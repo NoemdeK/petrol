@@ -94,13 +94,13 @@ html{
   width: 100%;
 }
 
-.bgherjo{
-  background-image: url('https://images.unsplash.com/photo-1591696205602-2f950c417cb9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+.bghero{
+  /* background-image: url('https://images.pexels.com/photos/5716025/pexels-photo-5716025.jpeg?auto=compress&cs=tinysrgb&w=800'); */
+  background-image: url("https://res.cloudinary.com/dnir0cslk/image/upload/v1701582177/Homepage_Background_opxvy4.png");
   /* background-position: 0px 298px; */
   background-repeat: no-repeat;
   background-size: cover;
-  opacity: 0.23;
-  transition:  0.3s, border-radius 0.3s, opacity 0.3s;
+  /* transition:  0.3s, border-radius 0.3s, opacity 0.3s; */
   /* width: 400px; */
   height: 100%;
 }

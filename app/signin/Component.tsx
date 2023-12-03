@@ -32,6 +32,8 @@ import Link from "next/link"
 import { useState } from "react"
 import Logo from "@/components/sections/Logo"
 import { useRouter } from "next/navigation"
+import { signIn } from "next-auth/react"
+import axios from "axios"
 
 const formSchema = z.object({
     email: z.string().email().min(2, {
@@ -39,6 +41,8 @@ const formSchema = z.object({
     }),
     password: z.string()
   })
+
+  
 
 export function LoginAccount() {
     const [showPassword, setShowPassword] = useState(false)
@@ -49,11 +53,13 @@ export function LoginAccount() {
         defaultValues: {
         },
       })
-     
+
+    
       // 2. Define a submit handler.
-      function onSubmit(values: z.infer<typeof formSchema>) {
-        router.push('/dashboard/analytics')
-        console.log(values)
+      async function onSubmit(values: z.infer<typeof formSchema>) {
+
+          router.push('/dashboard/analytics')
+
       }
       const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);

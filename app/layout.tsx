@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import store from '@/redux/store';
 import { Provider } from 'react-redux';
+import { SessionProvider } from 'next-auth/react';
 
 const metadata: Metadata = {
   title: 'Diophalytics.io',
@@ -19,9 +20,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <Provider store={store}>
-        <body>{children}</body>
-      </Provider>
+        <Provider store={store}>
+          <body>{children}</body>
+        </Provider>
     </html>
   );
 }

@@ -41,8 +41,10 @@ export default function Home() {
 
   ]
   return (
-    <main className='min-h-screen h-full flex-col flex bg-gray-200'>
-        <div className="z-10 max-w-3xl w-full mx-auto items-center justify-between flex p-4 md:p-8">
+    <main className='min-h-screen h-full flex-col flex bg-gray-2d00 bghero'>
+      <div className='bg-whiteh/30  w-full h-full'>
+
+        <div className=" max-w-3xl w-full mx-auto  items-center justify-between flex p-4 md:p-8">
           <p className=" left-0 top-0 flex w-full text-2xl md:text-4xl pb-6 pt-8 text-sky-400  lg:static lg:w-auto   lg:p-4 ">
             dio<span className='font-bold'>phalytics</span><span className='text-black'>.io</span>
           </p>
@@ -84,7 +86,7 @@ export default function Home() {
                   verification challenges
                 </h4>
                 <div className='flex items-center gap-4 w-full'>
-                  <p className='text-lg md:text-xl  text-left'>Check out our tools</p>
+                  <p className='text-lg md:text-xl  text-left font-medium'>Check out our tools</p>
                   <Link href={'/signin'} className='bg-white p-2 border rounded-md'>
                     <Logo />
                   </Link>
@@ -96,6 +98,9 @@ export default function Home() {
       
 
       </div>
+
+      </div>
+
     </main>
 
   )
