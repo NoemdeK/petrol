@@ -2,16 +2,10 @@
 
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../redux/store';
-import { useEffect, useState } from 'react';
 import Select, { ActionMeta, MultiValue } from 'react-select';
 import { Separator } from '@/components/ui/separator';
-
-import { setSelectedRegions, setSelectedState } from '../redux/prices.slice';
-// import FuelCharts from './FuelCharts';
+import { setSelectedRegions } from '../redux/prices.slice';
 import { regionalOptions } from '@/data';
-// import { SearchBox } from './SearchBox';
-import { nigeriaStates } from '../data/states';
-import { SearchBox } from './SearchBox';
 import FuelCharts from './fuelCharts';
 import HeaderStat from './HeaderStat';
 import SelectProduct from './SelectProduct';
@@ -23,13 +17,20 @@ interface Dataset {
 }
 
 export const Analytics = () => {
-  const [value, setValue] = useState('Select option...');
+  const { selectedRegions, product } = useSelector(
+    (state: RootState) => state.prices
+  );
 
-  const {
-    six__months: resData,
-    selectedRegions,
-    selectedState,
-  } = useSelector((state: RootState) => state.prices);
+  // Use a Set to store unique regions
+  // const uniqueRegions = new Set();
+
+  // Loop through the data array and add each region to the Set
+  // responseData.forEach((item: any) => {
+  //   uniqueRegions.add(item.region);
+  // });
+
+  // Convert the Set to an array
+  // const availableRegions = Array.from(uniqueRegions);
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -40,8 +41,6 @@ export const Analytics = () => {
     // setSelectedRegionss(selectedRegions as Dataset[] | null);
     dispatch(setSelectedRegions(selectedRegions as Dataset[] | null));
   };
-
-
 
   const analysis = [1, 2, 3, 4, 5].map((_, idx) => {
     return (
@@ -72,24 +71,12 @@ export const Analytics = () => {
             <div className='flex flex-col justify-between md:items-end gap-2 md:flex-row'>
               <div className=''>
                 <p className='text-slate-400 text-xs mb-3'>Home &gt; PMS</p>
-                <p className='whitespace-nowrap text-slate-600'>
-                  Premium Motor Spirit (PMS)
-                </p>
+                <p className='whitespace-nowrap text-slate-600'>{product}</p>
               </div>
               <div className='flex  items-end gap-1 flex-col md:flex-row'>
                 <div className='w-full items-start flex flex-col justify-start  gap-2'>
                   <p className='text-[12px] font-semibold'>Product</p>
                   <SelectProduct />
-                  {/* <SearchBox
-                    options={nigeriaStates}
-                    label='name'
-                    id='id'
-                    selectedVal={value}
-                    handleChange={(val: any) => {
-                      dispatch(setSelectedState(val));
-                      setValue(val);
-                    }}
-                  /> */}
                 </div>
 
                 <div className='w-full items-start flex flex-col justify-start  gap-2 '>

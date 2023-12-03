@@ -1,43 +1,60 @@
 import React from 'react';
-import { AreaChartSX } from './AreaChart';
+import { regionalOption } from '../types';
 
-const YTD = () => {
-  const resData = [
-    {
-      date: 'Sun 26',
-      'Petrol Price': 164,
-    },
-    {
-      date: 'Mon 27',
-      'Petrol Price': 123,
-    },
-    {
-      date: 'Tue 28',
-      'Petrol Price': 132,
-    },
-    {
-      date: 'Wed 29',
-      'Petrol Price': 132,
-    },
-    {
-      date: 'Thurs 30',
-      'Petrol Price': 132,
-    },
-    {
-      date: 'Fri 1',
-      'Petrol Price': 0,
-    },
-    {
-      date: 'Sat 1',
-      'Petrol Price': 0,
-    },
-  ];
+import { AreaChart } from '@tremor/react';
+import { fillMissingPeriods } from '@/utils/dummy';
 
+const customTooltip = ({ payload, active }: { payload: any; active: any }) => {
+  if (!active || !payload) return null;
   return (
-    <div className='h-full max-w-screen'>
-      <AreaChartSX resData={resData} />
+    <div className='w-56 rounded-tremor-default text-tremor-default bg-tremor-background p-2 shadow-tremor-dropdown border border-tremor-border'>
+      {payload.map((category: any, idx: number) => {
+        return (
+          <div key={idx} className='flex flex-1 space-x-2.5'>
+            <div
+              className={`w-1 flex flex-col bg-${category.color}-500 rounded`}
+            />
+            <div className='space-y-1'>
+              <p className='text-tremor-content'>{category.dataKey}</p>
+              <p className='font-medium text-tremor-content-emphasis'>
+                {category.value} Naira
+              </p>
+              <p className='font-medium text-tremor-content-emphasis'>
+                {category.payload.period}
+              </p>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };
 
-export default YTD;
+export const YTD = ({ result }: { result: any }) => {
+  const currentDate = new Date();
+  const currentDay = currentDate.getDate();
+  const currentMonth = currentDate.getMonth();
+  const currentYear = currentDate.getFullYear();
+  console.log(currentDate, currentYear, currentDay, currentMonth);
+
+  const filledData = fillMissingPeriods(
+    result,
+    `1/1/${currentYear}`,
+    `${currentMonth + 1}/${currentDay}/${currentYear}`
+  );
+
+  return (
+    <div className='h-full max-w-screen'>
+      <AreaChart
+        className='h-[300px] mt-4'
+        // data={result}
+        data={filledData}
+        index='period'
+        categories={['average']}
+        colors={['blue']}
+        yAxisWidth={30}
+        customTooltip={customTooltip}
+      />
+    </div>
+  );
+};

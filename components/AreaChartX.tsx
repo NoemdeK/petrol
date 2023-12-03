@@ -1,8 +1,31 @@
-import React from 'react';
-import { regionalOption } from '../types';
-
 import { AreaChart } from '@tremor/react';
-import { fillMissingPeriods } from '@/utils/dummy';
+
+const chartdata3 = [
+  {
+    date: 'Jul 23',
+    'Petrol Price': 164,
+  },
+  {
+    date: 'Aug 23',
+    'Petrol Price': 123,
+  },
+  {
+    date: 'Sep 23',
+    'Petrol Price': 132,
+  },
+  {
+    date: 'Oct 23',
+    'Petrol Price': 132,
+  },
+  {
+    date: 'Nov 23',
+    'Petrol Price': 132,
+  },
+  {
+    date: 'Dec 23',
+    'Petrol Price': 0,
+  },
+];
 
 const customTooltip = ({ payload, active }: { payload: any; active: any }) => {
   if (!active || !payload) return null;
@@ -20,7 +43,7 @@ const customTooltip = ({ payload, active }: { payload: any; active: any }) => {
                 {category.value} Naira
               </p>
               <p className='font-medium text-tremor-content-emphasis'>
-                {category.payload.period}
+                {category.payload.date}
               </p>
             </div>
           </div>
@@ -30,30 +53,16 @@ const customTooltip = ({ payload, active }: { payload: any; active: any }) => {
   );
 };
 
-export const OneMonth = ({ result }: { result: any }) => {
-  const currentDate = new Date();
-  const currentDay = currentDate.getDate();
-  const currentMonth = currentDate.getMonth();
-  const currentYear = currentDate.getFullYear();
-
-  const filledData = fillMissingPeriods(
-    result,
-    `${currentMonth}/${currentDay}/${currentYear}`,
-    `${currentMonth + 1}/${currentDay}/${currentYear}`
-  );
-
+export const AreaChartSX = ({ resData }: { resData?: any }) => {
   return (
-    <div className='h-full max-w-screen'>
-      <AreaChart
-        className='h-[300px] mt-4'
-        // data={result}
-        data={filledData}
-        index='period'
-        categories={['average']}
-        colors={['blue']}
-        yAxisWidth={30}
-        customTooltip={customTooltip}
-      />
-    </div>
+    <AreaChart
+      className='h-[300px] mt-4'
+      data={resData || chartdata3}
+      index='date'
+      categories={['Petrol Price']}
+      colors={['blue']}
+      yAxisWidth={30}
+      customTooltip={customTooltip}
+    />
   );
 };
