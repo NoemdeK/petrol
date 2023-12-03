@@ -41,7 +41,7 @@ const initialState: InitialStateProps = {
   ],
   error: null,
   period: 'Six months',
-  product: '',
+  product: 'Premium Motor Spirit (PMS)',
 };
 
 export const prices = createSlice({

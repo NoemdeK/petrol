@@ -1,44 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import { Dataset, regionalOption } from '@/types';
-// import { Tab } from '@headlessui/react';
-// import { SixMonths } from './SixMonths';
+import React from 'react';
 import LPG from './LPG';
-// import PMS from './PMS';
-// import AGO from './AGO';
-// import DPK from './DPK';
-
-const regionalOptions: regionalOption[] = [
-  { label: 'South East', value: 'South East' },
-  { label: 'South West', value: 'South West' },
-  { label: 'South South', value: 'South South' },
-  { label: 'North Central', value: 'North Central' },
-  { label: 'North East', value: 'North East' },
-  { label: 'North West', value: 'North West' },
-];
-
-const labels: string[] = [
-  'Jan 2023',
-  'Feb 2023',
-  'Mar 2023',
-  'Apr 2023',
-  'May 2023',
-  'June 2023',
-];
-
-const initialData: { labels: string[]; datasets: Dataset[] } = {
-  labels,
-  datasets: [],
-};
+import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
+import PMS from './PMS';
+import AGO from './AGO';
+import DPK from './DPK';
 
 const FuelCharts = () => {
-  return (
-    <div className=' md:pb-4 px-2 md:px-4 h-full'>
-      <LPG />
-      {/* <PMS /> */}
-      {/* <AGO /> */}
-      {/* <DPK /> */}
-    </div>
-  );
+  const { product } = useSelector((state: RootState) => state.prices);
+
+  let selectedComponent;
+
+  switch (product) {
+    case 'Liquefied Petroleum Gas (LPG)':
+      selectedComponent = <LPG />;
+      break;
+    case 'Premium Motor Spirit (PMS)':
+      selectedComponent = <PMS />;
+      break;
+    case 'Automative Gas Oil (AGO)':
+      selectedComponent = <AGO />;
+      break;
+    case 'Dual Purpose Kerosene (DPK)':
+      selectedComponent = <DPK />;
+      break;
+    default:
+      selectedComponent = null; // Handle the case when product doesn't match any known type
+  }
+
+  return <div className='md:pb-4 px-2 md:px-4 h-full'>{selectedComponent}</div>;
 };
 
 export default FuelCharts;

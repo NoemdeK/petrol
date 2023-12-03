@@ -11,6 +11,10 @@ import { FiveYears } from './FiveYears';
 import { YearOne } from './YearOne';
 import { YTD } from './YTD';
 
+function classNames(...classes: any) {
+  return classes.filter(Boolean).join(' ');
+}
+
 const LPG = () => {
   const { selectedRegions } = useSelector((state: RootState) => state.prices);
 
@@ -73,14 +77,78 @@ const LPG = () => {
     <div className=' md:pb-4 px-2 md:px-4 h-full'>
       <Tab.Group>
         <Tab.List className='flex gap-2 md:gap-4 text-[18px] text-slate-600'>
-          <Tab>1W</Tab>
-          <Tab>1M</Tab>
-          <Tab>3M</Tab>
-          <Tab className={'text-stone-200 font-bold'}>6M</Tab>
-          <Tab>YTD</Tab>
-          <Tab>1Y</Tab>
-          <Tab>5Y</Tab>
-          <Tab>Max</Tab>
+          <Tab
+            className={({ selected }) =>
+              classNames(
+                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+              )
+            }
+          >
+            1W
+          </Tab>
+          <Tab
+            className={({ selected }) =>
+              classNames(
+                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+              )
+            }
+          >
+            1M
+          </Tab>
+          <Tab
+            className={({ selected }) =>
+              classNames(
+                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+              )
+            }
+          >
+            3M
+          </Tab>
+          <Tab
+            className={({ selected }) =>
+              classNames(
+                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+              )
+            }
+          >
+            6M
+          </Tab>
+          <Tab
+            className={({ selected }) =>
+              classNames(
+                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+              )
+            }
+          >
+            YTD
+          </Tab>
+          <Tab
+            className={({ selected }) =>
+              classNames(
+                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+              )
+            }
+          >
+            1Y
+          </Tab>
+          <Tab
+            className={({ selected }) =>
+              classNames(
+                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+              )
+            }
+          >
+            5Y
+          </Tab>
+          <Tab
+            className={({ selected }) =>
+              classNames(
+                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+              )
+            }
+          >
+            Max
+          </Tab>
         </Tab.List>
         <Tab.Panels>
           <Tab.Panel>

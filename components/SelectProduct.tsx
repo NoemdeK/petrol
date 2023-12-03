@@ -98,7 +98,7 @@ const SelectProduct = () => {
   return (
     <Select
       onValueChange={(e) => dispatch(setSelectedProduct(e))}
-      defaultValue={'hello'}
+      defaultValue={data[1].label}
     >
       <SelectTrigger className='w-[180px]'>
         <SelectValue placeholder='Select a Product' />

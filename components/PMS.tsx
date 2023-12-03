@@ -11,6 +11,10 @@ import { FiveYears } from './FiveYears';
 import { YearOne } from './YearOne';
 import { YTD } from './YTD';
 
+function classNames(...classes: any) {
+  return classes.filter(Boolean).join(' ');
+}
+
 const PMS = () => {
   const { selectedRegions } = useSelector((state: RootState) => state.prices);
 
@@ -28,6 +32,7 @@ const PMS = () => {
     const filteredData = data.filter((item: any) =>
       targetRegions.includes(item.region)
     );
+
     return filteredData;
   }
 
@@ -36,7 +41,7 @@ const PMS = () => {
   interface PeriodData {
     sum: number;
     count: number;
-    averages: { region: string; lpg: number }[];
+    averages: { region: string; pms: number }[];
   }
 
   // Create an object to store sums and counts for each period
@@ -44,20 +49,20 @@ const PMS = () => {
 
   // Loop through the data array to calculate sums and counts for each period
   filteredData.forEach((item: any) => {
-    const { region, lpg, period } = item;
+    const { region, pms, period } = item;
 
     if (!periodData[period]) {
       // Initialize sums and counts for the period
       periodData[period] = { sum: 0, count: 0, averages: [] };
     }
 
-    // Add lpg value to the sum
-    periodData[period].sum += lpg;
+    // Add pms value to the sum
+    periodData[period].sum += pms;
     // Increment the count
     periodData[period].count += 1;
 
-    // Store the region and lpg for later calculation of averages
-    periodData[period].averages.push({ region, lpg });
+    // Store the region and pms for later calculation of averages
+    periodData[period].averages.push({ region, pms });
   });
 
   // Calculate averages for each period
@@ -73,14 +78,78 @@ const PMS = () => {
     <div className=' md:pb-4 px-2 md:px-4 h-full'>
       <Tab.Group>
         <Tab.List className='flex gap-2 md:gap-4 text-[18px] text-slate-600'>
-          <Tab>1W</Tab>
-          <Tab>1M</Tab>
-          <Tab>3M</Tab>
-          <Tab className={'text-stone-200 font-bold'}>6M</Tab>
-          <Tab>YTD</Tab>
-          <Tab>1Y</Tab>
-          <Tab>5Y</Tab>
-          <Tab>Max</Tab>
+          <Tab
+            className={({ selected }) =>
+              classNames(
+                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+              )
+            }
+          >
+            1W
+          </Tab>
+          <Tab
+            className={({ selected }) =>
+              classNames(
+                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+              )
+            }
+          >
+            1M
+          </Tab>
+          <Tab
+            className={({ selected }) =>
+              classNames(
+                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+              )
+            }
+          >
+            3M
+          </Tab>
+          <Tab
+            className={({ selected }) =>
+              classNames(
+                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+              )
+            }
+          >
+            6M
+          </Tab>
+          <Tab
+            className={({ selected }) =>
+              classNames(
+                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+              )
+            }
+          >
+            YTD
+          </Tab>
+          <Tab
+            className={({ selected }) =>
+              classNames(
+                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+              )
+            }
+          >
+            1Y
+          </Tab>
+          <Tab
+            className={({ selected }) =>
+              classNames(
+                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+              )
+            }
+          >
+            5Y
+          </Tab>
+          <Tab
+            className={({ selected }) =>
+              classNames(
+                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+              )
+            }
+          >
+            Max
+          </Tab>
         </Tab.List>
         <Tab.Panels>
           <Tab.Panel>
