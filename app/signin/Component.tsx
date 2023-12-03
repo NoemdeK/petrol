@@ -26,14 +26,12 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Eye, EyeOff, Github } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 import Logo from "@/components/sections/Logo"
 import { useRouter } from "next/navigation"
-import { signIn } from "next-auth/react"
-import axios from "axios"
+
 
 const formSchema = z.object({
     email: z.string().email().min(2, {
@@ -129,7 +127,7 @@ export function LoginAccount() {
       </CardContent>
 
       <CardFooter>
-        <Button className="w-full">Log in</Button>
+        <Button className="w-full" type="submit">Log in</Button>
       </CardFooter>
       </form>
     </Form>

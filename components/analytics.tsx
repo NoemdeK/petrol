@@ -9,6 +9,7 @@ import { regionalOptions } from '@/data';
 import FuelCharts from './fuelCharts';
 import HeaderStat from './HeaderStat';
 import SelectProduct from './SelectProduct';
+import { useEffect, useState } from 'react';
 
 interface Dataset {
   label: string;
@@ -17,6 +18,7 @@ interface Dataset {
 }
 
 export const Analytics = () => {
+  const [mounted, setMounted] = useState(false)
   const { selectedRegions, product } = useSelector(
     (state: RootState) => state.prices
   );
@@ -61,6 +63,14 @@ export const Analytics = () => {
       </div>
     );
   });
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if(!mounted){
+    return null
+  }
 
   return (
     <main className='flex min-h-screen flex-col items-end justify-between  bg-white'>

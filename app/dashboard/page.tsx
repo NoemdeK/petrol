@@ -1,10 +1,18 @@
 "use client"
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import { useEffect } from 'react'
 
-const page = () => {
+const Page = () => {
     const router = useRouter()
-  return router.push('/dashboard/analytics')
+
+    useEffect(() => {
+      router.push('/dashboard/analytics')
+    }, [router])
+  return (
+    <div>
+
+    </div>
+  )
 }
 
-export default page
+export default Page

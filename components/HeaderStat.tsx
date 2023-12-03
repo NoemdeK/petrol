@@ -65,8 +65,8 @@ const HeaderStat = () => {
                             <item.icon />
                         </div>
                         <div className='w-full'>
-                            <h6 className='font-bold text-sm'>{item.label}</h6>
-                            <h6 className='font-bold text-sm'>{item.label2}</h6>
+                            <h6 className='font-semibold text-sm'>{item.label}</h6>
+                            <h6 className='font-semibold text-sm'>{item.label2}</h6>
                         </div>
                         <div className={cn('ml-auto text-right font-medium', item.text)}>
                             <p className='text-sm'>{item.num}</p>
