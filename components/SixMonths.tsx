@@ -1,126 +1,59 @@
-import React, { useEffect, useState } from 'react';
-import { DataProps, Dataset, regionalOption } from '../types';
-import { AppDispatch, RootState } from '../redux/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { AreaChartSX } from './AreaChart';
+import React from 'react';
+import { regionalOption } from '../types';
 
-const regionalOptions: regionalOption[] = [
-  { label: 'South East', value: 'South East' },
-  { label: 'South West', value: 'South West' },
-  { label: 'South South', value: 'South South' },
-  { label: 'North Central', value: 'North Central' },
-  { label: 'North East', value: 'North East' },
-  { label: 'North West', value: 'North West' },
-];
+import { AreaChart } from '@tremor/react';
+import { fillMissingPeriods } from '@/utils/dummy';
 
-const labels: string[] = [
-  'Jan 2023',
-  'Feb 2023',
-  'Mar 2023',
-  'Apr 2023',
-  'May 2023',
-  'June 2023',
-];
-
-const initialData: { labels: string[]; datasets: Dataset[] } = {
-  labels,
-  datasets: [],
+const customTooltip = ({ payload, active }: { payload: any; active: any }) => {
+  if (!active || !payload) return null;
+  return (
+    <div className='w-56 rounded-tremor-default text-tremor-default bg-tremor-background p-2 shadow-tremor-dropdown border border-tremor-border'>
+      {payload.map((category: any, idx: number) => {
+        return (
+          <div key={idx} className='flex flex-1 space-x-2.5'>
+            <div
+              className={`w-1 flex flex-col bg-${category.color}-500 rounded`}
+            />
+            <div className='space-y-1'>
+              <p className='text-tremor-content'>{category.dataKey}</p>
+              <p className='font-medium text-tremor-content-emphasis'>
+                {category.value} Naira
+              </p>
+              <p className='font-medium text-tremor-content-emphasis'>
+                {category.payload.period}
+              </p>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
 };
 
-export const SixMonths = () => {
-  const {
-    // data: resData,
-    // loading,
-    // period,
-    six__months: resData,
-    selectedRegions,
-  } = useSelector((state: RootState) => state.prices);
-  const dispatch = useDispatch<AppDispatch>();
+export const SixMonths = ({ result }: { result: any }) => {
+  const currentDate = new Date();
+  const currentDay = currentDate.getDate();
+  const currentMonth = currentDate.getMonth();
+  const currentYear = currentDate.getFullYear();
 
-  const [chartData, setChartData] = useState<DataProps>({
-    labels,
-    datasets: [],
-  });
-
-  const data = {
-    labels,
-    datasets: [
-      {
-        label: 'South East',
-        data: [100, 122, 31, 404, 1, 295],
-        borderColor: 'red',
-        backgroundColor: 'red',
-      },
-      {
-        label: 'South West',
-        data: [100, 2, 203, 34, 500, 200],
-        borderColor: 'orange',
-        backgroundColor: 'orange',
-      },
-      {
-        label: 'South South',
-        data: [100, 200, 12, 3, 400, 50],
-        borderColor: 'yellow',
-        backgroundColor: 'yellow',
-      },
-      {
-        label: 'North Central',
-        data: [10, 12, 303, 1124, 225, 230],
-        borderColor: 'green',
-        backgroundColor: 'green',
-      },
-      {
-        label: 'North East',
-        data: [12, 223, 43, 44, 235, 20],
-        borderColor: 'blue',
-        backgroundColor: 'blue',
-      },
-      {
-        label: 'North West',
-        data: [112, 231, 233, 34, 12, 32],
-        borderColor: 'purple',
-        backgroundColor: 'purple',
-      },
-    ],
-  };
-  useEffect(() => {
-    // const fetchData = async () => {
-    // try {
-    if (selectedRegions) {
-      const updatedDatasets = selectedRegions
-        .map((region) => {
-          const originalDataset = resData.datasets.find(
-            (dataset: Dataset) => dataset.label === region.label
-          );
-          return originalDataset || null;
-        })
-        .filter(Boolean) as unknown as Dataset[];
-
-      //   dispatch(setSelectedRegions(
-
-      //   ));
-      return setChartData({
-        labels,
-        datasets: updatedDatasets.filter(Boolean), // Remove null values
-      });
-    } else {
-      setChartData(resData);
-    }
-    // } catch (error) {
-    //   console.log(error);
-    // }
-    // Update the chartData based on selected regions
-    // };
-
-    // fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedRegions]);
+  const filledData = fillMissingPeriods(
+    result,
+    `${currentMonth - 4}/${currentDay}/${currentYear}`,
+    `${currentMonth + 1}/${currentDay}/${currentYear}`
+  );
 
   return (
     <div className='h-full max-w-screen'>
-      {/* <LineChart data={chartData} /> */}
-      {/* <MyResponsiveLine /> */}
-      <AreaChartSX />
+      <AreaChart
+        className='h-[300px] mt-4'
+        // data={result}
+        data={filledData}
+        index='period'
+        categories={['average']}
+        colors={['blue']}
+        yAxisWidth={30}
+        customTooltip={customTooltip}
+      />
     </div>
   );
 };

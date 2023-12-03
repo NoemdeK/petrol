@@ -2,7 +2,6 @@ import React from 'react';
 import { regionalOption } from '../types';
 
 import { AreaChart } from '@tremor/react';
-import { fillMissingPeriods } from '@/utils/dummy';
 
 const customTooltip = ({ payload, active }: { payload: any; active: any }) => {
   if (!active || !payload) return null;
@@ -30,24 +29,12 @@ const customTooltip = ({ payload, active }: { payload: any; active: any }) => {
   );
 };
 
-export const OneMonth = ({ result }: { result: any }) => {
-  const currentDate = new Date();
-  const currentDay = currentDate.getDate();
-  const currentMonth = currentDate.getMonth();
-  const currentYear = currentDate.getFullYear();
-
-  const filledData = fillMissingPeriods(
-    result,
-    `${currentMonth}/${currentDay}/${currentYear}`,
-    `${currentMonth + 1}/${currentDay}/${currentYear}`
-  );
-
+export const Max = ({ result }: { result: any }) => {
   return (
     <div className='h-full max-w-screen'>
       <AreaChart
         className='h-[300px] mt-4'
-        // data={result}
-        data={filledData}
+        data={result}
         index='period'
         categories={['average']}
         colors={['blue']}

@@ -23,6 +23,7 @@ interface InitialStateProps {
   loading: boolean;
   selectedRegions: regionalOption[];
   error: any;
+  product: string;
 }
 export const fetchPrice = createAsyncThunk(
   'articles/fetchArticle',
@@ -40,6 +41,7 @@ const initialState: InitialStateProps = {
   ],
   error: null,
   period: 'Six months',
+  product: '',
 };
 
 export const prices = createSlice({
@@ -52,6 +54,9 @@ export const prices = createSlice({
     setSelectedState: (state, action) => {
       state.selectedState = action.payload;
     },
+    setSelectedProduct: (state, action) => {
+      state.product = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchPrice.fulfilled, (state, action) => {
@@ -61,6 +66,7 @@ export const prices = createSlice({
   },
 });
 
-export const { setSelectedRegions, setSelectedState } = prices.actions;
+export const { setSelectedRegions, setSelectedState, setSelectedProduct } =
+  prices.actions;
 
 export default prices.reducer;

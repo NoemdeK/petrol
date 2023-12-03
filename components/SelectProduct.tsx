@@ -1,6 +1,5 @@
-import React from 'react'
+import React from 'react';
 
- 
 import {
   Select,
   SelectContent,
@@ -9,54 +8,113 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from '@/components/ui/select';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@/redux/store';
+import { setSelectedProduct } from '@/redux/prices.slice';
+
+const data = [
+  {
+    label: 'ICE Brent Crude (IBC)',
+    label2: 'Crude',
+    abbr: 'IBC',
+    regions: [],
+  },
+
+  {
+    label: 'Premium Motor Spirit (PMS)',
+    label2: 'Motor Spirit',
+    abbr: 'PMS',
+    regions: [
+      'NORTH CENTRAL',
+      'NORTH EAST',
+      'NORTH WEST',
+      'SOUTH EAST',
+      'SOUTH SOUTH',
+      'SOUTH WEST',
+    ],
+  },
+  {
+    label: 'Automative Gas Oil (AGO)',
+    label2: 'Gas Oil',
+    abbr: 'AGO',
+    regions: [
+      'NORTH CENTRAL',
+      'NORTH EAST',
+      'NORTH WEST',
+      'SOUTH EAST',
+      'SOUTH SOUTH',
+      'SOUTH WEST',
+    ],
+  },
+  {
+    label: 'Dual Purpose Kerosene (DPK)',
+    label2: 'Kerosene',
+    abbr: 'DPK',
+    text: 'text-green-700',
+    regions: [
+      'NORTH CENTRAL',
+      'NORTH EAST',
+      'NORTH WEST',
+      'SOUTH EAST',
+      'SOUTH SOUTH',
+      'SOUTH WEST',
+    ],
+  },
+  {
+    label: 'Liquefied Petroleum Gas (LPG)',
+    label2: 'Petroleum Gas',
+    abbr: 'LPG',
+    regions: [
+      'NORTH CENTRAL',
+      'NORTH EAST',
+      'NORTH WEST',
+      'SOUTH EAST',
+      'SOUTH SOUTH',
+      'SOUTH WEST',
+    ],
+  },
+];
 
 const SelectProduct = () => {
-    const data = [
-        {
-          label: 'ICE Brent Crude',
-          label2: 'Crude',
+  const dispatch = useDispatch<AppDispatch>();
+  const { selectedRegions } = useSelector((state: RootState) => state.prices);
+  const regions = selectedRegions.map((_, idx) => {
+    return _.label;
+  });
 
-        },
-        {
-            label: 'PMS',
-            label2: 'Motor Spirit',
+  function filterDataByRegions(data: any, selectedRegions: string[]) {
+    return data.filter((item: any) => {
+      const allSelectedRegionsExist = regions.every((region) =>
+        item.regions.includes(region.toUpperCase())
+      );
+      return allSelectedRegionsExist && item;
+    });
+  }
 
+  const region: string[] = ['South East', 'North Central'];
+  const filteredData = filterDataByRegions(data, region);
 
-         },
-        {
-          label: 'Automative Gas Oil',
-          label2: 'Gas Oil',
-
-
-        },
-        {
-            label: 'Dual Purpose Kerosene',
-            label2: 'Kerosene',
-            text: "text-green-700"
-
-          },
-          {
-            label: 'Liquefied Petroleum Gas',
-            label2: 'Petroleum Gas',
-          },
-      ];
   return (
-<Select>
-      <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Select a Product" />
+    <Select
+      onValueChange={(e) => dispatch(setSelectedProduct(e))}
+      defaultValue={'hello'}
+    >
+      <SelectTrigger className='w-[180px]'>
+        <SelectValue placeholder='Select a Product' />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Products</SelectLabel>
-          {
-            data.map((item, i) => (
-                <SelectItem key={i} value={item.label}>{item.label}</SelectItem>
-            ))
-          }
+          {filteredData.map((item: any, i: number) => (
+            <SelectItem key={i} value={item.label}>
+              {item.label}
+            </SelectItem>
+          ))}
         </SelectGroup>
       </SelectContent>
-    </Select>  )
-}
+    </Select>
+  );
+};
 
-export default SelectProduct
+export default SelectProduct;
