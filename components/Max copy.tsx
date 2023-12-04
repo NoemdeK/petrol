@@ -1,6 +1,5 @@
 import React from 'react';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
+
 import { AreaChart } from '@tremor/react';
 
 const customTooltip = ({ payload, active }: { payload: any; active: any }) => {
@@ -30,18 +29,13 @@ const customTooltip = ({ payload, active }: { payload: any; active: any }) => {
 };
 
 export const Max = ({ result }: { result: any }) => {
-  const { selectedRegions } = useSelector((state: RootState) => state.prices);
-
-  const regions = selectedRegions.map((_, idx: number) => {
-    return _.label.toUpperCase();
-  });
   return (
     <div className='h-full max-w-screen'>
       <AreaChart
         className='h-[300px] mt-4'
         data={result}
-        index='date'
-        categories={regions}
+        index='period'
+        categories={['average']}
         colors={['blue']}
         yAxisWidth={30}
         customTooltip={customTooltip}

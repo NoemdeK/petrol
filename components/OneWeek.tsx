@@ -3,6 +3,8 @@ import { regionalOption } from '../types';
 
 import { AreaChart } from '@tremor/react';
 import { fillMissingPeriods } from '@/utils/dummy';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 const customTooltip = ({ payload, active }: { payload: any; active: any }) => {
   if (!active || !payload) return null;
@@ -31,6 +33,12 @@ const customTooltip = ({ payload, active }: { payload: any; active: any }) => {
 };
 
 export const OneWeek = ({ result }: { result: any }) => {
+  const { selectedRegions } = useSelector((state: RootState) => state.prices);
+
+  const regions = selectedRegions.map((_, idx: number) => {
+    return _.label.toUpperCase();
+  });
+
   const currentDate = new Date();
   const currentDay = currentDate.getDate();
 
@@ -44,12 +52,8 @@ export const OneWeek = ({ result }: { result: any }) => {
   const filledData = fillMissingPeriods(
     result,
     `${currentMonth}/${fiveDaysAgo.getDate()}/${currentYear}`,
-    `${currentMonth + 1}/${currentDay}/${currentYear}`
-  );
-
-  console.log(
-    `${currentMonth + 1}/${fiveDaysAgo.getDate()}/${currentYear}`,
-    `${currentMonth + 1}/${currentDay}/${currentYear}`
+    `${currentMonth + 1}/${currentDay}/${currentYear}`,
+    regions
   );
 
   return (
@@ -58,9 +62,9 @@ export const OneWeek = ({ result }: { result: any }) => {
         className='h-[300px] mt-4'
         // data={result}
         data={filledData}
-        index='period'
-        categories={['average']}
-        colors={['blue']}
+        index='date'
+        categories={regions}
+        colors={['neutral', 'indigo']}
         yAxisWidth={30}
         customTooltip={customTooltip}
       />

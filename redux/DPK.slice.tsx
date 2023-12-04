@@ -31,13 +31,9 @@ export const chartAllRegionDPK = createAsyncThunk(
   'prices/chartAllRegionDPK',
   async () => {
     try {
-      console.log('my respon');
-
       const response = await axios(
         'https://petrodata.zainnovations.com/api/v1/data/chartAllRegionDPK'
       );
-
-      console.log('my response', response.data);
 
       return response.data;
       //   }

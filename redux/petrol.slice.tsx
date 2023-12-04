@@ -31,13 +31,9 @@ export const fetchPetrolPrice = createAsyncThunk(
   'prices/fetchArticle',
   async () => {
     try {
-      console.log('my respon');
-
       const response = await axios(
         'https://petrodata.zainnovations.com/api/v1/data/getAllData'
       );
-
-      console.log('my response', response);
 
       return response.data;
       //   }

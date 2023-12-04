@@ -10,10 +10,12 @@ import { Max } from './Max';
 import { FiveYears } from './FiveYears';
 import { YearOne } from './YearOne';
 import { YTD } from './YTD';
+import { filterDataByRegions, transformTipToChartData } from './functions';
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ');
 }
+
 const DPK = () => {
   const { selectedRegions } = useSelector((state: RootState) => state.prices);
 
@@ -23,18 +25,19 @@ const DPK = () => {
     return _.label.toUpperCase();
   });
 
-  function filterDataByRegions(data: any, selectedRegion: string[]) {
-    // Specify the region you want to filter by
-    const targetRegions = selectedRegion;
-
-    // Use the filter method to filter the array based on the specified region
-    const filteredData = data.filter((item: any) =>
-      targetRegions.includes(item.region)
-    );
-    return filteredData;
-  }
-
   const filteredData = filterDataByRegions(resData, regions);
+
+  const groupedData = filteredData.reduce((result: any, item: any) => {
+    const region = item.region;
+
+    if (!result[region]) {
+      result[region] = [];
+    }
+    result[region].push(item);
+    return result;
+  }, {});
+
+  // Now groupedData is an object where keys are regions and values are arrays of objects for each region
 
   interface PeriodData {
     sum: number;
@@ -63,14 +66,51 @@ const DPK = () => {
     periodData[period].averages.push({ region, dpk });
   });
 
-  // Calculate averages for each period
-  const result = Object.entries(periodData).map(
-    ([period, { sum, count, averages }]) => {
-      const average = (sum / count).toFixed(2);
-      return { period, average };
-      // return { period, average, regions: averages };
+  // Now calculate averages for each region within each period in groupedData
+
+  Object.keys(groupedData).forEach((region) => {
+    const regionData = groupedData[region];
+
+    interface PeriodData {
+      sum: number;
+      count: number;
+      averages: { region: string; dpk: number }[];
     }
-  );
+
+    // Create an object to store sums and counts for each period
+    const periodData: Record<string, PeriodData> = {};
+    regionData.forEach((item: any) => {
+      const { region, dpk, period } = item;
+
+      if (!periodData[period]) {
+        // Initialize sums and counts for the period
+        periodData[period] = { sum: 0, count: 0, averages: [] };
+      }
+
+      // Add dpk value to the sum
+      periodData[period].sum += dpk;
+      // Increment the count
+      periodData[period].count += 1;
+
+      // Store the region and dpk for later calculation of averages
+      periodData[period].averages.push({ region, dpk });
+      // Replace the existing item with the new object
+      // groupedData[region][groupedData[region].indexOf(item)] = newItem;
+    });
+
+    // Calculate averages for each period
+    const result = Object.entries(periodData).map(
+      ([period, { sum, count, averages }]) => {
+        const average = (sum / count).toFixed(2);
+        // return { period, average };
+        // return { period, average };
+        return { period, average, regions: averages[0].region };
+      }
+    );
+    groupedData[region] = result;
+  });
+
+  const chartdata2 = transformTipToChartData(groupedData);
 
   return (
     <div className=' md:pb-4 px-2 md:px-4 h-full'>
@@ -152,42 +192,42 @@ const DPK = () => {
         <Tab.Panels>
           <Tab.Panel>
             <div className='h-[300px] max-w-screen'>
-              <OneWeek result={result} />
+              <OneWeek result={chartdata2} />
             </div>
           </Tab.Panel>{' '}
           <Tab.Panel>
             <div className='h-[300px] max-w-screen'>
-              <OneMonth result={result} />
+              <OneMonth result={chartdata2} />
             </div>
           </Tab.Panel>{' '}
           <Tab.Panel>
             <div className='h-[300px] max-w-screen'>
-              <ThreeMonths result={result} />
+              <ThreeMonths result={chartdata2} />
             </div>
           </Tab.Panel>
           <Tab.Panel>
             <div className='h-[300px] max-w-screen'>
-              <SixMonths result={result} />
+              <SixMonths result={chartdata2} />
             </div>
           </Tab.Panel>
           <Tab.Panel>
             <div className='h-[300px] max-w-screen'>
-              <YTD result={result} />
+              <YTD result={chartdata2} />
             </div>
           </Tab.Panel>{' '}
           <Tab.Panel>
             <div className='h-[300px] max-w-screen'>
-              <YearOne result={result} />
+              <YearOne result={chartdata2} />
             </div>
           </Tab.Panel>{' '}
           <Tab.Panel>
             <div className='h-[300px] max-w-screen'>
-              <FiveYears result={result} />
+              <FiveYears result={chartdata2} />
             </div>
           </Tab.Panel>
           <Tab.Panel>
             <div className='h-[300px] max-w-screen'>
-              <Max result={result} />
+              <Max result={chartdata2} />
             </div>
           </Tab.Panel>
         </Tab.Panels>

@@ -1,8 +1,9 @@
 import React from 'react';
-import { regionalOption } from '../types';
 
-import { AreaChart } from '@tremor/react';
+import { AreaChart, Color } from '@tremor/react';
 import { fillMissingPeriods } from '@/utils/dummy';
+import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
 
 const customTooltip = ({ payload, active }: { payload: any; active: any }) => {
   if (!active || !payload) return null;
@@ -31,6 +32,12 @@ const customTooltip = ({ payload, active }: { payload: any; active: any }) => {
 };
 
 export const FiveYears = ({ result }: { result: any }) => {
+  const { selectedRegions } = useSelector((state: RootState) => state.prices);
+
+  const regions = selectedRegions.map((_, idx: number) => {
+    return _.label.toUpperCase();
+  });
+
   const currentDate = new Date();
   const currentDay = currentDate.getDate();
   const currentMonth = currentDate.getMonth();
@@ -39,18 +46,19 @@ export const FiveYears = ({ result }: { result: any }) => {
   const filledData = fillMissingPeriods(
     result,
     `${currentMonth + 1}/${currentDay}/${currentYear - 5}`,
-    `${currentMonth + 1}/${currentDay}/${currentYear}`
+    `${currentMonth + 1}/${currentDay}/${currentYear}`,
+    regions
   );
 
   return (
     <div className='h-full max-w-screen'>
       <AreaChart
         className='h-[300px] mt-4'
-        // data={result}
         data={filledData}
-        index='period'
-        categories={['average']}
-        colors={['blue']}
+        index='date'
+        categories={regions}
+        colors={['neutral', 'indigo']}
+        // colors={['blue'] as Color[]}
         yAxisWidth={30}
         customTooltip={customTooltip}
       />

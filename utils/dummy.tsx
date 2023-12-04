@@ -122,7 +122,7 @@ export function generateDummyDataX(startDate: any, endDate: any) {
     const year = date.getFullYear().toString().slice(-2);
 
     dummyData.push({
-      period: `${day}-${month}-${year}`,
+      date: `${day}-${month}-${year}`,
       average: '0',
     });
   }
@@ -159,27 +159,93 @@ const data = [
 export const fillMissingPeriods = (
   existingData: any[],
   startDate: any,
-  endDate: any
+  endDate: any,
+  regions: string[]
 ): any[] => {
   // const periodsSet = new Set(existingData.map((item) => item.period));
 
   const allPeriods = generateDummyDataX(startDate, endDate);
 
   const filledData: any = [];
-  let currentAverage = '0'; // Initial value
 
-  allPeriods.forEach((period) => {
-    const existingItem = existingData.find(
-      (item) => item.period === period.period
-    );
+  let currentNorthEast: any = '0'; // Initial value
+  let currentNorthWest: any = '0';
+  let currentNorthCentral: any = '0';
+  let currentSouthWest: any = '0';
+  let currentSouthEast: any = '0';
+  let currentSouthSouth: any = '0';
 
+  let tamp: any = {};
+  allPeriods.forEach((date) => {
+    const existingItem = existingData.find((item) => item.date === date.date);
+
+    const north_east = regions?.includes('NORTH EAST');
+    if (north_east) {
+      tamp['NORTH EAST'] = currentNorthEast;
+    }
     if (existingItem) {
-      currentAverage = existingItem.average;
+      if (north_east) {
+        currentNorthEast = existingItem['NORTH EAST'];
+        tamp['NORTH EAST'] = currentNorthEast;
+      }
     }
 
+    const north_west = regions?.includes('NORTH WEST');
+    if (north_west) {
+      tamp['NORTH WEST'] = currentNorthWest;
+    }
+    if (existingItem) {
+      if (north_west) {
+        currentNorthWest = existingItem['NORTH WEST'];
+        tamp['NORTH WEST'] = currentNorthWest;
+      }
+    }
+
+    const north_central = regions?.includes('NORTH CENTRAL');
+    if (north_central) {
+      tamp['NORTH CENTRAL'] = currentNorthCentral;
+    }
+    if (existingItem) {
+      if (north_central) {
+        currentNorthCentral = existingItem['NORTH CENTRAL'];
+        tamp['NORTH CENTRAL'] = currentNorthCentral;
+      }
+    }
+    const south_south = regions?.includes('SOUTH SOUTH');
+    if (south_south) {
+      tamp['SOUTH SOUTH'] = currentSouthSouth;
+    }
+    if (existingItem) {
+      if (south_south) {
+        currentSouthSouth = existingItem['SOUTH SOUTH'];
+        tamp['SOUTH SOUTH'] = currentSouthSouth;
+      }
+    }
+
+    const south_east = regions?.includes('SOUTH EAST');
+    if (south_east) {
+      tamp['SOUTH EAST'] = currentSouthEast;
+    }
+    if (existingItem) {
+      if (south_east) {
+        currentSouthEast = existingItem['SOUTH EAST'];
+        tamp['SOUTH EAST'] = currentSouthEast;
+      }
+    }
+
+    const south_west = regions?.includes('SOUTH WEST');
+    if (south_west) {
+      tamp['SOUTH WEST'] = currentSouthWest;
+    }
+    if (existingItem) {
+      if (south_west) {
+        currentSouthWest = existingItem['SOUTH WEST'];
+        tamp['SOUTH WEST'] = currentSouthWest;
+      }
+    }
     filledData.push({
-      period: period.period,
-      average: currentAverage,
+      date: date.date,
+      ...tamp,
     });
   });
 

@@ -17,8 +17,6 @@ authAxiosInstance.interceptors.request.use(
   async (config) => {
     const accessToken = await getSession();
 
-    console.log('my token', accessToken);
-
     if (accessToken) {
       config.headers['Authorization'] = `Bearer ${accessToken}`;
     }
@@ -48,8 +46,6 @@ export const multerAxiosInstance = axios.create({
 multerAxiosInstance.interceptors.request.use(
   async (config) => {
     const accessToken = await getSession();
-
-    console.log('my token', accessToken);
 
     if (accessToken) {
       config.headers['Authorization'] = `Bearer ${accessToken}`;

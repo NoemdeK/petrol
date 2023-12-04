@@ -31,13 +31,9 @@ export const chartAllRegionLPG = createAsyncThunk(
   'prices/chartAllRegionLPG',
   async () => {
     try {
-      console.log('my respon');
-
       const response = await axios(
         'https://petrodata.zainnovations.com/api/v1/data/chartAllRegionLPG'
       );
-
-      console.log('my response', response.data);
 
       return response.data;
       //   }

@@ -35,10 +35,8 @@ data.forEach((item) => {
 // Calculate averages for each period
 const result = Object.entries(periodData).map(
   //todo
-  ([period, { sum, count, averages }] : any) => {
+  ([period, { sum, count, averages }]: any) => {
     const average = sum / count;
     return { period, average, regions: averages };
   }
 );
-
-console.log(result);
