@@ -42,7 +42,8 @@ export const Max = ({ result }: { result: any }) => {
         data={result}
         index='date'
         categories={regions}
-        colors={['blue']}
+        colors={["pink","blue", "gray", "purple", "yellow", 'green']}
+
         yAxisWidth={30}
         customTooltip={customTooltip}
       />

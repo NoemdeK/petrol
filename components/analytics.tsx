@@ -10,6 +10,7 @@ import FuelCharts from './fuelCharts';
 import HeaderStat from './HeaderStat';
 import SelectProduct from './SelectProduct';
 import { useEffect, useState } from 'react';
+import { Region } from './SelectRegions';
 
 interface Dataset {
   label: string;
@@ -43,6 +44,8 @@ export const Analytics = () => {
     // setSelectedRegionss(selectedRegions as Dataset[] | null);
     dispatch(setSelectedRegions(selectedRegions as Dataset[] | null));
   };
+
+  console.log(selectedRegions)
 
   const analysis = [1, 2, 3, 4, 5].map((_, idx) => {
     return (
@@ -91,16 +94,7 @@ export const Analytics = () => {
 
                 <div className='w-full items-start flex flex-col justify-start  gap-2 '>
                   <p className='text-[12px] font-semibold'>Region</p>
-
-                  <Select
-                    defaultValue={selectedRegions}
-                    onChange={handleRegionSelectChange}
-                    isMulti
-                    name='colors'
-                    options={regionalOptions}
-                    className='basic-multi-select max-w-10 text-[12px] pt-1 min-w-[200px]'
-                    classNamePrefix='select'
-                  />
+                <Region selectedNames={selectedRegions} setSelectedNames={handleRegionSelectChange} />
                 </div>
               </div>
             </div>

@@ -33,7 +33,18 @@
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
- 
+    --cyan: #22b8cf;
+    --green: #37b679;
+    --red: #ff0000;
+    --yellow: #f3e700;
+    --orange: #ff7d19;
+    --purple: #f81ce5;
+    --blue: #0070f3;
+    --pink: #ff0080;
+    --pink-light: #ff379c;
+    --magenta: #eb367f;
+    --violet: #7928ca;
+    --violet-dark: #4c2889;
     --radius: 0.5rem;
   }
  
@@ -84,6 +95,10 @@ html, body{
     font-family: 'General Sans', sans-serif;
     height: 100%;
   }
+}
+
+.color{
+  color: #ff0000;
 }
 
 .auth{
