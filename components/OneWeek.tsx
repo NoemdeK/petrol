@@ -64,7 +64,7 @@ export const OneWeek = ({ result }: { result: any }) => {
         data={filledData}
         index='date'
         categories={regions}
-        colors={['neutral', 'indigo']}
+        colors={["pink","blue", "gray", "purple", "yellow", 'green']}
         yAxisWidth={30}
         customTooltip={customTooltip}
       />

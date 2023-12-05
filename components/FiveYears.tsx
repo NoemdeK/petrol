@@ -57,7 +57,7 @@ export const FiveYears = ({ result }: { result: any }) => {
         data={filledData}
         index='date'
         categories={regions}
-        colors={['neutral', 'indigo']}
+        colors={["pink","blue", "gray", "purple", "yellow", 'green']}
         // colors={['blue'] as Color[]}
         yAxisWidth={30}
         customTooltip={customTooltip}
