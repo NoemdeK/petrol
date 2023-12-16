@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import {
   Select,
@@ -12,12 +12,16 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/redux/store';
 import { setSelectedProduct } from '@/redux/prices.slice';
+import { useRouter, useSearchParams } from 'next/navigation';
+
+import qs from 'query-string'
+
 
 const data = [
   {
     label: 'ICE Brent Crude (IBC)',
     label2: 'Crude',
-    abbr: 'IBC',
+    abbr: 'ICE',
     regions: [],
   },
 
@@ -77,11 +81,20 @@ const data = [
 ];
 
 const SelectProduct = () => {
+  const router = useRouter()
+  const params = useSearchParams()
+  
+  const productstat = params?.get('product');
+
+
   const dispatch = useDispatch<AppDispatch>();
   const { selectedRegions } = useSelector((state: RootState) => state.prices);
   const regions = selectedRegions.map((_, idx) => {
     return _.label;
   });
+
+  
+
 
   function filterDataByRegions(data: any, selectedRegions: string[]) {
     return data.filter((item: any) => {
@@ -95,10 +108,39 @@ const SelectProduct = () => {
   const region: string[] = ['South East', 'North Central'];
   const filteredData = filterDataByRegions(data, region);
 
+  const handleSelectChange = useCallback(
+    (selectedValue: string) => {
+      // Update the Redux store
+      dispatch(setSelectedProduct(selectedValue));
+
+      // Update the URL
+      const currentQuery = params ? qs.parse(params.toString()) : {};
+      const updatedQuery = {
+        ...currentQuery,
+        product: selectedValue,
+      };
+
+      if(params?.get('product') === selectedValue){
+        //@ts-ignore
+        delete updatedQuery.product;
+    }
+      const url = qs.stringifyUrl(
+        {
+          url: '/dashboard/analytics',
+          query: updatedQuery,
+        },
+        { skipNull: true }
+      );
+
+      router.push(url);
+    },
+    [dispatch, params, router]
+  );
+
   return (
     <Select
-      onValueChange={(e) => dispatch(setSelectedProduct(e))}
-      defaultValue={data[1].label}
+    onValueChange={handleSelectChange}
+    defaultValue={productstat || filteredData[1].label}
     >
       <SelectTrigger className='w-[180px]'>
         <SelectValue placeholder='Select a Product' />
@@ -107,7 +149,7 @@ const SelectProduct = () => {
         <SelectGroup>
           <SelectLabel>Products</SelectLabel>
           {filteredData.map((item: any, i: number) => (
-            <SelectItem key={i} value={item.label}>
+            <SelectItem key={i} value={item.abbr}>
               {item.label}
             </SelectItem>
           ))}

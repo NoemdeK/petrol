@@ -1,6 +1,7 @@
 import { RootState } from '@/redux/store';
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { Tab } from '@headlessui/react';
 import { SixMonths } from './SixMonths';
 import { OneMonth } from './OneMonth';
@@ -21,14 +22,18 @@ const LPG = () => {
 
   const { resData } = useSelector((state: RootState) => state.LPG);
 
+  console.log("LPF Data", resData)
+
   const regions = selectedRegions.map((_, idx) => {
     return _.label.toUpperCase();
   });
+  console.log(regions);
 
   const filteredData = filterDataByRegions(resData, regions);
+  console.log(filteredData, "filtersata");
 
   const groupedData = filteredData.reduce((result: any, item: any) => {
-    const region = item.region;
+    const region = item.Region;
 
     if (!result[region]) {
       result[region] = [];
@@ -36,14 +41,17 @@ const LPG = () => {
     result[region].push(item);
 
     return result;
+
   }, {});
+  console.log("groupedData", groupedData)
+
 
   // Now groupedData is an object where keys are regions and values are arrays of objects for each region
 
   interface PeriodData {
     sum: number;
     count: number;
-    averages: { region: string; lpg: number }[];
+    averages: { Region: string; LPG: number }[];
   }
 
   // Create an object to store sums and counts for each period
@@ -51,20 +59,20 @@ const LPG = () => {
 
   // Loop through the data array to calculate sums and counts for each period
   filteredData.forEach((item: any) => {
-    const { region, lpg, period } = item;
+    const { Region, LPG, Period } = item;
 
-    if (!periodData[period]) {
+    if (!periodData[Period]) {
       // Initialize sums and counts for the period
-      periodData[period] = { sum: 0, count: 0, averages: [] };
+      periodData[Period] = { sum: 0, count: 0, averages: [] };
     }
 
     // Add lpg value to the sum
-    periodData[period].sum += lpg;
+    periodData[Period].sum += LPG;
     // Increment the count
-    periodData[period].count += 1;
+    periodData[Period].count += 1;
 
     // Store the region and lpg for later calculation of averages
-    periodData[period].averages.push({ region, lpg });
+    periodData[Period].averages.push({ Region, LPG });
   });
 
   // Now calculate averages for each region within each period in groupedData
@@ -75,43 +83,45 @@ const LPG = () => {
     interface PeriodData {
       sum: number;
       count: number;
-      averages: { region: string; lpg: number }[];
+      averages: { Region: string; LPG: number }[];
     }
 
     // Create an object to store sums and counts for each period
     const periodData: Record<string, PeriodData> = {};
     regionData.forEach((item: any) => {
-      const { region, lpg, period } = item;
+      const { Region, LPG, Period } = item;
 
-      if (!periodData[period]) {
+      if (!periodData[Period]) {
         // Initialize sums and counts for the period
-        periodData[period] = { sum: 0, count: 0, averages: [] };
+        periodData[Period] = { sum: 0, count: 0, averages: [] };
       }
 
       // Add lpg value to the sum
-      periodData[period].sum += lpg;
+      periodData[Period].sum += LPG;
       // Increment the count
-      periodData[period].count += 1;
+      periodData[Period].count += 1;
 
       // Store the region and lpg for later calculation of averages
-      periodData[period].averages.push({ region, lpg });
+      periodData[Period].averages.push({ Region, LPG });
       // Replace the existing item with the new object
       // groupedData[region][groupedData[region].indexOf(item)] = newItem;
     });
 
     // Calculate averages for each period
     const result = Object.entries(periodData).map(
-      ([period, { sum, count, averages }]) => {
+      ([Period, { sum, count, averages }]) => {
         const average = (sum / count).toFixed(2);
         // return { period, average };
         // return { period, average };
-        return { period, average, regions: averages[0].region };
+        return { Period, average, regions: averages[0].Region };
       }
     );
     groupedData[region] = result;
   });
 
   const chartdata2 = transformTipToChartData(groupedData);
+
+  console.log(chartdata2);
 
   return (
     <div className=' md:pb-4 px-2 md:px-4 h-full'>

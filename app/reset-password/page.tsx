@@ -1,11 +1,9 @@
 "use client"
-import React, { useEffect } from 'react'
-
-import {  LoginAccount } from './Component'
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import React, { useEffect } from 'react'
 
-const Page = () => {
+const Resetpage = () => {
   const { data: session, status: sessionStatus } = useSession();
   const router = useRouter()
 
@@ -17,10 +15,9 @@ const Page = () => {
   return (
     <div className='auth bghero'>
       <div className='h-full flex justify-center items-center'>
-        <LoginAccount />
+        {/* <LoginAccount /> */}
       </div>
-    </div>
-  )
+    </div>  )
 }
 
-export default Page
+export default Resetpage

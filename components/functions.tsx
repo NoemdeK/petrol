@@ -4,7 +4,7 @@ export function filterDataByRegions(data: any, selectedRegion: string[]) {
 
   // Use the filter method to filter the array based on the specified region
   const filteredData = data.filter((item: any) =>
-    targetRegions.includes(item.region)
+    targetRegions.includes(item.Region)
   );
 
   return filteredData;
@@ -19,11 +19,11 @@ export const transformTipToChartData = (tip: any) => {
     // Loop through each entry in the region
     tip[region].forEach(
       ({
-        period,
+        Period,
         average,
         regions,
       }: {
-        period: any;
+        Period: any;
         average: any;
         regions: any;
       }) => {
@@ -31,12 +31,12 @@ export const transformTipToChartData = (tip: any) => {
         // const date = `Jan ${period.split('-')[0]}`;
 
         // Initialize the entry for the date if not exists
-        if (!aggregatedData[period]) {
-          aggregatedData[period] = {};
+        if (!aggregatedData[Period]) {
+          aggregatedData[Period] = {};
         }
 
         // Add or update the value for the region on that period
-        aggregatedData[period][region] = parseFloat(average);
+        aggregatedData[Period][region] = parseFloat(average);
       }
     );
   });

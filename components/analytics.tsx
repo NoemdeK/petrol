@@ -11,6 +11,8 @@ import HeaderStat from './HeaderStat';
 import SelectProduct from './SelectProduct';
 import { useEffect, useState } from 'react';
 import { Region } from './SelectRegions';
+import News from '@/app/dashboard/analytics/News';
+import { useSearchParams } from 'next/navigation';
 
 interface Dataset {
   label: string;
@@ -19,6 +21,10 @@ interface Dataset {
 }
 
 export const Analytics = () => {
+
+  const searchParams  = useSearchParams();
+  const productstat = searchParams?.get('product');
+
   const [mounted, setMounted] = useState(false)
   const { selectedRegions, product } = useSelector(
     (state: RootState) => state.prices
@@ -45,7 +51,6 @@ export const Analytics = () => {
     dispatch(setSelectedRegions(selectedRegions as Dataset[] | null));
   };
 
-  console.log(selectedRegions)
 
   const analysis = [1, 2, 3, 4, 5].map((_, idx) => {
     return (
@@ -79,12 +84,12 @@ export const Analytics = () => {
     <main className='flex min-h-screen flex-col items-end justify-between  bg-white'>
       <div className=' flex flex-col  min-h-screen w-full px-4 '>
         <HeaderStat />
-        <div className='grid grid-cols-1 md:grid-cols-12 w-full gap-2  md:gap-4 flex-1 p-4'>
+        <div className='grid grid-cols-1 lg:grid-cols-12 w-full gap-2  md:gap-4 flex-1 p-4'>
           <div className='flex flex-col flex-1 w-full md:col-span-7 '>
             <div className='flex flex-col justify-between md:items-end gap-2 md:flex-row'>
               <div className=''>
-                <p className='text-slate-400 text-xs mb-3'>Home &gt; PMS</p>
-                <p className='whitespace-nowrap text-slate-600'>{product}</p>
+                <p className='text-slate-400 text-xs mb-3'>Home &gt; {productstat || 'PMS'}</p>
+                <p className='whitespace-nowrap text-slate-600'>{productstat || 'PMS'}</p>
               </div>
               <div className='flex  items-end gap-1 flex-col md:flex-row'>
                 <div className='w-full items-start flex flex-col justify-start  gap-2'>
@@ -120,11 +125,15 @@ export const Analytics = () => {
               <FuelCharts />
             </div>
           </div>
-          <div className='md:col-span-1'></div>
-          <div className='md:col-span-4'>
-            Analysis & Projections
+          <div className='lg:col-span-1'></div>
+          <div className='lg:col-span-4 lg:h-[65vh] overflow-y-scroll'>
+            <h4 className='text-lg md:text-xl font-bold'>
+              Analysis & Projections
+            </h4>
             <Separator className='h-[2px] my-1' />
-            <div className='p2 md:p-4'>{analysis}</div>
+            <div className='p2 md:p-4 '>
+              <News />
+            </div>
           </div>
         </div>
       </div>

@@ -32,11 +32,16 @@ import Link from "next/link"
 import { useState } from "react"
 import Logo from "@/components/sections/Logo"
 import { useRouter } from "next/navigation"
+import { PlainTransportDekApi, authAxiosInstance } from "@/utils/axios"
+import { signIn } from "next-auth/react"
+import { toast } from "@/components/ui/use-toast"
 
 const formSchema = z.object({
     email: z.string().email().min(2, {
       message: "Email must be at least 2 characters.",
     }),
+    firstName: z.string(),
+    lastName: z.string(),
     password: z.string()
   })
 
@@ -55,11 +60,33 @@ export function CreateAccount() {
       })
      
       // 2. Define a submit handler.
-      function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        router.push('/signin')
-      }
+
+
+      async function onSubmit(values: z.infer<typeof formSchema>) { 
+        await PlainTransportDekApi.post(
+          "/auth/signup",
+          values
+        )
+          .then(() => {
+            toast({
+              title: "User Registered",
+              description: "Welcome to Petrodata",
+              })
+              router.push("/signin")
+          })
+          .catch((error: any) => {
+            toast({
+              title: "Cannot register user",
+              description: `${error.response.data.message}`,
+              variant: "destructive"
+              })
+            console.log(error)
+          
+          })
+          .finally(() => {
+          })   
+        }
+      
   return (
     <Card className="w-96">
       <CardHeader className="space-y-1 text-center">
@@ -76,8 +103,38 @@ export function CreateAccount() {
       </CardHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
-      <CardContent className="grid gap-4">
-        <div className="grid gap-2">
+      <CardContent className="grid gap-2">
+        <div className="grid gap-1">
+            <FormField
+                control={form.control}
+                name="firstName"
+                render={({ field }) => (
+                    <FormItem>
+                    <FormLabel>First Name</FormLabel>
+                    <FormControl>
+                        <Input placeholder=""  {...field} />
+                    </FormControl>
+                    <FormMessage />
+                    </FormItem>
+                )}
+            />
+        </div>
+        <div className="grid gap-1">
+            <FormField
+                control={form.control}
+                name="lastName"
+                render={({ field }) => (
+                    <FormItem>
+                    <FormLabel>Last Name</FormLabel>
+                    <FormControl>
+                        <Input placeholder="Last name"  {...field} />
+                    </FormControl>
+                    <FormMessage />
+                    </FormItem>
+                )}
+            />
+        </div>
+        <div className="grid gap-1">
             <FormField
                 control={form.control}
                 name="email"
@@ -85,14 +142,14 @@ export function CreateAccount() {
                     <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                        <Input placeholder="email@gmail.com" {...field} />
+                        <Input placeholder="email@gmail.com" type="email" {...field} />
                     </FormControl>
                     <FormMessage />
                     </FormItem>
                 )}
             />
         </div>
-        <div className="grid gap-2">
+        <div className="grid gap-1">
         <FormField
               name="password"
               control={form.control}

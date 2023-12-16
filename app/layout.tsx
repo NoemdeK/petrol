@@ -1,10 +1,12 @@
-'use client';
 
 import type { Metadata } from 'next';
 import './globals.css';
 import store from '@/redux/store';
-import { Provider } from 'react-redux';
-import { SessionProvider } from 'next-auth/react';
+import AuthProvider from './providers/Provider';
+import { getServerSession } from 'next-auth';
+import Redux from './providers/Redux';
+import { Toaster } from '@/components/ui/toaster';
+import { authOptions } from '@/utils/auth';
 
 const metadata: Metadata = {
   title: 'Diophalytics.io',
@@ -13,16 +15,26 @@ const metadata: Metadata = {
 
 
 
-export default function RootLayout({
+export default  async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const user = await getServerSession(authOptions)
+
+
+  
   return (
     <html lang='en' suppressHydrationWarning>
-        <Provider store={store}>
-          <body>{children}</body>
-        </Provider>
+      <AuthProvider>
+        <Redux >
+          <body>
+            {children}
+            <Toaster />
+          </body>
+        </Redux>
+        </AuthProvider>
+
     </html>
   );
 }

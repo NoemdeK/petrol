@@ -16,19 +16,21 @@ function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ');
 }
 
-const DPK = () => {
+const LPG = () => {
   const { selectedRegions } = useSelector((state: RootState) => state.prices);
 
-  const { resData } = useSelector((state: RootState) => state.DPK);
+  const { resData } = useSelector((state: RootState) => state.LPG);
+  console.log("LPG Data", resData)
 
   const regions = selectedRegions.map((_, idx) => {
     return _.label.toUpperCase();
   });
 
   const filteredData = filterDataByRegions(resData, regions);
+  console.log(filteredData, "filtersata");
 
   const groupedData = filteredData.reduce((result: any, item: any) => {
-    const region = item.region;
+    const region = item.Region;
 
     if (!result[region]) {
       result[region] = [];
@@ -42,7 +44,7 @@ const DPK = () => {
   interface PeriodData {
     sum: number;
     count: number;
-    averages: { region: string; dpk: number }[];
+    averages: { Region: string; LPG: number }[];
   }
 
   // Create an object to store sums and counts for each period
@@ -50,20 +52,20 @@ const DPK = () => {
 
   // Loop through the data array to calculate sums and counts for each period
   filteredData.forEach((item: any) => {
-    const { region, dpk, period } = item;
+    const { Region, LPG, Period } = item;
 
-    if (!periodData[period]) {
+    if (!periodData[Period]) {
       // Initialize sums and counts for the period
-      periodData[period] = { sum: 0, count: 0, averages: [] };
+      periodData[Period] = { sum: 0, count: 0, averages: [] };
     }
 
-    // Add dpk value to the sum
-    periodData[period].sum += dpk;
+    // Add LPG value to the sum
+    periodData[Period].sum += LPG;
     // Increment the count
-    periodData[period].count += 1;
+    periodData[Period].count += 1;
 
-    // Store the region and dpk for later calculation of averages
-    periodData[period].averages.push({ region, dpk });
+    // Store the region and LPG for later calculation of averages
+    periodData[Period].averages.push({ Region, LPG });
   });
 
   // Now calculate averages for each region within each period in groupedData
@@ -74,43 +76,44 @@ const DPK = () => {
     interface PeriodData {
       sum: number;
       count: number;
-      averages: { region: string; dpk: number }[];
+      averages: { Region: string; LPG: number }[];
     }
 
     // Create an object to store sums and counts for each period
     const periodData: Record<string, PeriodData> = {};
     regionData.forEach((item: any) => {
-      const { region, dpk, period } = item;
+      const { Region, LPG, Period } = item;
 
-      if (!periodData[period]) {
+      if (!periodData[Period]) {
         // Initialize sums and counts for the period
-        periodData[period] = { sum: 0, count: 0, averages: [] };
+        periodData[Period] = { sum: 0, count: 0, averages: [] };
       }
 
-      // Add dpk value to the sum
-      periodData[period].sum += dpk;
+      // Add LPG value to the sum
+      periodData[Period].sum += LPG;
       // Increment the count
-      periodData[period].count += 1;
+      periodData[Period].count += 1;
 
-      // Store the region and dpk for later calculation of averages
-      periodData[period].averages.push({ region, dpk });
+      // Store the region and LPG for later calculation of averages
+      periodData[Period].averages.push({ Region, LPG });
       // Replace the existing item with the new object
       // groupedData[region][groupedData[region].indexOf(item)] = newItem;
     });
 
     // Calculate averages for each period
     const result = Object.entries(periodData).map(
-      ([period, { sum, count, averages }]) => {
+      ([Period, { sum, count, averages }]) => {
         const average = (sum / count).toFixed(2);
         // return { period, average };
         // return { period, average };
-        return { period, average, regions: averages[0].region };
+        return { Period, average, regions: averages[0].Region };
       }
     );
     groupedData[region] = result;
   });
 
   const chartdata2 = transformTipToChartData(groupedData);
+  console.log(chartdata2,"chartdata2");
 
   return (
     <div className=' md:pb-4 px-2 md:px-4 h-full'>
@@ -236,4 +239,4 @@ const DPK = () => {
   );
 };
 
-export default DPK;
+export default LPG;

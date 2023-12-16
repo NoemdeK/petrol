@@ -28,7 +28,7 @@ const PMS = () => {
   const filteredData = filterDataByRegions(resData, regions);
 
   const groupedData = filteredData.reduce((result: any, item: any) => {
-    const region = item.region;
+    const region = item.Region;
 
     if (!result[region]) {
       result[region] = [];
@@ -42,7 +42,7 @@ const PMS = () => {
   interface PeriodData {
     sum: number;
     count: number;
-    averages: { region: string; pms: number }[];
+    averages: { Region: string; PMS: number }[];
   }
 
   // Create an object to store sums and counts for each period
@@ -50,20 +50,20 @@ const PMS = () => {
 
   // Loop through the data array to calculate sums and counts for each period
   filteredData.forEach((item: any) => {
-    const { region, pms, period } = item;
+    const { Region, PMS, Period } = item;
 
-    if (!periodData[period]) {
+    if (!periodData[Period]) {
       // Initialize sums and counts for the period
-      periodData[period] = { sum: 0, count: 0, averages: [] };
+      periodData[Period] = { sum: 0, count: 0, averages: [] };
     }
 
-    // Add pms value to the sum
-    periodData[period].sum += pms;
+    // Add PMS value to the sum
+    periodData[Period].sum += PMS;
     // Increment the count
-    periodData[period].count += 1;
+    periodData[Period].count += 1;
 
-    // Store the region and pms for later calculation of averages
-    periodData[period].averages.push({ region, pms });
+    // Store the region and PMS for later calculation of averages
+    periodData[Period].averages.push({ Region, PMS });
   });
 
   // Now calculate averages for each region within each period in groupedData
@@ -74,37 +74,37 @@ const PMS = () => {
     interface PeriodData {
       sum: number;
       count: number;
-      averages: { region: string; pms: number }[];
+      averages: { Region: string; PMS: number }[];
     }
 
     // Create an object to store sums and counts for each period
     const periodData: Record<string, PeriodData> = {};
     regionData.forEach((item: any) => {
-      const { region, pms, period } = item;
+      const { Region, PMS, Period } = item;
 
-      if (!periodData[period]) {
+      if (!periodData[Period]) {
         // Initialize sums and counts for the period
-        periodData[period] = { sum: 0, count: 0, averages: [] };
+        periodData[Period] = { sum: 0, count: 0, averages: [] };
       }
 
-      // Add pms value to the sum
-      periodData[period].sum += pms;
+      // Add PMS value to the sum
+      periodData[Period].sum += PMS;
       // Increment the count
-      periodData[period].count += 1;
+      periodData[Period].count += 1;
 
-      // Store the region and pms for later calculation of averages
-      periodData[period].averages.push({ region, pms });
+      // Store the region and PMS for later calculation of averages
+      periodData[Period].averages.push({ Region, PMS });
       // Replace the existing item with the new object
       // groupedData[region][groupedData[region].indexOf(item)] = newItem;
     });
 
     // Calculate averages for each period
     const result = Object.entries(periodData).map(
-      ([period, { sum, count, averages }]) => {
+      ([Period, { sum, count, averages }]) => {
         const average = (sum / count).toFixed(2);
         // return { period, average };
         // return { period, average };
-        return { period, average, regions: averages[0].region };
+        return { Period, average, regions: averages[0].Region };
       }
     );
     groupedData[region] = result;

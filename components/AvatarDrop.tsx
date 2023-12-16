@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import {
     Avatar,
@@ -14,12 +15,16 @@ import {
   } from "@/components/ui/dropdown-menu"
 import { LogOutIcon } from 'lucide-react'
 import { Button } from './ui/button'
+import { signOut } from 'next-auth/react'
 
 
 
 
 
 const AvatarDrop = () => {
+  // const onLogout = () => {
+  //   signOut()
+  // }
   return (
     <DropdownMenu>
     <DropdownMenuTrigger asChild>
@@ -30,7 +35,9 @@ const AvatarDrop = () => {
     </DropdownMenuTrigger>
     <DropdownMenuContent className="w-56">
         <DropdownMenuItem className="cursor-pointer">
-            <Button className='flex justify-between items-center w-full bg-transparent text-black hover:text-white'>
+            <Button className='flex justify-between items-center w-full bg-transparent text-black hover:text-white'
+                onClick={() => signOut()}
+            >
                 Log Out <LogOutIcon />
             </Button>
         </DropdownMenuItem>

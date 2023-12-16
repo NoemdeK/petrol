@@ -1,11 +1,10 @@
 "use client"
 import React, { useEffect } from 'react'
-
-import {  LoginAccount } from './Component'
+import { Forgot } from './Component'
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
-const Page = () => {
+const Forgotpage = () => {
   const { data: session, status: sessionStatus } = useSession();
   const router = useRouter()
 
@@ -16,11 +15,9 @@ const Page = () => {
   }, [sessionStatus, router]);
   return (
     <div className='auth bghero'>
-      <div className='h-full flex justify-center items-center'>
-        <LoginAccount />
-      </div>
+        <Forgot />
     </div>
   )
 }
 
-export default Page
+export default Forgotpage

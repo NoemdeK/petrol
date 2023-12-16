@@ -36,7 +36,7 @@ import { toast } from "@/components/ui/use-toast"
 
 
 const formSchema = z.object({
-    email: z.string().email().min(2, {
+    password1: z.string().email().min(2, {
       message: "Email must be at least 2 characters.",
     }),
     password: z.string()
@@ -44,8 +44,9 @@ const formSchema = z.object({
 
   
 
-export function LoginAccount() {
+export function ResetPassword() {
     const [showPassword, setShowPassword] = useState(false)
+    const [showPassword1, setShowPassword1] = useState(false)
     const router = useRouter()
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -61,11 +62,8 @@ export function LoginAccount() {
         // console.log(response)
         try {
           const response = await signIn("credentials", {
-            email: values.email,
-            password: values.password,
-            redirect: false,
+     
           });
-        console.log(response)
 
       
           if (response?.error) {
@@ -74,17 +72,17 @@ export function LoginAccount() {
           } else if (response?.ok) {
             // Authentication succeeded
             toast({
-              title: "User Logged in",
-              description: "Welcome back to Petrodata",
+              title: "Password Reset",
+              description: "Now, Log in",
               })
           
             // Redirect the user to the desired location
-            router.push('/dashboard/analytics');
+            router.push('/signin');
           }
         } catch (error: any) {
           // Handle unexpected errors
           toast({
-            title: "Cannot register user",
+            title: "Cannot reset password",
             description: `${error.response.data.message}`,
             variant: "destructive"
             })
@@ -98,19 +96,17 @@ export function LoginAccount() {
       const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
       };
+
+      const togglePasswordVisibility1 = () => {
+        setShowPassword1(!showPassword1);
+      };
+
   return (
     <Card className="w-96">
       <CardHeader className="space-y-1 text-center">
         <Logo />
-        <CardTitle className="text-2xl">Log in</CardTitle>
-        <CardDescription>
-         Don&apos;t have an account? 
-         <span className="text-green-600 ml-2 font-medium">
-            <Link href={'/signup'}>
-                Sign Up
-            </Link>
-         </span>
-        </CardDescription>
+        <CardTitle className="text-2xl">Reset Password</CardTitle>
+
       </CardHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
@@ -118,12 +114,22 @@ export function LoginAccount() {
         <div className="grid gap-2">
             <FormField
                 control={form.control}
-                name="email"
+                name="password1"
                 render={({ field }) => (
                     <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>Password</FormLabel>
                     <FormControl>
-                        <Input placeholder="email@gmail.com" {...field} />
+                    <div className="relative">
+                    <Input type={showPassword1 ? 'text' : 'password'} {...field} />
+                    <span
+                        className={`password-toggle ${showPassword1 ? 'visible' : ''} cursor-pointer absolute top-3 right-1`}
+                        onClick={togglePasswordVisibility1}
+                    > 
+                    {
+                        showPassword1 ?  <EyeOff size={14} /> : <Eye size={14} />
+                    }
+                    </span>
+                    </div>
                     </FormControl>
                     <FormMessage />
                     </FormItem>
@@ -136,7 +142,7 @@ export function LoginAccount() {
               control={form.control}
               render={({ field }) => (
             <FormItem  className="flex flex-col gap-1">
-                <FormLabel>Password </FormLabel>
+                <FormLabel>Confirm Password </FormLabel>
                 <FormControl>
                     <div className="relative">
                     <Input type={showPassword ? 'text' : 'password'} {...field} />
@@ -155,15 +161,11 @@ export function LoginAccount() {
           )}
       />
         </div>
-        <div className="flex justify-end">
-            <Link href='/forgot-password' className="font-medium hover:font-bold transition-all">
-                forgot password ?
-            </Link>
-        </div>
+
       </CardContent>
 
       <CardFooter>
-        <Button className="w-full" type="submit">Log in</Button>
+        <Button className="w-full" type="submit">Submit</Button>
       </CardFooter>
       </form>
     </Form>

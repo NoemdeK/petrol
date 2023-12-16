@@ -58,7 +58,7 @@ export const YearOne = ({ result }: { result: any }) => {
         data={filledData}
         index='date'
         categories={regions}
-        colors={['blue']}
+        colors={["pink","blue", "gray", "purple", "yellow", 'green']}
         yAxisWidth={30}
         customTooltip={customTooltip}
       />

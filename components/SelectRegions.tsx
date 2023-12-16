@@ -25,8 +25,7 @@ import { regionalOptions } from '@/data';
 
 
 export function Region({ selectedNames, setSelectedNames }: any) {
-
-
+  // console.log(selectedNames)
   
   return (
     <>
@@ -72,7 +71,7 @@ export function Region({ selectedNames, setSelectedNames }: any) {
                 const isSelected = selectedNames.includes(name);
                 return (
                   <CommandItem
-                    key={name._id}
+                    key={name.label}
                     onSelect={() => {
                         if (isSelected) {
                           setSelectedNames(selectedNames.filter((n: any) => n !== name));

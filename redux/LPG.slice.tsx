@@ -1,7 +1,7 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Dataset, regionalOption } from '../types';
 import { six_months_data } from '../data';
-import { authAxiosInstance } from '../utils/axios';
+
 import axios from 'axios';
 
 const labels: string[] = [
@@ -31,31 +31,39 @@ export const chartAllRegionLPG = createAsyncThunk(
   'prices/chartAllRegionLPG',
   async () => {
     try {
-      const response = await axios(
-        'https://petrodata.zainnovations.com/api/v1/data/chartAllRegionLPG'
-      );
+      const product = 'LPG';
+      const regions = [
+        'NORTH EAST',
+        'NORTH WEST',
+        'SOUTH SOUTH',
+        'SOUTH WEST',
+        'SOUTH EAST',
+        'NORTH CENTRAL',
+      ];
 
-      return response.data;
-      //   }
+      const url = 'https://petrodata.zainnovations.com/api/v1/petro-data/analysis';
+      const headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      // headers.append('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc4N2QzMTI1NWIxYTA1ZGZhZDQ4MTIiLCJyb2xlIjoicnd4X3VzZXIiLCJpYXQiOjE3MDIzOTUyMDF9.iZXOHmjSEBIG-kBJscRKMCd9WpZZEdRXGzN7_yDxTIg');
+
+      const requestOptions = {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          product,
+          regions,
+        }),
+      };
+
+      const response = await fetch(`${url}?period=MAX`, requestOptions);
+      // console.log(response.json()), "repso"
+      const result = await response.json();
+
+      return result.data;
+      
+      
     } catch (error: any) {
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.error('Response Error:', error.response.data);
-        throw new Error('Failed to fetch engaged talents. Please try again.');
-      } else if (error.request) {
-        // The request was made but no response was received
-        console.error('Request Error:', error.request);
-        throw new Error(
-          'No response received. Please check your network connection.'
-        );
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.error('General Error:', error.message);
-        throw new Error(
-          'An unexpected error occurred. Please try again later.'
-        );
-      }
+      console.error('Error:', error.message);
     }
   }
 );
@@ -98,7 +106,7 @@ export const prices = createSlice({
         chartAllRegionLPG.fulfilled,
         (state, action: PayloadAction<any>) => {
           state.loading = false;
-          state.resData = action.payload.chartData;
+          state.resData = action.payload;
           // state.prev = action.payload.prev;
           // state.count = action.payload.count; // Store the count
           // state.next = action.payload.next;

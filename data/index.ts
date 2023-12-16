@@ -8,12 +8,12 @@ const labels: string[] = [
 ];
 
 export const regionalOptions = [
-  { label: 'South East', value: 'South East' },
-  { label: 'South West', value: 'South West' },
-  { label: 'South South', value: 'South South' },
-  { label: 'North Central', value: 'North Central' },
-  { label: 'North East', value: 'North East' },
-  { label: 'North West', value: 'North West' },
+  { label: 'SOUTH EAST', value: 'SOUTH EAST' },
+  { label: 'SOUTH WEST', value: 'SOUTH WEST' },
+  { label: 'SOUTH SOUTH', value: 'SOUTH SOUTH' },
+  { label: 'NORTH CENTRAL', value: 'NORTH CENTRAL' },
+  { label: 'NORTH EAST', value: 'NORTH EAST' },
+  { label: 'NORTH WEST', value: 'NORTH WEST' },
 ];
 
 export const six_months_data = {

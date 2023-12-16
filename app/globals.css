@@ -81,7 +81,12 @@
 
 html, body{
   height: 100%;
-  overflow-x: hidden
+  overflow: hidden;
+}
+
+body{
+  /* height: 80vh; */
+  overflow-y: scroll
 }
  
 @layer base {
