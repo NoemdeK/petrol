@@ -2,7 +2,24 @@ import React from 'react'
 import { RawDataTable } from './RawdataTable'
 import HeaderStat from '@/components/HeaderStat'
 
-const Page = () => {
+async function getData() {
+  const res = await fetch(process.env.BACKEND_URL+'api/v1/petro-data/raw?batch=1')
+  // The return value is *not* serialized
+  // You can return Date, Map, Set, etc.
+ 
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error('Failed to fetch data')
+  }
+ 
+  return res.json()
+}
+
+const Page = async () => {
+  const data = await getData()
+
+  console.log(data.data.result)
+const result = data.data.result
   return (
     <div>
       <HeaderStat />
@@ -15,7 +32,7 @@ const Page = () => {
           information on petroleum prices, stocks, and consumption/sales. Or use our flexi export tool to create your own data series
         </p>
       </div>
-        <RawDataTable />
+        <RawDataTable data={result} />
     </div>
   )
 }

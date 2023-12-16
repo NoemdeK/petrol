@@ -40,45 +40,46 @@ import pdf from "@/assets/pdf.png"
 import excel from "@/assets/excel.png"
 import xls from "@/assets/xls.png"
 import Image from "next/image"
+import { toast } from "@/components/ui/use-toast"
 
-const data: Payment[] = [
-  {
-    id: "m5gr84i9",
-    category: 'Pricing',
-    dataset: "Jan 1 – 7 Petroleum Motor Spirit Prices by State: Daily",
-    period: "Weekly",
-    product: "PMS",
-    source: "Nigerian Bureau of Statistics",
-    year: "2019"
-  },
-  {
-    id: "m5e84i9",
-    category: 'Pricing',
-    dataset: "Jan 1 – 7 Petroleum Motor Spirit Prices by State: Daily",
-    period: "Weekly",
-    product: "PMS",
-    source: "Nigerian Bureau of Statistics",
-    year: "2019"
-  },
-  {
-    id: "m5grsi9",
-    category: 'Pricing',
-    dataset: "Jan 1 – 7 Petroleum Motor Spirit Prices by State: Daily",
-    period: "Weekly",
-    product: "Gas",
-    source: "Nigerian Bureau of Statistics",
-    year: "2019"
-  },
-]
+// const data: Payment[] = [
+//   {
+//     id: "m5gr84i9",
+//     category: 'Pricing',
+//     dataset: "Jan 1 – 7 Petroleum Motor Spirit Prices by State: Daily",
+//     period: "Weekly",
+//     product: "PMS",
+//     source: "Nigerian Bureau of Statistics",
+//     year: "2019"
+//   },
+//   {
+//     id: "m5e84i9",
+//     category: 'Pricing',
+//     dataset: "Jan 1 – 7 Petroleum Motor Spirit Prices by State: Daily",
+//     period: "Weekly",
+//     product: "PMS",
+//     source: "Nigerian Bureau of Statistics",
+//     year: "2019"
+//   },
+//   {
+//     id: "m5grsi9",
+//     category: 'Pricing',
+//     dataset: "Jan 1 – 7 Petroleum Motor Spirit Prices by State: Daily",
+//     period: "Weekly",
+//     product: "Gas",
+//     source: "Nigerian Bureau of Statistics",
+//     year: "2019"
+//   },
+// ]
 
 export type Payment = {
   id: string
   category: string
-  product: string
   year: string
   source: string
   period: string
-  dataset: string
+  weekStartDate: string
+  weekEndDate: string
 }
 
 export const columns: ColumnDef<Payment>[] = [
@@ -106,45 +107,35 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     accessorKey: "category",
-    header: ({ column }) => {
-      return(
-        <Button variant={"ghost"} onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Category <ArrowUpDown  className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
-    cell: ({ row }) => <div className="text-center">{row.getValue("category")}</div>,
+    header: "Category",
+    cell: ({ row }) => <div className="">{row.getValue("category")}</div>,
   },
-  {
-    accessorKey: "product",
-    header: ({ column }) => {
-      return(
-        <Button variant={"ghost"} onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Product <ArrowUpDown  className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
-    cell: ({ row }) => <div className="capitalize text-center">{row.getValue("product")}</div>,
-  },
-  
   {
     accessorKey: "dataset",
     header:  "Dataset",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("dataset")}</div>
-    ),
+    cell: ({ row }) => {
+      const data = row.original
+      const formatDateRange = (startDate: string, endDate: string) => {
+        const options: any = { month: 'long', day: 'numeric' };
+        const formattedStartDate = new Date(startDate).toLocaleDateString('en-US', options);
+        const formattedEndDate = new Date(endDate).toLocaleDateString('en-US', options);
+      
+        return `${formattedStartDate} to ${formattedEndDate}`;
+      };
+      const formattedDateRange = formatDateRange(data.weekStartDate, data.weekEndDate);
+
+      return (
+        <div className="capitalize">
+          {formattedDateRange}
+        </div>
+      )
+    }
   },
   {
     accessorKey: "period",
-    header:  ({ column }) => {
-      return(
-        <Button variant={"ghost"} onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Period <ArrowUpDown  className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
+    header:  "period",
     cell: ({ row }) => (
-      <div className="capitalize text-center">{row.getValue("period")}</div>
+      <div className="capitalize">{row.getValue("period")}</div>
     ),
   },
   {
@@ -156,46 +147,90 @@ export const columns: ColumnDef<Payment>[] = [
         </Button>
       )
     },
-    cell: ({ row }) => <div className="lowercase text-center">{row.getValue("year")}</div>,
+    cell: ({ row }) => <div className="lowercase ml-4">{row.getValue("year")}</div>,
   },
   {
     accessorKey: "source",
-    header: ({ column }) => {
-      return(
-        <Button variant={"ghost"} onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Source <ArrowUpDown  className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
+    header: "Source",
     cell: ({ row }) => (
-      <div className="capitalize text-center">{row.getValue("source")}</div>
+      <div className="capitalize">{row.getValue("source")}</div>
     ),
   },
 
   {
     id: "actions",
     enableHiding: false,
-    header: "Actions",
-    cell: ({  }) => {
+    header: ({}) => <p className="text-right">Actions</p>,
+    cell: ({ row }) => {
+      const action = row.original
+      const handleFetchClick = async (flag: string) => {
+        try {
+          const myHeaders = new Headers();
+          myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc4N2QzMTI1NWIxYTA1ZGZhZDQ4MTIiLCJyb2xlIjoicnd4X3VzZXIiLCJpYXQiOjE3MDIzOTUyMDF9.iZXOHmjSEBIG-kBJscRKMCd9WpZZEdRXGzN7_yDxTIg");
+    
+          const requestOptions: any = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow'
+          };
+    
+          const response = await fetch(`https://petrodata.zainnovations.com/api/v1/petro-data/raw/actions?flag=${flag}&weekStartDate=${action.weekStartDate}&weekEndDate=${action.weekEndDate}`, requestOptions);
+          const result = await response.json();
+          console.log(result);
+    
+          if (result.status && result.data.url) {
+            // Create a temporary link to download the file
+            const downloadLink = document.createElement('a');
+            downloadLink.href = result.data.url;
+            downloadLink.target = '_blank';
+            downloadLink.download = `downloaded_file_${flag}.${flag}`;
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+
+            toast({
+              title: "Success",
+              description: "File downloaded successfully",
+            })
+          } else {
+            console.error('Failed to retrieve file URL');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      };
+    
 
       return (
-       <div className="flex items-center gap-2">
-        <div className="cursor-pointer hover:scale-95 transition-all">
+       <div className="flex items-center gap-2 justify-end">
+        <Button 
+          onClick={() => handleFetchClick(`csv`)}
+          className="cursor-pointer hover:scale-95 transition-all bg-transparent" size={"icon"}>
           <Image src={xls} alt="xls" width={20} height={20} />
-        </div>
-        <div className="cursor-pointer hover:scale-95 transition-all">
+        </Button>
+        <Button 
+            onClick={() => {
+              toast({
+                title: "Cannot download",
+                variant: "destructive",
+                description: "PDF Version Unavailable",
+              })
+            }}
+          className="cursor-pointer hover:scale-95 transition-all bg-transparent" size={"icon"}>
           <Image src={pdf} alt="pdf" width={20} height={20} />
-        </div>
-        <div className="cursor-pointer hover:scale-95 transition-all">
+        </Button>
+        <Button 
+          onClick={() => handleFetchClick(`xlsx`)}        
+          className="cursor-pointer hover:scale-95 transition-all bg-transparent" size={"icon"}>
           <Image src={excel} alt="excel" width={20} height={20} />
-        </div>
+        </Button>
        </div>
       )
     },
   },
 ]
 
-export function RawDataTable() {
+export function RawDataTable({data}: any) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
