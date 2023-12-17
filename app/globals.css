@@ -76,6 +76,11 @@ body{
   background-color: #ff0000;
   /* @apply bg-secondary; */
 }
+
+
+.text-tremor-default, .text-tremor-content{
+  text-transform: capitalize;
+}
  
 @layer base {
   * {

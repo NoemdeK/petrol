@@ -71,7 +71,7 @@ const FuelCharts = () => {
       selectedComponent = <PMS />; // Handle the case when product doesn't match any known type
   }
 
-  return <div className='md:pb-4 px-2 md:px-4 h-full'>{selectedComponent}</div>;
+  return <div className='md:pb-4 px-2 h-full'>{selectedComponent}</div>;
 };
 
 export default FuelCharts;

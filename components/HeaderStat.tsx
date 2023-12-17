@@ -23,7 +23,7 @@ const HeaderStat = ({data}:any) => {
         const backgroundColor = isNegativeChange ? 'red' : 'transparent';
       
         return (
-          <div key={productType} className='p-2 bg-secondary border flex gap-2 rounded-md min-w-56 w-full cursor-pointer'>
+          <div key={productType} className='p-2 bg-background border flex gap-2 rounded-md min-w-56 w-full cursor-pointer'>
             <div className='flex gap-2'>
                 {
                     isNegativeChange ? 

@@ -36,7 +36,6 @@ const initialState: InitialStateProps = {
   selectedState: '',
   six__months: six_months_data,
   selectedRegions: [
-
   ],
   error: null,
   period: 'Six months',

@@ -113,7 +113,7 @@ const PMS = () => {
   const chartdata2 = transformTipToChartData(groupedData);
 
   return (
-    <div className=' md:pb-4 px-2 md:px-4 h-full'>
+    <div className=' md:pb-4 h-full'>
       <Tab.Group defaultIndex={7} >
         <Tab.List className='flex gap-2 md:gap-4 text-[18px] text-slate-600'>
           <Tab

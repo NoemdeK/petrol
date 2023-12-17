@@ -1,3 +1,4 @@
+"use client"
 import * as React from "react"
 import { CheckIcon } from "@radix-ui/react-icons"
 
@@ -22,11 +23,16 @@ import { Separator } from "@/components/ui/separator"
 import { BiSolidDownArrow } from "react-icons/bi"
 
 import { regionalOptions } from '@/data';
+import { useSelector } from "react-redux"
+import { RootState } from "@/redux/store"
 
 
 export function Region({ selectedNames, setSelectedNames }: any) {
-  // console.log(selectedNames)
-  
+  const { selectedRegions, product } = useSelector(
+    (state: RootState) => state.prices
+  );
+  console.log(selectedRegions)
+
   return (
     <>
     <Popover>
@@ -69,12 +75,14 @@ export function Region({ selectedNames, setSelectedNames }: any) {
             <CommandGroup>
               {regionalOptions.map((name: any) => {
                 const isSelected = selectedNames.includes(name);
+                console.log(isSelected, "name", name);
                 return (
                   <CommandItem
                     key={name.label}
                     onSelect={() => {
                         if (isSelected) {
-                          setSelectedNames(selectedNames.filter((n: any) => n !== name));
+                          setSelectedNames(selectedNames.filter((n: any) => n.label !== name.label));
+                          
                           
                         } else {
                           setSelectedNames([...selectedNames, name]);

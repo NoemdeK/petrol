@@ -22,7 +22,14 @@ const data = [
     label: 'ICE Brent Crude (IBC)',
     label2: 'Crude',
     abbr: 'ICE',
-    regions: [],
+    regions: [
+      'NORTH CENTRAL',
+      'NORTH EAST',
+      'NORTH WEST',
+      'SOUTH EAST',
+      'SOUTH SOUTH',
+      'SOUTH WEST',
+    ],
   },
 
   {
@@ -108,6 +115,7 @@ const SelectProduct = () => {
   const region: string[] = ['South East', 'North Central'];
   const filteredData = filterDataByRegions(data, region);
 
+
   const handleSelectChange = useCallback(
     (selectedValue: string) => {
       // Update the Redux store
@@ -137,7 +145,6 @@ const SelectProduct = () => {
     [dispatch, params, router]
   );
 
-  console.log(filteredData[1].label, "ddd")
   return (
     <Select
     onValueChange={handleSelectChange}

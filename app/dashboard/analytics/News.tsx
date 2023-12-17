@@ -56,8 +56,8 @@ if(datax.length < 1){
     <div className='space-y-4'>
       {
         datax.map((item: any, i) => (
-          <div key={i} className='flex gap-2 cursor-pointer transition-all hover:scale-95 bg-muted p-1'>
-            <div  className="bg-muted w-32 h-32">
+          <div key={i} className='flex items-center gap-2 cursor-pointer rounded-md transition-all hover:scale-95 bg-muted p-1'>
+            <div  className="bg-muted w-32 h-32 flex items-center">
               <img src={item.image} alt={item.title} className='aspect-square object-cover rounded-md' />
             </div>
             <div className='w-full space-y-1' >

@@ -117,18 +117,18 @@ export const Analytics = () => {
                 Closed: {format(new Date(), "MMMM dd yyyy HH:mm:ss")}
               </p>
             </div>
-            <div className=' pb-2 md:pb-4 px-2 md:px-4 '>
+            <div className=' pb-2 md:pb-4'>
               <FuelCharts />
             </div>
           </div>
           <div className='lg:col-span-4 w-full lg:h-[65vh] overflow-y-scroll scroll'>
-         <div className='h-[70px] flex items-center'>
-         <h4 className='text-lg md:text-xl lg:text-2xl font-bold flex items-center'>
+         <div className=' flex items-center'>
+         <h4 className='h-[70px] text-lg md:text-xl lg:text-2xl font-semibold flex items-end'>
               Analysis & Projections
             </h4>
          </div>
             <Separator className='h-[1px] my-1' />
-            <div className=' lg:p-4 '>
+            <div className=''>
               <News />
             </div>
           </div>
