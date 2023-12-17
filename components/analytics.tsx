@@ -78,14 +78,14 @@ export const Analytics = () => {
   }
 
   return (
-    <main className='flex min-h-screen flex-col items-end justify-between  bg-white'>
+    <main className='flex min-h-screen flex-col items-end justify-between  bg-background'>
       <div className=' flex flex-col  min-h-screen w-full px-4 '>
         <div className='grid grid-cols-1 lg:grid-cols-12 w-full gap-2  md:gap-4 flex-1 p-4'>
           <div className='flex flex-col flex-1 w-full md:col-span-7 '>
             <div className='flex flex-col justify-between md:items-end gap-2 md:flex-row'>
               <div className=''>
-                <p className='text-slate-400 text-xs mb-3'>Home &gt; {productstat || 'PMS'}</p>
-                <p className='whitespace-nowrap text-slate-600'>{productstat || 'PMS'}</p>
+                <p className='text-accent-foreground text-xs mb-3'>Home &gt; {productstat || 'PMS'}</p>
+                <p className='whitespace-nowrap text-accent-foreground'>{productstat || 'PMS'}</p>
               </div>
               <div className='flex  items-end gap-1 flex-col md:flex-row'>
                 <div className='w-full items-start flex flex-col justify-start  gap-2'>
@@ -113,7 +113,7 @@ export const Analytics = () => {
                   </p>
                 </div>
               </div>
-              <p className='text-slate-400 text-xs'>
+              <p className='text-accent-foreground text-xs'>
                 Closed: {format(new Date(), "MMMM dd yyyy HH:mm:ss")}
               </p>
             </div>
@@ -122,7 +122,7 @@ export const Analytics = () => {
             </div>
           </div>
           <div className='lg:col-span-1'></div>
-          <div className='lg:col-span-4 lg:h-[65vh] overflow-y-scroll'>
+          <div className='lg:col-span-4 lg:h-[65vh] overflow-y-scroll scroll'>
             <h4 className='text-lg md:text-xl font-bold'>
               Analysis & Projections
             </h4>

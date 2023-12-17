@@ -1,6 +1,7 @@
 import HeaderStat from "@/components/HeaderStat";
 import Navbar from "@/components/Navbar";
 import { Sidebar } from "@/components/Sidebar";
+import { ThemeProvider } from "../providers/theme-provider";
 
 
 async function getData() {
@@ -24,10 +25,16 @@ const DashboardLayout =  async ({
   const data = await getData()
 
   const result = data.data
-  console.log(result)
 
 
   return ( 
+    <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem
+            disableTransitionOnChange
+          >
+
     <div className="h-full relative m-4">
         <Navbar />
         <div className="flex gap-4 w-full"> 
@@ -41,6 +48,8 @@ const DashboardLayout =  async ({
       </div>
 
     </div>
+    </ThemeProvider>
+
    );
 }
  

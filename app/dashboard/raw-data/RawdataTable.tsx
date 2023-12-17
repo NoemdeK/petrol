@@ -328,7 +328,6 @@ export function RawDataTable({data}: any) {
             variant="outline"
             size="sm"
             onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
           >
             Previous
           </Button>
@@ -336,7 +335,6 @@ export function RawDataTable({data}: any) {
             variant="outline"
             size="sm"
             onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
           >
             Next
           </Button>

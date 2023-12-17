@@ -1,8 +1,8 @@
 "use client"
 import React, { useEffect } from 'react'
 import { CreateAccount } from './Component'
-import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 const Page = () => {
   const { data: session, status: sessionStatus } = useSession();

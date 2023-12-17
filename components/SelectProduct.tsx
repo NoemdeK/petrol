@@ -137,13 +137,15 @@ const SelectProduct = () => {
     [dispatch, params, router]
   );
 
+  console.log(filteredData[1].label, "ddd")
   return (
     <Select
     onValueChange={handleSelectChange}
-    defaultValue={productstat || filteredData[1].label}
+    defaultValue={filteredData[0].label}
+    
     >
       <SelectTrigger className='w-[180px]'>
-        <SelectValue placeholder='Select a Product' />
+        <SelectValue placeholder='Select a Product' className='text-accent-foreground' />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>

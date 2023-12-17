@@ -4,6 +4,7 @@ import AvatarDrop from './AvatarDrop'
 import Link from 'next/link'
 import Logo from './sections/Logo'
 import LogoDash from './sections/LogoDash'
+import { ModeToggle } from './mode'
 
 const Navbar = () => {
   return (
@@ -11,7 +12,8 @@ const Navbar = () => {
         <Link href="/" className="flex items-center pl-3">
             <LogoDash />
         </Link>
-    <div className="">
+    <div className="flex gap-4">
+      <ModeToggle />
       <AvatarDrop />
     <MobileSidebar  />
     </div>

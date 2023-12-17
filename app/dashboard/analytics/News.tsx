@@ -20,30 +20,30 @@ const News = () => {
 
 
  
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://petrodata.zainnovations.com/api/v1/petro-data/analysis/projections",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            params: {
-              flag: flag || "PMS" ,
-              page: 1,
-            },
-          }
-        );
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         "https://petrodata.zainnovations.com/api/v1/petro-data/analysis/projections",
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //           params: {
+  //             flag: flag || "PMS" ,
+  //             page: 1,
+  //           },
+  //         }
+  //       );
 
-        setDatax(response.data.data.articles);
-      } catch (error: any) {
-        console.log(error.message);
-      }
-    };
+  //       setDatax(response.data.data.articles);
+  //     } catch (error: any) {
+  //       console.log(error.message);
+  //     }
+  //   };
 
-    fetchData();
-  }, [flag]); // The empty dependency array ensures that the effect runs once when the component mounts
+  //   fetchData();
+  // }, [flag]); // The empty dependency array ensures that the effect runs once when the component mounts
 
 if(!datax){
   return <div className='m-6 w-full'>

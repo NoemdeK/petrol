@@ -78,9 +78,9 @@ export default function Home() {
       <div className="flex h-full flex-col justify-center w-full md:items-start gap-12 p-4 md:p-12 ">
         <div className="grid grid-cols-1 w-full gap-4">
 
-          <div className='h-full w-full flex items-center flex-col justify-center text-left md:text-lefkt md:itejms-start'>
+          <div className='text-secondary  h-full w-full flex items-center flex-col justify-center text-left md:text-lefkt md:itejms-start'>
             <div className='h-full flex flex-col gap-8 mt-16 px-4 justify-center items-center md:items-stalrt'>
-                <h4 className='text-4xl sm:text-5xl lg:text-6xl font-bold '>
+                <h4 className='text-black text-4xl sm:text-5xl lg:text-6xl font-bold '>
                   Solving the <span className='text-purple-800'>hardest</span> <br />
                   data collection and <br />
                   verification challenges

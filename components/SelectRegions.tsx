@@ -34,7 +34,7 @@ export function Region({ selectedNames, setSelectedNames }: any) {
         <Button variant="outline" className="">
           Select Regions
           <span className="bg-[#CACCCB] h-8 w-6 flex justify-center items-center rounded-r-lg ml-4">
-            <BiSolidDownArrow className="text-sm opacity-50" />
+            <BiSolidDownArrow className="text-sm  text-accent" />
           </span>
           {/* <PlusCircledIcon className="mr-2 h-4 w-4" /> */}
           {selectedNames?.length > 0 && (
@@ -61,7 +61,7 @@ export function Region({ selectedNames, setSelectedNames }: any) {
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0" align="start">
+      <PopoverContent className="w-[200px]  capitalize p-0" align="start">
         <Command>
           <CommandInput placeholder={''} />
           <CommandList className="">
@@ -85,13 +85,13 @@ export function Region({ selectedNames, setSelectedNames }: any) {
                       className={cn(
                         "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
                         isSelected
-                          ? "bg-primary text-white"
+                          ? "bg-primary text-secondary"
                           : "opacity-50 [&_svg]:invisible"
                       )}
                     >
                       <CheckIcon className={cn("h-4 w-4")} />
                     </div>
-                    <span>{name.label}</span>
+                    <span className="capitalize">{name.label}</span>
                   </CommandItem>
                 );
               })}

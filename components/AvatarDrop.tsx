@@ -35,7 +35,7 @@ const AvatarDrop = () => {
     </DropdownMenuTrigger>
     <DropdownMenuContent className="w-56">
         <DropdownMenuItem className="cursor-pointer">
-            <Button className='flex justify-between items-center w-full bg-transparent text-black hover:text-white'
+            <Button className='flex justify-between items-center w-full bg-destructive text-background hover:text-accent'
                 onClick={() => signOut()}
             >
                 Log Out <LogOutIcon />

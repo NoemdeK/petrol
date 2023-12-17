@@ -25,10 +25,10 @@ const AGO = () => {
   const regions = selectedRegions.map((_, idx) => {
     return _.label.toUpperCase();
   });
-  console.log(regions);
+  // console.log(regions);
 
   const filteredData = filterDataByRegions(resData, regions);
-  console.log(filteredData, "filtersata");
+  // console.log(filteredData, "filtersata");
 
   const groupedData = filteredData.reduce((result: any, item: any) => {
     const region = item.Region;
@@ -41,7 +41,7 @@ const AGO = () => {
     return result;
 
   }, {});
-  console.log("groupedData", groupedData)
+  // console.log("groupedData", groupedData)
 
 
   // Now groupedData is an object where keys are regions and values are arrays of objects for each region
@@ -122,12 +122,12 @@ const AGO = () => {
 
   return (
     <div className=' md:pb-4 px-2 md:px-4 h-full'>
-      <Tab.Group>
-        <Tab.List className='flex gap-2 md:gap-4 text-[18px] text-slate-600'>
+      <Tab.Group defaultIndex={6} selectedIndex={7}>
+      <Tab.List className='flex gap-2 md:gap-4 text-[18px] text-slate-600'>
           <Tab
             className={({ selected }) =>
               classNames(
-                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+                selected ? 'text-foreground font-bold' : 'text-accent-foregroundfont-normal'
               )
             }
           >
@@ -136,7 +136,7 @@ const AGO = () => {
           <Tab
             className={({ selected }) =>
               classNames(
-                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+                selected ? 'text-secondary-foreground font-bold' : 'text-accent-foregroundfont-normal'
               )
             }
           >
@@ -145,7 +145,7 @@ const AGO = () => {
           <Tab
             className={({ selected }) =>
               classNames(
-                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+                selected ? 'text-accent-foreground font-bold' : 'text-accent-foregroundfont-normal'
               )
             }
           >
@@ -154,7 +154,7 @@ const AGO = () => {
           <Tab
             className={({ selected }) =>
               classNames(
-                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+                selected ? 'text-accent-foreground font-bold' : 'text-accent-foregroundfont-normal'
               )
             }
           >
@@ -163,7 +163,7 @@ const AGO = () => {
           <Tab
             className={({ selected }) =>
               classNames(
-                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+                selected ? 'text-accent-foreground font-bold' : 'text-accent-foregroundfont-normal'
               )
             }
           >
@@ -172,7 +172,7 @@ const AGO = () => {
           <Tab
             className={({ selected }) =>
               classNames(
-                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+                selected ? 'text-accent-foreground font-bold' : 'text-accent-foregroundnt-normal'
               )
             }
           >
@@ -181,7 +181,7 @@ const AGO = () => {
           <Tab
             className={({ selected }) =>
               classNames(
-                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+                selected ? 'text-accent-foreground font-bold' : 'text-accent-foreground font-normal'
               )
             }
           >
@@ -190,7 +190,7 @@ const AGO = () => {
           <Tab
             className={({ selected }) =>
               classNames(
-                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+                selected ? 'text-accent-foreground font-bold' : 'text-accent-foreground font-normal'
               )
             }
           >

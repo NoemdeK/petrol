@@ -1,6 +1,6 @@
-import React from 'react'
-import { ArrowDown, ArrowUp, BarChart4, Code, Database,  Settings, VideoIcon } from "lucide-react";
 import { cn } from '@/lib/utils';
+import React from 'react'
+
 
 
 const HeaderStat = ({data}:any) => {
@@ -23,7 +23,7 @@ const HeaderStat = ({data}:any) => {
         const backgroundColor = isNegativeChange ? 'red' : 'transparent';
       
         return (
-          <div key={productType} className='p-2 bg-white flex gap-2 rounded-md min-w-56 w-full cursor-pointer'>
+          <div key={productType} className='p-2 bg-secondary border flex gap-2 rounded-md min-w-56 w-full cursor-pointer'>
             <div className='flex gap-2'>
                 {
                     isNegativeChange ? 
@@ -39,7 +39,7 @@ const HeaderStat = ({data}:any) => {
                     {getFullName(productType)}
                 </p>
             </div>
-           <div className='flex flex-col ml-auto'>
+           <div className={cn('flex flex-col ml-auto font-medium', isNegativeChange ? "text-red-600": "text-green-600")}>
                 <p>{data.overallPricePercentChange}</p>
                 <p> {data.recentPricePercentChange}</p>
            </div>
@@ -48,8 +48,8 @@ const HeaderStat = ({data}:any) => {
       };
   return (
     <div className='bg-slate-400/10 p-4 rounded-md'>
-        <section className='flex  gap-4 overflow-x-scroll'>
-            {Object.entries(data).map(([productType, datas]) => (
+        <section className='flex  gap-4 overflow-x-scroll scroll'>
+            {data && Object?.entries(data).map(([productType, datas]) => (
             renderProduct(productType, datas)
         ))}
         </section>

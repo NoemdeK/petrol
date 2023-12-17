@@ -114,12 +114,12 @@ const PMS = () => {
 
   return (
     <div className=' md:pb-4 px-2 md:px-4 h-full'>
-      <Tab.Group>
+      <Tab.Group defaultIndex={7} >
         <Tab.List className='flex gap-2 md:gap-4 text-[18px] text-slate-600'>
           <Tab
             className={({ selected }) =>
               classNames(
-                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+                selected ? 'text-foreground font-bold' : 'text-accent-foregroundfont-normal'
               )
             }
           >
@@ -128,7 +128,7 @@ const PMS = () => {
           <Tab
             className={({ selected }) =>
               classNames(
-                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+                selected ? 'text-secondary-foreground font-bold' : 'text-accent-foregroundfont-normal'
               )
             }
           >
@@ -137,7 +137,7 @@ const PMS = () => {
           <Tab
             className={({ selected }) =>
               classNames(
-                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+                selected ? 'text-accent-foreground font-bold' : 'text-accent-foregroundfont-normal'
               )
             }
           >
@@ -146,7 +146,7 @@ const PMS = () => {
           <Tab
             className={({ selected }) =>
               classNames(
-                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+                selected ? 'text-accent-foreground font-bold' : 'text-accent-foregroundfont-normal'
               )
             }
           >
@@ -155,7 +155,7 @@ const PMS = () => {
           <Tab
             className={({ selected }) =>
               classNames(
-                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+                selected ? 'text-accent-foreground font-bold' : 'text-accent-foregroundfont-normal'
               )
             }
           >
@@ -164,7 +164,7 @@ const PMS = () => {
           <Tab
             className={({ selected }) =>
               classNames(
-                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+                selected ? 'text-accent-foreground font-bold' : 'text-accent-foregroundnt-normal'
               )
             }
           >
@@ -173,7 +173,7 @@ const PMS = () => {
           <Tab
             className={({ selected }) =>
               classNames(
-                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+                selected ? 'text-accent-foreground font-bold' : 'text-accent-foreground font-normal'
               )
             }
           >
@@ -182,7 +182,7 @@ const PMS = () => {
           <Tab
             className={({ selected }) =>
               classNames(
-                selected ? 'text-black font-bold' : 'text-stone-800 font-normal'
+                selected ? 'text-accent-foreground font-bold' : 'text-accent-foreground font-normal'
               )
             }
           >
