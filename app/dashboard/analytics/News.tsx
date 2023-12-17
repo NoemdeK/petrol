@@ -45,10 +45,10 @@ const News = () => {
   //   fetchData();
   // }, [flag]); // The empty dependency array ensures that the effect runs once when the component mounts
 
-if(!datax){
-  return <div className='m-6 w-full'>
+if(datax.length < 1){
+  return <div className='m-6 w-full overflow-hidden'>
     <p className='text-center font-medium'>
-      No product selected
+      No news available
     </p>
   </div>
 }
