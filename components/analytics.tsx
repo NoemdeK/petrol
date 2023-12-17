@@ -80,8 +80,8 @@ export const Analytics = () => {
   return (
     <main className='flex min-h-screen flex-col items-end justify-between  bg-background'>
       <div className=' flex flex-col  min-h-screen w-full px-4 '>
-        <div className='grid grid-cols-1 lg:grid-cols-12 w-full gap-2  md:gap-4 flex-1 p-4'>
-          <div className='flex flex-col flex-1 w-full md:col-span-7 '>
+        <div className='grid grid-cols-1 lg:grid-cols-12 w-full gap-4  md:gap-12 flex-1 p-4'>
+          <div className='flex flex-col flex-1 w-full lg:col-span-8 '>
             <div className='flex flex-col justify-between md:items-end gap-2 md:flex-row'>
               <div className=''>
                 <p className='text-accent-foreground text-xs mb-3'>Home &gt; {productstat || 'PMS'}</p>
@@ -121,13 +121,14 @@ export const Analytics = () => {
               <FuelCharts />
             </div>
           </div>
-          <div className='lg:col-span-1'></div>
-          <div className='lg:col-span-4 lg:h-[65vh] overflow-y-scroll scroll'>
-            <h4 className='text-lg md:text-xl font-bold'>
+          <div className='lg:col-span-4 w-full lg:h-[65vh] overflow-y-scroll scroll'>
+         <div className='h-[70px] flex items-center'>
+         <h4 className='text-lg md:text-xl lg:text-2xl font-bold flex items-center'>
               Analysis & Projections
             </h4>
-            <Separator className='h-[2px] my-1' />
-            <div className='p2 md:p-4 '>
+         </div>
+            <Separator className='h-[1px] my-1' />
+            <div className=' lg:p-4 '>
               <News />
             </div>
           </div>

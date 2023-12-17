@@ -66,11 +66,15 @@ body{
 .scroll ::-webkit-scrollbar {
   -webkit-appearance: none;
   width: 10px;
+  background-color: #ff0000;
+  /* @apply bg-secondary; */
 }
 
 .scroll ::-webkit-scrollbar-thumb {
   border-radius: 7px;
-  background-color: #bdbaba
+  /* background-color: #bdbaba */
+  background-color: #ff0000;
+  /* @apply bg-secondary; */
 }
  
 @layer base {
