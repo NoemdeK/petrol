@@ -31,7 +31,6 @@ export function Region({ selectedNames, setSelectedNames }: any) {
   const { selectedRegions, product } = useSelector(
     (state: RootState) => state.prices
   );
-  console.log(selectedRegions)
 
   return (
     <>
@@ -82,8 +81,6 @@ export function Region({ selectedNames, setSelectedNames }: any) {
                     onSelect={() => {
                         if (isSelected) {
                           setSelectedNames(selectedNames.filter((n: any) => n.label !== name.label));
-                          
-                          
                         } else {
                           setSelectedNames([...selectedNames, name]);
                         }

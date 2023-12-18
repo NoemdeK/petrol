@@ -36,6 +36,7 @@ const initialState: InitialStateProps = {
   selectedState: '',
   six__months: six_months_data,
   selectedRegions: [
+  { label: 'South East', value: 'SOUTH EAST' },
   ],
   error: null,
   period: 'Six months',

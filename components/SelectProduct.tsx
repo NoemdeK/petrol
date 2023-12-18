@@ -94,6 +94,7 @@ const SelectProduct = () => {
   const productstat = params?.get('product');
 
 
+
   const dispatch = useDispatch<AppDispatch>();
   const { selectedRegions } = useSelector((state: RootState) => state.prices);
   const regions = selectedRegions.map((_, idx) => {
@@ -148,10 +149,10 @@ const SelectProduct = () => {
   return (
     <Select
     onValueChange={handleSelectChange}
-    defaultValue={filteredData[0].label}
-    
+    defaultValue={productstat || 'PMS'}
+
     >
-      <SelectTrigger className='w-[180px]'>
+      <SelectTrigger className='w-[180px]' >
         <SelectValue placeholder='Select a Product' className='text-accent-foreground' />
       </SelectTrigger>
       <SelectContent>

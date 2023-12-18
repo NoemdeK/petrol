@@ -22,7 +22,6 @@ const Page = async () => {
 const result = data.data.result
   return (
     <div>
-      <HeaderStat />
       <div className='my-4'>
         <h4 className='font-bold text-black opacity-50 text-xl'>
           Data Repository

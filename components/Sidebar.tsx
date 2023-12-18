@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { BarChart4, Code, Database,  Settings, VideoIcon } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
 
@@ -19,7 +19,7 @@ const routes = [
     label: 'Raw Data',
     icon: Database,
     color: "text-green-700",
-    href: '/dashboard/raw-data',
+    href: '/dashboard/table/1',
   },
   {
     label: 'Settings',
@@ -30,6 +30,9 @@ const routes = [
 
 export const Sidebar = () => {
   const pathname = usePathname();
+  const router = useRouter()
+
+
 
   return (
     <div className="my-9 md:my-0 space-y-4 py-4 rounded-lg flex flex-col h-full bg-accent">

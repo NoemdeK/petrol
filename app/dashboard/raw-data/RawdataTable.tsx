@@ -41,6 +41,8 @@ import excel from "@/assets/excel.png"
 import xls from "@/assets/xls.png"
 import Image from "next/image"
 import { toast } from "@/components/ui/use-toast"
+import { useRouter } from "next/navigation"
+import usePaginationStore from "@/lib/usePage"
 
 // const data: Payment[] = [
 //   {
@@ -232,7 +234,7 @@ export const columns: ColumnDef<Payment>[] = [
   },
 ]
 
-export function RawDataTable({data}: any) {
+export function RawDataTable({data, page}: any) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -240,6 +242,8 @@ export function RawDataTable({data}: any) {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
+  const router = useRouter()
+  const { currentPage, goToNextPage, goToPreviousPage } = usePaginationStore();
 
   const table = useReactTable({
     data,
@@ -296,6 +300,8 @@ export function RawDataTable({data}: any) {
       console.error('Error:', error);
     }
   };
+
+ 
 
   return (
     <div className="w-full my-4">
@@ -359,23 +365,36 @@ export function RawDataTable({data}: any) {
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
+      <div className="flex-1 text-sm text-muted-foreground mt-2">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
+        </div>
+      <div className="flex items-center justify-end space-x-2 py-4">
+
+        <div className="flex flex-1 w-[100px] items-center text-sm font-medium">
+          Page {page} of{" "}
+          21
         </div>
         <div className="space-x-2">
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.previousPage()}
+            onClick={() => {
+              goToPreviousPage()
+              router.push(`/dashboard/table/${currentPage}`)
+            }}
+            disabled={page === 1}
           >
             Previous
           </Button>
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.nextPage()}
+            onClick={() => {
+              goToNextPage()
+              router.push(`/dashboard/table/${currentPage}`)
+            }}
+            disabled={page === 21}
           >
             Next
           </Button>
