@@ -69,13 +69,7 @@ export const Analytics = () => {
   const backgroundColorz = isNegativeChangez ? 'text-red-500' : 'text-green-600';
 
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  if(!mounted){
-    return null
-  }
+ 
 
   return (
     <main className='flex min-h-screen flex-col items-end justify-between  bg-background'>
@@ -118,7 +112,7 @@ export const Analytics = () => {
               </p>
             </div>
             <div className=' pb-2 md:pb-4'>
-              <FuelCharts />
+              {/* <FuelCharts /> */}
             </div>
           </div>
           <div className='lg:col-span-4 w-full lg:h-[65vh] overflow-y-scroll scroll'>

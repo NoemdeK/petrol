@@ -32,7 +32,7 @@ const Periodtab:React.FC<PeriodTabProps> = ({page, label, selected}) => {
         }
 
         const url = qs.stringifyUrl({
-            url: `/dashboard/raw-data/${page}`,
+            url: `/dashboard/analytics/${page}`,
             query: updatedQuery
         }, {
             skipNull: true

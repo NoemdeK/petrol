@@ -1,3 +1,4 @@
+"use client"
 import { RootState } from '@/redux/store';
 import React from 'react';
 import { useSelector } from 'react-redux';
@@ -16,10 +17,10 @@ function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ');
 }
 
-const AGO = () => {
+const AGO = ({resData}: any) => {
   const { selectedRegions } = useSelector((state: RootState) => state.prices);
 
-  const { resData } = useSelector((state: RootState) => state.AGO);
+  // const { resData } = useSelector((state: RootState) => state.AGO);
 
  
   const regions = selectedRegions.map((_, idx) => {
@@ -122,7 +123,9 @@ const AGO = () => {
 
   return (
     <div className=' md:pb-4 h-full'>
-      <Tab.Group defaultIndex={6} selectedIndex={7}>
+              <Max result={chartdata2} />
+
+      {/* <Tab.Group defaultIndex={6} selectedIndex={7}>
       <Tab.List className='flex gap-2 md:gap-4 text-[18px] text-slate-600'>
           <Tab
             className={({ selected }) =>
@@ -239,7 +242,7 @@ const AGO = () => {
             </div>
           </Tab.Panel>
         </Tab.Panels>
-      </Tab.Group>
+      </Tab.Group> */}
     </div>
   );
 };

@@ -7,14 +7,14 @@ import { useSession } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 
-const News = () => {
+const News = ({flag}: any) => {
   const params = useSearchParams()
   const {data} = useSession()
   const [datax, setDatax] = useState([]);
 
 
 
-  const flag = params.get("product")
+  // const flag = params.get("product")
   const token = data?.user.accessToken
 
 

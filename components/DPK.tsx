@@ -1,3 +1,4 @@
+"use client"
 import { RootState } from '@/redux/store';
 import React from 'react';
 import { useSelector } from 'react-redux';
@@ -11,15 +12,21 @@ import { FiveYears } from './FiveYears';
 import { YearOne } from './YearOne';
 import { YTD } from './YTD';
 import { filterDataByRegions, transformTipToChartData } from './functions';
+import { useSearchParams } from 'next/navigation';
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ');
 }
 
-const LPG = () => {
+const LPG = ({resData}: any) => {
   const { selectedRegions } = useSelector((state: RootState) => state.prices);
+  const searchParams = useSearchParams()
 
-  const { resData } = useSelector((state: RootState) => state.LPG);
+  const params = searchParams.get("period")
+
+  console.log(params)
+
+  // const { resData } = useSelector((state: RootState) => state.LPG);
   // console.log("LPG Data", resData)
 
   const regions = selectedRegions.map((_, idx) => {
@@ -113,127 +120,28 @@ const LPG = () => {
   });
 
   const chartdata2 = transformTipToChartData(groupedData);
+  let selectedComponent;
 
+  switch (params) {
+    case '1W':
+      selectedComponent = <Max result={chartdata2} />
+      ;
+      break;
+    case 'PMS':
+      selectedComponent = <Max result={chartdata2} />;
+      break;
+    case 'AGO':
+      selectedComponent = <Max result={chartdata2} />;
+      break;
+    case 'DPK':
+      selectedComponent = <Max result={chartdata2} />;
+      break;
+    default:
+      selectedComponent = <Max result={chartdata2} />; // Handle the case when product doesn't match any known type
+  }
   return (
     <div className=' md:pb-4 h-full'>
-      <Tab.Group defaultIndex={7}>
-      <Tab.List className='flex gap-2 md:gap-4 text-[18px] text-slate-600'>
-          <Tab
-            className={({ selected }) =>
-              classNames(
-                selected ? 'text-foreground font-bold' : 'text-accent-foregroundfont-normal'
-              )
-            }
-          >
-            1W
-          </Tab>
-          <Tab
-            className={({ selected }) =>
-              classNames(
-                selected ? 'text-secondary-foreground font-bold' : 'text-accent-foregroundfont-normal'
-              )
-            }
-          >
-            1M
-          </Tab>
-          <Tab
-            className={({ selected }) =>
-              classNames(
-                selected ? 'text-accent-foreground font-bold' : 'text-accent-foregroundfont-normal'
-              )
-            }
-          >
-            3M
-          </Tab>
-          <Tab
-            className={({ selected }) =>
-              classNames(
-                selected ? 'text-accent-foreground font-bold' : 'text-accent-foregroundfont-normal'
-              )
-            }
-          >
-            6M
-          </Tab>
-          <Tab
-            className={({ selected }) =>
-              classNames(
-                selected ? 'text-accent-foreground font-bold' : 'text-accent-foregroundfont-normal'
-              )
-            }
-          >
-            YTD
-          </Tab>
-          <Tab
-            className={({ selected }) =>
-              classNames(
-                selected ? 'text-accent-foreground font-bold' : 'text-accent-foregroundnt-normal'
-              )
-            }
-          >
-            1Y
-          </Tab>
-          <Tab
-            className={({ selected }) =>
-              classNames(
-                selected ? 'text-accent-foreground font-bold' : 'text-accent-foreground font-normal'
-              )
-            }
-          >
-            5Y
-          </Tab>
-          <Tab
-            className={({ selected }) =>
-              classNames(
-                selected ? 'text-accent-foreground font-bold' : 'text-accent-foreground font-normal'
-              )
-            }
-          >
-            Max
-          </Tab>
-        </Tab.List>
-        <Tab.Panels>
-          <Tab.Panel>
-            <div className='h-[300px] max-w-screen'>
-              <OneWeek result={chartdata2} />
-            </div>
-          </Tab.Panel>{' '}
-          <Tab.Panel>
-            <div className='h-[300px] max-w-screen'>
-              <OneMonth result={chartdata2} />
-            </div>
-          </Tab.Panel>{' '}
-          <Tab.Panel>
-            <div className='h-[300px] max-w-screen'>
-              <ThreeMonths result={chartdata2} />
-            </div>
-          </Tab.Panel>
-          <Tab.Panel>
-            <div className='h-[300px] max-w-screen'>
-              <SixMonths result={chartdata2} />
-            </div>
-          </Tab.Panel>
-          <Tab.Panel>
-            <div className='h-[300px] max-w-screen'>
-              <YTD result={chartdata2} />
-            </div>
-          </Tab.Panel>{' '}
-          <Tab.Panel>
-            <div className='h-[300px] max-w-screen'>
-              <YearOne result={chartdata2} />
-            </div>
-          </Tab.Panel>{' '}
-          <Tab.Panel>
-            <div className='h-[300px] max-w-screen'>
-              <FiveYears result={chartdata2} />
-            </div>
-          </Tab.Panel>
-          <Tab.Panel>
-            <div className='h-[300px] max-w-screen'>
-              <Max result={chartdata2} />
-            </div>
-          </Tab.Panel>
-        </Tab.Panels>
-      </Tab.Group>
+        <Max result={chartdata2} />
     </div>
   );
 };

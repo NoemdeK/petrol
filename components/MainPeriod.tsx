@@ -39,7 +39,7 @@ const MainPeriod = ({page}: any) => {
         },
     ]
   return (
-    <div>
+    <div className='space-x-4 flex'>
         {
             periods.map((item) => (
                 <Periodtab 

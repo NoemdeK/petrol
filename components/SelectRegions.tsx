@@ -76,8 +76,7 @@ export function Region({ selectedNames, setSelectedNames }: any) {
                 // const isSelected = selectedRegions.includes(name);
                 const isSelected = selectedNames.some((n: any) => n.label === name.label);
 
-                console.log(name);
-                console.log(selectedNames, "selectedNames");
+          
                 return (
                   <CommandItem
                     key={i}
