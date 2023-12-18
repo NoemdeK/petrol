@@ -9,7 +9,7 @@ const Resetpage = () => {
 
   useEffect(() => {
     if (sessionStatus === "authenticated") {
-      router.replace("/dashboard/analytics");
+      router.replace("/dashboard/analytics/PMS");
     }
   }, [sessionStatus, router]);
   return (

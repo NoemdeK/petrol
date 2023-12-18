@@ -107,7 +107,7 @@ const ClientComponent = ({stats, page} :any) => {
                 </div>
               </div>
               <p className='text-accent-foreground text-xs'>
-                Closed: {productData.closedDate && productData.closedDate}
+                Closed: {productData?.closedDate ? productData?.closedDate : ""}
               </p>
             </div>
     </div>

@@ -33,7 +33,7 @@ if(!posts|| posts.length < 1){
               className={`object-cover object-center h-full w-full `}
               height={128}
               src={
-                urlFor(item.mainImage).url()
+                urlFor(item?.mainImage).url()
               }
               width={128}
               
@@ -42,10 +42,10 @@ if(!posts|| posts.length < 1){
             </div>
             <div className='w-full space-y-1 py-2 md:py-0' >
               <h4 className='text-xs font-medium'>
-                {item.title}
+                {item?.title}
               </h4>
               <p className='text-[10px]'>
-                {item.description}
+                {item?.description}
               </p>
             </div>
           </div>

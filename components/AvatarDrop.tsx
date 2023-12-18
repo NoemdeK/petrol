@@ -33,7 +33,7 @@ const AvatarDrop = ({data}: any) => {
     <DropdownMenu>
     <DropdownMenuTrigger asChild>
         <Avatar>
-        <AvatarImage src={data.avatar} alt="@shadcn" />
+        <AvatarImage src={data?.avatar} alt="@shadcn" />
         <AvatarFallback>CN</AvatarFallback>
         </Avatar>
     </DropdownMenuTrigger>

@@ -45,9 +45,8 @@ const DashboardLayout =  async ({
   const data = await getData()
   const user = await getServerSession(authOptions);
   const me = await getMe(`${user?.user.accessToken}`)
-console.log(me, "ddddd")
 
-  const result = data.data
+  const result = data?.data
 
 
   return ( 
@@ -59,7 +58,7 @@ console.log(me, "ddddd")
           >
 
     <div className="h-full relative m-4">
-        <Navbar data={me.data} />
+        <Navbar data={me?.data} />
         <div className="flex gap-4 w-full"> 
             <div className="hidden md:flex h-full md:h-[90vh]  md:w-60 md:flex-col  md:fidxed md:inset-y-0 z-80">
                 <Sidebar />
