@@ -1,8 +1,11 @@
+import MainPeriod from '@/components/MainPeriod';
+import PMStest from '@/components/PMStest';
 import React from 'react'
+import ClientComponent from './ClientComponent';
 
 
-async function getAnalytics (params: string) {
-    const product = params
+async function getAnalytics (params: string, search: string){
+    const product = params || 'PMS'
     try {
       const regions = [
         'NORTH EAST',
@@ -27,7 +30,7 @@ async function getAnalytics (params: string) {
         }),
       };
 
-      const response = await fetch(`${url}?period=MAX`, requestOptions);
+      const response = await fetch(`${url}?period=${search || 'MAX'}`, requestOptions);
       // console.log(response.json()), "repso"
       const result = await response.json();
 
@@ -40,13 +43,18 @@ async function getAnalytics (params: string) {
   }
   
 
-const Productpage = async ({params}: any) => {
-    const data = await getAnalytics(params.product) 
-    console.log(params)
-
-    // console.log(data);
+const Productpage = async ({params,searchParams}: any) => {
+    const data = await getAnalytics(`${params.product}`, `${searchParams.period}`) 
+    console.log(params.product,searchParams.period) 
+    console.log(data, "kk");
   return (
-    <div>Productpage</div>
+    <div>
+      <MainPeriod page={params.product} />
+      <ClientComponent />
+      <div>
+        <PMStest resData={data} />
+      </div>
+    </div>
   )
 }
 

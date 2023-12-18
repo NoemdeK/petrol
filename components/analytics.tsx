@@ -103,10 +103,10 @@ export const Analytics = () => {
             <hr className='h-2 my-2' />
             <div className=' w-full h-20 p-2'>
               <div className='flex items-center gap-2 md:gap-4'>
-                <p className='text-2xl font-medium'>${productData?.currentPrice}</p>
+                <p className='text-2xl font-medium'>{productData?.currentPrice}</p>
                 <div className='flex'>
                   <p className={cn(' font-normal px-3 h-fit rounded-md text-white  text-sm', backgroundColor)}>
-                    {productData?.overallPricePercentChange}
+                    {productData?.overallPricePercentChange} <span className='text-xs'>%</span>
                   </p>
                   <p className={cn(' font-normal px-3 rounded-md  text-sm whitespace-nowrap', backgroundColorz)}>
                    {productData?.recentPricePercentChange}
