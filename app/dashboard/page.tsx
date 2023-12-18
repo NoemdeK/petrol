@@ -6,7 +6,7 @@ const Page = () => {
     const router = useRouter()
 
     useEffect(() => {
-      router.push('/dashboard/analytics')
+      router.push('/dashboard/analytics/PMS')
     }, [router])
   return (
     <div>

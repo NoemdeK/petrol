@@ -19,8 +19,8 @@ const HeaderStat = ({data}:any) => {
         }
       }
     const renderProduct = (productType:any, data:any) => {
-        const isNegativeChange = parseFloat(data.overallPricePercentChange) < 0;
-        const backgroundColor = isNegativeChange ? 'red' : 'transparent';
+      const isNegativeChange = parseFloat(data.overallPricePercentChange) < 0;
+      const isNegativeChangez = parseFloat(data.recentPricePercentChange) < 0;
       
         return (
           <div key={productType} className='p-2 bg-background border flex gap-2 rounded-md min-w-56 w-full cursor-pointer'>
@@ -40,8 +40,8 @@ const HeaderStat = ({data}:any) => {
                 </p>
             </div>
            <div className={cn('flex flex-col ml-auto font-medium', isNegativeChange ? "text-red-600": "text-green-600")}>
-                <p>{data.overallPricePercentChange}</p>
-                <p> {data.recentPricePercentChange}</p>
+                <p className={cn( isNegativeChange ? "text-red-600": "text-green-600")}>{data.overallPricePercentChange}</p>
+                <p className={cn( isNegativeChangez ? "text-red-600": "text-green-600")}>{data.recentPricePercentChange}</p>
            </div>
           </div>
         );

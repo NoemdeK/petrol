@@ -8,6 +8,11 @@ import DPK from '@/components/DPK';
 import { Separator } from '@/components/ui/separator';
 import News from '../News';
 
+import { groq } from "next-sanity"
+import { client } from "@/sanity/lib/client"
+
+
+
 
 async function getAnalytics (params: string | undefined, search: string){
   let product = 'PMS'; // Default value for product if params is undefined or invalid
@@ -60,22 +65,42 @@ async function getAnalytics (params: string | undefined, search: string){
   }
   
   async function getData() {
-    const res = await fetch(process.env.BACKEND_URL+'api/v1/petro-data/analysis/price-percentage-change')
-    // The return value is *not* serialized
-    // You can return Date, Map, Set, etc.
-   
-    if (!res.ok) {
-      // This will activate the closest `error.js` Error Boundary
-      throw new Error('Failed to fetch data')
+    try{
+      const res = await fetch(process.env.BACKEND_URL+'api/v1/petro-data/analysis/price-percentage-change')
+      return res.json()
+  
+    } catch(error: any){
+      console.log(error)
     }
-   
-    return res.json()
   }
 
+  const query = groq`
+  *[_type=="post"] {
+    ...,
+ 
+  } 
+`
+
+const fetchPosts = async () => {
+  try {
+    const posts = await client.fetch(query);
+    // Handle the fetched posts data
+    console.log('Fetched posts:', posts);
+    return posts;
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    return null;
+  }
+};
+// export const revalidate = 30
 
 const Productpage = async ({params,searchParams}: any) => {
+  const posts = await fetchPosts()
+
     const data = await getAnalytics(`${params.product}`, `${searchParams.period}`) 
     const dataa = await getData()
+
+    console.log(posts, "wwdddddw")
     const result = dataa
 
 
@@ -120,7 +145,7 @@ const Productpage = async ({params,searchParams}: any) => {
             </div>
               <Separator className='h-[1px] my-1' />
               <div className=''>
-                <News news={params.product} />
+                <News news={params.product} posts={posts} />
               </div>
             </div>
         </div>

@@ -96,7 +96,7 @@ const ClientComponent = ({stats, page} :any) => {
 
         <div className=' w-full h-20 p-2'>
               <div className='flex items-center gap-2 md:gap-4'>
-                <p className='text-2xl font-medium'>{productData?.currentPrice}</p>
+                <p className='text-2xl font-medium'> ₦{productData?.currentPrice}</p>
                 <div className='flex'>
                   <p className={cn(' font-normal px-3 h-fit rounded-md text-white  text-sm', backgroundColor)}>
                     {productData?.overallPricePercentChange} <span className='text-xs'>%</span>
@@ -107,7 +107,7 @@ const ClientComponent = ({stats, page} :any) => {
                 </div>
               </div>
               <p className='text-accent-foreground text-xs'>
-                Closed: {productData.closedDate}
+                Closed: {productData.closedDate && productData.closedDate}
               </p>
             </div>
     </div>
