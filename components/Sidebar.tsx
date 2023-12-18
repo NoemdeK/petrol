@@ -13,7 +13,7 @@ const routes = [
     label: 'Analytics',
     icon:  BarChart4,
     color: "text-green-700",
-    href: '/dashboard/analytics',
+    href: '/dashboard/analytics/PMS',
   },
   {
     label: 'Raw Data',
