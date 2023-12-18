@@ -78,8 +78,8 @@ body{
 }
 
 
-.text-tremor-default, .text-tremor-content{
-  text-transform: capitalize;
+.tremor-Legend-legendItem, .text-tremor-default, .text-tremor-content{
+  text-transform: capitalize !important;
 }
  
 @layer base {

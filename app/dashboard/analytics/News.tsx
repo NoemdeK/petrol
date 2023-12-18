@@ -56,11 +56,11 @@ if(datax.length < 1){
     <div className='space-y-4'>
       {
         datax.map((item: any, i) => (
-          <div key={i} className='flex items-center gap-2 cursor-pointer rounded-md transition-all hover:scale-95 bg-muted p-1'>
-            <div  className="bg-muted w-32 h-32 flex items-center">
-              <img src={item.image} alt={item.title} className='aspect-square object-cover rounded-md' />
+          <div key={i} className='flex  flex-col md:flex-row items-center gap-2 cursor-pointer rounded-md transition-all hover:scale-95 bg-muted p-1'>
+            <div  className="bg-muted md:w-32 md:h-32 h-40 w-full flex items-center">
+              <img src={item.image} alt={item.title} className='aspect-square object-cover rounded-md h-full w-full' />
             </div>
-            <div className='w-full space-y-1' >
+            <div className='w-full space-y-1 py-2 md:py-0' >
               <h4 className='text-xs font-medium'>
                 {item.title}
               </h4>

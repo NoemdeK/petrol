@@ -72,12 +72,15 @@ export function Region({ selectedNames, setSelectedNames }: any) {
           <CommandList className="">
             <CommandEmpty>No names found.</CommandEmpty>
             <CommandGroup>
-              {regionalOptions.map((name: any) => {
-                const isSelected = selectedNames.includes(name);
-                console.log(isSelected, "name", name);
+              {regionalOptions.map((name: any, i: number) => {
+                // const isSelected = selectedRegions.includes(name);
+                const isSelected = selectedNames.some((n: any) => n.label === name.label);
+
+                console.log(name);
+                console.log(selectedNames, "selectedNames");
                 return (
                   <CommandItem
-                    key={name.label}
+                    key={i}
                     onSelect={() => {
                         if (isSelected) {
                           setSelectedNames(selectedNames.filter((n: any) => n.label !== name.label));

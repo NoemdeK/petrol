@@ -79,8 +79,8 @@ export const Analytics = () => {
 
   return (
     <main className='flex min-h-screen flex-col items-end justify-between  bg-background'>
-      <div className=' flex flex-col  min-h-screen w-full px-4 '>
-        <div className='grid grid-cols-1 lg:grid-cols-12 w-full gap-4  md:gap-12 flex-1 p-4'>
+      <div className=' flex flex-col  min-h-screen w-full  md:px-4 '>
+        <div className='grid grid-cols-1 lg:grid-cols-12 w-full gap-4  md:gap-12 flex-1 p-2 md:p-4'>
           <div className='flex flex-col flex-1 w-full lg:col-span-8 '>
             <div className='flex flex-col justify-between md:items-end gap-2 md:flex-row'>
               <div className=''>
