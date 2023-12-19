@@ -79,7 +79,7 @@ export function LoginAccount() {
               })
           
             // Redirect the user to the desired location
-            router.push('/dashboard/analytics');
+            router.push('/dashboard/analytics/PMS');
           }
         } catch (error: any) {
           // Handle unexpected errors

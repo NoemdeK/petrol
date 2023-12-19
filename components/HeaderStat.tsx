@@ -40,7 +40,7 @@ const HeaderStat = ({data}:any) => {
                 </p>
             </div>
            <div className={cn('flex flex-col ml-auto font-medium', isNegativeChange ? "text-red-600": "text-green-600")}>
-                <p className={cn( isNegativeChange ? "text-red-600": "text-green-600")}>{data.overallPricePercentChange}</p>
+                <p className={cn( isNegativeChange ? "text-red-600": "text-green-600")}>{data.overallPricePercentChange}%</p>
                 <p className={cn( isNegativeChangez ? "text-red-600": "text-green-600")}>{data.recentPricePercentChange}</p>
            </div>
           </div>
