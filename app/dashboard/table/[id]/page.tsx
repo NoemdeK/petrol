@@ -55,7 +55,6 @@ async function getData(id:number) {
   const Page = async ({params}: any) => {
     const data = await getData(params.id)
     const dassd = await getAnalytics()
-    console.log(dassd)
 
     const page = parseInt(params.id, 10);
 

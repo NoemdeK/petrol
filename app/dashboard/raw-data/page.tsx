@@ -18,7 +18,6 @@ async function getData() {
 const Page = async () => {
   const data = await getData()
 
-  console.log(data.data.result)
 const result = data.data.result
   return (
     <div>

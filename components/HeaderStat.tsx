@@ -36,14 +36,14 @@ const HeaderStat = ({data}:any) => {
                         <p className='rotate-180 text-green-600'>▼</p>
                     </div>
                 }
-                <p className='text-xs font-medium w-32 flex justify-between flex-col'>
+                <p className='text-xs md:text-sm font-medium w-32 flex justify-between flex-col'>
                     {getFullName(productType)}
                     <br />
-                    <span>{data?.currentPrice}</span>
+                    <span className='text'>₦{data?.currentPrice}</span>
                 </p>
 
             </div>
-           <div className={cn('flex flex-col ml-auto font-medium text-sm')}>
+           <div className={cn('flex flex-col justify-between text-right ml-auto font-medium text-sm')}>
                 <p className={cn( isNegativeChange ? "text-red-600": "text-green-600")}>{data.overallPricePercentChange}%</p>
                 <p className={cn( isNegativeChangez ? "text-red-600": "text-green-600")}>{data.recentPricePercentChange}</p>
            </div>

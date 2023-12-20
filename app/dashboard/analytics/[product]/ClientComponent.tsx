@@ -59,11 +59,14 @@ const ClientComponent = ({stats, page, overall, recent} :any) => {
       }
       const productData = getProductData(product, stats?.data);
 
-      const isNegativeChange = parseFloat(productData?.overallPricePercentChange) < 0;
+
+      const isNegativeChange = parseFloat(overall) < 0;
       const backgroundColor = isNegativeChange ? 'bg-red-400' : 'bg-green-600';
 
-      const isNegativeChangez = parseFloat(productData?.recentPricePercentChange) < 0;
+      const isNegativeChangez = parseFloat(recent) < 0;
       const backgroundColorz = isNegativeChangez ? 'text-red-500' : 'text-green-600';
+
+
 
       useEffect(() => {
         setIsClient(true)
