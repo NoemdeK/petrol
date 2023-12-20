@@ -51,6 +51,9 @@ async function getData(id:number) {
       console.error('Error:', error.message);
     }
   }
+
+export const revalidate = 0
+
   
   const Page = async ({params}: any) => {
     const data = await getData(params.id)

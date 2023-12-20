@@ -5,6 +5,7 @@ import ClientComponent from './ClientComponent';
 import LPG from '@/components/LPG';
 import AGO from '@/components/AGO';
 import DPK from '@/components/DPK';
+import ICE from '@/components/ICE';
 import { Separator } from '@/components/ui/separator';
 import News from '../News';
 
@@ -52,7 +53,7 @@ async function getAnalytics (params: string | undefined, search: string){
         }),
       };
 
-      const response = await fetch(`${url}${periodParam}`, requestOptions);
+      const response = await fetch(`${url}${periodParam}`, requestOptions, );
       // console.log(response.json()), "repso"
       const result = await response.json();
 
@@ -91,7 +92,7 @@ const fetchPosts = async () => {
     return null;
   }
 };
-// export const revalidate = 30
+export const revalidate = 0
 
 const Productpage = async ({params,searchParams}: any) => {
   const posts = await fetchPosts()
@@ -123,7 +124,7 @@ const Productpage = async ({params,searchParams}: any) => {
         selectedComponent = <DPK resData={data} />;
         break;
         case 'ICE':
-          selectedComponent = <DPK resData={data} />;
+          selectedComponent = <ICE resData={data} />;
           break;
       default:
         selectedComponent = <PMStest data={data} />; // Handle the case when product doesn't match any known type
