@@ -113,11 +113,16 @@ const PMStest = ({resData}: any) => {
   });
 
   const chartdata2 = transformTipToChartData(groupedData);
+  const data  = chartdata2.sort((a, b) => {
+    //@ts-ignore
+    return new Date(a.date) - new Date(b.date);
+  });
 
 
   return (
-    <div className=' md:pb-4 h-full'>
-        <Max result={chartdata2} />
+    <div className=' md:pb-4  h-full'>
+        <Max result={data} />
+
     </div>
   );
 };

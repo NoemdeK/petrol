@@ -119,11 +119,16 @@ const AGO = ({resData}: any) => {
   });
 
   const chartdata2 = transformTipToChartData(groupedData);
-  
+  const data  = chartdata2.sort((a, b) => {
+    //@ts-ignore
+    return new Date(a.date) - new Date(b.date);
+  });
+
 
   return (
-    <div className=' md:pb-4 h-full'>
-              <Max result={chartdata2} />
+    <div className=' md:pb-4  h-full'>
+        <Max result={data} />
+
 
       {/* <Tab.Group defaultIndex={6} selectedIndex={7}>
       <Tab.List className='flex gap-2 md:gap-4 text-[18px] text-slate-600'>
