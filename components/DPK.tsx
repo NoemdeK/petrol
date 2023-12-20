@@ -18,7 +18,7 @@ function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ');
 }
 
-const LPG = ({resData}: any) => {
+const DPK = ({resData}: any) => {
   const { selectedRegions } = useSelector((state: RootState) => state.prices);
   const searchParams = useSearchParams()
 
@@ -26,11 +26,11 @@ const LPG = ({resData}: any) => {
 
   console.log(params)
 
-  // const { resData } = useSelector((state: RootState) => state.LPG);
-  // console.log("LPG Data", resData)
+  // const { resData } = useSelector((state: RootState) => state.DPK);
+  // console.log("DPK Data", resData)
 
   const regions = selectedRegions.map((_, idx) => {
-    return _.label.toUpperCase();
+    return _.label;
   });
 
   const filteredData = filterDataByRegions(resData, regions);
@@ -51,7 +51,7 @@ const LPG = ({resData}: any) => {
   interface PeriodData {
     sum: number;
     count: number;
-    averages: { Region: string; LPG: number }[];
+    averages: { Region: string; DPK: number }[];
   }
 
   // Create an object to store sums and counts for each period
@@ -59,20 +59,20 @@ const LPG = ({resData}: any) => {
 
   // Loop through the data array to calculate sums and counts for each period
   filteredData.forEach((item: any) => {
-    const { Region, LPG, Period } = item;
+    const { Region, DPK, Period } = item;
 
     if (!periodData[Period]) {
       // Initialize sums and counts for the period
       periodData[Period] = { sum: 0, count: 0, averages: [] };
     }
 
-    // Add LPG value to the sum
-    periodData[Period].sum += LPG;
+    // Add DPK value to the sum
+    periodData[Period].sum += DPK;
     // Increment the count
     periodData[Period].count += 1;
 
-    // Store the region and LPG for later calculation of averages
-    periodData[Period].averages.push({ Region, LPG });
+    // Store the region and DPK for later calculation of averages
+    periodData[Period].averages.push({ Region, DPK });
   });
 
   // Now calculate averages for each region within each period in groupedData
@@ -83,26 +83,26 @@ const LPG = ({resData}: any) => {
     interface PeriodData {
       sum: number;
       count: number;
-      averages: { Region: string; LPG: number }[];
+      averages: { Region: string; DPK: number }[];
     }
 
     // Create an object to store sums and counts for each period
     const periodData: Record<string, PeriodData> = {};
     regionData.forEach((item: any) => {
-      const { Region, LPG, Period } = item;
+      const { Region, DPK, Period } = item;
 
       if (!periodData[Period]) {
         // Initialize sums and counts for the period
         periodData[Period] = { sum: 0, count: 0, averages: [] };
       }
 
-      // Add LPG value to the sum
-      periodData[Period].sum += LPG;
+      // Add DPK value to the sum
+      periodData[Period].sum += DPK;
       // Increment the count
       periodData[Period].count += 1;
 
-      // Store the region and LPG for later calculation of averages
-      periodData[Period].averages.push({ Region, LPG });
+      // Store the region and DPK for later calculation of averages
+      periodData[Period].averages.push({ Region, DPK });
       // Replace the existing item with the new object
       // groupedData[region][groupedData[region].indexOf(item)] = newItem;
     });
@@ -120,25 +120,7 @@ const LPG = ({resData}: any) => {
   });
 
   const chartdata2 = transformTipToChartData(groupedData);
-  let selectedComponent;
 
-  switch (params) {
-    case '1W':
-      selectedComponent = <Max result={chartdata2} />
-      ;
-      break;
-    case 'PMS':
-      selectedComponent = <Max result={chartdata2} />;
-      break;
-    case 'AGO':
-      selectedComponent = <Max result={chartdata2} />;
-      break;
-    case 'DPK':
-      selectedComponent = <Max result={chartdata2} />;
-      break;
-    default:
-      selectedComponent = <Max result={chartdata2} />; // Handle the case when product doesn't match any known type
-  }
   return (
     <div className=' md:pb-4 h-full'>
         <Max result={chartdata2} />
@@ -146,4 +128,4 @@ const LPG = ({resData}: any) => {
   );
 };
 
-export default LPG;
+export default DPK;

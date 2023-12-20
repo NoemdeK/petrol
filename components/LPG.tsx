@@ -25,7 +25,7 @@ const LPG = ({resData}: any) => {
 
 
   const regions = selectedRegions.map((_, idx) => {
-    return _.label.toUpperCase();
+    return _.label;
   });
   console.log(regions);
 

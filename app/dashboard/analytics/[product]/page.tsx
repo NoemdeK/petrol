@@ -30,12 +30,12 @@ async function getAnalytics (params: string | undefined, search: string){
     }
     try {
       const regions = [
-        'NORTH EAST',
-        'NORTH WEST',
-        'SOUTH SOUTH',
-        'SOUTH WEST',
-        'SOUTH EAST',
-        'NORTH CENTRAL',
+        'North East',
+        'North West',
+        'South South',
+        'South West',
+        'South East',
+        'North Central',
       ];
 
       const url = 'https://petrodata.zainnovations.com/api/v1/petro-data/analysis';
@@ -85,7 +85,6 @@ const fetchPosts = async () => {
   try {
     const posts = await client.fetch(query);
     // Handle the fetched posts data
-    console.log('Fetched posts:', posts);
     return posts;
   } catch (error) {
     console.error('Error fetching posts:', error);
@@ -97,11 +96,13 @@ const fetchPosts = async () => {
 const Productpage = async ({params,searchParams}: any) => {
   const posts = await fetchPosts()
 
-    const data = await getAnalytics(`${params.product}`, `${searchParams.period}`) 
+    const main = await getAnalytics(`${params.product}`, `${searchParams.period}`) 
     const dataa = await getData()
 
-    console.log(posts, "wwdddddw")
+    const data = main.analysis
+
     const result = dataa
+
 
 
 
@@ -121,6 +122,9 @@ const Productpage = async ({params,searchParams}: any) => {
       case 'DPK':
         selectedComponent = <DPK resData={data} />;
         break;
+        case 'ICE':
+          selectedComponent = <DPK resData={data} />;
+          break;
       default:
         selectedComponent = <PMStest data={data} />; // Handle the case when product doesn't match any known type
     }
@@ -129,7 +133,7 @@ const Productpage = async ({params,searchParams}: any) => {
       <div className='md:pb-4 px-2 h-full'>
         <div className='grid grid-cols-1 lg:grid-cols-12 w-full gap-4  md:gap-12 flex-1 p-2 md:p-4'>
           <div className='flex flex-col flex-1 w-full lg:col-span-8 '>
-            <ClientComponent  stats={result} page={params.product} />
+            <ClientComponent  stats={result} page={params.product} overall={main?.overallPriceChange} recent={main?.recentPriceChange} />
   
             <MainPeriod page={params.product} />
 

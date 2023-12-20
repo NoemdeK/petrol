@@ -37,6 +37,9 @@ async function getMe(header: string) {
 
  
 }
+
+export const revalidate = 0 // revalidate at most every hour
+
 const DashboardLayout =  async ({
   children,
 }: {

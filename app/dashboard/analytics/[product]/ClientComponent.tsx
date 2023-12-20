@@ -21,7 +21,7 @@ interface Dataset {
   }
 
   
-const ClientComponent = ({stats, page} :any) => {
+const ClientComponent = ({stats, page, overall, recent} :any) => {
   const [isClient, setIsClient] = useState(false)
  
 
@@ -99,10 +99,10 @@ const ClientComponent = ({stats, page} :any) => {
                 <p className='text-2xl font-medium'> ₦{productData?.currentPrice}</p>
                 <div className='flex'>
                   <p className={cn(' font-normal px-3 h-fit rounded-md text-white  text-sm', backgroundColor)}>
-                    {productData?.overallPricePercentChange} <span className='text-xs'>%</span>
+                    {overall} <span className='text-xs'>%</span>
                   </p>
                   <p className={cn(' font-normal px-3 rounded-md  text-sm whitespace-nowrap', backgroundColorz)}>
-                   {productData?.recentPricePercentChange}
+                   {recent}
                   </p>
                 </div>
               </div>

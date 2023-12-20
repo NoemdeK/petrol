@@ -1,3 +1,4 @@
+"use client"
 import { cn } from '@/lib/utils';
 import React from 'react'
 
@@ -35,11 +36,14 @@ const HeaderStat = ({data}:any) => {
                         <p className='rotate-180 text-green-600'>▼</p>
                     </div>
                 }
-                <p className='text-sm font-semibold w-32'>
+                <p className='text-xs font-medium w-32 flex justify-between flex-col'>
                     {getFullName(productType)}
+                    <br />
+                    <span>{data?.currentPrice}</span>
                 </p>
+
             </div>
-           <div className={cn('flex flex-col ml-auto font-medium', isNegativeChange ? "text-red-600": "text-green-600")}>
+           <div className={cn('flex flex-col ml-auto font-medium text-sm')}>
                 <p className={cn( isNegativeChange ? "text-red-600": "text-green-600")}>{data.overallPricePercentChange}%</p>
                 <p className={cn( isNegativeChangez ? "text-red-600": "text-green-600")}>{data.recentPricePercentChange}</p>
            </div>

@@ -33,7 +33,7 @@ export const Max = ({ result }: { result: any }) => {
   const { selectedRegions } = useSelector((state: RootState) => state.prices);
 
   const regions = selectedRegions.map((_, idx: number) => {
-    return _.label.toUpperCase();
+    return _.label;
   });
   return (
     <div className='h-full max-w-screen'>
