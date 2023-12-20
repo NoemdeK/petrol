@@ -20,17 +20,14 @@ function classNames(...classes: any) {
 const PMStest = ({resData}: any) => {
   const { selectedRegions } = useSelector((state: RootState) => state.prices);
 
-  console.log(resData, "rsData")
   
   const regions = selectedRegions.map((_, idx) => {
     return _.label;
   });
 
-  console.log(regions)
 
   const filteredData = filterDataByRegions(resData, regions);
 
-  console.log(filteredData, "filter")
 
   const groupedData = filteredData.reduce((result: any, item: any) => {
     const region = item.Region;
@@ -117,7 +114,6 @@ const PMStest = ({resData}: any) => {
 
   const chartdata2 = transformTipToChartData(groupedData);
 
-  console.log(chartdata2, "dds")
 
   return (
     <div className=' md:pb-4 h-full'>
