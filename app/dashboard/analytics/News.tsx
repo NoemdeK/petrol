@@ -1,8 +1,10 @@
 "use client"
 
 
+import { Badge } from '@/components/ui/badge';
 import urlFor from '@/sanity/lib/urlFor';
 import axios from 'axios';
+import { format } from 'date-fns';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 
@@ -41,11 +43,16 @@ if(!posts|| posts.length < 1){
               {/* <img src={item.image} alt={item.title} className='aspect-square object-cover rounded-md h-full w-full' /> */}
             </div>
             <div className='w-full space-y-1 py-2 md:py-0' >
-              <h4 className='text-xs font-medium'>
+              <h4 className='text-sm font-medium'>
                 {item?.title}
+                <Badge className='ml-2'>{item.source || "Noemdek"}</Badge>
               </h4>
+              
               <p className='text-[10px]'>
                 {item?.description}
+              </p>
+              <p className='text-xs font-medium'>
+                {format(new Date(item.publishedAt), "dd MMMM, yyyy.")}
               </p>
             </div>
           </div>

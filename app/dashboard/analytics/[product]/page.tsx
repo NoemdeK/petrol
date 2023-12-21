@@ -15,7 +15,7 @@ import { client } from "@/sanity/lib/client"
 
 
 
-async function getAnalytics (params: string | undefined, search: string){
+async function getAnalytics(params: string | undefined, search: string) {
   let product = 'PMS'; // Default value for product if params is undefined or invalid
 
   if (params !== undefined && ['PMS', 'LPG', 'ICE', 'DPK', "AGO"].includes(params)) {
@@ -24,58 +24,58 @@ async function getAnalytics (params: string | undefined, search: string){
 
   let periodParam = '';
 
-    if (search === undefined || !['1W', '1M', 'MAX', '1Y', "YTD", "3M", "6M", "5Y"].includes(search)) {
-      periodParam = '?period=MAX'; // Default to 'MAX' if undefined or invalid search value
-    } else {
-      periodParam = `?period=${search}`;
-    }
-    try {
-      const regions = [
-        'North East',
-        'North West',
-        'South South',
-        'South West',
-        'South East',
-        'North Central',
-      ];
-
-      const url = 'https://petrodata.zainnovations.com/api/v1/petro-data/analysis';
-      const headers = new Headers();
-      headers.append('Content-Type', 'application/json');
-      // headers.append('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc4N2QzMTI1NWIxYTA1ZGZhZDQ4MTIiLCJyb2xlIjoicnd4X3VzZXIiLCJpYXQiOjE3MDIzOTUyMDF9.iZXOHmjSEBIG-kBJscRKMCd9WpZZEdRXGzN7_yDxTIg');
-
-      const requestOptions = {
-        method: 'POST',
-        headers,
-        body: JSON.stringify({
-          product,
-          regions,
-        }),
-      };
-
-      const response = await fetch(`${url}${periodParam}`, requestOptions, );
-      // console.log(response.json()), "repso"
-      const result = await response.json();
-
-      return result.data;
-      
-      
-    } catch (error: any) {
-      console.error('Error:', error.message);
-    }
+  if (search === undefined || !['1W', '1M', 'MAX', '1Y', "YTD", "3M", "6M", "5Y"].includes(search)) {
+    periodParam = '?period=MAX'; // Default to 'MAX' if undefined or invalid search value
+  } else {
+    periodParam = `?period=${search}`;
   }
-  
-  async function getData() {
-    try{
-      const res = await fetch(process.env.BACKEND_URL+'api/v1/petro-data/analysis/price-percentage-change')
-      return res.json()
-  
-    } catch(error: any){
-      console.log(error)
-    }
-  }
+  try {
+    const regions = [
+      'North East',
+      'North West',
+      'South South',
+      'South West',
+      'South East',
+      'North Central',
+    ];
 
-  const query = groq`
+    const url = 'https://petrodata.zainnovations.com/api/v1/petro-data/analysis';
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    // headers.append('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc4N2QzMTI1NWIxYTA1ZGZhZDQ4MTIiLCJyb2xlIjoicnd4X3VzZXIiLCJpYXQiOjE3MDIzOTUyMDF9.iZXOHmjSEBIG-kBJscRKMCd9WpZZEdRXGzN7_yDxTIg');
+
+    const requestOptions = {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        product,
+        regions,
+      }),
+    };
+
+    const response = await fetch(`${url}${periodParam}`, requestOptions,);
+    // console.log(response.json()), "repso"
+    const result = await response.json();
+
+    return result.data;
+
+
+  } catch (error: any) {
+    console.error('Error:', error.message);
+  }
+}
+
+async function getData() {
+  try {
+    const res = await fetch(process.env.BACKEND_URL + 'api/v1/petro-data/analysis/price-percentage-change')
+    return res.json()
+
+  } catch (error: any) {
+    console.log(error)
+  }
+}
+
+const query = groq`
   *[_type=="post"] {
     ...,
  
@@ -92,50 +92,50 @@ const fetchPosts = async () => {
     return null;
   }
 };
-export const revalidate = 0
+export const revalidate = 3600
 
-const Productpage = async ({params,searchParams}: any) => {
+const Productpage = async ({ params, searchParams }: any) => {
   const posts = await fetchPosts()
 
-    const main = await getAnalytics(`${params.product}`, `${searchParams.period}`) 
-    const dataa = await getData()
+  const main = await getAnalytics(`${params.product}`, `${searchParams.period}`)
+  const dataa = await getData()
 
-    const data = main.analysis
+  const data = main.analysis
 
-    const result = dataa
-
-
+  const result = dataa
 
 
 
-    let selectedComponent;
 
-    switch (params.product) {
-      case 'LPG':
-        selectedComponent = <LPG resData={data} />;
-        break;
-      case 'PMS':
-        selectedComponent = <PMStest resData={data} />;
-        break;
-      case 'AGO':
-        selectedComponent = <AGO resData={data} />;
-        break;
-      case 'DPK':
-        selectedComponent = <DPK resData={data} />;
-        break;
-        case 'ICE':
-          selectedComponent = <ICE resData={data} />;
-          break;
-      default:
-        selectedComponent = <PMStest data={data} />; // Handle the case when product doesn't match any known type
-    }
+
+  let selectedComponent;
+
+  switch (params.product) {
+    case 'LPG':
+      selectedComponent = <LPG resData={data} />;
+      break;
+    case 'PMS':
+      selectedComponent = <PMStest resData={data} />;
+      break;
+    case 'AGO':
+      selectedComponent = <AGO resData={data} />;
+      break;
+    case 'DPK':
+      selectedComponent = <DPK resData={data} />;
+      break;
+    case 'ICE':
+      selectedComponent = <ICE resData={data} />;
+      break;
+    default:
+      selectedComponent = <PMStest data={data} />; // Handle the case when product doesn't match any known type
+  }
   return (
     <div>
-      <div className='md:pb-4 px-2 h-full'>
-        <div className='grid grid-cols-1 lg:grid-cols-12 w-full gap-4  md:gap-12 flex-1 p-2 md:p-4'>
+      <div className='md:pb-4  h-full'>
+        <div className='grid grid-cols-1 lg:grid-cols-12 w-full gap-4  md:gap-12 flex-1 p-2 md:py-4'>
           <div className='flex flex-col flex-1 w-full lg:col-span-8 '>
-            <ClientComponent  stats={result} page={params.product} overall={main?.overallPriceChange} recent={main?.recentPriceChange} />
-  
+            <ClientComponent stats={result} page={params.product} overall={main?.overallPriceChange} recent={main?.recentPriceChange} />
+
             <MainPeriod page={params.product} />
 
             <div className=' pb-2 md:pb-4'>
@@ -144,15 +144,15 @@ const Productpage = async ({params,searchParams}: any) => {
           </div>
           <div className='lg:col-span-4 w-full lg:h-[65vh] overflow-y-scroll scroll'>
             <div className=' flex items-center'>
-            <h4 className='h-[70px] text-lg md:text-xl lg:text-2xl font-semibold flex items-end'>
-                  Analysis & Projections
-                </h4>
+              <h4 className='h-[70px] text-sm md:text-base font-semibold flex items-end'>
+                Analysis & Projections
+              </h4>
             </div>
-              <Separator className='h-[1px] my-1' />
-              <div className=''>
-                <News news={params.product} posts={posts} />
-              </div>
+            <Separator className='h-[1px] my-1' />
+            <div className=''>
+              <News news={params.product} posts={posts} />
             </div>
+          </div>
         </div>
       </div>
     </div>

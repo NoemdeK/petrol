@@ -35,9 +35,12 @@ export const Max = ({ result }: { result: any }) => {
   const regions = selectedRegions.map((_, idx: number) => {
     return _.label;
   });
+
+  console.log(result)
   return (
     <div className='h-full max-w-screen'>
       <AreaChart
+      
         className='h-[300px] mt-4'
         data={result}
         index='date'

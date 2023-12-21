@@ -10,18 +10,6 @@ import { cn } from "@/lib/utils";
 
 const routes = [
   {
-    label: 'Analytics',
-    icon:  BarChart4,
-    color: "text-green-700",
-    href: '/dashboard/analytics/PMS',
-  },
-  {
-    label: 'Raw Data',
-    icon: Database,
-    color: "text-green-700",
-    href: '/dashboard/table/1',
-  },
-  {
     label: 'Settings',
     icon: Settings,
     href: '/dashboard/settings',
@@ -39,6 +27,30 @@ export const Sidebar = () => {
       <div className="px-3 py-2 flex-1">
 
         <div className="space-y-1">
+        <Link
+              href={'/dashboard/analytics/PMS'}
+              className={cn(
+                "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition",
+                pathname.includes("analytics") ? "text-black font-bold bg-white/50 " : "text-accent-foreground",
+              )}
+            >
+              <div className="flex items-center flex-1">
+                <BarChart4 className={cn("h-5 w-5 mr-3")} />
+                Analytics
+              </div>
+            </Link>
+            <Link
+              href={'/dashboard/table/1'}
+              className={cn(
+                "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition",
+                pathname.includes("table") ? "text-black font-bold bg-white/50 " : "text-accent-foreground",
+              )}
+            >
+              <div className="flex items-center flex-1">
+                <Database className={cn("h-5 w-5 mr-3")} />
+                Raw Data
+              </div>
+            </Link>
           {routes.map((route) => (
             <Link
               key={route.href} 
