@@ -38,7 +38,7 @@ const Periodtab:React.FC<PeriodTabProps> = ({page, label, selected}) => {
             skipNull: true
         })
         router.push(url)
-    },[label, router, params])
+    },[label, router, params, page])
   return (
     <div onClick={handleClick} className={cn('cursor-pointer', selected && 'font-bold')}>
         {label}
