@@ -14,9 +14,11 @@ const HeaderStat = ({data}:any) => {
           return 'Dual Purpose Kerosene';
         } else if (productType === 'LPGData') {
           return 'Liquefied Petroleum Gas';
-        } else {
+        } else if (productType === 'ICEData') {
           // Handle unknown productType
-          return 'Unknown Product';
+          return 'ICE Brent Crude';
+        } else {
+          return 'Unknown Product Type';
         }
       }
     const renderProduct = (productType:any, data:any) => {

@@ -52,7 +52,7 @@ export function NotificationsForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 py-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-2">
         <div>
           <div className="space-y-4">
             <FormField
