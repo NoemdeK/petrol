@@ -21,7 +21,7 @@ export function UserPop({data}: any) {
   return (
     <Card className="w-[350px]">
       <CardHeader>
-        <CardTitle className="text-center">Hello {data?.firstName} 👋</CardTitle>
+        <CardTitle className="text-center text-lg">Hello {data?.firstName} 👋</CardTitle>
         <CardDescription className="text-sm text-center">{data?.email}</CardDescription>
       </CardHeader>
  

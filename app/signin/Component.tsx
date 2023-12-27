@@ -65,7 +65,7 @@ export function LoginAccount() {
             password: values.password,
             redirect: false,
           });
-        console.log(response)
+        console.log(response, "response")
 
       
           if (response?.error) {
@@ -79,7 +79,7 @@ export function LoginAccount() {
               })
           
             // Redirect the user to the desired location
-            router.push('/dashboard/analytics/PMS');
+            // router.push('/dashboard/analytics/PMS');
           }
         } catch (error: any) {
           // Handle unexpected errors

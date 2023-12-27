@@ -95,6 +95,14 @@ body{
   }
 }
 
+ol {
+  list-style-type: decimal; /* Ensure decimal numbering */
+  margin-left: 20px; /* Adjust the left margin as needed */
+}
+ol li{
+  text-align: 0.85rem;
+}
+
 .color{
   color: #ff0000;
 }

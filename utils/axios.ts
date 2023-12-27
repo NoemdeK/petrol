@@ -49,3 +49,10 @@ export const fetchData = (endpoint: string) => {
   const { data, error } = useSWR(endpoint, fetcher, { refreshInterval: 1000 });
   return { data, error };
 };
+
+export const MultiTransportDekApi = axios.create({
+  baseURL: baseURL,
+  headers: {
+    'Content-Type': 'multipart/form-data;',
+  },
+});

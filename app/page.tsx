@@ -86,7 +86,7 @@ export default function Home() {
                   verification challenges
                 </h4>
                 <div className='flex items-center gap-4 w-full'>
-                  <p className='text-lg md:text-xl  text-left font-medium'>Check out our tools</p>
+                  <p className='text-lg md:text-xl text-black  text-left font-medium'>Check out our tools</p>
                   <Link href={'/signin'} className='bg-white p-2 border rounded-md'>
                     <Logo />
                   </Link>
