@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Logo from './sections/Logo'
 import LogoDash from './sections/LogoDash'
 import { ModeToggle } from './mode'
+import { MobileSidebarData } from './mobilr-sidebardata'
 
 const Navbar = ({data}: any) => {
   if(!data){
@@ -18,7 +19,14 @@ const Navbar = ({data}: any) => {
     <div className="flex gap-4">
       <ModeToggle />
       <AvatarDrop data={data} />
-    <MobileSidebar  />
+      {
+        data.role === "rwx_data_entry_user" ?
+
+        <MobileSidebarData />
+        :
+        <MobileSidebar />
+      }
+      
     </div>
   </div>
   )

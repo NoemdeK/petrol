@@ -11,10 +11,10 @@ const Datapage = () => {
         Welcome to the file upload page! To get started, please follow these instructions:
       </p>
       <ol className='list-decimal my-4'>
-        <li>Click the "Choose File" button below to select the file you want to upload.</li>
+        <li>Click the &quot;Choose File&quot; button below to select the file you want to upload.</li>
         <li>Make sure your file meets the supported formats: image, PDF, DOC, DOCX.</li>
         <li>Keep in mind the maximum file size allowed is 5 MB.</li>
-        <li>After selecting the file, click the "Upload" button to start the upload process.</li>
+        <li>After selecting the file, click the &quot;Upload&quot; button to start the upload process.</li>
       </ol>
       </div>
       <UploadClient />

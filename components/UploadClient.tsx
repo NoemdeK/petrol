@@ -95,7 +95,7 @@ export function UploadClient() {
         <DialogHeader>
           <DialogTitle>Edit profile</DialogTitle>
           <DialogDescription>
-            Upload the required files. Click save when you're done.
+            Upload the required files. Click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
         <hr className="bg-secondary-foreground h-0.5" />
