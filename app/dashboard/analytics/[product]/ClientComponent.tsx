@@ -53,6 +53,8 @@ const ClientComponent = ({stats, page, overall, recent} :any) => {
             return data?.LPGData;
           case 'PMS':
             return data?.PMSData;
+          case 'ICE':
+              return data?.ICEData;
           default:
             return data?.PMSData; // Handle unknown product types
         }
