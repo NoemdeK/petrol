@@ -101,7 +101,7 @@ const ClientComponent = ({stats, page, overall, recent} :any) => {
 
         <div className=' w-full h-20 p-2'>
               <div className='flex items-center gap-2 md:gap-4'>
-                <p className='text-2xl font-medium'> ₦{productData?.currentPrice}</p>
+                <p className='text-2xl font-medium'> {page === 'ICE' ? '$' : '₦'}{productData?.currentPrice}</p>
                 <div className='flex'>
                   <p className={cn(' font-normal px-3 h-fit rounded-md text-white  text-sm', backgroundColor)}>
                     {overall} <span className='text-xs'>%</span>

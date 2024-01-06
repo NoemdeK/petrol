@@ -14,6 +14,8 @@ const Client = ({
   useEffect(() => {
     if (session === "rwx_data_entry_user") {
       router.replace("/data-entry");
+    } else if (session === "rwx_admin"){
+      router.replace("/admin");
     }
   }, [session, router]);
     // console.log(session)

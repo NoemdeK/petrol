@@ -18,7 +18,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import qs from 'query-string'
 
 
-const data = [
+export const data = [
   {
     label: 'ICE Brent Crude (IBC)',
     label2: 'Crude',
@@ -87,6 +87,7 @@ const data = [
     ],
   },
 ];
+
 
 const NewSelectProduct = ({page}: any) => {
   const router = useRouter()

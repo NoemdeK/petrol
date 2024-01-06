@@ -16,7 +16,7 @@ export const UploadFileInput = ({ form, name }: any) => {
         <>
           <Dropzone onDrop={field.onChange}>
             {({ getRootProps, getInputProps }) => (
-              <div {...getRootProps()} className=" p-4 py-6 text-center rounded-md cursor-pointer border-2 border-dashed border-primary">
+              <div {...getRootProps()} className=" p-4 py-6 text-center rounded-md h-20 cursor-pointer border-2 border-dashed border-primary">
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
                   <div  className="animate-bounce">
                     <FileUp />

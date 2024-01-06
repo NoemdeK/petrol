@@ -9,6 +9,7 @@ import Redux from './providers/Redux';
 import { Toaster } from '@/components/ui/toaster';
 import { authOptions } from '@/utils/auth';
 import { ThemeProvider } from './providers/theme-provider';
+import LoadingModal from '@/components/LoadingModal';
 
 const metadata: Metadata = {
   title: 'Diophalytics.io',
@@ -34,6 +35,7 @@ export default  async function RootLayout({
           <body>
           
             {children}
+            <LoadingModal />
             <Toaster />
           </body>
         </Redux>

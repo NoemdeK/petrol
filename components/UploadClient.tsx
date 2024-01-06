@@ -8,15 +8,15 @@ import {  toast } from "@/components/ui/use-toast"
 import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button"
+
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
 import {
     Form,
     FormControl,
@@ -28,17 +28,70 @@ import {
 
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { MultiTransportDekApi } from "@/utils/axios";
+import { MultiTransportDekApi, PlainTransportDekApi } from "@/utils/axios";
 import { useSession } from "next-auth/react";
 import { UploadFileInput } from "./UploadFile";
+import { data as dataproduct } from "./SelectProductNew";
+import { useRouter } from "next/navigation";
+import useLoading from "@/lib/useLoading";
 
 const formSchema = z.object({
+    fillingStation: z.string(),
+    state: z.string(),
+    product: z.string(),
+    price: z.string(),
+    priceDate: z.string(),
+    supportingDocument: z.string().optional(),
     file: z.any(),
-    photo: z.any(),
   })
+
+  const statesInNigeria = [
+    'Abia',
+    'Adamawa',
+    'Akwa Ibom',
+    'Anambra',
+    'Bauchi',
+    'Bayelsa',
+    'Benue',
+    'Borno',
+    'Cross River',
+    'Delta',
+    'Ebonyi',
+    'Edo',
+    'Ekiti',
+    'Enugu',
+    'Gombe',
+    'Imo',
+    'Jigawa',
+    'Kaduna',
+    'Kano',
+    'Katsina',
+    'Kebbi',
+    'Kogi',
+    'Kwara',
+    'Lagos',
+    'Nasarawa',
+    'Niger',
+    'Ogun',
+    'Ondo',
+    'Osun',
+    'Oyo',
+    'Plateau',
+    'Rivers',
+    'Sokoto',
+    'Taraba',
+    'Yobe',
+    'Zamfara',
+    'Federal Capital Territory (FCT)'
+  ];
+  
+  
 
 export function UploadClient() {
     const {data} = useSession()
+    const router = useRouter()
+    const loading = useLoading()
+
     
     const form = useForm<z.infer<typeof formSchema>>({
         mode: "onBlur",
@@ -49,30 +102,51 @@ export function UploadClient() {
     const onCancel = () => {
         form.reset()
       }
+
+      const isLoading = form.formState.isSubmitting;
+
       // 2. Define a submit handler.
       async function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log("onSubmit")
-        // loading.onOpen()
-        const formdata = new FormData();
-        formdata.append("photo", values.photo[0]);
-        formdata.append("file", values.file[0]);
-  
-  
-        await MultiTransportDekApi.post(
-            'petro-data/upload', 
-          formdata,{
+ 
+        loading.onOpen()
+        const formData = new FormData();
+        formData.append('file', values.file[0]);
+
+        const fileUploadResponse = await MultiTransportDekApi.post('/upload/files', formData);
+        console.log(fileUploadResponse.data.data.url)
+        // form.setValue("supportingDocument",  fileUploadResponse.data.data.url)
+        
+        const dataEntries = [{
+          fillingStation: values.fillingStation,
+          state: values.state,
+          product: values.product,
+          price: Number(values.price),
+          priceDate: values.priceDate,
+          supportingDocument: fileUploadResponse.data.data.url, // Assuming the file URL is available in the response
+        }];
+    
+        // Create payload for data entry
+        const payload = {
+          dataEntry: dataEntries,
+        };
+        
+        await PlainTransportDekApi.post(
+            'data-entry/upload', 
+          JSON.stringify(payload),
+          {
             headers: {
                 Authorization: `Bearer ${data?.user.accessToken}`
             }
           }
         )
           .then(() => {
-           toast({
-            title: "New Files Added",
-            description: "Done",
-            })
-            console.log("yes")
-            onCancel()
+            form.reset()
+            toast({
+              title: "New Files Added",
+              description: "Done",
+              })
+            router.refresh()
+            window.location.reload()
           })
           .catch((error) => {
             console.error("Error:", error);
@@ -83,49 +157,135 @@ export function UploadClient() {
               })
           })
           .finally(() => {
-            // loading.onClose()
+            loading.onClose()
           })        
         }
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button>Upload File</Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[550px] bg-secondary">
-        <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
-          <DialogDescription>
-            Upload the required files. Click save when you&apos;re done.
-          </DialogDescription>
-        </DialogHeader>
-        <hr className="bg-secondary-foreground h-0.5" />
-        <div className="grid gap-4 py-4">
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <div>
-            <Label className="pb-2">
-                Photo
+    <div className="grid gap-4 py-4 max-w-xl">
+      <Form {...form}>
+
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+          <div>
+            <Label className="text-lg md:text-xl">
+              Upload Data
             </Label>
-          <UploadFileInput name={"photo"} form={form} />
-
-
-        </div>
-        <div>
-            <Label className="pb-2">
-            File
-            </Label>
-          <UploadFileInput name={"file"} form={form} />
-
-
-        </div>
-
-        <DialogFooter>
-          <div className='w-full flex justify-between'>
-            <Button type="submit">Save</Button>
+            <p className="text-sm">Fill in the form below to upload and submit your data.</p>
           </div>
-        </DialogFooter>
-      </form>
-        </div>
-      </DialogContent>
-    </Dialog>
+              
+          <FormField
+            control={form.control}
+            name="fillingStation"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Filling Station</FormLabel>
+                <FormControl>
+                  <Input placeholder="" disabled={isLoading} {...field} />
+                </FormControl>
+                {/* <FormDescription>This is your public display name.</FormDescription> */}
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+           <FormField
+            control={form.control}
+            name="state"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>State</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a state" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent className="h-80">
+                  {statesInNigeria.map((item: any, i: number) => (
+                      <SelectItem key={i} value={item}>
+                        {item}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="product"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Product</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a product" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                  {dataproduct.map((item: any, i: number) => (
+                      <SelectItem key={i} value={item.abbr}>
+                        {item.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormItem>
+            )}
+          />
+
+          <div className="grid grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="price"
+              render={({ field }) => (
+                <FormItem className="relative">
+                  <FormLabel>Price</FormLabel>
+                  <FormControl>
+                    <Input placeholder="" className="pl-8" type="number" disabled={isLoading} {...field} />
+                  </FormControl>
+                  <span className="absolute top-6 h-10 w-7 rounded-l-md flex justify-center items-center  bg-gray-200 left-0">
+                  ₦
+                  </span>
+
+                  {/* <FormDescription>This is your public display name.</FormDescription> */}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="priceDate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Price Date</FormLabel>
+                  <FormControl>
+                    <Input type="date" disabled={isLoading} {...field} />
+                  </FormControl>
+                  {/* <FormDescription>This is your public display name.</FormDescription> */}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div>
+              <Label className="pb-2">
+              Supporting Document
+              </Label>
+            <UploadFileInput name={"file"} form={form} />
+
+
+          </div>
+
+          <div className='w-full flex justify-between'>
+            {/* <Button type="submit">Add to Bat</Button> */}
+            <Button type="submit" disabled={isLoading} >Submit</Button>
+          </div>
+        </form>
+
+      </Form>
+
+   </div>
   )
 }

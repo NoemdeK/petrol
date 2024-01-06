@@ -33,6 +33,7 @@ import Logo from "@/components/sections/Logo"
 import {  useRouter } from "next/navigation"
 import { signIn } from "next-auth/react"
 import { toast } from "@/components/ui/use-toast"
+import useLoading from "@/lib/useLoading"
 
 
 const formSchema = z.object({
@@ -47,6 +48,7 @@ const formSchema = z.object({
 export function LoginAccount() {
     const [showPassword, setShowPassword] = useState(false)
     const router = useRouter()
+    const loading = useLoading()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -59,13 +61,13 @@ export function LoginAccount() {
       async function onSubmit(values: z.infer<typeof formSchema>) {
         // const response = await signIn("credentials", {values, redirect: false});
         // console.log(response)
+        loading.onOpen()
         try {
           const response = await signIn("credentials", {
             email: values.email,
             password: values.password,
             redirect: false,
           });
-        console.log(response, "response")
 
       
           if (response?.error) {
@@ -88,8 +90,8 @@ export function LoginAccount() {
             description: `${error?.message ||  "Cannot login, Check details"}`,
             variant: "destructive"
             })
-        
-        
+        } finally {
+          loading.onClose()
         }
           // router.push('/dashboard/analytics')
       }
