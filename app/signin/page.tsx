@@ -9,18 +9,24 @@ const Page = () => {
   const { data: session, status: sessionStatus  } = useSession();
   const router = useRouter()
 
+  if (session?.user) {
+    const { role } = session.user;
 
-  useEffect(() => {
-    if (session?.user.role === "rwx_data_entry_user") {
-      router.replace("/data-entry");
-    } else if (session?.user.role === "rwx_admin"){
-      router.replace("/admin");
-    }  else if (session?.user.role === "rwx_user"){
-      router.replace("/dashboard/analytics/PMS");
-    }  else {
-      router.push("/dashboard/analytics/PMS");
+    switch (role) {
+      case 'rwx_data_entry_user':
+        router.replace('/data-entry');
+        break;
+      case 'rwx_admin':
+        router.replace('/admin');
+        break;
+      case 'rwx_user':
+        router.replace('/dashboard/analytics/PMS');
+        break;
+      default:
+        router.replace('/dashboard/analytics/PMS');
+        break;
     }
-  }, [session, router]);
+  }
   // useEffect(() => {
   //   if (sessionStatus === "authenticated") {
   //     router.replace("/dashboard/analytics/PMS");
