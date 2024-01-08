@@ -1,5 +1,6 @@
 "use client"
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 import React from 'react'
 
 
@@ -22,12 +23,29 @@ const HeaderStat = ({ data }: any) => {
     }
   }
 
+  function getLink(productType: string) {
+    if (productType === 'AGOData') {
+      return "/dashboard/analytics/AGO";
+    } else if (productType === 'PMSData') {
+      return "/dashboard/analytics/PMS";
+    } else if (productType === 'DPKData') {
+      return "/dashboard/analytics/DPK";
+    } else if (productType === 'LPGData') {
+      return "/dashboard/analytics/LPG";
+    } else if (productType === 'ICEData') {
+      // Handle unknown productType
+      return "/dashboard/analytics/ICE";
+    } else {
+      return "/dashboard/analytics/PMS";
+    }
+  }
+
   const renderProduct = (productType: any, data: any) => {
     const isNegativeChange = parseFloat(data.overallPricePercentChange) < 0;
     const isNegativeChangez = parseFloat(data.recentPricePercentChange) < 0;
 
     return (
-      <div key={productType} className='p-2 bg-background border flex gap-2 rounded-md min-w-56 w-full cursor-pointer'>
+      <Link href={getLink(productType)} key={productType} className='p-2 bg-background border flex gap-2 rounded-md min-w-56 w-full cursor-pointer'>
         <div className='flex gap-2'>
           {isNegativeChange ? (
             <div className='bg-red-200 flex items-center w-10 rounded-sm text-center justify-center text-red-600'>
@@ -50,7 +68,7 @@ const HeaderStat = ({ data }: any) => {
           <p className={cn(isNegativeChange ? 'text-red-600' : 'text-green-600')}>{data.overallPricePercentChange}%</p>
           <p className={cn(isNegativeChangez ? 'text-red-600' : 'text-green-600')}>{data.recentPricePercentChange}</p>
         </div>
-      </div>
+      </Link>
     );
   };
 

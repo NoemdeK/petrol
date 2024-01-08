@@ -141,21 +141,9 @@ const ClientComponent = ({data}: any) => {
                   )}
                 />
               </div>
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder="email" {...field} defaultValue={data.email}  disabled={isLoading} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+             
             <CardFooter>
-              <Button type='submit'>
+              <Button type='submit' disabled={isLoading}>
               {isLoading && (
                 <Disc3 className="mr-2 h-4 w-4 animate-spin" />
               )}

@@ -18,8 +18,8 @@ const customTooltip = ({ payload, active }: { payload: any; active: any }) => {
               <p className='font-medium text-tremor-content-emphasis'>
                 {category.value} Naira
               </p>
-              <p className='font-medium text-tremor-content-emphasis'>
-                {category.payload.period}
+              <p className=' text-tremor-content-emphasis'>
+                {category.payload.date}
               </p>
             </div>
           </div>

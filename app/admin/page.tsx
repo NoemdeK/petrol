@@ -62,7 +62,6 @@ const Page = async () => {
   const rejected = await getDataRejected(`${user?.user.accessToken}`)
 
  
-console.log("addd",approved?.data?.result)
 
   return (
     <div>

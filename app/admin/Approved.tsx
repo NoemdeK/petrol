@@ -280,12 +280,12 @@ export function Approved({data}: {data: Payment[]}) {
 
       <div className="rounded-md border h-full">
         <Table className="">
-          <TableHeader className=" text-xs text-black">
+          <TableHeader className=" text-xs text-">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="text-black" >
+                    <TableHead key={header.id} className="text-" >
                       {header.isPlaceholder
                         ? null
                         : flexRender(

@@ -1,5 +1,4 @@
 import { authOptions } from "@/utils/auth";
-import axiosInstance from "@/utils/axios";
 import NextAuth, { AuthOptions } from "next-auth";
 import { JWT } from "next-auth/jwt";
 

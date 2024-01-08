@@ -38,6 +38,7 @@ import useLoading from "@/lib/useLoading";
 const formSchema = z.object({
     fillingStation: z.string(),
     state: z.string(),
+    city: z.string(),
     product: z.string(),
     price: z.string(),
     priceDate: z.string(),
@@ -85,7 +86,11 @@ const formSchema = z.object({
     'Federal Capital Territory (FCT)'
   ];
   
-  
+  const fulling = [
+    "NNPC",
+    "IOCs (Total, ExxonMobil, etc)",
+    "Private Owned  Filling Station"
+  ]
 
 export function UploadClient() {
     const {data} = useSession()
@@ -118,6 +123,7 @@ export function UploadClient() {
         
         const dataEntries = [{
           fillingStation: values.fillingStation,
+          city: values.city,
           state: values.state,
           product: values.product,
           price: Number(values.price),
@@ -172,35 +178,21 @@ export function UploadClient() {
             </Label>
             <p className="text-sm">Fill in the form below to upload and submit your data.</p>
           </div>
-              
-          <FormField
+  
+           <FormField
             control={form.control}
             name="fillingStation"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Filling Station</FormLabel>
-                <FormControl>
-                  <Input placeholder="" disabled={isLoading} {...field} />
-                </FormControl>
-                {/* <FormDescription>This is your public display name.</FormDescription> */}
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-           <FormField
-            control={form.control}
-            name="state"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>State</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select onValueChange={field.onChange}  defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a state" />
+                      <SelectValue placeholder="Select a Filling station" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent className="h-80">
-                  {statesInNigeria.map((item: any, i: number) => (
+                  <SelectContent>
+                  {fulling.map((item: any, i: number) => (
                       <SelectItem key={i} value={item}>
                         {item}
                       </SelectItem>
@@ -210,6 +202,46 @@ export function UploadClient() {
               </FormItem>
             )}
           />
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+             <FormField
+                control={form.control}
+                name="city"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>City</FormLabel>
+                    <FormControl>
+                      <Input disabled={isLoading} {...field} />
+                    </FormControl>
+                    {/* <FormDescription>This is your public display name.</FormDescription> */}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            <FormField
+              control={form.control}
+              name="state"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>State</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a state" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className="h-80">
+                    {statesInNigeria.map((item: any, i: number) => (
+                        <SelectItem key={i} value={item}>
+                          {item}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
+           </div>
+
           <FormField
             control={form.control}
             name="product"

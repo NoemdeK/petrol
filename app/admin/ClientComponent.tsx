@@ -24,7 +24,7 @@ const ClientComponent = ({rejected, approved, pending}: ClientComponentProps ) =
         <div>
             <h4 className='text-xl font-bold'>Data</h4>
         </div>
-        <div className="bg-white w-full ">  
+        <div className=" w-full ">  
             <Tabs defaultValue="pending" className="w-full">
               
                 <div className="flex justify-between flex-col md:flex-row gap-4 w-full p-2">

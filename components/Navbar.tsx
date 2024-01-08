@@ -6,16 +6,23 @@ import Logo from './sections/Logo'
 import LogoDash from './sections/LogoDash'
 import { ModeToggle } from './mode'
 import { MobileSidebarData } from './mobilr-sidebardata'
+import LogoDashTwo from './sections/LogoDash2'
 
 const Navbar = ({data}: any) => {
   if(!data){
     return null
 }
+console.log(data)
   return (
     <div className="flex items-center justify-between  p-0  w-full ">
-        <Link href="/" className="flex items-center pl-3">
+        <div className="flex items-center pl-3">
+          {
+            data.role === "rwx_user" ? 
             <LogoDash />
-        </Link>
+            :
+            <LogoDashTwo />
+          }
+        </div>
     <div className="flex gap-4">
       <ModeToggle />
       <AvatarDrop data={data} />

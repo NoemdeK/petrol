@@ -50,11 +50,13 @@ export const authOptions: AuthOptions = {
       if (user) {
         token.user = user.data;
         token.accessToken = user.data.auth;
+        //@ts-ignore
+        token.role = user.data.role;
         // token.refreshToken = user.refresh;
       }
 
       console.log(user, "user-packer");
-      console.log(token, "user-pac");
+      console.log("watch",token, "user-pac");
 
       return token;
     },
