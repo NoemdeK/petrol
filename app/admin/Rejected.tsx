@@ -36,6 +36,7 @@ import { useToast } from "@/components/ui/use-toast";
 
 import { Input } from "@/components/ui/input"
 import { format } from "date-fns";
+import useDocumentView from "@/lib/useDocumentView";
 
 
 
@@ -92,6 +93,22 @@ export const columns: ColumnDef<any>[] = [
         },
   },
   {
+    accessorKey: "state",
+    header: ({}) => {
+        return (
+            <div className="flex gap-2 items-center"> 
+             State
+            </div>
+        )
+    },    cell: ({ row }) => {
+          return (
+            <div className="">
+              {row.getValue("state")}
+            </div>
+            )
+        },
+  },
+  {
     accessorKey: "product",
     header: ({  }) => {
       return (
@@ -118,7 +135,7 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) =>  {
       return (
         <div className="capitalize text-xs">
-            {row.getValue("price")}
+            ₦{Number(row.getValue("price")).toLocaleString()}
         </div>
       )
     }
@@ -135,9 +152,10 @@ export const columns: ColumnDef<any>[] = [
       )
     },
     cell: ({ row }) =>  {
+      const { onOpen} = useDocumentView()
       return (
         <div className="capitalize text-xs">
-            <Button variant={"link" } className="text-sky-600"> 
+            <Button variant={"link" } onClick={onOpen} className="text-sky-600"> 
             View
             </Button>
         </div>

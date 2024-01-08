@@ -36,6 +36,7 @@ import { useToast } from "@/components/ui/use-toast";
 
 import { Input } from "@/components/ui/input"
 import { format } from "date-fns";
+import useDocumentView from "@/lib/useDocumentView";
 
 
 
@@ -92,7 +93,7 @@ export const columns: ColumnDef<any>[] = [
         },
   },
   {
-    accessorKey: "vehicle.nickName",
+    accessorKey: "region",
     header: ({  }) => {
       return (
         <div className="gap-2 flex items-center">
@@ -102,12 +103,13 @@ export const columns: ColumnDef<any>[] = [
     },
     cell: ({ row }) =>  {
       return (
-        <div className="text-xs">{''}</div>
-      )
+        <div className="text-xs">
+          {row.getValue("region")}
+        </div>      )
     }
   },
   {
-    accessorKey: "reportedDate",
+    accessorKey: "product",
     header: ({  }) => {
       return (
         <div className="flex items-center gap-2">
@@ -117,19 +119,8 @@ export const columns: ColumnDef<any>[] = [
       )
     },
     cell: ({ row }) => <div className="text-xs ">
-        {format(new Date(row.getValue('reportedDate')), 'yyyy-MM-dd')}
+              {row.getValue("product")}
     </div>,
-  },
-  {
-    accessorKey: "product",
-    header: ({  }) => {
-      return (
-        <div className="flex items-center gap-2">
-             Resolution
-        </div>
-      )
-    },
-    cell: ({ row }) => <div className=" ">{row.getValue("resolution")}</div>,
   },
   {
     accessorKey: "price",
@@ -144,29 +135,12 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) =>  {
       return (
         <div className="capitalize text-xs">
-                {format(new Date(row.getValue('resolutionDate')), 'yyyy-MM-dd')}
+            ₦{Number(row.getValue("price")).toLocaleString()}
         </div>
       )
     }
   },
-  {
-    accessorKey: "priceDate",
-    header: ({  }) => {
-      return (
-       <div className="flex items-center gap-2">
-       Price Date
-         
-       </div>
-      )
-    },
-    cell: ({ row }) =>  {
-      return (
-        <div className="capitalize text-xs">
-                {format(new Date(row.getValue('resolutionDate')), 'yyyy-MM-dd')}
-        </div>
-      )
-    }
-  },
+
   {
     accessorKey: "supportingDocument",
     header: ({  }) => {
@@ -178,15 +152,18 @@ export const columns: ColumnDef<any>[] = [
       )
     },
     cell: ({ row }) =>  {
+      const { onOpen} = useDocumentView()
       return (
         <div className="capitalize text-xs">
-                {format(new Date(row.getValue('resolutionDate')), 'yyyy-MM-dd')}
+            <Button variant={"link" } onClick={onOpen} className="text-sky-600"> 
+            View
+            </Button>
         </div>
       )
     }
   },
   {
-    accessorKey: "Submmited",
+    accessorKey: "submittedBy",
     header: ({  }) => {
       return (
        <div className="flex items-center gap-2">
@@ -198,13 +175,13 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) =>  {
       return (
         <div className="capitalize text-xs">
-                {format(new Date(row.getValue('resolutionDate')), 'yyyy-MM-dd')}
+            {row.getValue("submittedBy")}
         </div>
       )
     }
   },
   {
-    accessorKey: "Submmited",
+    accessorKey: "approvedBy",
     header: ({  }) => {
       return (
        <div className="flex items-center gap-2">
@@ -216,13 +193,13 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) =>  {
       return (
         <div className="capitalize text-xs">
-                {format(new Date(row.getValue('resolutionDate')), 'yyyy-MM-dd')}
+            {row.getValue("approvedBy")}
         </div>
       )
     }
   },
   {
-    accessorKey: "dateSubmitted",
+    accessorKey: "dateApproved",
     header: ({  }) => {
       return (
        <div className="flex items-center gap-2">
@@ -234,7 +211,7 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) =>  {
       return (
         <div className="capitalize text-xs">
-                {format(new Date(row.getValue('resolutionDate')), 'yyyy-MM-dd')}
+            {row.getValue("dateApproved")}
         </div>
       )
     }

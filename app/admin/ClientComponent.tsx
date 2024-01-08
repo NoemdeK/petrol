@@ -18,6 +18,7 @@ interface ClientComponentProps{
 }
 
 const ClientComponent = ({rejected, approved, pending}: ClientComponentProps ) => {
+  
   return (
     <div>
         <div>

@@ -15,6 +15,8 @@ async function getData(header: string) {
 
   } catch(error: any){
     console.log(error)
+    return []
+
   }
 }
 
@@ -30,6 +32,8 @@ async function getDataApproved(header: string) {
 
   } catch(error: any){
     console.log(error)
+    return []
+
   }
 }
 
@@ -45,6 +49,7 @@ async function getDataRejected(header: string) {
 
   } catch(error: any){
     console.log(error)
+    return []
   }
 }
 
@@ -57,11 +62,11 @@ const Page = async () => {
   const rejected = await getDataRejected(`${user?.user.accessToken}`)
 
  
-
+console.log("addd",approved?.data?.result)
 
   return (
     <div>
-      <ClientComponent rejected={rejected?.data.result} approved={approved?.data.result} pending={data?.data.result} />
+      <ClientComponent rejected={rejected?.data?.result} approved={approved?.data?.result} pending={data?.data?.result} />
     </div>
   )
 }

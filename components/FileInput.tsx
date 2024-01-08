@@ -5,9 +5,15 @@ import {  FileUp } from "lucide-react";
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
 
 
 export const FileInput = ({ form, name, data }: any) => {
+  const imageee = form.watch("file")
   return (
     <Controller
       control={form.control}
@@ -30,9 +36,13 @@ export const FileInput = ({ form, name, data }: any) => {
                     ))
                 }
                 {
-                    !field.value && (
-                    <img src={data.avatar} alt="Uploaded File" className="w-32 h-32 aspect-square object-contain" />
-                    )
+                   
+                    !imageee && (
+                      <Avatar className="w-16">
+                        <AvatarImage src={data?.avatar} alt="@shadcn" />
+                        <AvatarFallback>CN</AvatarFallback>
+                      </Avatar>
+                    )                    
                 }
                 </div>
                <div>

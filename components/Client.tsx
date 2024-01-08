@@ -16,11 +16,13 @@ const Client = ({
       router.replace("/data-entry");
     } else if (session === "rwx_admin"){
       router.replace("/admin");
+    } else {
+      router.push("/dashboard/analytics/PMS");
     }
   }, [session, router]);
     // console.log(session)
   return (
-    <div className='h-full relative m-4'>
+    <div className='h-full relative'>
         {children}
     </div>
   )

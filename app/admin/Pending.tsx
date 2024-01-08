@@ -43,6 +43,7 @@ import useReject from "@/lib/useReject";
 import { RejectedModal } from "@/components/Rejected";
 import { useSession } from "next-auth/react";
 import useLoading from "@/lib/useLoading";
+import useDocumentView from "@/lib/useDocumentView";
 
 
 
@@ -142,7 +143,7 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) =>  {
       return (
         <div className="capitalize text-xs">
-            {row.getValue("price")}
+            ₦{Number(row.getValue("price")).toString()}
         </div>
       )
     }
@@ -159,9 +160,10 @@ export const columns: ColumnDef<any>[] = [
       )
     },
     cell: ({ row }) =>  {
+      const { onOpen} = useDocumentView()
       return (
         <div className="capitalize text-xs">
-            <Button variant={"link" } className="text-sky-600"> 
+            <Button variant={"link" } onClick={onOpen} className="text-sky-600"> 
             View
             </Button>
         </div>
@@ -215,107 +217,117 @@ export const columns: ColumnDef<any>[] = [
         )
     },
     cell: ({ row }) => {
-      const approve = useApprove()
-      const reject = useReject()
-      const session = useSession()
-      const loading = useLoading()
 
        const entry = row.original
-       const headers = {
-        Authorization: `Bearer ${session.data?.user.accessToken}`, // Replace YOUR_ACCESS_TOKEN with the actual token
-        // Other headers if needed
-      };
-       const approveEntry = async (id: string) => {
-        loading.onOpen()
-        const headers = {
-          Authorization: `Bearer ${session.data?.user.accessToken}`, // Replace YOUR_ACCESS_TOKEN with the actual token
-          // Other headers if needed
-        };
-        await PlainTransportDekApi.patch(`data-entry/actions?flag=approve&entryId=${id}`,
-            { headers })
-            .then(() => {
-            toast({
-              title: `Approved!`,
-              description: `Entry is approved!`,
-              })
-              window.location.reload()
-         })
-         .catch((error) => {
-          console.error("Error:", error);
-          toast({
-            variant: "destructive",
-            title: `Approve not done!`,
-            description: `Error occured`,
-            })
-        })
-        .finally(() => {
-          loading.onClose()
-        })
-      };
-
-      const rejectEntry = async (id: string) => {
-        loading.onOpen()
-        const headers = {
-          Authorization: `Bearer ${session.data?.user.accessToken}`, // Replace YOUR_ACCESS_TOKEN with the actual token
-          // Other headers if needed
-        };
-      
-        await PlainTransportDekApi.patch(`data-entry/actions?flag=reject&entryId=${id}`,
-        { rejectionReason: reject.data },
-        { headers })
-        .then(() => {
-            toast({
-              title: `Rejected!`,
-              description: `Entry is rejected!`,
-              })
-              window.location.reload()
-         })
-         .catch((error) => {
-          console.error("Error:", error);
-          toast({
-            variant: "destructive",
-            title: `Rejected not done!`,
-            description: `Error occured`,
-            })
-        })
-        .finally(() => {
-          loading.onClose()
-        })
-      };
-
       return (
-       <div className="flex gap-1 justify-end">
-        <Button className="" variant={"outline"}
-          onClick={() => {
-            reject.setId(entry.entryId)
-            reject.onOpen()
-          }}
-        >
-            Reject
-        </Button>
-        <Button 
-          onClick={() => {
-            approve.setId(entry.entryId);
-            approve.onOpen()
-          }}>
-            Approve
-        </Button>
-
-        {
-            approve.isOpen && (
-              <ApproveModal onCancel={approve.onClose} onSubmit={() => approveEntry(approve.id)}/>
-            )
-          }
-          {
-            reject.isOpen && (
-              <RejectedModal onCancel={reject.onClose} onSubmit={() => rejectEntry(reject.id)}/>
-            )
-          }
-      </div>
+       <Actions entry={entry} />
       )
     },
   },
 ]
+
+const Actions = (entry: any) => {
+  const approve = useApprove()
+  const reject = useReject()
+  const session = useSession()
+  const loading = useLoading()
+
+
+
+
+  const approveEntryd = async (id: string) => {
+    loading.onOpen()
+    // Perform the API call to approve the entry
+    try {
+      // Your API call here
+      // Example:
+      const response = await fetch(`https://petrodata.zainnovations.com/api/v1/data-entry/actions?flag=approve&entryId=${id}`, {
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer ${session.data?.user.accessToken}`,
+        },
+      });
+      const data = await response.json();
+      console.log(data);
+      toast({
+        title: `Approved!`,
+        description: `Entry is approved!`,
+        })
+      // Simulating successful approval
+      // window.location.reload();
+    } catch (error) {
+      console.error('Error:', error);
+      toast({
+        variant: "destructive",
+        title: `Approve not done!`,
+        description: `Error occured`,
+        })
+    } finally {
+      loading.onClose()
+    }
+  };
+
+  const rejectEntry = async (id: string) => {
+    loading.onOpen()
+    const headers = {
+      Authorization: `Bearer ${session.data?.user.accessToken}`, // Replace YOUR_ACCESS_TOKEN with the actual token
+      // Other headers if needed
+    };
+  
+    await PlainTransportDekApi.patch(`data-entry/actions?flag=reject&entryId=${id}`,
+    { rejectionReason: reject.data },
+    { headers })
+    .then(() => {
+        toast({
+          title: `Rejected!`,
+          description: `Entry is rejected!`,
+          })
+          window.location.reload()
+     })
+     .catch((error) => {
+      console.error("Error:", error);
+      toast({
+        variant: "destructive",
+        title: `Rejected not done!`,
+        description: `Error occured`,
+        })
+    })
+    .finally(() => {
+      loading.onClose()
+    })
+  };
+
+  return (
+   <div className="flex gap-1 justify-end">
+    <Button className="" variant={"outline"}
+      onClick={() => {
+        reject.setId(entry.entry.entryId)
+        reject.onOpen()
+      }}
+    >
+        Reject
+    </Button>
+    <Button 
+      onClick={() => {
+        approve.setId(entry.entry.entryId);
+        approve.onOpen()
+      }}>
+        Approve
+    </Button>
+
+    {
+        approve.isOpen && (
+          <ApproveModal onCancel={approve.onClose} onSubmit={() => approveEntryd(approve.id)}/>
+        )
+      }
+      {
+        reject.isOpen && (
+          <RejectedModal onCancel={reject.onClose} onSubmit={() => rejectEntry(reject.id)}/>
+        )
+      }
+  </div>
+  )
+}
 
 export function Pending({data}: {data: Payment[]}) {
   const [sorting, setSorting] = React.useState<SortingState>([])
