@@ -61,7 +61,7 @@ const Page = async () => {
   const approved = await getDataApproved(`${user?.user.accessToken}`)
   const rejected = await getDataRejected(`${user?.user.accessToken}`)
 
- 
+ console.log(data.data?.result)
 
   return (
     <div>

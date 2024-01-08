@@ -17,7 +17,17 @@ import {
 import useDocumentView from '@/lib/useDocumentView'
 
 export function DocumentView() {
-    const { isOpen, onClose } = useDocumentView()
+    const { isOpen, onClose, data, setData } = useDocumentView()
+
+
+    if(!data){
+      return null
+    }
+
+    const closeIt = () => {
+      onClose()
+      setData({})
+    }
 
   return (
     <Sheet  onOpenChange={onClose} open={isOpen}  defaultOpen={isOpen}>
@@ -27,12 +37,14 @@ export function DocumentView() {
           <SheetDescription>
           </SheetDescription>
         </SheetHeader>
-        <div className="grid gap-4 py-4">
-        
+        <div className="flex items-center justify-center my-8 h-[70vh] gap-4 py-4 ">
+          <div className='w-full h-96'>
+            <img src={data.data} alt="" className='object-contain' />
+          </div>
         </div>
         <SheetFooter>
           <SheetClose asChild>
-            <Button type="submit">Close</Button>
+            <Button type="submit" onClick={closeIt}>Close</Button>
           </SheetClose>
         </SheetFooter>
       </SheetContent>

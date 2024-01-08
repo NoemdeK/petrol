@@ -152,8 +152,10 @@ export const columns: ColumnDef<any>[] = [
       )
     },
     cell: ({ row }) =>  {
+      const entry = row.original
+
       return (
-        <View />
+        <View entry={entry} />
       )
     }
   },
@@ -231,16 +233,23 @@ export const columns: ColumnDef<any>[] = [
   },
 ]
 
-const View = () => {
-  const { onOpen} = useDocumentView()
+const View = ({entry}: any) => {
+  const { onOpen, setData} = useDocumentView()
+  console.log("entry", entry)
+
+  const onclickSet = () => {
+    setData(entry.supportingDocument)
+    onOpen()
+  }
   return (
     <div className="capitalize text-xs">
-        <Button variant={"link" } onClick={onOpen} className="text-sky-600"> 
+        <Button variant={"link" } onClick={onclickSet} className="text-sky-600"> 
         View
         </Button>
     </div>
     )
 }
+
 
 export function Rejected({data}: {data: Payment[]}) {
   const [sorting, setSorting] = React.useState<SortingState>([])
