@@ -58,7 +58,6 @@ import { AvatarImage } from "@radix-ui/react-avatar";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons"
 import { SupsendUserModal } from "@/components/SuspendUser"
 import useSuspend from "@/lib/useSuspend"
-import { DeletUserModal } from "@/components/DeleteUSer"
 import useDelete from "@/lib/useDelete"
 import useEditUser from "@/lib/useEdit"
 
@@ -359,8 +358,8 @@ const Actions = (entry: any) => {
               <DotsHorizontalIcon className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="cursor-pointer" align="end">
-            <DropdownMenuItem>
+          <DropdownMenuContent  align="end">
+            <DropdownMenuItem className="cursor-pointer">
               Reset Password
             </DropdownMenuItem>
             <DropdownMenuSeparator />
@@ -381,15 +380,11 @@ const Actions = (entry: any) => {
                 >
                 Suspend</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-red-700">Delete</DropdownMenuItem>
+            <DropdownMenuItem className="text-red-700 cursor-pointer">Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
 
-    {
-        approve.isOpen && (
-          <DeletUserModal onCancel={approve.onClose} onSubmit={() => deleteUser(approve.id)}/>
-        )
-      }
+   
       {
         reject.isOpen && (
           <SupsendUserModal onCancel={reject.onClose} onSubmit={() => suspendUser(reject.id)}/>

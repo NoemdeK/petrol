@@ -4,14 +4,18 @@ import * as z from "zod"
 
 
 import { Button } from "@/components/ui/button"
+
 import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+
 
 import {
     Form,
@@ -55,11 +59,11 @@ const formSchema = z.object({
   
   const fulling = [
     {
-        name: "Analysts",
+        name: "Analyst",
         role: "rwx_data_entry_analyst"
     },
     {
-        name: "Regular User",
+        name: "Field Agent",
         role: "rwx_data_entry_user"
     }
   ]
@@ -104,6 +108,7 @@ const EditUser = () => {
               description: "Done",
               })
             router.refresh()
+            onCancel()
           })
           .catch((error) => {
             console.error("Error:", error);
@@ -119,16 +124,16 @@ const EditUser = () => {
         }
 
   return (
-    <Dialog onOpenChange={onCancel} open={isOpen} modal defaultOpen={isOpen}>
-    <DialogTrigger asChild>
-    </DialogTrigger>
-    <DialogContent className="max-w-[500px]">
-      <DialogHeader>
-        <DialogTitle>Edit User</DialogTitle>
-      </DialogHeader>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="h-[70vh] overflow-y-auto sidebar-scroll">    
+   <Sheet  onOpenChange={onClose} open={isOpen}  defaultOpen={isOpen}>
+   <SheetContent>
+     <SheetHeader>
+       <SheetTitle>Edit User</SheetTitle>
+       <SheetDescription>
+       </SheetDescription>
+     </SheetHeader>
+     <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex justify-between flex-col h-full">
+          <div className="">    
           <div className="grid gap-2">
         <div className="grid gap-1">
             <FormField
@@ -153,7 +158,7 @@ const EditUser = () => {
                     <FormItem>
                     <FormLabel>Last Name</FormLabel>
                     <FormControl>
-                        <Input placeholder="Last name"  {...field} />
+                        <Input placeholder="Last name" defaultValue={item?.data?.lastName}  {...field} />
                     </FormControl>
                     <FormMessage />
                     </FormItem>
@@ -221,16 +226,21 @@ const EditUser = () => {
         </div>
       </div>
          </div>
-        <DialogFooter>
-        <div className="w-full flex justify-between">
-              <Button type="button" variant="ghost" onClick={onCancel}>Cancel</Button>
+         <SheetFooter className="flex items-end justify-end">
+        
+        <div className="w-full flex justify-between mb-10">
+            <SheetClose asChild>
+              <Button type="submit" variant="ghost" onClick={onCancel}>Close</Button>
+            </SheetClose>
               <Button  type="submit">Save</Button>
         </div>
-        </DialogFooter>
+        </SheetFooter>
         </form>
       </Form>
-    </DialogContent>
-  </Dialog>  )
+   
+   </SheetContent>
+ </Sheet>
+  )
 }
 
 export default EditUser

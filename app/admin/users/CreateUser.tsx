@@ -14,6 +14,17 @@ import {
 } from "@/components/ui/dialog"
 
 import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+
+import {
     Form,
     FormControl,
     FormDescription,
@@ -41,6 +52,8 @@ import {
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select"
+import { Checkbox } from "@/components/ui/checkbox"
+import { useState } from "react"
   
 
 const formSchema = z.object({
@@ -48,18 +61,18 @@ const formSchema = z.object({
     lastName: z.string(),
     email: z.string(), // Assuming you will store the file path as a string
     role: z.string(),
-    password: z.string(),
+    password: z.string().optional(),
   });
 
   
   const fulling = [
     {
-        name: "Analysts",
+        name: "Analyst",
         role: "rwx_data_entry_analyst"
     },
     {
-        name: "Regular User",
-        role: "rwx_data_entry_user"
+      name: "Field Agent",
+      role: "rwx_data_entry_user"
     }
   ]
 
@@ -70,6 +83,7 @@ const CreateUser = () => {
     const router = useRouter()
     const {data} = useSession()
 
+    const [generate, setGenerate] = useState(false)
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),  
         defaultValues: {
@@ -117,17 +131,19 @@ const CreateUser = () => {
           })        
         }
 
+        console.log(generate)
+
   return (
-    <Dialog onOpenChange={onCancel} open={isOpen} modal defaultOpen={isOpen}>
-    <DialogTrigger asChild>
-    </DialogTrigger>
-    <DialogContent className="max-w-[500px]">
-      <DialogHeader>
-        <DialogTitle>Create New User</DialogTitle>
-      </DialogHeader>
+    <Sheet  onOpenChange={onClose} open={isOpen}  defaultOpen={isOpen}>
+    <SheetContent>
+      <SheetHeader>
+        <SheetTitle>Create New User</SheetTitle>
+        <SheetDescription>
+        </SheetDescription>
+      </SheetHeader>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="h-[70vh] overflow-y-auto sidebar-scroll">    
+        <form onSubmit={form.handleSubmit(onSubmit)} className="flex justify-between flex-col h-full">
+          <div className="">    
           <div className="grid gap-2">
         <div className="grid gap-1">
             <FormField
@@ -174,23 +190,48 @@ const CreateUser = () => {
                 )}
             />
         </div>
-        <div className="grid gap-1">
-        <FormField
-              name="password"
-              control={form.control}
-              render={({ field }) => (
-            <FormItem  className="flex flex-col gap-1">
-                <FormLabel>Password </FormLabel>
-                <FormControl>
-                    <div className="relative">
-                    <Input  {...field} />
-                   
-                    </div>
-                </FormControl>
-            <FormMessage />
-            </FormItem>
-          )}
-      />
+        <div className="grid gap-1 my-2">
+
+        <div className="">
+
+          <div className="items-top flex space-x-2">
+            <Checkbox id="terms1" 
+                onCheckedChange={() => setGenerate(!generate)}
+            /> 
+            <div className="grid gap-1.5 leading-none">
+              <label
+                htmlFor="terms1"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Generate Password
+              </label>
+
+            </div>
+          </div>
+
+              {  
+                !generate && (
+                  <FormField
+                      name="password"
+                      control={form.control}
+                      render={({ field }) => (
+                    <FormItem  className="flex flex-col gap-1 mt-4">
+                        <FormLabel>Password </FormLabel>
+                        <FormControl>
+                            <div className="relative">
+                            <Input  {...field} />
+                          
+                            </div>
+                        </FormControl>
+                    <FormMessage />
+                    </FormItem>
+                  )}
+              />
+                )
+              }
+          </div>
+
+
         </div>
 
         <div>
@@ -220,16 +261,21 @@ const CreateUser = () => {
         </div>
       </div>
          </div>
-        <DialogFooter>
-        <div className="w-full flex justify-between">
-              <Button type="button" variant="ghost" onClick={onCancel}>Cancel</Button>
-              <Button  type="submit">Save</Button>
+         <SheetFooter>
+        
+        <div className="w-full flex justify-between mb-10">
+            <SheetClose asChild>
+              <Button type="button" variant="ghost" onClick={onCancel}>Close</Button>
+            </SheetClose>
+              <Button  type="submit">Create</Button>
         </div>
-        </DialogFooter>
+      </SheetFooter>
         </form>
       </Form>
-    </DialogContent>
-  </Dialog>  )
+    
+    </SheetContent>
+  </Sheet>
+   )
 }
 
 export default CreateUser

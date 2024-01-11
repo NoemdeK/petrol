@@ -164,7 +164,7 @@ export const columns: ColumnDef<any>[] = [
     header: ({  }) => {
       return (
        <div className="flex items-center gap-2">
-        Subbmitted By
+        Submitted By
          
        </div>
       )
@@ -182,7 +182,7 @@ export const columns: ColumnDef<any>[] = [
     header: ({  }) => {
       return (
        <div className="flex items-center gap-2">
-            Date Subbmitted 
+            Date Submitted 
          
        </div>
       )
