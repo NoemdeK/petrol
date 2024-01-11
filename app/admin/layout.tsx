@@ -9,6 +9,8 @@ import type { Metadata } from 'next';
 import { SidebarAdmin } from "@/components/SidebarAdmin";
 import { DocumentView } from "@/components/DocumentView";
 import Client from "@/components/Client";
+import CreateUser from "./users/CreateUser";
+import EditUser from "./users/EditUser";
 
 
 const metadata: Metadata = {
@@ -82,7 +84,8 @@ const DashboardLayout =  async ({
                   {/* <HeaderStat data={result} /> */}
 
                     {children}
-                    <DocumentView />
+                    <CreateUser />
+                    <EditUser />
                 </main>
           </div>
 

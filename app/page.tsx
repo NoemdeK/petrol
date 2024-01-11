@@ -18,6 +18,11 @@ import React from 'react'
 import { cn } from '@/lib/utils'
 import Canvas from '@/components/Canvas'
 
+import type { Metadata } from 'next'
+
+
+
+
 export default function Home() {
   const components: { title: string; href: string; description: string }[] = [
     {
@@ -85,7 +90,7 @@ export default function Home() {
                   data collection and <br />
                   verification challenges
                 </h4>
-                <div className='flex items-center gap-4 w-full'>
+                <div className='flex items-center gap-4 w-full sm:flex-row flex-col'>
                   <p className='text-lg md:text-xl text-black  text-left font-medium'>Check out our tools</p>
                   <Link href={'/signin'} className='bg-white p-2 border rounded-md'>
                     <Logo />

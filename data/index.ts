@@ -8,6 +8,7 @@ const labels: string[] = [
 ];
 
 export const regionalOptions = [
+  { label: 'National', value: 'National' },
   { label: 'South East', value: 'South East' },
   { label: 'South West', value: 'South West' },
   { label: 'South South', value: 'South South' },

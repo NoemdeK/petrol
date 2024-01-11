@@ -20,7 +20,7 @@ console.log(data)
             data.role === "rwx_user" ? 
             <LogoDash />
             :
-            <LogoDashTwo />
+            <LogoDashTwo role={ data?.role} />
           }
         </div>
     <div className="flex gap-4">

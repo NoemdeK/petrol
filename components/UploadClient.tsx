@@ -34,8 +34,9 @@ import { UploadFileInput } from "./UploadFile";
 import { data as dataproduct } from "./SelectProductNew";
 import { useRouter } from "next/navigation";
 import useLoading from "@/lib/useLoading";
+import { useState } from "react";
 
-const formSchema = z.object({
+export const formSchema = z.object({
     fillingStation: z.string(),
     state: z.string(),
     city: z.string(),
@@ -45,6 +46,9 @@ const formSchema = z.object({
     supportingDocument: z.string().optional(),
     file: z.any(),
   })
+
+
+
 
   const statesInNigeria = [
     'Abia',
@@ -92,7 +96,7 @@ const formSchema = z.object({
     "Private Owned  Filling Station"
   ]
 
-export function UploadClient() {
+export function UploadClient({setBatchData,batchData}: any) {
     const {data} = useSession()
     const router = useRouter()
     const loading = useLoading()
@@ -108,32 +112,45 @@ export function UploadClient() {
         form.reset()
       }
 
-      const isLoading = form.formState.isSubmitting;
+      console.log(batchData, "batch")
 
+      const isLoading = form.formState.isSubmitting;
+      const onAddToBatch = async () => {
+        // Validate the current form data before adding to the batch
+        await form.handleSubmit(async (values) => {
+          try {
+            // await form.validateForm(values);
+    
+            const formData = new FormData();
+            formData.append("file", values.file[0]);
+    
+            const fileUploadResponse = await MultiTransportDekApi.post(
+              "/upload/files",
+              formData
+            );
+    
+            const imageUrl = fileUploadResponse.data.data.url;
+
+            setBatchData((prevBatchData: any) => [
+              ...prevBatchData,
+              { ...values, supportingDocument: imageUrl },
+            ]);
+
+    
+            form.reset(); // Reset the form after adding to batch
+          } catch (error) {
+            console.error("Validation Error:", error);
+          }
+        })();
+      };
       // 2. Define a submit handler.
       async function onSubmit(values: z.infer<typeof formSchema>) {
  
         loading.onOpen()
-        const formData = new FormData();
-        formData.append('file', values.file[0]);
+        onAddToBatch()
 
-        const fileUploadResponse = await MultiTransportDekApi.post('/upload/files', formData);
-        console.log(fileUploadResponse.data.data.url)
-        // form.setValue("supportingDocument",  fileUploadResponse.data.data.url)
-        
-        const dataEntries = [{
-          fillingStation: values.fillingStation,
-          city: values.city,
-          state: values.state,
-          product: values.product,
-          price: Number(values.price),
-          priceDate: values.priceDate,
-          supportingDocument: fileUploadResponse.data.data.url, // Assuming the file URL is available in the response
-        }];
-    
-        // Create payload for data entry
         const payload = {
-          dataEntry: dataEntries,
+          dataEntry: batchData,
         };
         
         await PlainTransportDekApi.post(
@@ -310,9 +327,9 @@ export function UploadClient() {
 
           </div>
 
-          <div className='w-full flex justify-between'>
-            {/* <Button type="submit">Add to Bat</Button> */}
-            <Button type="submit" disabled={isLoading} >Submit</Button>
+          <div className='w-full flex gap-6 mt-2'>
+            <Button type="button"  onClick={onAddToBatch} variant={"outline"} disabled={isLoading} className="border-2">Add to Batch</Button>
+            <Button type="submit" disabled={isLoading} className="flex-1" >Submit</Button>
           </div>
         </form>
 

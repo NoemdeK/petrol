@@ -10,6 +10,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { authOptions } from '@/utils/auth';
 import { ThemeProvider } from './providers/theme-provider';
 import LoadingModal from '@/components/LoadingModal';
+import { DocumentView } from '@/components/DocumentView';
 
 const metadata: Metadata = {
   title: 'Diophalytics.io',
@@ -36,6 +37,7 @@ export default  async function RootLayout({
           
             {children}
             <LoadingModal />
+            <DocumentView />
             
             <Toaster />
           </body>

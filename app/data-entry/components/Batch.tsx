@@ -70,7 +70,7 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) => {
 
       return (
-        <div className="cursor-pointer flex gap-2 text-xs items-center">
+        <div className="cursor-pointer flex gap-2 items-center">
           {row.getValue("fillingStation")}
         </div>
       )
@@ -86,8 +86,8 @@ export const columns: ColumnDef<any>[] = [
         )
     },    cell: ({ row }) => {
           return (
-            <div className="text-xs">
-            {row.getValue("state")}
+            <div className="">
+              {row.getValue("state")}
             </div>
             )
         },
@@ -159,64 +159,37 @@ export const columns: ColumnDef<any>[] = [
     }
   },
   {
-    accessorKey: "submittedBy",
-    header: ({  }) => {
-      return (
-       <div className="flex items-center gap-2">
-        Submitted By
-         
-       </div>
-      )
+    id: "actions",
+    enableHiding: false,
+    header: () => {
+        return (
+            <div className="text-right">
+                Actions
+            </div>
+        )
     },
-    cell: ({ row }) =>  {
+    cell: ({ row }) => {
+
+       const entry = row.original
+
+    
       return (
-        <div className="capitalize text-xs">
-            {row.getValue("submittedBy")}
+        <div className="flex justify-end">
+           <Button>
+            Delete
+        </Button>
         </div>
       )
-    }
-  },
-  {
-    accessorKey: "approvedBy",
-    header: ({  }) => {
-      return (
-       <div className="flex items-center gap-2">
-        Approved By
-         
-       </div>
-      )
     },
-    cell: ({ row }) =>  {
-      return (
-        <div className="capitalize text-xs">
-            {row.getValue("approvedBy")}
-        </div>
-      )
-    }
   },
-  {
-    accessorKey: "dateApproved",
-    header: ({  }) => {
-      return (
-       <div className="flex items-center gap-2">
-            Date Approved 
-         
-       </div>
-      )
-    },
-    cell: ({ row }) =>  {
-      return (
-        <div className="capitalize text-xs">
-            {row.getValue("dateApproved")}
-        </div>
-      )
-    }
-  },
+
+  
 ]
 
 
 const View = ({entry}: any) => {
   const { onOpen, setData} = useDocumentView()
+  console.log("entry", entry)
 
   const onclickSet = () => {
     setData(entry.supportingDocument)
@@ -225,7 +198,7 @@ const View = ({entry}: any) => {
   return (
     <div className="capitalize text-xs">
         <Button variant={"link" } onClick={onclickSet} className="text-sky-600"> 
-        View
+            View
         </Button>
     </div>
     )
@@ -233,7 +206,7 @@ const View = ({entry}: any) => {
 
 
 
-export function Approved({data}: {data: Payment[]}) {
+export function Batch({data}: any) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -270,21 +243,6 @@ export function Approved({data}: {data: Payment[]}) {
 
   return (
     <div className="px-2 h-full">
-    <div className="flex items-start md:items-center flex-col md:flex-row gap-4 justify-between py-3">
-        <div className="w-full flex  items-center gap-2">
-        <DebouncedInput
-          value={globalFilter ?? ''}
-          onChange={value => setGlobalFilter(String(value))}
-          className="p-2 font-lg shadow border border-block w-full md:w-72"
-          placeholder="Search all columns..."
-        />
-
-        </div>
-        <div className="flex gap-4 w-full md:justify-end">
-
-        </div>
-      </div>
-
       <div className="rounded-md border h-full">
         <Table className="">
           <TableHeader className=" text-xs text-">
@@ -336,59 +294,8 @@ export function Approved({data}: {data: Payment[]}) {
         </Table>
       </div>
 
-      <div className="flex items-center justify-end space-x-2 p-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
-        <div className="space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
-        </div>
-      </div>
+  
     </div>
   )
 }
 
-function DebouncedInput({
-  value: initialValue,
-  onChange,
-  debounce = 500,
-  ...props
-}: {
-  value: string | number
-  onChange: (value: string | number) => void
-  debounce?: number
-} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'>) {
-  const [value, setValue] = React.useState(initialValue)
-
-  React.useEffect(() => {
-    setValue(initialValue)
-  }, [initialValue])
-
-  React.useEffect(() => {
-    const timeout = setTimeout(() => {
-      onChange(value)
-    }, debounce)
-
-    return () => clearTimeout(timeout)
-  }, [value])
-
-  return (
-    <Input {...props} value={value} onChange={e => setValue(e.target.value)} />
-  )
-}

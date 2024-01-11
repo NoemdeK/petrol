@@ -70,7 +70,7 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) => {
 
       return (
-        <div className="cursor-pointer flex gap-2 items-center">
+        <div className="cursor-pointer flex gap-2 text-xs items-center">
           {row.getValue("fillingStation")}
         </div>
       )
@@ -86,7 +86,7 @@ export const columns: ColumnDef<any>[] = [
         )
     },    cell: ({ row }) => {
           return (
-            <div className="">
+            <div className="text-xs">
               {row.getValue("state")}
             </div>
             )
@@ -102,7 +102,7 @@ export const columns: ColumnDef<any>[] = [
         )
     },    cell: ({ row }) => {
           return (
-            <div className="">
+            <div className="text-xs">
               {row.getValue("state")}
             </div>
             )
@@ -191,6 +191,25 @@ export const columns: ColumnDef<any>[] = [
       return (
         <div className="capitalize text-xs">
             {row.getValue("dateSubmitted")}
+        </div>
+      )
+    }
+  },
+  {
+    accessorKey: "rejectedBy",
+    header: ({  }) => {
+      return (
+       <div className="flex items-center gap-2">
+        Reason
+         
+       </div>
+      )
+    },
+    cell: ({ row }) =>  {
+      return (
+        <div className="capitalize text-center text-[10px]">
+          
+            {row.getValue("reason")}
         </div>
       )
     }

@@ -36,8 +36,10 @@ export function Region({ selectedNames, setSelectedNames }: any) {
     <>
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" className="">
-          Select Regions
+        <Button variant="outline" className="font-normal">
+          <p>
+            Select Regions
+          </p>
           <span className="bg-[#CACCCB] h-8 w-6 flex justify-center items-center rounded-r-lg ml-4">
             <BiSolidDownArrow className="text-sm  text-accent" />
           </span>

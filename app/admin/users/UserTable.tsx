@@ -15,7 +15,15 @@ import {
 } from "@tanstack/react-table"
 
 
-
+import {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+  } from "@/components/ui/dropdown-menu"
 
 import { Button } from "@/components/ui/button"
 
@@ -29,14 +37,30 @@ import {
 } from "@/components/ui/table"
 
 
-import { useToast } from "@/components/ui/use-toast";
+import { toast, useToast } from "@/components/ui/use-toast";
 
 
 
 
 import { Input } from "@/components/ui/input"
 import { format } from "date-fns";
+import useApprove from "@/lib/useApprove";
+import { ApproveModal } from "@/components/ApproveModal";
+import { PlainTransportDekApi } from "@/utils/axios";
+import useReject from "@/lib/useReject";
+import { RejectedModal } from "@/components/Rejected";
+import { useSession } from "next-auth/react";
+import useLoading from "@/lib/useLoading";
 import useDocumentView from "@/lib/useDocumentView";
+import useCreate from "@/lib/useCreate";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { AvatarImage } from "@radix-ui/react-avatar";
+import { DotsHorizontalIcon } from "@radix-ui/react-icons"
+import { SupsendUserModal } from "@/components/SuspendUser"
+import useSuspend from "@/lib/useSuspend"
+import { DeletUserModal } from "@/components/DeleteUSer"
+import useDelete from "@/lib/useDelete"
+import useEditUser from "@/lib/useEdit"
 
 
 
@@ -58,12 +82,30 @@ export type Payment = {
 }
 
 export const columns: ColumnDef<any>[] = [
+    {
+        id: "select",
+        header: "ID",
+        cell: ({ row }) => {
+            const data = row.original
+            return (
+                <div className="flex gap-1 items-center">
+                   {/* <Avatar className="w-8">
+                          <AvatarImage src={data?.avatar} alt="@shadcn" />
+                          <AvatarFallback>CN</AvatarFallback>
+                      </Avatar> */}
+                      <p>{data.pdaId}</p>
+                </div>
+              )
+        },
+        enableSorting: false,
+        enableHiding: false,
+      },    
   {
-    accessorKey: "fillingStation",
+    accessorKey: "firstName",
     header: ({}) => {
         return (
             <div className="flex gap-1 items-center">
-             Filling Station
+            First Name
             </div>
         )
     },
@@ -71,63 +113,64 @@ export const columns: ColumnDef<any>[] = [
 
       return (
         <div className="cursor-pointer flex gap-2 text-xs items-center">
-          {row.getValue("fillingStation")}
+          {row.getValue("firstName")}
         </div>
       )
     }, 
   },
   {
-    accessorKey: "state",
+    accessorKey: "lastName",
     header: ({}) => {
         return (
             <div className="flex gap-2 items-center"> 
-             State
+             Last Name
             </div>
         )
     },    cell: ({ row }) => {
           return (
             <div className="text-xs">
-            {row.getValue("state")}
+              {row.getValue("lastName")}
             </div>
             )
         },
   },
   {
-    accessorKey: "region",
+    accessorKey: "email",
     header: ({  }) => {
       return (
         <div className="gap-2 flex items-center">
-            Region
+            Email
         </div>
       )
     },
     cell: ({ row }) =>  {
       return (
-        <div className="text-xs">
-          {row.getValue("region")}
-        </div>      )
+        <div className="text-xs text-[#0A98A9] font-medium">
+              {row.getValue("email")}
+        </div>
+      )
     }
   },
   {
-    accessorKey: "product",
+    accessorKey: "status",
     header: ({  }) => {
       return (
         <div className="flex items-center gap-2">
-            Product
+            Status
           
         </div>
       )
     },
-    cell: ({ row }) => <div className="text-xs ">
-              {row.getValue("product")}
+    cell: ({ row }) => <div className="capitalize text-xs ">
+        {row.getValue("status")}
     </div>,
   },
   {
-    accessorKey: "price",
+    accessorKey: "createdBy",
     header: ({  }) => {
       return (
        <div className="flex items-center gap-2">
-        Price
+            Created By
          
        </div>
       )
@@ -135,35 +178,18 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) =>  {
       return (
         <div className="capitalize text-xs">
-            ₦{Number(row.getValue("price")).toLocaleString()}
+        {row.getValue("createdBy")}
         </div>
       )
     }
   },
-  {
-    accessorKey: "supportingDocument",
-    header: ({  }) => {
-      return (
-       <div className="flex items-center gap-2">
-        Supporting Document
-         
-       </div>
-      )
-    },
-    cell: ({ row }) =>  {
-      const entry = row.original
 
-      return (
-        <View entry={entry} />
-      )
-    }
-  },
   {
-    accessorKey: "submittedBy",
+    accessorKey: "dateCreated",
     header: ({  }) => {
       return (
        <div className="flex items-center gap-2">
-        Submitted By
+            Date Created 
          
        </div>
       )
@@ -171,17 +197,17 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) =>  {
       return (
         <div className="capitalize text-xs">
-            {row.getValue("submittedBy")}
+            {row.getValue("dateCreated")}
         </div>
       )
     }
   },
   {
-    accessorKey: "approvedBy",
+    accessorKey: "lastLoggedIn",
     header: ({  }) => {
       return (
        <div className="flex items-center gap-2">
-        Approved By
+           Last Login
          
        </div>
       )
@@ -189,17 +215,17 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) =>  {
       return (
         <div className="capitalize text-xs">
-            {row.getValue("approvedBy")}
+            {row.getValue("lastLoggedIn")}
         </div>
       )
     }
   },
   {
-    accessorKey: "dateApproved",
+    accessorKey: "duration",
     header: ({  }) => {
       return (
        <div className="flex items-center gap-2">
-            Date Approved 
+          Duration
          
        </div>
       )
@@ -207,16 +233,34 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) =>  {
       return (
         <div className="capitalize text-xs">
-            {row.getValue("dateApproved")}
+            {row.getValue("duration")}
         </div>
       )
     }
+  },
+  {
+    id: "actions",
+    enableHiding: false,
+    header: () => {
+        return (
+            <div className="text-right">
+                Actions
+            </div>
+        )
+    },
+    cell: ({ row }) => {
+
+       const entry = row.original
+      return (
+       <Actions entry={entry} />
+      )
+    },
   },
 ]
 
-
 const View = ({entry}: any) => {
   const { onOpen, setData} = useDocumentView()
+  console.log("entry", entry)
 
   const onclickSet = () => {
     setData(entry.supportingDocument)
@@ -231,9 +275,131 @@ const View = ({entry}: any) => {
     )
 }
 
+const Actions = (entry: any) => {
+  const approve = useDelete()
+  const reject = useSuspend()
+  const session = useSession()
+  const edit = useEditUser()
+  const loading = useLoading()
 
 
-export function Approved({data}: {data: Payment[]}) {
+
+
+  const deleteUser = async (id: string) => {
+    loading.onOpen()
+    // Perform the API call to approve the entry
+    try {
+      // Your API call here
+      // Example:
+      const response = await fetch(`https://petrodata.zainnovations.com/api/v1/data-entry/actions?flag=approve&entryId=${id}`, {
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer ${session.data?.user.accessToken}`,
+        },
+      });
+      const data = await response.json();
+      console.log(data);
+      toast({
+        title: `Approved!`,
+        description: `Entry is approved!`,
+        })
+      // Simulating successful approval
+      window.location.reload();
+    } catch (error) {
+      console.error('Error:', error);
+      toast({
+        variant: "destructive",
+        title: `Approve not done!`,
+        description: `Error occured`,
+        })
+    } finally {
+      loading.onClose()
+    }
+  };
+
+  const suspendUser = async (id: string) => {
+    loading.onOpen()
+
+
+    try {
+        // Your API call here
+        // Example:
+        const response = await fetch(`https://petrodata.zainnovations.com/api/v1/user/suspend?id=${id}`, {
+          method: 'PATCH',
+          headers: {
+            Authorization: `Bearer ${session.data?.user.accessToken}`,
+          },
+        });
+        const data = await response.json();
+        console.log(data);
+        toast({
+          title: `Suspension!`,
+          description: `User is suspended!`,
+          })
+        // Simulating successful approval
+        window.location.reload();
+      } catch (error) {
+        console.error('Error:', error);
+        toast({
+          variant: "destructive",
+          title: `Suspension not done!`,
+          description: `Error occured`,
+          })
+      } finally {
+        loading.onClose()
+      }
+  };
+
+  return (
+   <div className="flex gap-1 justify-end">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <DotsHorizontalIcon className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="cursor-pointer" align="end">
+            <DropdownMenuItem>
+              Reset Password
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="cursor-pointer"
+                onClick={() => {
+                    edit.setId(entry.entry._id);
+                    edit.setData({...entry.entry, role: edit.tab});
+                    edit.onOpen()
+                }}
+                >
+                    Edit</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem  className="cursor-pointer"
+                onClick={() => {
+                    reject.setId(entry.entry._id);
+                    reject.onOpen()
+              }}
+                >
+                Suspend</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="text-red-700">Delete</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+    {
+        approve.isOpen && (
+          <DeletUserModal onCancel={approve.onClose} onSubmit={() => deleteUser(approve.id)}/>
+        )
+      }
+      {
+        reject.isOpen && (
+          <SupsendUserModal onCancel={reject.onClose} onSubmit={() => suspendUser(reject.id)}/>
+        )
+      }
+  </div>
+  )
+}
+
+export function UsersTable({data}: {data: Payment[]}) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -245,6 +411,8 @@ export function Approved({data}: {data: Payment[]}) {
 
 
   const [globalFilter, setGlobalFilter] = React.useState('')
+
+  const { onOpen } = useCreate()
 
   const table = useReactTable({
       data,
@@ -281,18 +449,20 @@ export function Approved({data}: {data: Payment[]}) {
 
         </div>
         <div className="flex gap-4 w-full md:justify-end">
-
+            <Button onClick={onOpen}>
+                Create User
+            </Button>
         </div>
       </div>
 
       <div className="rounded-md border h-full">
         <Table className="">
-          <TableHeader className=" text-xs text-">
+          <TableHeader className=" text-xs ">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="text-" >
+                    <TableHead key={header.id} className="" >
                       {header.isPlaceholder
                         ? null
                         : flexRender(

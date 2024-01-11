@@ -1,11 +1,11 @@
 
-import {UploadClient} from '@/components/UploadClient'
 import React from 'react'
+import Container from './components/Container'
 
 const Datapage = () => {
   return (
     <div>
-      <UploadClient />
+      <Container />
     </div>
   )
 }

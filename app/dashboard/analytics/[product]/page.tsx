@@ -31,6 +31,7 @@ async function getAnalytics(params: string | undefined, search: string) {
   }
   try {
     const regions = [
+      "National",
       'North East',
       'North West',
       'South South',
@@ -75,6 +76,16 @@ async function getData() {
   }
 }
 
+async function getDataNews(product: string) {
+  try {
+    const res = await fetch(process.env.BACKEND_URL + `api/v1/petro-data/analysis/projections?flag=${product || "PMS"}&page=1`)
+    return res.json()
+
+  } catch (error: any) {
+    console.log(error)
+  }
+}
+
 const query = groq`
   *[_type=="post"] {
     ...,
@@ -96,11 +107,14 @@ export const revalidate = 3600
 
 const Productpage = async ({ params, searchParams }: any) => {
   const posts = await fetchPosts()
+  const news = await getDataNews(params.product)
 
   const main = await getAnalytics(`${params.product}`, `${searchParams.period}`)
   const dataa = await getData()
 
   const data = main.analysis
+
+  console.log(news.data.articles[0], "news")
 
   const result = dataa
 
@@ -129,6 +143,7 @@ const Productpage = async ({ params, searchParams }: any) => {
     default:
       selectedComponent = <PMStest data={data} />; // Handle the case when product doesn't match any known type
   }
+
   return (
     <div>
       <div className='md:pb-4  h-full'>
@@ -150,7 +165,7 @@ const Productpage = async ({ params, searchParams }: any) => {
             </div>
             <Separator className='h-[1px] my-1' />
             <div className=''>
-              <News news={params.product} posts={posts} />
+              <News news={params.product} posts={posts} other={news.data.articles} />
             </div>
           </div>
         </div>
