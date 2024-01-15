@@ -29,7 +29,7 @@ import {
 } from "@/components/ui/table"
 
 
-import { useToast } from "@/components/ui/use-toast";
+import { toast, useToast } from "@/components/ui/use-toast";
 
 
 
@@ -38,6 +38,12 @@ import { Input } from "@/components/ui/input"
 import { format } from "date-fns";
 import useDocumentView from "@/lib/useDocumentView";
 
+
+import { useRouter } from "next/navigation";
+import useLoading from "@/lib/useLoading";
+import { useState } from "react";
+import { PlainTransportDekApi } from "@/utils/axios";
+import { useSession } from "next-auth/react";
 
 
 export type Payment = {
@@ -92,22 +98,7 @@ export const columns: ColumnDef<any>[] = [
             )
         },
   },
-  {
-    accessorKey: "region",
-    header: ({  }) => {
-      return (
-        <div className="gap-2 flex items-center">
-            Region
-        </div>
-      )
-    },
-    cell: ({ row }) =>  {
-      return (
-        <div className="text-xs">
-          {row.getValue("region")}
-        </div>      )
-    }
-  },
+
   {
     accessorKey: "product",
     header: ({  }) => {
@@ -118,9 +109,22 @@ export const columns: ColumnDef<any>[] = [
         </div>
       )
     },
-    cell: ({ row }) => <div className="text-xs ">
-              {row.getValue("product")}
-    </div>,
+    cell: ({ row }) => {
+      const batch = row.original
+
+      const productNames = Object.keys(batch.products);
+
+
+      return (
+        <div className="text-xs ">
+            {
+           productNames.map((item, i) => (
+            <div key={i}>{item}</div>
+           )) 
+          }
+        </div>
+      )
+    },
   },
   {
     accessorKey: "price",
@@ -133,9 +137,16 @@ export const columns: ColumnDef<any>[] = [
       )
     },
     cell: ({ row }) =>  {
+      const batch = row.original
+      const numericalValues = Object.values(batch.products).map(Number);
+
       return (
         <div className="capitalize text-xs">
-            ₦{Number(row.getValue("price")).toLocaleString()}
+          {
+           numericalValues.map((item, i) => (
+            <div key={i}>{item}</div>
+           )) 
+          }
         </div>
       )
     }
@@ -158,30 +169,7 @@ export const columns: ColumnDef<any>[] = [
       )
     }
   },
-  {
-    id: "actions",
-    enableHiding: false,
-    header: () => {
-        return (
-            <div className="text-right">
-                Actions
-            </div>
-        )
-    },
-    cell: ({ row }) => {
 
-       const entry = row.original
-
-    
-      return (
-        <div className="flex justify-end">
-           <Button>
-            Delete
-        </Button>
-        </div>
-      )
-    },
-  },
 
   
 ]
@@ -189,7 +177,6 @@ export const columns: ColumnDef<any>[] = [
 
 const View = ({entry}: any) => {
   const { onOpen, setData} = useDocumentView()
-  console.log("entry", entry)
 
   const onclickSet = () => {
     setData(entry.supportingDocument)
@@ -206,7 +193,7 @@ const View = ({entry}: any) => {
 
 
 
-export function Batch({data}: any) {
+export function Batch({data, setBatchData}: any) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -240,6 +227,55 @@ export function Batch({data}: any) {
       },
     })
 
+    const {data: session} = useSession()
+    const router = useRouter()
+    const loading = useLoading()
+
+    const deleteFromBatch = (idToDelete:any) => {
+      // Filter out the item with the specified idToDelete
+      const updatedItems = data.filter((item: any) => item !== idToDelete);
+  
+      // Update the state with the filtered array
+      setBatchData(updatedItems);
+    };
+
+    async function onSubmit() {
+ 
+      loading.onOpen()
+
+      const payload = {
+        dataEntry: data,
+      };
+      
+      await PlainTransportDekApi.post(
+          'data-entry/upload', 
+        JSON.stringify(payload),
+        {
+          headers: {
+              Authorization: `Bearer ${session?.user.accessToken}`
+          }
+        }
+      )
+        .then(() => {
+          toast({
+            title: "New Data Entry Added",
+            description: "Done",
+            })
+          router.refresh()
+          window.location.reload()
+        })
+        .catch((error: any) => {
+          console.error("Error:", error);
+          toast({
+            variant: "destructive",
+            title: "Entry Error",
+            description: `${error.response.data.message}`,
+            })
+        })
+        .finally(() => {
+          loading.onClose()
+        })        
+      }
 
   return (
     <div className="px-2 h-full">
@@ -265,21 +301,30 @@ export function Batch({data}: any) {
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
+              table.getRowModel().rows.map((row) => {
+                return  (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                  >
+                    {row.getVisibleCells().map((cell) =>{
+                      return  (
+                        <TableCell key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      )
+                    })}
+                      <Button onClick={() => deleteFromBatch(row.original)}
+                          className="mt-6 justify-center flex items-center"
+                      >
+                        Delete
+                    </Button>
+                  </TableRow>
+                )
+              })
             ) : (
               <TableRow>
                 <TableCell
@@ -292,6 +337,13 @@ export function Batch({data}: any) {
             )}
           </TableBody>
         </Table>
+
+        <div className="flex justify-between items-center w-full">
+           <Button onClick={() => setBatchData([])} variant={"link"}> 
+                    Clear All
+                </Button>
+          <Button onClick={onSubmit}  className="flex-1h" >Submit</Button>
+        </div>
       </div>
 
   

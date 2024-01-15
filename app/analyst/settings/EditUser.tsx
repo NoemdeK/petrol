@@ -4,14 +4,6 @@ import * as z from "zod"
 
 
 import { Button } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
 
 import {
   Sheet,
@@ -23,6 +15,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
+
 
 import {
     Form,
@@ -37,7 +30,6 @@ import {
   
 
 import { useForm } from "react-hook-form"
-import useCreate from "@/lib/useCreate"
 import { toast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
 import { PlainTransportDekApi } from "@/utils/axios"
@@ -52,15 +44,15 @@ import {
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select"
-import { Checkbox } from "@/components/ui/checkbox"
-import { useState } from "react"
+import useEditUserTwo from "@/lib/useEdit2"
+import { FileInput } from "@/components/FileInputTwo"
   
 
 const formSchema = z.object({
-    firstName: z.string(),
-    lastName: z.string(),
-    email: z.string(), // Assuming you will store the file path as a string
-    role: z.string(),
+    firstName: z.string().optional(),
+    lastName: z.string().optional(),
+    email: z.string().optional(), // Assuming you will store the file path as a string
+    role: z.string().optional(),
     password: z.string().optional(),
   });
 
@@ -71,25 +63,25 @@ const formSchema = z.object({
         role: "rwx_data_entry_analyst"
     },
     {
-      name: "Field Agent",
-      role: "rwx_data_entry_user"
+        name: "Field Agent",
+        role: "rwx_data_entry_user"
     }
   ]
 
-const CreateUser = () => {
+const EditUserTwo = () => {
 
-    const { isOpen, onClose } = useCreate()
+    const { isOpen, onClose, data: item } = useEditUserTwo()
     const loading = useLoading()
     const router = useRouter()
     const {data} = useSession()
 
-    const [generate, setGenerate] = useState(false)
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),  
         defaultValues: {
   
         }
       })
+
   
       const onCancel = () => {
         onClose()
@@ -97,11 +89,10 @@ const CreateUser = () => {
       }
 
       async function onSubmit(values: z.infer<typeof formSchema>) {
- 
         loading.onOpen()
 
-        await PlainTransportDekApi.post(
-            'user/create', 
+        await PlainTransportDekApi.patch(
+            `user/update?id=${item.data._id}`, 
             values,
           {
             headers: {
@@ -112,17 +103,17 @@ const CreateUser = () => {
           .then(() => {
             form.reset()
             toast({
-              title: "New User Created",
+              title: "New User Edited",
               description: "Done",
               })
             router.refresh()
-            onClose()
+            onCancel()
           })
           .catch((error) => {
             console.error("Error:", error);
             toast({
               variant: "destructive",
-              title: "New User Error",
+              title: "Edit User Error",
               description: `${error.response.data.message}`,
               })
           })
@@ -131,20 +122,23 @@ const CreateUser = () => {
           })        
         }
 
-
   return (
-    <Sheet  onOpenChange={onClose} open={isOpen}  defaultOpen={isOpen}>
-    <SheetContent>
-      <SheetHeader>
-        <SheetTitle>Create New User</SheetTitle>
-        <SheetDescription>
-        </SheetDescription>
-      </SheetHeader>
-      <Form {...form}>
+   <Sheet  onOpenChange={onClose} open={isOpen}  defaultOpen={isOpen}>
+   <SheetContent>
+     <SheetHeader>
+       <SheetTitle>Edit User</SheetTitle>
+       <SheetDescription>
+       </SheetDescription>
+     </SheetHeader>
+     <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex justify-between flex-col h-full">
           <div className="">    
           <div className="grid gap-2">
         <div className="grid gap-1">
+          <div className="flex mx-auto justify-center items-center">
+            <FileInput form={form} name="file" data={data} />
+          </div>
+
             <FormField
                 control={form.control}
                 name="firstName"
@@ -152,7 +146,7 @@ const CreateUser = () => {
                     <FormItem>
                     <FormLabel>First Name</FormLabel>
                     <FormControl>
-                        <Input placeholder=""  {...field} />
+                        <Input placeholder="" disabled={true} defaultValue={item.data.firstName}   />
                     </FormControl>
                     <FormMessage />
                     </FormItem>
@@ -167,7 +161,7 @@ const CreateUser = () => {
                     <FormItem>
                     <FormLabel>Last Name</FormLabel>
                     <FormControl>
-                        <Input placeholder="Last name"  {...field} />
+                        <Input placeholder="Last name" disabled={true}  defaultValue={item?.data?.lastName} />
                     </FormControl>
                     <FormMessage />
                     </FormItem>
@@ -182,55 +176,30 @@ const CreateUser = () => {
                     <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                        <Input placeholder="email@gmail.com" type="email" {...field} />
+                        <Input placeholder="email@gmail.com" type="email"  disabled={true} defaultValue={item.data.email}  />
                     </FormControl>
                     <FormMessage />
                     </FormItem>
                 )}
             />
         </div>
-        <div className="grid gap-1 my-2">
-
-        <div className="">
-
-          <div className="items-top flex space-x-2">
-            <Checkbox id="terms1" 
-                onCheckedChange={() => setGenerate(!generate)}
-            /> 
-            <div className="grid gap-1.5 leading-none">
-              <label
-                htmlFor="terms1"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Generate Password
-              </label>
-
-            </div>
-          </div>
-
-              {  
-                !generate && (
-                  <FormField
-                      name="password"
-                      control={form.control}
-                      render={({ field }) => (
-                    <FormItem  className="flex flex-col gap-1 mt-4">
-                        <FormLabel>Password </FormLabel>
-                        <FormControl>
-                            <div className="relative">
-                            <Input  {...field} />
-                          
-                            </div>
-                        </FormControl>
-                    <FormMessage />
-                    </FormItem>
-                  )}
-              />
-                )
-              }
-          </div>
-
-
+        <div className="grid gap-1">
+        {/* <FormField
+              name="password"
+              control={form.control}
+              render={({ field }) => (
+            <FormItem  className="flex flex-col gap-1">
+                <FormLabel>Password </FormLabel>
+                <FormControl>
+                    <div className="relative">
+                    <Input  {...field} />
+                   
+                    </div>
+                </FormControl>
+            <FormMessage />
+            </FormItem>
+          )}
+      /> */}
         </div>
 
         <div>
@@ -240,7 +209,7 @@ const CreateUser = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Role</FormLabel>
-                <Select onValueChange={field.onChange}  defaultValue={field.value}>
+                <Select onValueChange={field.onChange}  disabled defaultValue={item.data.role || field.value}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select a role" />
@@ -260,21 +229,21 @@ const CreateUser = () => {
         </div>
       </div>
          </div>
-         <SheetFooter>
+         <SheetFooter className="flex items-end justify-end">
         
         <div className="w-full flex justify-between mb-10">
             <SheetClose asChild>
-              <Button type="button" variant="ghost" onClick={onCancel}>Close</Button>
+              <Button type="submit" variant="ghost" onClick={onCancel}>Close</Button>
             </SheetClose>
-              <Button  type="submit">Create</Button>
+              <Button  type="submit">Save</Button>
         </div>
-      </SheetFooter>
+        </SheetFooter>
         </form>
       </Form>
-    
-    </SheetContent>
-  </Sheet>
-   )
+   
+   </SheetContent>
+ </Sheet>
+  )
 }
 
-export default CreateUser
+export default EditUserTwo

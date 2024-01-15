@@ -16,7 +16,10 @@ const Client = ({
       router.replace("/data-entry");
     } else if (session === "rwx_admin"){
       router.replace("/admin");
-    } else {
+    } else if (session === "rwx_data_entry_analyst"){
+      router.replace("/analyst");
+    }
+     else {
       router.push("/dashboard/analytics/PMS");
     }
   }, [session, router]);

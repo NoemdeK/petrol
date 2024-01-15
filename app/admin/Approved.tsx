@@ -38,6 +38,8 @@ import { Input } from "@/components/ui/input"
 import { format } from "date-fns";
 import useDocumentView from "@/lib/useDocumentView";
 
+import { PageContainer } from "@/components/PageContainer"
+
 
 
 export type Payment = {
@@ -118,9 +120,22 @@ export const columns: ColumnDef<any>[] = [
         </div>
       )
     },
-    cell: ({ row }) => <div className="text-xs ">
-              {row.getValue("product")}
-    </div>,
+    cell: ({ row }) => {
+      const batch = row.original
+
+      const productNames = Object.keys(batch?.products);
+
+
+      return (
+        <div className="text-xs ">
+            {
+           productNames.map((item, i) => (
+            <div key={i}>{item}</div>
+           )) 
+          }
+        </div>
+      )
+    },
   },
   {
     accessorKey: "price",
@@ -133,9 +148,16 @@ export const columns: ColumnDef<any>[] = [
       )
     },
     cell: ({ row }) =>  {
+      const batch = row.original
+      const numericalValues = Object.values(batch.products).map(Number);
+
       return (
         <div className="capitalize text-xs">
-            ₦{Number(row.getValue("price")).toLocaleString()}
+          {
+           numericalValues.map((item, i) => (
+            <div key={i}>{item}</div>
+           )) 
+          }
         </div>
       )
     }
@@ -223,8 +245,8 @@ const View = ({entry}: any) => {
     onOpen()
   }
   return (
-    <div className="capitalize text-xs">
-        <Button variant={"link" } onClick={onclickSet} className="text-sky-600"> 
+    <div className="capitalize text-xs flex justify-center items-center">
+        <Button variant={"link" } onClick={onclickSet} className="text-sky-600 text-center"> 
         View
         </Button>
     </div>
@@ -267,7 +289,7 @@ export function Approved({data}: {data: Payment[]}) {
       },
     })
 
-
+      
   return (
     <div className="px-2 h-full">
     <div className="flex items-start md:items-center flex-col md:flex-row gap-4 justify-between py-3">
@@ -336,11 +358,9 @@ export function Approved({data}: {data: Payment[]}) {
         </Table>
       </div>
 
-      <div className="flex items-center justify-end space-x-2 p-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
+      <div className="flex items-center justify-between space-x-2 p-4">
+      <PageContainer page="/admin" />
+
         <div className="space-x-2">
           <Button
             variant="outline"

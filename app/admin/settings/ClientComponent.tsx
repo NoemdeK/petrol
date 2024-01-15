@@ -60,12 +60,12 @@ const formSchema = z.object({
 
 const ClientComponent = ({data}: any) => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
+  const {data:session} = useSession()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   })
 
-  const session = useSession()
 
 
   
@@ -73,7 +73,7 @@ const ClientComponent = ({data}: any) => {
     setIsLoading(true)
 
     const myHeaders = new Headers();
-    myHeaders.append("Authorization", `Bearer ${session.data?.user.accessToken}`);
+    myHeaders.append("Authorization", `Bearer ${session?.user.accessToken}`);
 
     const formdata = new FormData();
     formdata.append("firstName", values.firstName ?? "");

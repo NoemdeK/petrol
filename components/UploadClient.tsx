@@ -36,12 +36,18 @@ import { useRouter } from "next/navigation";
 import useLoading from "@/lib/useLoading";
 import { useState } from "react";
 
+const productsSchema = z.object({
+  PMS: z.string(),
+  DPK: z.string(),
+  LPG: z.string(),
+  AGO: z.string(),
+});
+
 export const formSchema = z.object({
     fillingStation: z.string(),
     state: z.string(),
     city: z.string(),
-    product: z.string(),
-    price: z.string(),
+    products: productsSchema,
     priceDate: z.string(),
     supportingDocument: z.string().optional(),
     file: z.any(),
@@ -112,7 +118,6 @@ export function UploadClient({setBatchData,batchData}: any) {
         form.reset()
       }
 
-      console.log(batchData, "batch")
 
       const isLoading = form.formState.isSubmitting;
       const onAddToBatch = async () => {
@@ -136,7 +141,8 @@ export function UploadClient({setBatchData,batchData}: any) {
               { ...values, supportingDocument: imageUrl },
             ]);
 
-    
+            router.refresh()
+            
             form.reset(); // Reset the form after adding to batch
           } catch (error) {
             console.error("Validation Error:", error);
@@ -144,10 +150,9 @@ export function UploadClient({setBatchData,batchData}: any) {
         })();
       };
       // 2. Define a submit handler.
-      async function onSubmit(values: z.infer<typeof formSchema>) {
+      async function onSubmit() {
  
         loading.onOpen()
-        onAddToBatch()
 
         const payload = {
           dataEntry: batchData,
@@ -165,7 +170,7 @@ export function UploadClient({setBatchData,batchData}: any) {
           .then(() => {
             form.reset()
             toast({
-              title: "New Files Added",
+              title: "New Data Entry Added",
               description: "Done",
               })
             router.refresh()
@@ -175,7 +180,7 @@ export function UploadClient({setBatchData,batchData}: any) {
             console.error("Error:", error);
             toast({
               variant: "destructive",
-              title: "New Docuemnt Error",
+              title: "Entry Error",
               description: `${error.response.data.message}`,
               })
           })
@@ -184,13 +189,14 @@ export function UploadClient({setBatchData,batchData}: any) {
           })        
         }
 
+
   return (
-    <div className="grid gap-4 py-4 max-w-xl">
+    <div className="grid gap-4  max-w-xl my-4 p-4">
       <Form {...form}>
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
           <div>
-            <Label className="text-lg md:text-xl">
+            <Label className="text-lg md:text-xl mt-8">
               Upload Data
             </Label>
             <p className="text-sm">Fill in the form below to upload and submit your data.</p>
@@ -234,6 +240,8 @@ export function UploadClient({setBatchData,batchData}: any) {
                   </FormItem>
                 )}
               />
+
+
             <FormField
               control={form.control}
               name="state"
@@ -256,52 +264,82 @@ export function UploadClient({setBatchData,batchData}: any) {
                   </Select>
                 </FormItem>
               )}
-            />
-           </div>
+            /> 
+            </div>
 
-          <FormField
-            control={form.control}
-            name="product"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Product</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a product" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                  {dataproduct.map((item: any, i: number) => (
-                      <SelectItem key={i} value={item.abbr}>
-                        {item.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormItem>
-            )}
-          />
+            <div className="border border-1 p-4">
+              <div className="grid grid-cols-2 gap-4">
+                <p className=" text-sm font-medium">Product(s)</p>
+                <p className=" ml-auto text-sm">₦</p>
+              </div>
+                <FormField
+                  control={form.control}
+                  name="products.AGO"
+                  render={({ field }) => (
+                    <FormItem className="flex gap-4 items-center">
+                      <FormLabel className="w-1/2 text-xs">Automotive Gas Oil</FormLabel>
+                      <FormControl>
+                        <Input  disabled={isLoading} {...field}  type="number" placeholder="0.00" className="ml-auto w-32" />
+                      </FormControl>
+                      {/* <FormDescription>This is your public display name.</FormDescription> */}
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-          <div className="grid grid-cols-2 gap-4">
-            <FormField
-              control={form.control}
-              name="price"
-              render={({ field }) => (
-                <FormItem className="relative">
-                  <FormLabel>Price</FormLabel>
-                  <FormControl>
-                    <Input placeholder="" className="pl-8" type="number" disabled={isLoading} {...field} />
-                  </FormControl>
-                  <span className="absolute top-6 h-10 w-7 rounded-l-md flex justify-center items-center  bg-gray-200 left-0">
-                  ₦
-                  </span>
+                <FormField
+                  control={form.control}
+                  name="products.DPK"
+                  render={({ field }) => (
+                    <FormItem className="flex gap-4 items-center">
+                      <FormLabel className="w-1/2 text-xs">Dual Purpose Kerosene </FormLabel>
+                      <FormControl>
+                        <Input  disabled={isLoading} {...field}  type="number" placeholder="0.00" className="ml-auto w-32" />
+                      </FormControl>
+                      {/* <FormDescription>This is your public display name.</FormDescription> */}
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-                  {/* <FormDescription>This is your public display name.</FormDescription> */}
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                
+                <FormField
+                  control={form.control}
+                  name="products.LPG"
+                  render={({ field }) => (
+                    <FormItem className="flex gap-4 items-center">
+                      <FormLabel className="w-1/2 text-xs">Liquefied Petroluem Gas </FormLabel>
+                      <FormControl>
+                        <Input  disabled={isLoading} {...field}  type="number" placeholder="0.00" className="ml-auto w-32" />
+                      </FormControl>
+                      {/* <FormDescription>This is your public display name.</FormDescription> */}
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+
+                <FormField
+                  control={form.control}
+                  name="products.PMS"
+                  render={({ field }) => (
+                    <FormItem className="flex gap-4 items-center">
+                      <FormLabel className="w-1/2 text-xs">Premium Motor Spirit  </FormLabel>
+                      <FormControl>
+                        <Input  disabled={isLoading} {...field}  type="number" placeholder="0.00" className="ml-auto w-32" />
+                      </FormControl>
+                      {/* <FormDescription>This is your public display name.</FormDescription> */}
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+            </div>
+
+
+
+
+          <div className="grid gap-4">
+            
             <FormField
               control={form.control}
               name="priceDate"
@@ -329,7 +367,12 @@ export function UploadClient({setBatchData,batchData}: any) {
 
           <div className='w-full flex gap-6 mt-2'>
             <Button type="button"  onClick={onAddToBatch} variant={"outline"} disabled={isLoading} className="border-2">Add to Batch</Button>
-            <Button type="submit" disabled={isLoading} className="flex-1" >Submit</Button>
+            {
+            batchData.length === 0 && (
+              <Button type="submit" disabled={isLoading} className="flex-1" >Submit</Button>
+
+            )            
+            }
           </div>
         </form>
 

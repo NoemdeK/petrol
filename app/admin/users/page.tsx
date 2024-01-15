@@ -4,10 +4,10 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/utils/auth';
 
 
-async function getDataAnalysts(header: string) {
+async function getDataAnalysts(header: string, limit: string) {
 
     try{
-      const res = await fetch("https://petrodata.zainnovations.com/api/v1/user/retrieve?flag=analysts&batch=1", {
+      const res = await fetch(`https://petrodata.zainnovations.com/api/v1/user/retrieve?flag=analysts&batch=1&limit=${limit || '10'}`, {
         headers: {
           "Authorization": `Bearer ${header}`
         }
@@ -21,10 +21,10 @@ async function getDataAnalysts(header: string) {
     }
   }
 
-  async function getDatafield(header: string) {
+  async function getDatafield(header: string, limit: string) {
 
     try{
-      const res = await fetch("https://petrodata.zainnovations.com/api/v1/user/retrieve?flag=analysts&batch=1", {
+      const res = await fetch(`https://petrodata.zainnovations.com/api/v1/user/retrieve?flag=analysts&batch=1&limit=${limit || '10'}`, {
         headers: {
           "Authorization": `Bearer ${header}`
         }
@@ -38,10 +38,10 @@ async function getDataAnalysts(header: string) {
     }
   }
 
-const Page = async () => {
+const Page = async ({searchParams}: any) => {
   const user = await getServerSession(authOptions);
-  const analyst = await getDataAnalysts(`${user?.user.accessToken}`)
-  const field = await getDatafield(`${user?.user.accessToken}`)
+  const analyst = await getDataAnalysts(`${user?.user.accessToken}`, searchParams.rows)
+  const field = await getDatafield(`${user?.user.accessToken}`, searchParams.rows)
 
   console.log(field.data.result, "name")
 

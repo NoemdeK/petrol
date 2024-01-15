@@ -59,16 +59,15 @@ const ClientComponent = ({data}: any) => {
     resolver: zodResolver(formSchema),
   })
 
-  const session = useSession()
+  const {data: session} = useSession()
 
-  console.log(data)
 
   
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true)
 
     const myHeaders = new Headers();
-    myHeaders.append("Authorization", `${data.accessToken}`);
+    myHeaders.append("Authorization", `Bearer ${session?.user.accessToken}`);
 
     const formdata = new FormData();
     formdata.append("firstName", values.firstName ?? "");
@@ -93,6 +92,7 @@ const ClientComponent = ({data}: any) => {
     }
   }
 
+  
   return (
     <Tabs defaultValue="account" className="w-[700px]">
     <TabsList className="grid w-full grid-cols-2">

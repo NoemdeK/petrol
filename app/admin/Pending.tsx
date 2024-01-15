@@ -45,24 +45,10 @@ import { useSession } from "next-auth/react";
 import useLoading from "@/lib/useLoading";
 import useDocumentView from "@/lib/useDocumentView";
 
+import { PageContainer } from "@/components/PageContainer"
 
 
-export type Payment = {
-  id: string
-  amount: number
-  fname: string
-  lname: string
-  email: string
-  phoneNumber: number
-  clientAssignment: string
-  region: string,
-  position: string
-  tenure: string
-  age: number
-  salary: number
-  bonus: number
-  status: string
-}
+
 
 export const columns: ColumnDef<any>[] = [
   {
@@ -117,33 +103,52 @@ export const columns: ColumnDef<any>[] = [
     }
   },
   {
-    accessorKey: "product",
+    accessorKey: "products",
     header: ({  }) => {
       return (
         <div className="flex items-center gap-2">
-            Product
+            Products
           
         </div>
       )
     },
-    cell: ({ row }) => <div className="text-xs ">
-        {row.getValue("product")}
-    </div>,
+    cell: ({ row }) => {
+      const batch = row.original
+
+      const productNames = Object.keys(batch?.products);
+
+
+      return (
+        <div className="text-xs ">
+            {
+           productNames.map((item, i) => (
+            <div key={i}>{item}</div>
+           )) 
+          }
+        </div>
+      )
+    },
   },
   {
     accessorKey: "price",
     header: ({  }) => {
       return (
        <div className="flex items-center gap-2">
-        Price
-         
+        Price (₦)
        </div>
       )
     },
     cell: ({ row }) =>  {
+      const batch = row.original
+      const numericalValues = Object.values(batch.products).map(Number);
+
       return (
         <div className="capitalize text-xs">
-            ₦{Number(row.getValue("price")).toString()}
+          {
+           numericalValues.map((item, i) => (
+            <div key={i}>{item}</div>
+           )) 
+          }
         </div>
       )
     }
@@ -262,7 +267,6 @@ const Actions = (entry: any) => {
         },
       });
       const data = await response.json();
-      console.log(data);
       toast({
         title: `Approved!`,
         description: `Entry is approved!`,
@@ -343,7 +347,7 @@ const Actions = (entry: any) => {
   )
 }
 
-export function Pending({data}: {data: Payment[]}) {
+export function Pending({data}: {data: any[]}) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -376,6 +380,7 @@ export function Pending({data}: {data: Payment[]}) {
         globalFilter
       },
     })
+
 
 
   return (
@@ -446,11 +451,8 @@ export function Pending({data}: {data: Payment[]}) {
         </Table>
       </div>
 
-      <div className="flex items-center justify-end space-x-2 p-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
+      <div className="flex items-center justify-between space-x-2 p-4">
+          <PageContainer page="/admin" />
         <div className="space-x-2">
           <Button
             variant="outline"

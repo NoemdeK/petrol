@@ -22,6 +22,9 @@ const Page = () => {
       case 'rwx_user':
         router.replace('/dashboard/analytics/PMS');
         break;
+        case 'rwx_data_entry_analyst':
+        router.replace('/analyst');
+        break;
       default:
         router.replace('/dashboard/analytics/PMS');
         break;

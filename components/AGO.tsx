@@ -2,15 +2,9 @@
 import { RootState } from '@/redux/store';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Tab } from '@headlessui/react';
-import { SixMonths } from './SixMonths';
-import { OneMonth } from './OneMonth';
-import { OneWeek } from './OneWeek';
-import { ThreeMonths } from './ThreeMonths';
+
 import { Max } from './Max';
-import { FiveYears } from './FiveYears';
-import { YearOne } from './YearOne';
-import { YTD } from './YTD';
+
 import { filterDataByRegions, transformTipToChartData } from './functions';
 
 function classNames(...classes: any) {

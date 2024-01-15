@@ -1,7 +1,8 @@
 "use client"
 import * as z from "zod"
 
-import { UploadClient, formSchema } from '@/components/UploadClient';
+import {  formSchema } from '@/components/UploadClient';
+import {  UploadClientIce } from '@/components/UploadClientIce';
 import React, { useState } from 'react'
 import { Batch } from "./Batch";
 import { useBatchStore } from "@/lib/useBatch";
@@ -13,17 +14,9 @@ const Container = () => {
 
   return (
     <div>
-        {
-            batchData.length > 0 && (
-                <>
-                <Batch data={batchData} setBatchData={setBatchData} />
-               
-                </>
 
-            )
-        }
 
-      <UploadClient batchData={batchData} setBatchData={setBatchData} />
+      <UploadClientIce batchData={batchData} setBatchData={setBatchData} />
     </div>
   )
 }

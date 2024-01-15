@@ -30,6 +30,7 @@ export const data = [
       'South West',
       'South East',
       'North Central',
+      "National"
     ],
   },
 
@@ -44,10 +45,11 @@ export const data = [
       'South West',
       'South East',
       'North Central',
+      "National"
     ],
   },
   {
-    label: 'Automative Gas Oil (AGO)',
+    label: 'Automotive Gas Oil (AGO)',
     label2: 'Gas Oil',
     abbr: 'AGO',
     regions: [
@@ -57,6 +59,7 @@ export const data = [
       'South West',
       'South East',
       'North Central',
+      "National"
     ],
   },
   {
@@ -71,6 +74,7 @@ export const data = [
         'South West',
         'South East',
         'North Central',
+        "National"
     ],
   },
   {
@@ -84,6 +88,7 @@ export const data = [
       'South West',
       'South East',
       'North Central',
+      "National"
     ],
   },
 ];
