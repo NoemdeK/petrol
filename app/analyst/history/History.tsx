@@ -1,0 +1,257 @@
+"use client"
+import * as React from "react"
+
+import {
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table"
+
+
+
+
+import { Button } from "@/components/ui/button"
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
+
+import { toast, useToast } from "@/components/ui/use-toast";
+
+
+
+
+import { Input } from "@/components/ui/input"
+import { format } from "date-fns";
+import useDocumentView from "@/lib/useDocumentView";
+
+
+import { useRouter } from "next/navigation";
+import useLoading from "@/lib/useLoading";
+import { useState } from "react";
+import { PlainTransportDekApi } from "@/utils/axios";
+import { useSession } from "next-auth/react";
+import Filter from "@/components/Filter"
+
+
+export type Payment = {
+  id: string
+  amount: number
+  fname: string
+  lname: string
+  email: string
+  phoneNumber: number
+  clientAssignment: string
+  region: string,
+  position: string
+  tenure: string
+  age: number
+  salary: number
+  bonus: number
+  status: string
+}
+
+export const columns: ColumnDef<any>[] = [
+  {
+    accessorKey: "product",
+    header: ({  }) => {
+      return (
+        <div className="flex items-center gap-2">
+            Product
+          
+        </div>
+      )
+    },
+    cell: ({ row }) => {
+
+      return (
+        <div className="text-xs ">
+           {row.getValue("product")}
+        </div>
+      )
+    },
+  },
+  {
+    accessorKey: "price",
+    header: ({  }) => {
+      return (
+       <div className="flex items-center gap-2">
+        Price
+         
+       </div>
+      )
+    },
+    cell: ({ row }) =>  {
+
+      return (
+        <div className="capitalize text-xs">
+          {row.getValue("price")}
+        </div>
+      )
+    }
+  },
+  {
+    accessorKey: "priceDate",
+    header: ({  }) => {
+      return (
+       <div className="">
+        Price  Date     
+       </div>
+      )
+    },
+    cell: ({ row }) =>  {
+      return (
+        <div>
+          {row.getValue("priceDate")}
+        </div>
+      )
+    }
+  },
+  {
+    accessorKey: "uploadDate",
+    header: ({  }) => {
+      return (
+       <div className="">
+        Upload  Date     
+       </div>
+      )
+    },
+    cell: ({ row }) =>  {
+      return (
+        <div>
+          {row.getValue("uploadDate")}
+        </div>
+      )
+    }
+  },
+
+
+  
+]
+
+
+
+
+
+export function History({data}: any) {
+  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  )
+
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({})
+  const [rowSelection, setRowSelection] = React.useState({})
+
+
+  const [globalFilter, setGlobalFilter] = React.useState('')
+
+  const table = useReactTable({
+      data,
+      columns,
+      onSortingChange: setSorting,
+      onColumnFiltersChange: setColumnFilters,
+      onGlobalFilterChange: setGlobalFilter,
+      getCoreRowModel: getCoreRowModel(),
+      getPaginationRowModel: getPaginationRowModel(),
+      getSortedRowModel: getSortedRowModel(),
+      getFilteredRowModel: getFilteredRowModel(),
+      onColumnVisibilityChange: setColumnVisibility,
+      onRowSelectionChange: setRowSelection,
+      state: {
+        sorting,
+        columnFilters,
+        columnVisibility,
+        rowSelection,
+        globalFilter
+      },
+    })
+
+  
+   
+
+  return (
+    <div className="px-2 h-full mt-12">
+      <div className="flex justify-between items-center py-4">
+          <h4 className="text-sm md:text-base font-bold">
+            Upload History
+          </h4>
+          <Filter />
+        </div>
+      <div className="rounded-md border h-full">
+        
+        <Table className="">
+          <TableHeader className=" text-xs text-">
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id} className="text-" >
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  )
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => {
+                return  (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                  >
+                    {row.getVisibleCells().map((cell) =>{
+                      return  (
+                        <TableCell key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      )
+                    })}
+                     
+                  </TableRow>
+                )
+              })
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+
+
+      </div>
+
+  
+    </div>
+  )
+}
+
