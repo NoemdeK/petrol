@@ -32,7 +32,7 @@ import {
 import { useForm } from "react-hook-form"
 import { toast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
-import { PlainTransportDekApi } from "@/utils/axios"
+import { PlainTransportDekApi, MultiTransportDekApi } from "@/utils/axios"
 import useLoading from "@/lib/useLoading"
 import { useSession } from "next-auth/react"
 import { Input } from "@/components/ui/input"
@@ -54,6 +54,7 @@ const formSchema = z.object({
     email: z.string().optional(), // Assuming you will store the file path as a string
     role: z.string().optional(),
     password: z.string().optional(),
+    file: z.any(), 
   });
 
   
@@ -65,7 +66,8 @@ const formSchema = z.object({
     {
         name: "Field Agent",
         role: "rwx_data_entry_user"
-    }
+    },
+
   ]
 
 const EditUserTwo = () => {
@@ -89,12 +91,22 @@ const EditUserTwo = () => {
       }
 
       async function onSubmit(values: z.infer<typeof formSchema>) {
- console.log(values)
+        console.log(values)
         loading.onOpen()
 
+        const formData = new FormData();
+        formData.append("file", values.file[0]);
+
+        const fileUploadResponse = await MultiTransportDekApi.post(
+          "/upload/files",
+          formData
+        );
+
+        const imageUrl = fileUploadResponse.data.data.url;
+
         await PlainTransportDekApi.patch(
-            `user/update?id=${item.data._id}`, 
-            values,
+            `data-entry/settings?flag=profile`, 
+            {...values, avatar: imageUrl},
           {
             headers: {
                 Authorization: `Bearer ${data?.user.accessToken}`
@@ -104,8 +116,7 @@ const EditUserTwo = () => {
           .then(() => {
             form.reset()
             toast({
-              title: "New User Edited",
-              description: "Done",
+              description: "Successfully updated user profile settings"
               })
             router.refresh()
             onCancel()

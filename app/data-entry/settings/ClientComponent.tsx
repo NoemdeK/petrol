@@ -93,7 +93,7 @@ const ClientComponent = ({data}: any) => {
     };
     
     try {
-      const response = await fetch(`https://petrodata.zainnovations.com/api/v1/auth/me/settings`, requestOptions);
+      const response = await fetch(`https://petrodata.zainnovations.com/api/v1/data-entry/settings?flag=profile`, requestOptions);
       const result = await response.text();
       console.log(result);
     } catch (error) {
@@ -201,13 +201,14 @@ const ClientComponent = ({data}: any) => {
                Edit
             </Button>
           </div>
-            <div className='w-32 md:w-52 mt-12'>
+            <div className='w-32 mt-12'>
             <AspectRatio ratio={1 / 1} className="bg-muted">
               <img
                 src={data.avatar}
                 alt="Photo by Drew Beamer"
+                
                 // fill
-                className="rounded-md "
+                className="rounded-full w-28 aspect-square"
               />
             </AspectRatio>
             </div>

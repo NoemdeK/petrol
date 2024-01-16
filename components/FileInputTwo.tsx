@@ -16,7 +16,7 @@ import useEditUserTwo from "@/lib/useEdit2";
 
 export const FileInput = ({ form, name, data }: any) => {
   const edit = useEditUserTwo()
-  const imageee = form.watch("file")
+  const imageee = form.watch("file") || []
   console.log(imageee)
   return (
     <Controller

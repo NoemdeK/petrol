@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { BarChart4, Code, Database,  Settings, Upload, Users, VideoIcon, Rows } from "lucide-react";
+import { BarChart4, Code, Database,  Settings, Upload, Users, VideoIcon, Rows, Table } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
@@ -32,6 +32,8 @@ const routes = [
   },
 ];
 
+
+
 export const SidebarAdmin = () => {
   const pathname = usePathname();
 
@@ -42,7 +44,30 @@ export const SidebarAdmin = () => {
       <div className="px-3 py-2 flex-1">
 
         <div className="space-y-1">
-          
+        <Link
+              href={'/dashboard/analytics/PMS'}
+              className={cn(
+                "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition",
+                pathname.includes("analytics") ? "text-black font-bold bg-white/50 " : "text-accent-foreground",
+              )}
+            >
+              <div className="flex items-center flex-1">
+                <BarChart4 className={cn("h-5 w-5 mr-3")} />
+                Analytics
+              </div>
+            </Link>
+            <Link
+              href={'/dashboard/table/1'}
+              className={cn(
+                "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition",
+                pathname.includes("table") ? "text-black font-bold bg-white/50 " : "text-accent-foreground",
+              )}
+            >
+              <div className="flex items-center flex-1">
+              <Table className={cn("h-5 w-5 mr-3")} />
+                Raw Data
+              </div>
+            </Link>
           {routes.map((route) => (
             <Link
               key={route.href} 

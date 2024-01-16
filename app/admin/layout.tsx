@@ -6,11 +6,12 @@ import { getServerSession } from "next-auth";
 
 
 import type { Metadata } from 'next';
-import { SidebarAdmin } from "@/components/SidebarAdmin";
 import { DocumentView } from "@/components/DocumentView";
 import Client from "@/components/Client";
 import CreateUser from "./users/CreateUser";
 import EditUser from "./users/EditUser";
+import EditUserTwo from "../data-entry/settings/EditUser";
+import { Sidebar } from "@/components/Sidebar";
 
 
 const metadata: Metadata = {
@@ -78,7 +79,7 @@ const DashboardLayout =  async ({
             <Navbar data={me?.data} />
             <div className="flex gap-4 w-full"> 
                 <div className="hidden md:flex h-full md:h-[90vh]  md:w-60 md:flex-col  md:fidxed md:inset-y-0 z-80">
-                    <SidebarAdmin />
+                <Sidebar session={me?.data?.role}  />
                 </div>
                 <main className=" pb-10 w-full h-[90vh] overflow-hidden overflow-y-scroll">
                   {/* <HeaderStat data={result} /> */}
@@ -86,6 +87,7 @@ const DashboardLayout =  async ({
                     {children}
                     <CreateUser />
                     <EditUser />
+                    <EditUserTwo />
                 </main>
           </div>
 
