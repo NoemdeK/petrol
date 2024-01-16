@@ -7,8 +7,9 @@ import LogoDash from './sections/LogoDash'
 import { ModeToggle } from './mode'
 import { MobileSidebarData } from './mobilr-sidebardata'
 import LogoDashTwo from './sections/LogoDash2'
+import { NotifyDrop } from './NotifyDrop'
 
-const Navbar = ({data}: any) => {
+const Navbar = ({data, length, notification}: {data: any, length: number, notification: any}) => {
   if(!data){
     return null
 }
@@ -20,19 +21,18 @@ console.log(data)
             data.role === "rwx_user" ? 
             <LogoDash />
             :
-            <LogoDashTwo role={ data?.role} />
+            <LogoDashTwo role={data?.role} />
           }
         </div>
     <div className="flex gap-4">
+    {
+            data.role !== "rwx_user" && (
+              <NotifyDrop length={length} notification={notification} />
+            )
+    }
       <ModeToggle />
       <AvatarDrop data={data} />
-      {
-        data.role === "rwx_data_entry_user" ?
-
-        <MobileSidebarData />
-        :
-        <MobileSidebar />
-      }
+        <MobileSidebar session={data?.role} />
       
     </div>
   </div>

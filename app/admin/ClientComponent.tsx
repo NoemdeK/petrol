@@ -11,6 +11,7 @@ import { Pending } from './Pending'
 import { Approved } from './Approved'
 import { Rejected } from './Rejected'
 import Filter from '@/components/Filter'
+import useTab from '@/lib/useTab'
 
 interface ClientComponentProps{
     rejected: any[]
@@ -19,14 +20,14 @@ interface ClientComponentProps{
 }
 
 const ClientComponent = ({rejected, approved, pending}: ClientComponentProps ) => {
-  
+  const {tab, setTab} = useTab()
   return (
     <div>
         <div>
             <h4 className='text-xl font-bold'>Data</h4>
         </div>
         <div className=" w-full ">  
-            <Tabs defaultValue="pending" className="w-full">
+            <Tabs defaultValue={tab} className="w-full">
               
                 <div className="flex flex-wrap justify-between flex-col md:flex-row gap-4 w-full p-2">
                    <TabsList className="grid w-full max-w-[400px] grid-cols-3">

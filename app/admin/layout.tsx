@@ -52,6 +52,26 @@ async function getMe(header: string) {
  
 }
 
+
+async function getNotification(header: string) {
+  try{
+    const res = await fetch(process.env.BACKEND_URL+'api/v1/notification/retrieve', {
+      headers: {
+        "Authorization": `Bearer ${header}`
+      }
+    })
+    return res.json()
+
+  } catch(error: any){
+    console.log(error)
+  }
+  // The return value is *not* serialized
+  // You can return Date, Map, Set, etc.
+
+ 
+}
+
+
 export const revalidate = 3600 // revalidate at most every hour
 
 const DashboardLayout =  async ({
@@ -62,10 +82,9 @@ const DashboardLayout =  async ({
   const data = await getData()
   const user = await getServerSession(authOptions);
   const me = await getMe(`${user?.user.accessToken}`)
+  const notify = await getNotification(`${user?.user.accessToken}`)
 
-
-  const result = data?.data
-
+console.log(notify.data.result.length, "lenth")
 
   return ( 
     <ThemeProvider
@@ -76,7 +95,7 @@ const DashboardLayout =  async ({
     >
       <Client session={me?.data?.role}>
         <div className="h-full relative m-4">
-            <Navbar data={me?.data} />
+            <Navbar data={me?.data} length={notify.data.result.length} notification={notify.data.result} />
             <div className="flex gap-4 w-full"> 
                 <div className="hidden md:flex h-full md:h-[90vh]  md:w-60 md:flex-col  md:fidxed md:inset-y-0 z-80">
                 <Sidebar session={me?.data?.role}  />
@@ -88,6 +107,7 @@ const DashboardLayout =  async ({
                     <CreateUser />
                     <EditUser />
                     <EditUserTwo />
+                    
                 </main>
           </div>
 

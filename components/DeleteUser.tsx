@@ -21,13 +21,13 @@ import useDelete from "@/lib/useDelete"
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription className="text-white">
-              This action cannot be undone. This will permanently approve this entry 
+              This action cannot be undone. This will permanently delete this user
             </AlertDialogDescription>
            
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={onCancel} type="button" className="text-black">Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={onSubmit} type="submit" className="text-white">Continue</AlertDialogAction>
+            <AlertDialogCancel onClick={onCancel} type="button" className="">Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={onSubmit} type="submit" className="">Continue</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

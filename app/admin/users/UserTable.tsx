@@ -60,6 +60,7 @@ import useDelete from "@/lib/useDelete"
 import useEditUser from "@/lib/useEdit"
 
 import {PageContainer} from "@/components/PageContainer"
+import { DeletUserModal } from "@/components/DeleteUser"
 
 
 export type Payment = {
@@ -274,7 +275,7 @@ const View = ({entry}: any) => {
 }
 
 const Actions = (entry: any) => {
-  const approve = useDelete()
+  const remove = useDelete()
   const verify = useVerify()
   const reject = useSuspend()
   const session = useSession()
@@ -286,34 +287,33 @@ const Actions = (entry: any) => {
 
   const deleteUser = async (id: string) => {
     loading.onOpen()
-    // Perform the API call to approve the entry
+
+
     try {
-      // Your API call here
-      // Example:
-      const response = await fetch(`https://petrodata.zainnovations.com/api/v1/data-entry/actions?flag=approve&entryId=${id}`, {
-        method: 'PATCH',
-        headers: {
-          Authorization: `Bearer ${session.data?.user.accessToken}`,
-        },
-      });
-      const data = await response.json();
-      console.log(data);
-      toast({
-        title: `Approved!`,
-        description: `Entry is approved!`,
-        })
-      // Simulating successful approval
-      window.location.reload();
-    } catch (error) {
-      console.error('Error:', error);
-      toast({
-        variant: "destructive",
-        title: `Approve not done!`,
-        description: `Error occured`,
-        })
-    } finally {
-      loading.onClose()
-    }
+        // Your API call here
+        // Example:
+        const response = await fetch(`https://petrodata.zainnovations.com/api/v1/user/delete?id=${id}`, {
+          method: 'PATCH',
+          headers: {
+            Authorization: `Bearer ${session.data?.user.accessToken}`,
+          },
+        });
+        const data = await response.json();
+        toast({
+          description: `User is succesfully deleted!`,
+          })
+        // Simulating successful approval
+        window.location.reload();
+      } catch (error) {
+        console.error('Error:', error);
+        toast({
+          variant: "destructive",
+          title: `Suspension not done!`,
+          description: `Error occured`,
+          })
+      } finally {
+        loading.onClose()
+      }
   };
 
   const suspendUser = async (id: string) => {
@@ -330,7 +330,6 @@ const Actions = (entry: any) => {
           },
         });
         const data = await response.json();
-        console.log(data);
         toast({
           title: `Suspension!`,
           description: `User is suspended!`,
@@ -363,7 +362,6 @@ const Actions = (entry: any) => {
           },
         });
         const data = await response.json();
-        console.log(data);
         toast({
           description: `User is verified!`,
           })
@@ -417,11 +415,22 @@ const Actions = (entry: any) => {
                 >
                 Suspend</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-red-700 over-bg-red-600 hover:text-white cursor-pointer">Delete</DropdownMenuItem>
+            <DropdownMenuItem className="text-red-700 over-bg-red-600 hover:text-white cursor-pointer"
+              onClick={() => {
+                remove.setId(entry.entry._id);
+                remove.onOpen()
+              }}
+            >
+              Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
 
    
+      {
+        remove.isOpen && (
+          <DeletUserModal onCancel={remove.onClose} onSubmit={() => deleteUser(remove.id)}/>
+        )
+      }
       {
         reject.isOpen && (
           <SupsendUserModal onCancel={reject.onClose} onSubmit={() => suspendUser(reject.id)}/>

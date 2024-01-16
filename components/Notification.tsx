@@ -62,16 +62,16 @@ export function NotificationsForm() {
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border px-4 py-2">
                   <div className="space-y-0.5">
                     <FormLabel className="text-base">
-                      Communication emails
+                      Push Notifications
                     </FormLabel>
                     <FormDescription className="text-xs">
-                      Receive emails about your account activity.
                     </FormDescription>
                   </div>
                   <FormControl>
                     <Switch
-                      checked={field.value}
+                      checked={true}
                       onCheckedChange={field.onChange}
+                      disabled={true}
                     />
                   </FormControl>
                 </FormItem>
@@ -84,7 +84,7 @@ export function NotificationsForm() {
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border px-4 py-2">
                   <div className="space-y-0.5">
                     <FormLabel className="text-base">
-                      Marketing emails
+                       Email Notifications
                     </FormLabel>
                     <FormDescription className="text-xs">
                       Receive emails about new products, features, and more.
@@ -100,53 +100,10 @@ export function NotificationsForm() {
               )}
             />
             
-            <FormField
-              control={form.control}
-              name="security_emails"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border px-4 py-2">
-                  <div className="space-y-0.5">
-                    <FormLabel className="text-base">Security emails</FormLabel>
-                    <FormDescription className="text-xs">
-                      Receive emails about your account activity and security.
-                    </FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                      aria-readonly
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+
           </div>
         </div>
-        <FormField
-          control={form.control}
-          name="mobile"
-          render={({ field }) => (
-            <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-              <FormControl>
-                <Checkbox
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-              <div className="space-y-1 leading-none">
-                <FormLabel>
-                  Use different settings for my mobile devices
-                </FormLabel>
-                <FormDescription>
-                  You can manage your mobile notifications in the{" "}
-                  <Link href="/examples/forms">mobile settings</Link> page.
-                </FormDescription>
-              </div>
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Update notifications</Button>
+       
       </form>
     </Form>
   )

@@ -230,7 +230,6 @@ export const columns: ColumnDef<any>[] = [
 
 const View = ({entry}: any) => {
   const { onOpen, setData} = useDocumentView()
-  console.log("entry", entry)
 
   const onclickSet = () => {
     setData(entry.supportingDocument)
@@ -274,7 +273,6 @@ const Actions = (entry: any) => {
       // Simulating successful approval
       window.location.reload();
     } catch (error) {
-      console.error('Error:', error);
       toast({
         variant: "destructive",
         title: `Approve not done!`,
