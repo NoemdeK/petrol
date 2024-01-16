@@ -26,7 +26,7 @@ console.log(data)
         </div>
     <div className="flex gap-4">
     {
-            data.role !== "rwx_user" && (
+            data.role === "rwx_admin" && (
               <NotifyDrop length={length} notification={notification} />
             )
     }
