@@ -25,10 +25,9 @@ const Page = async ({searchParams}: any) => {
     const user = await getServerSession(authOptions);
     const data = await getData(`${user?.user.accessToken}`, searchParams.rows, `&${searchParams.date}`, `&${searchParams.endDate}`)
     
-    console.log(data, "datatat")
     return (
     <div>
-        <History data={[]} />
+        <History data={data.data.result} />
     </div>
   )
 }

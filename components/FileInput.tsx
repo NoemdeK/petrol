@@ -1,19 +1,13 @@
 import Dropzone from "react-dropzone";
 import { Controller } from "react-hook-form";
 
-import {  FileUp } from "lucide-react";
-import { Button } from "./ui/button";
-import { Label } from "./ui/label";
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
 
 
 export const FileInput = ({ form, name, data }: any) => {
-  const imageee = form.watch("file")
+  const imageee = form.watch("file") || []
+
+  console.log(data, "data")
   return (
     <Controller
       control={form.control}
@@ -37,22 +31,13 @@ export const FileInput = ({ form, name, data }: any) => {
                 }
                 {
                    
-                    !imageee && (
-                      <Avatar className="w-16">
-                        <AvatarImage src={data?.avatar} alt="@shadcn" />
-                        <AvatarFallback>CN</AvatarFallback>
-                      </Avatar>
+                    imageee.length === 0 && (
+                      <img src={data?.avatar} alt="" className="w-24 rounded-full border aspect-square" />
                     )                    
                 }
                 </div>
                <div>
                <input {...getInputProps()}  name={name} onBlur={field.onBlur} />
-                <Label>
-                    Change avatar
-                </Label>
-                <Button>
-                    Upload
-                </Button>
                </div>
               </div>
             )}

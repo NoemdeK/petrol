@@ -115,6 +115,7 @@ export function UploadClientIce({setBatchData,batchData}: any) {
             </Label>
             <p className="text-sm">Fill in the form below to upload and submit your data.</p>
           </div>
+          <br />
   
 
           <div className="grid gap-4">

@@ -41,6 +41,8 @@ export const Pagnation:React.FC<PeriodTabProps> = ({ label, selected, page})=> {
         })
         router.push(url)
     },[label, router, params, page])
+
+    
     return (
         <div onClick={handleClick} className={cn('cursor-pointer p-2', selected && 'font-bold bg-accent')}>
         {label}

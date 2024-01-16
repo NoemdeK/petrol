@@ -29,22 +29,10 @@ import {
 } from "@/components/ui/table"
 
 
-import { toast, useToast } from "@/components/ui/use-toast";
 
 
-
-
-import { Input } from "@/components/ui/input"
-import { format } from "date-fns";
-import useDocumentView from "@/lib/useDocumentView";
-
-
-import { useRouter } from "next/navigation";
-import useLoading from "@/lib/useLoading";
-import { useState } from "react";
-import { PlainTransportDekApi } from "@/utils/axios";
-import { useSession } from "next-auth/react";
 import Filter from "@/components/Filter"
+import { PageContainer } from "@/components/PageContainer"
 
 
 export type Payment = {
@@ -69,7 +57,7 @@ export const columns: ColumnDef<any>[] = [
     accessorKey: "product",
     header: ({  }) => {
       return (
-        <div className="flex items-center gap-2">
+        <div className="">
             Product
           
         </div>
@@ -78,7 +66,7 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) => {
 
       return (
-        <div className="text-xs ">
+        <div className="">
            {row.getValue("product")}
         </div>
       )
@@ -86,21 +74,17 @@ export const columns: ColumnDef<any>[] = [
   },
   {
     accessorKey: "price",
-    header: ({  }) => {
-      return (
-       <div className="flex items-center gap-2">
-        Price
-         
-       </div>
-      )
-    },
+    header: () => <div className="text-xright">Price</div>,
     cell: ({ row }) =>  {
-
-      return (
-        <div className="capitalize text-xs">
-          {row.getValue("price")}
-        </div>
-      )
+      const amount = parseFloat(row.getValue("price"))
+ 
+      // Format the amount as a dollar amount
+      const formatted = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+      }).format(amount)
+ 
+      return <div className="text-rixght font-medium">{formatted}</div>
     }
   },
   {
@@ -121,6 +105,24 @@ export const columns: ColumnDef<any>[] = [
     }
   },
   {
+    accessorKey: "uploadedBy",
+    header: ({  }) => {
+      return (
+       <div className="">
+        Uploaded By     
+       </div>
+      )
+    },
+    cell: ({ row }) =>  {
+      return (
+        <div>
+          {row.getValue("uploadedBy")}
+        </div>
+      )
+    }
+  },
+
+  {
     accessorKey: "uploadDate",
     header: ({  }) => {
       return (
@@ -137,7 +139,6 @@ export const columns: ColumnDef<any>[] = [
       )
     }
   },
-
 
   
 ]
@@ -199,7 +200,7 @@ export function History({data}: any) {
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="text-" >
+                    <TableHead key={header.id} className="text-sm font-medium text-black" >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -218,11 +219,12 @@ export function History({data}: any) {
                 return  (
                   <TableRow
                     key={row.id}
+                    
                     data-state={row.getIsSelected() && "selected"}
                   >
                     {row.getVisibleCells().map((cell) =>{
                       return  (
-                        <TableCell key={cell.id}>
+                        <TableCell key={cell.id} className="py-4 text-xs">
                           {flexRender(
                             cell.column.columnDef.cell,
                             cell.getContext()
@@ -249,7 +251,27 @@ export function History({data}: any) {
 
 
       </div>
-
+      <div className="flex items-center justify-between space-x-2 p-4">
+          <PageContainer page="/analyst/history" />
+        <div className="space-x-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
+        </div>
+      </div>
   
     </div>
   )

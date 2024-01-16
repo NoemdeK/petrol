@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { BarChart4, Code, Database,  Settings, Upload, VideoIcon } from "lucide-react";
+import { BarChart4, Code, Database,  Settings, Upload, VideoIcon, History } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
@@ -11,13 +11,18 @@ import { cn } from "@/lib/utils";
 const routes = [
   
   {
+    label: 'Data',
+    icon: Database,
+    href: '/analyst/data',
+  },
+  {
     label: 'Upload',
     icon: Upload,
     href: '/analyst',
   },
   {
     label: 'Upload History',
-    icon: Upload,
+    icon: History ,
     href: '/analyst/history',
   },
   {

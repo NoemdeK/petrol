@@ -39,6 +39,8 @@ import { NotificationsForm } from '@/components/Notification'
 import { Disc3 } from 'lucide-react'
 import { FileInput } from '@/components/FileInput'
 import { useSession } from 'next-auth/react'
+import { toast } from '@/components/ui/use-toast'
+import { useRouter } from 'next/navigation'
 
 
 const formSchema = z.object({
@@ -54,7 +56,7 @@ const formSchema = z.object({
 
 const ClientComponent = ({data}: any) => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
-
+  const router = useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   })
@@ -70,10 +72,21 @@ const ClientComponent = ({data}: any) => {
     myHeaders.append("Authorization", `Bearer ${session?.user.accessToken}`);
 
     const formdata = new FormData();
-    formdata.append("firstName", values.firstName ?? "");
-    formdata.append("lastName", values.lastName ?? "");
-    formdata.append("email", values.email ?? "");
-    formdata.append("file", values.file[0]);
+    if (values.firstName) {
+      formdata.append("firstName", values.firstName);
+    }
+    
+    if (values.lastName) {
+      formdata.append("lastName", values.lastName);
+    }
+    
+    if (values.email) {
+      formdata.append("email", values.email);
+    }
+    
+    if (values.file && values.file.length > 0) {
+      formdata.append("file", values.file[0]);
+    }
 
     const requestOptions = {
       method: 'PATCH',
@@ -82,11 +95,19 @@ const ClientComponent = ({data}: any) => {
     };
     
     try {
-      const response = await fetch(`https://petrodata.zainnovations.com/api/v1/auth/me/settings?id=${data._id}`, requestOptions);
+      const response = await fetch(`https://petrodata.zainnovations.com/api/v1/auth/me/settings`, requestOptions);
       const result = await response.text();
       console.log(result);
+      toast({
+        description: "Successfully updated user profile settings"
+      })
+      router.refresh()
     } catch (error) {
       console.error('Error:', error);
+      toast({
+        description: "Editing user profile settings failed",
+        variant: "destructive"
+      })
     } finally{
       setIsLoading(false)
     }
@@ -142,7 +163,7 @@ const ClientComponent = ({data}: any) => {
                 />
               </div>
              
-            <CardFooter>
+            <CardFooter className='p-0'>
               <Button type='submit' disabled={isLoading}>
               {isLoading && (
                 <Disc3 className="mr-2 h-4 w-4 animate-spin" />

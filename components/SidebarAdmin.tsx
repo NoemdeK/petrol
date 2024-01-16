@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { BarChart4, Code, Database,  Settings, Upload, Users, VideoIcon } from "lucide-react";
+import { BarChart4, Code, Database,  Settings, Upload, Users, VideoIcon, Rows } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
@@ -19,6 +19,11 @@ const routes = [
     label: 'Users',
     icon: Users,
     href: '/admin/users',
+  },
+  {
+    label: 'Audit Log',
+    icon: Rows,
+    href: '/admin/audit-log',
   },
   {
     label: 'Settings',
