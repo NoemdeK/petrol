@@ -86,7 +86,7 @@ export function LoginAccount() {
         } catch (error: any) {
           // Handle unexpected errors
           toast({
-            title: "Cannot register user",
+            title: "User cannot login",
             description: `${error?.message ||  "Cannot login, Check details"}`,
             variant: "destructive"
             })
