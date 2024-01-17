@@ -72,7 +72,6 @@ async function getNotification(header: string) {
 }
 
 
-export const revalidate = 3600 // revalidate at most every hour
 
 const DashboardLayout =  async ({
   children,

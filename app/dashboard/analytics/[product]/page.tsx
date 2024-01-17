@@ -103,7 +103,6 @@ const fetchPosts = async () => {
     return null;
   }
 };
-export const revalidate = 3600
 
 const Productpage = async ({ params, searchParams }: any) => {
   const posts = await fetchPosts()

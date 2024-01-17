@@ -127,7 +127,7 @@ export const columns: ColumnDef<any>[] = [
 
       return (
         <div className="text-xs ">
-                     {row.getValue("userId")}
+                     {row.getValue("user")}
         </div>
       )
     },
@@ -143,11 +143,21 @@ export const columns: ColumnDef<any>[] = [
       )
     },
     cell: ({ row }) =>  {
-
+      const item = row.original
       return (
-        <div className="capitalize text-xs">
+        <div className="capitalize text-xs flex gap-4">
                    {row.getValue("event")}
-
+                   <div className="text-[#0A98A9] flex gap-4">
+                     {
+                      item.dataEntryDetails && (
+                        <>
+                        <p>{item.dataEntryDetails?.fillingStation} </p>
+                           <p>{item.dataEntryDetails?.city} </p>
+                           <p>{item.dataEntryDetails?.priceDate}</p>
+                        </>
+                      )
+                     }
+                   </div>
         </div>
       )
     }
@@ -182,6 +192,7 @@ export function AuditlogTable({data}: {data: Payment[]}) {
       getFilteredRowModel: getFilteredRowModel(),
       onColumnVisibilityChange: setColumnVisibility,
       onRowSelectionChange: setRowSelection,
+      
       state: {
         sorting,
         columnFilters,
@@ -261,7 +272,7 @@ export function AuditlogTable({data}: {data: Payment[]}) {
       </div>
 
       <div className="flex items-center justify-between space-x-2 p-4">
-      <PageContainer page="/admin" />
+      <PageContainer page="/admin/audit-log" />
 
         <div className="space-x-2">
           <Button

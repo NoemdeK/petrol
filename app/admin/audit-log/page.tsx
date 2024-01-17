@@ -23,6 +23,7 @@ const Page = async ({searchParams}: any) => {
   const user = await getServerSession(authOptions);
   const data = await getData(`${user?.user.accessToken}`, searchParams.rows, `&${searchParams.date}`, `&${searchParams.endDate}`)
 
+  console.log(data.data)
   return (
     <div>
       <Client data={data.data.result} />

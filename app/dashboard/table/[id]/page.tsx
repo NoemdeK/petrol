@@ -52,7 +52,6 @@ async function getData(id:number) {
     }
   }
 
-export const revalidate = 0
 
   
   const Page = async ({params}: any) => {

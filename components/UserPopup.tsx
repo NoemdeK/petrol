@@ -12,22 +12,27 @@ import {
 import { Input } from "@/components/ui/input"
 import { signOut, useSession } from 'next-auth/react'
 import { LogOutIcon } from 'lucide-react'
+import useLoading from "@/lib/useLoading"
 
 
 export function UserPop({data}: any) {
   const { data: session } = useSession()
+  const loading = useLoading()
+
      if(!data){
         return null
     }
 
     const handleFetch = async  () => {
+      loading.onOpen()
+
       const myHeaders = new Headers();
       myHeaders.append("Authorization", `Bearer ${session?.user.accessToken}`);
       try {
         const response = await fetch(
           `https://petrodata.zainnovations.com/api/v1/auth/logout`,
           {
-            method: 'GET',
+            method: 'POST',
             redirect: 'follow',
             headers: myHeaders,
           }
@@ -43,6 +48,9 @@ export function UserPop({data}: any) {
         
       } catch (error: any) {
         console.error('Error:', error.message);
+      } finally{
+        loading.onClose()
+
       }
       
     }
