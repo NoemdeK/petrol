@@ -29,7 +29,7 @@ if(!posts|| posts.length < 1){
 
       {
         other?.map((item: any, i: number) => (
-          <div key={i} className='flex  flex-col md:flex-row items-center gap-2 cursor-pointer rounded-md transition-all hover:scale-95 bg-muted p-1'>
+          <div key={`${item.title}-${i}`} className='flex  flex-col md:flex-row items-center gap-2 cursor-pointer rounded-md transition-all hover:scale-95 bg-muted p-1'>
             <div  className="bg-muted md:w-32 md:h-32 h-40 w-full flex items-center">
             <img
               alt={item.title}
@@ -68,8 +68,8 @@ if(!posts|| posts.length < 1){
       }
 
 {
-        posts.map((item: any) => (
-          <div key={item.slug} className='flex  flex-col md:flex-row items-center gap-2 cursor-pointer rounded-md transition-all hover:scale-95 bg-muted p-1'>
+        posts.map((item: any, i: number) => (
+          <div key={`${item.slug}-${i}`} className='flex  flex-col md:flex-row items-center gap-2 cursor-pointer rounded-md transition-all hover:scale-95 bg-muted p-1'>
             <div  className="bg-muted md:w-32 md:h-32 h-40 w-full flex items-center">
             <Image
               alt={item.title}

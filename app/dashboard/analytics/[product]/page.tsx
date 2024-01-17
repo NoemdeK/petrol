@@ -63,6 +63,7 @@ async function getAnalytics(params: string | undefined, search: string) {
 
   } catch (error: any) {
     console.error('Error:', error.message);
+    return []
   }
 }
 
@@ -111,9 +112,8 @@ const Productpage = async ({ params, searchParams }: any) => {
   const main = await getAnalytics(`${params.product}`, `${searchParams.period}`)
   const dataa = await getData()
 
-  const data = main.analysis
+  const data = main?.analysis || []
 
-  console.log(news.data.articles[0], "news")
 
   const result = dataa
 
