@@ -12,7 +12,12 @@ import { useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { Suspense } from "react"
 
-export function NotifyDrop({length,notification}: {length: number, notification: any}) {
+interface NotifyProps{
+  length?: number;
+  notification?: any
+}
+
+export function NotifyDrop({length,notification}: NotifyProps) {
   const router = useRouter()
   const {tab, setTab} = useTab()
   const {data:session} = useSession()

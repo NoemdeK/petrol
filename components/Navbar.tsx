@@ -9,11 +9,16 @@ import { MobileSidebarData } from './mobilr-sidebardata'
 import LogoDashTwo from './sections/LogoDash2'
 import { NotifyDrop } from './NotifyDrop'
 
-const Navbar = ({data, length, notification}: {data: any, length: number, notification: any}) => {
+interface NotifyProps{
+  data: any;
+  length?: number;
+  notification?: any
+}
+
+const Navbar = ({data, length, notification}: NotifyProps) => {
   if(!data){
     return null
 }
-console.log(data)
   return (
     <div className="flex items-center justify-between  p-0  w-full ">
         <div className="flex items-center pl-3">
