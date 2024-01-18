@@ -24,7 +24,7 @@ async function getDataAnalysts(header: string, limit: string) {
   async function getDatafield(header: string, limit: string) {
 
     try{
-      const res = await fetch(`https://petrodata.zainnovations.com/api/v1/user/retrieve?flag=analysts&batch=1&limit=${limit || '10'}`, {
+      const res = await fetch(`https://petrodata.zainnovations.com/api/v1/user/retrieve?flag=field_agents&batch=1&limit=${limit || '10'}`, {
         headers: {
           "Authorization": `Bearer ${header}`
         }

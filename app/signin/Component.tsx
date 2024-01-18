@@ -83,13 +83,13 @@ export function LoginAccount() {
               router.replace('/data-entry');
               break;
             case 'rwx_admin':
-              router.replace('/admin');
+              router.replace('/dashboard/analytics/PMS');
               break;
             case 'rwx_user':
               router.replace('/dashboard/analytics/PMS');
               break;
               case 'rwx_data_entry_analyst':
-              router.replace('/analyst');
+              router.replace('/dashboard/analytics/PMS');
               break;
             default:
               router.replace('/dashboard/analytics/PMS');
@@ -100,6 +100,11 @@ export function LoginAccount() {
           if (response?.error) {
             // Handle authentication error
             console.error("Authentication error:", response.error);
+            toast({
+              title: "User cannot login",
+              description: "Cannot login, Check details",
+              variant: "destructive"
+              })
           } else if (response?.ok) {
             // Authentication succeeded
             toast({

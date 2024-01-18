@@ -140,7 +140,7 @@ export const columns: ColumnDef<any>[] = [
     accessorKey: "price",
     header: ({  }) => {
       return (
-       <div className="flex items-center gap-2">
+       <div className="text-right">
         Price  (₦)
        </div>
       )
@@ -150,10 +150,10 @@ export const columns: ColumnDef<any>[] = [
       const numericalValues = Object.values(batch.products).map(Number);
 
       return (
-        <div className="capitalize text-xs">
+        <div className="capitalize text-xs text-right">
           {
            numericalValues.map((item, i) => (
-            <div key={i}>{item}</div>
+            <div key={i}>{Number(item).toLocaleString()}</div>
            )) 
           }
         </div>
@@ -216,10 +216,10 @@ export const columns: ColumnDef<any>[] = [
     }
   },
   {
-    accessorKey: "rejectedBy",
+    accessorKey: "reason",
     header: ({  }) => {
       return (
-       <div className="flex items-center gap-2">
+       <div className="">
         Reason
          
        </div>
@@ -227,7 +227,7 @@ export const columns: ColumnDef<any>[] = [
     },
     cell: ({ row }) =>  {
       return (
-        <div className="capitalize text-center text-[10px]">
+        <div className="capitalize  text-xs">
           
             {row.getValue("reason")}
         </div>

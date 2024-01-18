@@ -114,7 +114,7 @@ export const columns: ColumnDef<any>[] = [
     accessorKey: "product",
     header: ({  }) => {
       return (
-        <div className="flex items-center gap-2">
+        <div className="">
             Product
           
         </div>
@@ -141,7 +141,7 @@ export const columns: ColumnDef<any>[] = [
     accessorKey: "price",
     header: ({  }) => {
       return (
-       <div className="flex items-center gap-2">
+       <div className=" text-right">
         Price
          
        </div>
@@ -152,10 +152,10 @@ export const columns: ColumnDef<any>[] = [
       const numericalValues = Object.values(batch.products).map(Number);
 
       return (
-        <div className="capitalize text-xs">
+        <div className="capitalize text-xs text-right">
           {
            numericalValues.map((item, i) => (
-            <div key={i}>{item}</div>
+            <div key={i}>{Number(item).toLocaleString()}</div>
            )) 
           }
         </div>

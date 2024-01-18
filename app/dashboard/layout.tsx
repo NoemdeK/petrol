@@ -6,6 +6,13 @@ import { authOptions } from "@/utils/auth";
 import { getServerSession } from "next-auth";
 import Client from "@/components/Client";
 
+import type { Metadata } from 'next';
+
+
+const metadata: Metadata = {
+  title: 'Petrodata',
+  description: 'Solving the data',
+}
 
 async function getData() {
   try{
@@ -53,13 +60,6 @@ const DashboardLayout =  async ({
 
 
   return ( 
-    <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem
-            disableTransitionOnChange
-          >
-
       <div className='h-full relative m-4'>
         <Navbar data={me?.data} />
         <div className="flex gap-4 w-full"> 
@@ -73,7 +73,6 @@ const DashboardLayout =  async ({
       </div>
 
     </div>
-    </ThemeProvider>
 
    );
 }

@@ -28,17 +28,21 @@ const ClientComponent = ({data, field}: any ) => {
             <Tabs defaultValue={edit.tab} className="w-full">
               
                 <div className="flex justify-between flex-col md:flex-row gap-4 w-full p-2">
-                   <TabsList className="grid w-full max-w-[400px] grid-cols-2">
+                   <TabsList className="grid w-full max-w-[500px] grid-cols-3">
                     <TabsTrigger onClick={() => edit.setTab("rwx_data_entry_analyst")} value="rwx_data_entry_analyst">Analysts</TabsTrigger>
                     <TabsTrigger onClick={() => edit.setTab("rwx_data_entry_user")} value="rwx_data_entry_user">Field Agents</TabsTrigger>
+                    <TabsTrigger onClick={() => edit.setTab("rwx_user")} value="rwx_user">Clients</TabsTrigger>
                   </TabsList>
                 </div>
 
                 <TabsContent value="rwx_data_entry_analyst">
-                    <UsersTable data={data} />
+                    <UsersTable data={data || []} />
                 </TabsContent>
                 <TabsContent value="rwx_data_entry_user">
-                  <UsersTable data={field} />
+                  <UsersTable data={field || []} />
+                </TabsContent>
+                <TabsContent value="rwx_user">
+                  <UsersTable data={[]} />
                 </TabsContent>
             </Tabs>
            

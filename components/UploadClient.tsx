@@ -144,6 +144,20 @@ export function UploadClient({setBatchData,batchData}: any) {
             router.refresh()
             
             form.reset(); // Reset the form after adding to batch
+            form.setValue('fillingStation', '');
+            form.setValue('state', '');
+            form.setValue('city', '');
+            form.setValue("state", '');
+            form.setValue("products.AGO", "")
+            form.setValue("products.DPK", "")
+            form.setValue("products.PMS", "")
+            form.setValue("products.LPG", "")
+            form.setValue("priceDate", "")
+            form.setValue("file", null)
+            // Reset other fields as needed
+        
+            // Clear errors
+            form.clearErrors();
           } catch (error) {
             console.error("Validation Error:", error);
           }
@@ -194,7 +208,7 @@ export function UploadClient({setBatchData,batchData}: any) {
     <div className="grid gap-4  max-w-xl my-4 p-4">
       <Form {...form}>
 
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+        <form onSubmit={form.handleSubmit(onSubmit)}  className="space-y-2">
           <div>
             <Label className="text-lg md:text-xl mt-8">
               Upload Data
@@ -211,7 +225,9 @@ export function UploadClient({setBatchData,batchData}: any) {
                 <Select onValueChange={field.onChange}  defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a Filling station" />
+                      <SelectValue placeholder="Select a Filling station">
+                      {field.value || "Select a Filling station"}
+                      </SelectValue>
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -251,7 +267,7 @@ export function UploadClient({setBatchData,batchData}: any) {
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a state" />
+                        <SelectValue placeholder="Select a state" >{field.value || "Select a state"}</SelectValue>
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent className="h-80">

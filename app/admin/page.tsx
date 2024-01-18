@@ -61,11 +61,10 @@ const Page = async ({searchParams}: any) => {
   const approved = await getDataApproved(`${user?.user.accessToken}`, searchParams.rows, `&${searchParams.date}`, `&${searchParams.endDate}`)
   const rejected = await getDataRejected(`${user?.user.accessToken}`, searchParams.rows, `&${searchParams.date}`, `&${searchParams.endDate}`)
 
-  console.log(searchParams, "rejeced")
 
   return (
     <div>
-      <ClientComponent rejected={rejected?.data?.result} approved={approved?.data?.result} pending={data?.data?.result} />
+      <ClientComponent rejected={rejected?.data?.result || []} approved={approved?.data?.result || []} pending={data?.data?.result || []} />
     </div>
   )
 }
