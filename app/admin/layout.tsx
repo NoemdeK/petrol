@@ -92,7 +92,6 @@ console.log(notify.data.result.length, "lenth")
       enableSystem
       disableTransitionOnChange
     >
-      <Client session={me?.data?.role}>
         <div className="h-full relative m-4">
             <Navbar data={me?.data} length={notify.data.result.length} notification={notify.data.result} />
             <div className="flex gap-4 w-full"> 
@@ -111,7 +110,6 @@ console.log(notify.data.result.length, "lenth")
           </div>
 
         </div>
-      </Client>
 
     </ThemeProvider>
 

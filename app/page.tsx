@@ -46,8 +46,8 @@ export default function Home() {
 
   ]
   return (
-    <main className='h-screen flex-col flex  bghero'>
-      <div className='bg-whiteh/30  w-full h-screen'>
+    <main className='max-h-screen flex-col flex  bghero'>
+      <div className='bg-whiteh/30  w-full h-full'>
 
         <div className=" max-w-3xl w-full mx-auto  items-center justify-between flex p-4 md:p-8">
           <p className=" left-0 top-0 flex w-full text-2xl md:text-4xl pb-6 pt-8 text-sky-400  lg:static lg:w-auto   lg:p-4 ">

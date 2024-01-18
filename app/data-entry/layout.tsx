@@ -72,7 +72,7 @@ const DashboardLayout =  async ({
       enableSystem
       disableTransitionOnChange
     >
-      <Client session={me?.data?.role}>
+      <div className="h-full relative">
         <div className="h-full relative m-4">
           <Navbar data={me?.data} />
           <div className="flex gap-4 w-full"> 
@@ -87,7 +87,7 @@ const DashboardLayout =  async ({
 
       </div>
         <EditUserTwo />
-      </Client>
+      </div>
 
     </ThemeProvider>
 

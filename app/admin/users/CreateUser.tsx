@@ -112,8 +112,7 @@ const CreateUser = () => {
           .then(() => {
             form.reset()
             toast({
-              title: "New User Created",
-              description: "Done",
+              description: "New User Created",
               })
             router.refresh()
             onClose()
@@ -122,7 +121,6 @@ const CreateUser = () => {
             console.error("Error:", error);
             toast({
               variant: "destructive",
-              title: "New User Error",
               description: `${error.response.data.message}`,
               })
           })

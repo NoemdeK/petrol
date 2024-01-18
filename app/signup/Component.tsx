@@ -35,6 +35,7 @@ import { useRouter } from "next/navigation"
 import { PlainTransportDekApi, authAxiosInstance } from "@/utils/axios"
 import { signIn } from "next-auth/react"
 import { toast } from "@/components/ui/use-toast"
+import useLoading from "@/lib/useLoading"
 
 const formSchema = z.object({
     email: z.string().email().min(2, {
@@ -48,6 +49,7 @@ const formSchema = z.object({
 export function CreateAccount() {
     const [showPassword, setShowPassword] = useState(false);
     const router = useRouter()
+    const loading = useLoading()
 
     const togglePasswordVisibility = () => {
       setShowPassword(!showPassword);
@@ -63,6 +65,7 @@ export function CreateAccount() {
 
 
       async function onSubmit(values: z.infer<typeof formSchema>) { 
+        loading.onOpen()
         await PlainTransportDekApi.post(
           "/auth/signup",
           values
@@ -84,6 +87,7 @@ export function CreateAccount() {
           
           })
           .finally(() => {
+            loading.onClose()
           })   
         }
       

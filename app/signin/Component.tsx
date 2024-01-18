@@ -34,6 +34,7 @@ import {  useRouter } from "next/navigation"
 import { signIn } from "next-auth/react"
 import { toast } from "@/components/ui/use-toast"
 import useLoading from "@/lib/useLoading"
+import axios from "axios"
 
 
 const formSchema = z.object({
@@ -52,8 +53,6 @@ export function LoginAccount() {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-        defaultValues: {
-        },
       })
 
     
@@ -69,6 +68,34 @@ export function LoginAccount() {
             redirect: false,
           });
 
+          const res = await axios.post(`https://petrodata.zainnovations.com/api/v1/auth/login`, values, {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+
+ 
+
+          const role = res.data.data.role
+
+          switch (role) {
+            case 'rwx_data_entry_user':
+              router.replace('/data-entry');
+              break;
+            case 'rwx_admin':
+              router.replace('/admin');
+              break;
+            case 'rwx_user':
+              router.replace('/dashboard/analytics/PMS');
+              break;
+              case 'rwx_data_entry_analyst':
+              router.replace('/analyst');
+              break;
+            default:
+              router.replace('/dashboard/analytics/PMS');
+              break;
+          }
+        
       
           if (response?.error) {
             // Handle authentication error

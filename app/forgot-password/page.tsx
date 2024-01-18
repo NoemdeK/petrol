@@ -8,11 +8,7 @@ const Forgotpage = () => {
   const { data: session, status: sessionStatus } = useSession();
   const router = useRouter()
 
-  useEffect(() => {
-    if (sessionStatus === "authenticated") {
-      router.replace("/dashboard/analytics");
-    }
-  }, [sessionStatus, router]);
+
   return (
     <div className='auth bghero'>
         <Forgot />

@@ -24,8 +24,8 @@ async function getAnalytics(params: string | undefined, search: string) {
 
   let periodParam = '';
 
-  if (search === undefined || !['1W', '1M', 'MAX', '1Y', "YTD", "3M", "6M", "5Y"].includes(search)) {
-    periodParam = '?period=MAX'; // Default to 'MAX' if undefined or invalid search value
+  if (search === undefined || !['1W', '1M', 'MAX', '1Y', "YTD", "3M", "6M", "5Y", "MAX"].includes(search)) {
+    periodParam = '?period=1W'; // Default to 'MAX' if undefined or invalid search value
   } else {
     periodParam = `?period=${search}`;
   }

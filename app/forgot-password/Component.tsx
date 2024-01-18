@@ -34,6 +34,7 @@ import { useRouter } from "next/navigation"
 import { PlainTransportDekApi, authAxiosInstance } from "@/utils/axios"
 import { signIn } from "next-auth/react"
 import { useToast } from "@/components/ui/use-toast"
+import useLoading from "@/lib/useLoading"
 
 const formSchema = z.object({
     email: z.string().email().min(2, {
@@ -44,6 +45,7 @@ const formSchema = z.object({
 export function Forgot() {
     const rouyter = useRouter()
     const { toast } = useToast()
+    const loading = useLoading()
 
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -56,6 +58,7 @@ export function Forgot() {
 
 
       async function onSubmit(values: z.infer<typeof formSchema>) { 
+        loading.onOpen()
         await PlainTransportDekApi.post(
           "/auth/forgot-password",
           values
@@ -69,16 +72,13 @@ export function Forgot() {
           })
           .catch((error: any) => {
             toast({
-                title: "Error",
                 description: `${error.response.data.message}`,
                 variant: "destructive"
             })
-            console.log("winnot")
-            console.log(error)
-         
           
           })
           .finally(() => {
+            loading.onClose()
           })   
         }
       
