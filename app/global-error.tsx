@@ -1,4 +1,7 @@
 'use client'
+
+import ErrorComponent from "@/components/ErrorComponent"
+
  
 export default function GlobalError({
   error,
@@ -10,8 +13,7 @@ export default function GlobalError({
   return (
     <html>
       <body className="flex h-full w-full justify-center">
-        <h2>Something went wrong!</h2>
-        <button onClick={() => reset()}>Try again</button>
+        <ErrorComponent />
       </body>
     </html>
   )

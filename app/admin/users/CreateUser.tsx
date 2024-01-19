@@ -73,6 +73,10 @@ const formSchema = z.object({
     {
       name: "Field Agent",
       role: "rwx_data_entry_user"
+    },
+    {
+      name: "Client",
+      role: "rwx_user"
     }
   ]
 

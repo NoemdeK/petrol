@@ -11,8 +11,8 @@ import Client from "@/components/Client";
 import EditUserTwo from "./settings/EditUser";
 
 
-const metadata: Metadata = {
-  title: 'Petrodata',
+export const metadata: Metadata = {
+  title: 'Data Collection',
   description: 'Solving the data',
 }
 

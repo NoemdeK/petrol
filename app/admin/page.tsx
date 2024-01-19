@@ -20,7 +20,7 @@ async function getData(header: string, limit: string, date: string, endDate: str
   }
 }
 
-async function getDataApproved(header: string, limit:string, date: string, endDate: string) {
+async function getDataApproved(header: string, limit:string, date?: string, endDate?: string) {
 
   try{
     const res = await fetch(`https://petrodata.zainnovations.com/api/v1/data-entry/retrieve?batch=1&flag=approved${date || ''}${endDate || ''}&limit=${limit || '10'}`, {
@@ -37,7 +37,7 @@ async function getDataApproved(header: string, limit:string, date: string, endDa
   }
 }
 
-async function getDataRejected(header: string, limit:string, date: string, endDate: string) {
+async function getDataRejected(header: string, limit:string, date?: string, endDate?: string) {
 
   try{
     const res = await fetch(`https://petrodata.zainnovations.com/api/v1/data-entry/retrieve?batch=1&flag=rejected${date || ''}${endDate || ''}&limit=${limit || '10'}`, {
@@ -58,8 +58,10 @@ async function getDataRejected(header: string, limit:string, date: string, endDa
 const Page = async ({searchParams}: any) => {
   const user = await getServerSession(authOptions);
   const data = await getData(`${user?.user.accessToken}`, searchParams.rows, `&${searchParams.date}`, `&${searchParams.endDate}`)
-  const approved = await getDataApproved(`${user?.user.accessToken}`, searchParams.rows, `&${searchParams.date}`, `&${searchParams.endDate}`)
-  const rejected = await getDataRejected(`${user?.user.accessToken}`, searchParams.rows, `&${searchParams.date}`, `&${searchParams.endDate}`)
+  const approved = await getDataApproved(`${user?.user.accessToken}`, searchParams.rows, searchParams.startDate && `&filterStartDate=${searchParams.date}`,
+  searchParams.endDate && `&filterEndDate=${searchParams.endDate}`)
+  const rejected = await getDataRejected(`${user?.user.accessToken}`, searchParams.rows, searchParams.startDate && `&filterStartDate=${searchParams.date}`,
+  searchParams.endDate && `&filterEndDate=${searchParams.endDate}`)
 
 
   return (

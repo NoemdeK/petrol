@@ -93,7 +93,11 @@ export const Sidebar = ({session}: any) => {
   } else {
     // Default routes if none of the roles match
     routes.push(
- 
+      {
+        label: 'Settings',
+        icon: Settings,
+        href: '/dashboard/settings',
+      },
     );
   }
 

@@ -13,11 +13,13 @@ import { Input } from "@/components/ui/input"
 import { signOut, useSession } from 'next-auth/react'
 import { LogOutIcon } from 'lucide-react'
 import useLoading from "@/lib/useLoading"
+import { useRouter } from "next/navigation"
 
 
 export function UserPop({data}: any) {
   const { data: session } = useSession()
   const loading = useLoading()
+  const router = useRouter()
 
      if(!data){
         return null
@@ -44,6 +46,7 @@ export function UserPop({data}: any) {
         const result = await response.text();
         console.log(result)
         signOut()
+        router.replace("/signin")
        
         
       } catch (error: any) {

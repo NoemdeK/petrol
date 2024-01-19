@@ -17,7 +17,7 @@ interface ClientComponentProps{
     field: any[]
 }
 
-const ClientComponent = ({data, field}: any ) => {
+const ClientComponent = ({data, field, client}: any ) => {
     const edit = useEditUser()
   return (
     <div>
@@ -42,7 +42,7 @@ const ClientComponent = ({data, field}: any ) => {
                   <UsersTable data={field || []} />
                 </TabsContent>
                 <TabsContent value="rwx_user">
-                  <UsersTable data={[]} />
+                  <UsersTable data={client || []} />
                 </TabsContent>
             </Tabs>
            

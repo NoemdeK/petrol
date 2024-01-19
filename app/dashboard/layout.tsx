@@ -9,7 +9,7 @@ import Client from "@/components/Client";
 import type { Metadata } from 'next';
 
 
-const metadata: Metadata = {
+export const metadata: Metadata = {
   title: 'Petrodata',
   description: 'Solving the data',
 }

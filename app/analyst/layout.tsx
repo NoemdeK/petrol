@@ -11,8 +11,8 @@ import EditUserTwo from "./settings/EditUser";
 import { SidebarDataAnalyst } from "@/components/SidebarDataAnalyst";
 
 
-const metadata: Metadata = {
-  title: 'Petrodata',
+export const metadata: Metadata = {
+  title: 'Analysis - Petrodata',
   description: 'Solving the data',
 }
 

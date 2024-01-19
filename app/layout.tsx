@@ -12,7 +12,7 @@ import { ThemeProvider } from './providers/theme-provider';
 import LoadingModal from '@/components/LoadingModal';
 import { DocumentView } from '@/components/DocumentView';
 
-const metadata: Metadata = {
+export const metadata: Metadata = {
   title: 'Diophalytics.io',
   description: 'Solving the data',
 }
@@ -34,12 +34,17 @@ export default  async function RootLayout({
       <AuthProvider>
         <Redux >
           <body>
-            <ThemeProvider>
-            {children}
-            <LoadingModal />
-            <DocumentView />
-            
-            <Toaster />
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="light"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+              <LoadingModal />
+              <DocumentView />
+              
+              <Toaster />
             </ThemeProvider>
           </body>
         </Redux>

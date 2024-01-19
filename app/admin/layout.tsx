@@ -7,15 +7,15 @@ import { getServerSession } from "next-auth";
 
 import type { Metadata } from 'next';
 import { DocumentView } from "@/components/DocumentView";
-import Client from "@/components/Client";
+
 import CreateUser from "./users/CreateUser";
 import EditUser from "./users/EditUser";
 import EditUserTwo from "../data-entry/settings/EditUser";
 import { Sidebar } from "@/components/Sidebar";
 
 
-const metadata: Metadata = {
-  title: 'Diophalytics.io',
+export const metadata: Metadata = {
+  title: 'Admin',
   description: 'Solving the data',
 }
 
@@ -104,6 +104,7 @@ console.log(notify.data.result.length, "lenth")
           </div>
 
         </div>
+
    );
 }
  

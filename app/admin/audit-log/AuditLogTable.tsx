@@ -40,6 +40,8 @@ import useDocumentView from "@/lib/useDocumentView";
 
 import { PageContainer } from "@/components/PageContainer"
 import Filter from "@/components/Filter"
+import DatePeriod from "@/components/DatePeriod"
+import SelectUsers from "@/components/SelectUsers"
 
 
 
@@ -96,7 +98,7 @@ export const columns: ColumnDef<any>[] = [
         },
   },
   {
-    accessorKey: "userId",
+    accessorKey: "pdaId",
     header: ({  }) => {
       return (
         <div className="gap-2 flex items-center">
@@ -107,7 +109,7 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) =>  {
       return (
         <div className="text-xs">
-          {row.getValue("userId")}
+          {row.getValue("pdaId")}
         </div>      )
     }
   },
@@ -167,7 +169,7 @@ export const columns: ColumnDef<any>[] = [
 
 
 
-export function AuditlogTable({data}: {data: Payment[]}) {
+export function AuditlogTable({data, selectData}: {data: Payment[], selectData:any}) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -205,14 +207,11 @@ export function AuditlogTable({data}: {data: Payment[]}) {
       
   return (
     <div className="px-2 h-full">
+      
     <div className="flex items-start md:items-center flex-col md:flex-row gap-4 justify-between py-3">
         <div className="w-full flex  items-center gap-2">
-        <DebouncedInput
-          value={globalFilter ?? ''}
-          onChange={value => setGlobalFilter(String(value))}
-          className="p-2 font-lg shadow border border-block w-full md:w-72"
-          placeholder="Search all columns..."
-        />
+          <DatePeriod />
+          <SelectUsers user={selectData} />
 
         </div>
         <div className="flex gap-4 w-full md:justify-end">
@@ -248,7 +247,7 @@ export function AuditlogTable({data}: {data: Payment[]}) {
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className="py-3">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
