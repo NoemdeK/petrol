@@ -92,7 +92,6 @@ const ClientComponent = ({stats, page, overall, recent} :any) => {
                 </div>
 
                 <div className='w-full items-start flex flex-col justify-start  gap-2 '>
-                  <p className='text-[12px] font-semibold'>Region</p>
                 <Region selectedNames={selectedRegions} setSelectedNames={handleRegionSelectChange} />
                 </div>
               </div>

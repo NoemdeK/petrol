@@ -1,9 +1,8 @@
-"use client"
 import React, { useEffect } from 'react'
 
 import {  LoginAccount } from './Component'
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+
+
 
 const Page = () => {
  

@@ -13,28 +13,30 @@ import { YearOne } from './YearOne';
 import { YTD } from './YTD';
 import { filterDataByRegions, transformTipToChartData } from './functions';
 import { useSearchParams } from 'next/navigation';
+import { MaxIce } from './MaxIce';
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ');
 }
 
 const ICE = ({resData}: any) => {
-  const { selectedRegions } = useSelector((state: RootState) => state.prices);
-  const searchParams = useSearchParams()
+  // const { selectedRegions } = useSelector((state: RootState) => state.prices);
 
-  const params = searchParams.get("period")
 
-  console.log(params)
 
   // const { resData } = useSelector((state: RootState) => state.ICE);
   // console.log("ICE Data", resData)
+
+
+  const selectedRegions = [
+    { label: 'International', value: 'International' },
+  ]
 
   const regions = selectedRegions.map((_, idx) => {
     return _.label;
   });
 
   const filteredData = filterDataByRegions(resData, regions);
-  // console.log(filteredData, "filtersata");
 
   const groupedData = filteredData.reduce((result: any, item: any) => {
     const region = item.Region;
@@ -45,6 +47,8 @@ const ICE = ({resData}: any) => {
     result[region].push(item);
     return result;
   }, {});
+
+
 
   // Now groupedData is an object where keys are regions and values are arrays of objects for each region
 
@@ -128,7 +132,7 @@ const ICE = ({resData}: any) => {
 
   return (
     <div className=' md:pb-4  h-full'>
-        <Max result={data} />
+        <MaxIce result={data} />
 
     </div>
   );

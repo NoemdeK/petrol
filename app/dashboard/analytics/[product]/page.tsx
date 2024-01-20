@@ -117,6 +117,8 @@ const Productpage = async ({ params, searchParams }: any) => {
 
   const result = dataa
 
+  console.log(data)
+
 
 
 
@@ -142,6 +144,7 @@ const Productpage = async ({ params, searchParams }: any) => {
     default:
       selectedComponent = <PMStest data={data} />; // Handle the case when product doesn't match any known type
   }
+
 
   return (
     <div>

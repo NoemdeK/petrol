@@ -25,6 +25,7 @@ import { BiSolidDownArrow } from "react-icons/bi"
 import { regionalOptions } from '@/data';
 import { useSelector } from "react-redux"
 import { RootState } from "@/redux/store"
+import { usePathname } from "next/navigation"
 
 
 export function Region({ selectedNames, setSelectedNames }: any) {
@@ -32,9 +33,17 @@ export function Region({ selectedNames, setSelectedNames }: any) {
     (state: RootState) => state.prices
   );
 
+  const pathname = usePathname()
+  const isMainPage = pathname === '/dashboard/analytics/ICE';
+
+  if (isMainPage) {
+    return null;
+  }
+
   return (
     <>
-    <Popover>
+    <p className='text-[12px] font-semibold'>Region</p>
+    <Popover >
       <PopoverTrigger asChild>
         <Button variant="outline" className="font-normal">
           <p>
