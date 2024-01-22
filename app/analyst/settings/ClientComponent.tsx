@@ -180,7 +180,7 @@ const ClientComponent = ({data}: any) => {
     },
     {
       role: "Role",
-      name: `${data.role === 'rwx_data_entry_user' ? 'Field Agent' : 'User'  }`,
+      name: "Data Analyst",
     },
   ]
   return (

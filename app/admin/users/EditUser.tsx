@@ -93,7 +93,6 @@ const EditUser = () => {
       }
 
       async function onSubmit(values: z.infer<typeof formSchema>) {
- console.log(values)
         loading.onOpen()
 
         await PlainTransportDekApi.patch(
@@ -108,8 +107,7 @@ const EditUser = () => {
           .then(() => {
             form.reset()
             toast({
-              title: "New User Edited",
-              description: "Done",
+              description: "User successfully edited.",
               })
             router.refresh()
             onCancel()
@@ -118,7 +116,6 @@ const EditUser = () => {
             console.error("Error:", error);
             toast({
               variant: "destructive",
-              title: "Edit User Error",
               description: `${error.response.data.message}`,
               })
           })
@@ -234,7 +231,7 @@ const EditUser = () => {
         
         <div className="w-full flex justify-between mb-10">
             <SheetClose asChild>
-              <Button type="submit" variant="ghost" onClick={onCancel}>Close</Button>
+              <Button type="button" variant="ghost" onClick={onCancel}>Close</Button>
             </SheetClose>
               <Button  type="submit">Save</Button>
         </div>

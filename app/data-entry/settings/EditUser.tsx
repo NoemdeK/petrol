@@ -125,7 +125,6 @@ const EditUserTwo = () => {
             console.error("Error:", error);
             toast({
               variant: "destructive",
-              title: "Edit User Error",
               description: `${error.response.data.message}`,
               })
           })
@@ -158,7 +157,7 @@ const EditUserTwo = () => {
                     <FormItem>
                     <FormLabel>First Name</FormLabel>
                     <FormControl>
-                        <Input placeholder="" disabled={true} defaultValue={item.data.firstName}   />
+                        <Input placeholder="" disabled={item.data?.role === "rwx_admin" ? false : true} defaultValue={item.data.firstName}   />
                     </FormControl>
                     <FormMessage />
                     </FormItem>
@@ -173,7 +172,7 @@ const EditUserTwo = () => {
                     <FormItem>
                     <FormLabel>Last Name</FormLabel>
                     <FormControl>
-                        <Input placeholder="Last name" disabled={true}  defaultValue={item?.data?.lastName} />
+                        <Input placeholder="Last name" disabled={item.data?.role === "rwx_admin" ? false : true}  defaultValue={item?.data?.lastName} />
                     </FormControl>
                     <FormMessage />
                     </FormItem>
@@ -188,7 +187,7 @@ const EditUserTwo = () => {
                     <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                        <Input placeholder="email@gmail.com" type="email"  disabled={true} defaultValue={item.data.email}  />
+                        <Input placeholder="email@gmail.com" type="email"  disabled={item.data?.role === "rwx_admin" ? false : true} defaultValue={item.data.email}  />
                     </FormControl>
                     <FormMessage />
                     </FormItem>
@@ -215,29 +214,33 @@ const EditUserTwo = () => {
         </div>
 
         <div>
-        <FormField
-            control={form.control}
-            name="role"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Role</FormLabel>
-                <Select onValueChange={field.onChange}  disabled defaultValue={item.data.role || field.value}>
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a role" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                  {fulling.map((item: any, i: number) => (
-                      <SelectItem key={i} value={item.role}>
-                        {item.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormItem>
-            )}
-          />
+          {
+            item.data?.role !== "rwx_admin" && (
+              <FormField
+              control={form.control}
+              name="role"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Role</FormLabel>
+                  <Select onValueChange={field.onChange}  disabled defaultValue={item.data.role || field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a role" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                    {fulling.map((item: any, i: number) => (
+                        <SelectItem key={i} value={item.role}>
+                          {item.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
+            )
+          }
         </div>
       </div>
          </div>
@@ -245,7 +248,7 @@ const EditUserTwo = () => {
         
         <div className="w-full flex justify-between mb-10">
             <SheetClose asChild>
-              <Button type="submit" variant="ghost" onClick={onCancel}>Close</Button>
+              <Button type="button" variant="ghost" onClick={onCancel}>Close</Button>
             </SheetClose>
               <Button  type="submit">Save</Button>
         </div>

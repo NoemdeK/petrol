@@ -247,7 +247,7 @@ export function AuditlogTable({data, selectData}: {data: Payment[], selectData:a
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="py-3">
+                    <TableCell key={cell.id} className="py-4">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -271,7 +271,7 @@ export function AuditlogTable({data, selectData}: {data: Payment[], selectData:a
       </div>
 
       <div className="flex items-center justify-between space-x-2 p-4">
-      <PageContainer page="/admin/audit-log" />
+      <PageContainer page="/admin/audit-log" table={table} />
 
         <div className="space-x-2">
           <Button

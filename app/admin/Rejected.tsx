@@ -394,7 +394,7 @@ export function Rejected({data}: {data: Payment[]}) {
       </div>
 
       <div className="flex items-center justify-between space-x-2 p-4">
-        <PageContainer page="/admin" />
+        <PageContainer page="/admin" table={table} />
         <div className="space-x-2">
           <Button
             variant="outline"

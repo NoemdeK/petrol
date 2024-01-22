@@ -257,22 +257,7 @@ export const columns: ColumnDef<any>[] = [
   },
 ]
 
-const View = ({entry}: any) => {
-  const { onOpen, setData} = useDocumentView()
-  console.log("entry", entry)
 
-  const onclickSet = () => {
-    setData(entry.supportingDocument)
-    onOpen()
-  }
-  return (
-    <div className="capitalize text-xs">
-        <Button variant={"link" } onClick={onclickSet} className="text-sky-600"> 
-        View
-        </Button>
-    </div>
-    )
-}
 
 const Actions = (entry: any) => {
   const remove = useDelete()
@@ -445,6 +430,8 @@ const Actions = (entry: any) => {
   )
 }
 
+
+
 export function UsersTable({data}: {data: Payment[]}) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -472,12 +459,13 @@ export function UsersTable({data}: {data: Payment[]}) {
       getFilteredRowModel: getFilteredRowModel(),
       onColumnVisibilityChange: setColumnVisibility,
       onRowSelectionChange: setRowSelection,
+      
       state: {
         sorting,
         columnFilters,
         columnVisibility,
         rowSelection,
-        globalFilter
+        globalFilter,
       },
     })
     const searchParams  = useSearchParams();
@@ -571,7 +559,7 @@ export function UsersTable({data}: {data: Payment[]}) {
 
       <div className="flex items-center justify-end space-x-2 p-4">
         <div className="flex-1 text-sm text-muted-foreground">
-         <PageContainer page="/admin/users" />
+         <PageContainer page="/admin/users" table={table} />
         </div>
         <div className="space-x-2">
           <Button

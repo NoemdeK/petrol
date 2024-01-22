@@ -92,7 +92,7 @@ console.log(notify.data.result.length, "lenth")
                 <div className="hidden md:flex h-full md:h-[90vh]  md:w-60 md:flex-col  md:fidxed md:inset-y-0 z-80">
                 <Sidebar session={me?.data?.role}  />
                 </div>
-                <main className=" pb-10 w-full h-[90vh] overflow-hidden overflow-y-scroll">
+                <main className="w-full h-[90vh] overflow-hidden overflow-y-scroll">
                   {/* <HeaderStat data={result} /> */}
 
                     {children}

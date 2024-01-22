@@ -117,7 +117,6 @@ const Productpage = async ({ params, searchParams }: any) => {
 
   const result = dataa
 
-  console.log(data)
 
 
 
