@@ -187,7 +187,7 @@ const EditUserTwo = () => {
                     <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                        <Input placeholder="email@gmail.com" type="email"  disabled={item.data?.role === "rwx_admin" ? false : true} defaultValue={item.data.email}  />
+                        <Input placeholder="email@gmail.com" type="email"  disabled={true} defaultValue={item.data.email}  />
                     </FormControl>
                     <FormMessage />
                     </FormItem>
