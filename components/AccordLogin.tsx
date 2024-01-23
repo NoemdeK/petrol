@@ -136,7 +136,7 @@ const AccordLogin = () => {
     <div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
-            <div className="grid gap-4 grid-cols-3 mb-6">
+            <div className="grid gap-4 grid-cols-2 md:grid-cols-3 mb-6">
                 <div className="grid gap-2">
                     <FormField
                         control={form.control}

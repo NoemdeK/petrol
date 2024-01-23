@@ -12,6 +12,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { useRouter } from 'next/navigation'
+import { toast } from '@/components/ui/use-toast'
 
 const Page = ({params}: {params: any}) => {
   const [isMounted, setIsMounted] = useState()
@@ -34,14 +35,20 @@ const Page = ({params}: {params: any}) => {
         if(data.data.hasPassword){
           router.push("/signin")
         } else {
-          router.push("/forgot-password")
+          router.push(`/auth/create-password/${id}`)
         }
-        console.log(data.data.hasPassword)
+        toast({
+          description: "Verification success!"
+        })
         // alert('User is verified!');
         // You can redirect the user to another page or perform additional actions as needed
       } catch (error) {
         console.error('Error:', error);
-        alert('Error occurred during verification');
+        toast({
+          variant: "destructive",
+          description: "Error occurred during verification"
+        })
+        router.push("/signup")
       }
     };
 
@@ -61,12 +68,7 @@ const Page = ({params}: {params: any}) => {
         <DialogTitle>Verification</DialogTitle>
 
       </DialogHeader>
-        <div>
-          <p>
-          verifing user
-
-          </p>
-        </div>
+        <div className="loader"></div>
       <DialogFooter>
       </DialogFooter>
     </DialogContent>

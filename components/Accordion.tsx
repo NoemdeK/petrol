@@ -15,18 +15,20 @@ import AccordLogin from "./AccordLogin"
   export function AccordionDemo() {
     return (
       <Accordion type="single" collapsible className="w-full text-black">
-        <AccordionItem value="item-1">
+        <AccordionItem value="item-1" className="text-black">
           <AccordionTrigger>
-            <div className="flex gap-4 sm:gap-8 md:gap-12">
-              <div>
-                <Image src={petrologo} alt="petrodata-logo" width={100} height={75} className="object-contain" />
+            <div className="flex gap-4 md:flex-row flex-col sm:gap-4 md:gap-12">
+              <div className="w-32">
+                <Image src={petrologo} alt="petrodata-logo" width={150} height={100} className="object-contain w-full" />
               </div>
-              <div className="text-left flex flex-col gap-4">
+              <div className="text-left flex flex-col gap-2">
                 <h4 className="text-sm">
                   Petro-data Application
                 </h4>
                 <p className="text-xs">
-                  This is a short description of the PetroData application.
+                  Offers real-time data analytics and visulaization tools for the petroluem sector. Users
+                  can access the comprhensive information on production rates, market trends, and prices. The app also includes analytics for better 
+                  decision-making.
                 </p>
               </div>
             </div>
@@ -35,18 +37,23 @@ import AccordLogin from "./AccordLogin"
             <AccordLogin />
           </AccordionContent>
         </AccordionItem>
-        <AccordionItem value="item-2">
+        <AccordionItem value="item-2" className="text-black">
           <AccordionTrigger>
-            <div className="flex gap-4 sm:gap-8 md:gap-12">
-              <div>
-              <Image src={record} width={100} alt="record-logo" height={75} className="object-contain" />
+          <div className="flex gap-4 md:flex-row flex-col sm:gap-4 md:gap-12">
+            <div className="w-32">
+              <Image src={record} width={150} alt="record-logo" height={100} className="object-contain w-full" />
               </div>
-              <div className="text-left flex flex-col gap-4">
+              <div className="text-left flex flex-col gap-2">
                 <h4 className="text-sm">
                   Records Application
                 </h4>
                 <p className="text-xs">
                 This is a short description of the Records application.
+                </p>
+                <p className="text-xs opacity-0">
+                  Offers real-time data analytics and visulaization tools for the petroluem sector. Users
+                  can access the comprhensive information on production rates, market trends, and prices. The app also includes analytics for better 
+                  decision-making.
                 </p>
               </div>
             </div>

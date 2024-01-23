@@ -83,9 +83,15 @@ const DashboardLayout =  async ({
   const me = await getMe(`${user?.user.accessToken}`)
   const notify = await getNotification(`${user?.user.accessToken}`)
 
-console.log(notify.data.result.length, "lenth")
 
   return ( 
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="light"
+      enableSystem
+      disableTransitionOnChange
+    >
+
         <div className="h-full relative m-4">
             <Navbar data={me?.data} length={notify.data.result.length} notification={notify.data.result} />
             <div className="flex gap-4 w-full"> 
@@ -104,6 +110,7 @@ console.log(notify.data.result.length, "lenth")
           </div>
 
         </div>
+        </ThemeProvider>
 
    );
 }

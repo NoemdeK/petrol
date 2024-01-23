@@ -52,7 +52,7 @@ export default function Home() {
     <main className='max-h-screen flex-col flex  bghero'>
       <div className='bg-whiteh/30  w-full h-full'>
 
-        <div className="max-w-7xl w-full mx-auto  items-center justify-between flex p-4 md:p-8">
+        <div className="max-w-7xl w-full mx-auto  items-center justify-between flex py-4 px-4 md:px-0 md:py-8">
           <p className=" left-0 top-0 flex w-full text-lg sm:text-2xl md:text-4xl pb-6 pt-8 text-sky-400  lg:static lg:w-auto   lg:p-4 ">
             dio<span className='font-bold'>phalytics</span><span className='text-black'>.io</span>
           </p>
@@ -87,14 +87,14 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-4">
 
             <div className='text-secondary  h-full w-full flex items-center flex-col justify-center text-left md:text-lefkt md:itejms-start'>
-              <div className='h-full flex flex-col gap-8 mt-16 justify-center items-center md:items-stalrt'>
+              <div className='h-full flex flex-col gap-8 mt-16 justify-center items-center md:items-start'>
                   <h4 className='text-black text-3xl sm:text-4xl lg:text-5xl font-bold '>
                     Solving the <span className='text-purple-800'>hardest</span> <br />
                     data collection and <br />
                     verification challenges
                   </h4>
                   <div className='flex  gap-4 w-full  flex-col'>
-                    <p className='text-sm md:text-base text-black  text-left font-medium'>Check out our tools</p>
+                    <p className='text-sm md:text-base text-black  text-left font-semibold'>Check out our tools:</p>
                       <AccordionDemo />
                       
 
@@ -102,7 +102,7 @@ export default function Home() {
                 </div>
             </div>
 
-            <div className='w-full lg:flex hidden'>
+            <div className='w-full md:flex hidden'>
               <Image src={hero} width={600} height={500} alt='hero' className='w-full h-auto max-h-96' />
             </div>
 

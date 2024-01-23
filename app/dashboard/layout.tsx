@@ -60,6 +60,13 @@ const DashboardLayout =  async ({
 
 
   return ( 
+    <ThemeProvider
+    attribute="class"
+    defaultTheme="light"
+    enableSystem
+    disableTransitionOnChange
+  >
+
       <div className='h-full relative m-4'>
         <Navbar data={me?.data} />
         <div className="flex gap-4 w-full"> 
@@ -73,6 +80,7 @@ const DashboardLayout =  async ({
       </div>
 
     </div>
+    </ThemeProvider>
 
    );
 }

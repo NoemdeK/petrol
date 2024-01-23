@@ -34,22 +34,14 @@ export default  async function RootLayout({
       <AuthProvider>
         <Redux >
           <body>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="light"
-              enableSystem
-              disableTransitionOnChange
-            >
               {children}
               <LoadingModal />
               <DocumentView />
               
               <Toaster />
-            </ThemeProvider>
           </body>
         </Redux>
         </AuthProvider>
-
     </html>
   );
 }

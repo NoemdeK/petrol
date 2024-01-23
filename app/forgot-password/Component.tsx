@@ -85,7 +85,7 @@ export function Forgot() {
   return (
     <div className='h-full flex justify-center items-center relative'>
         
-    <Button size={"icon"} className="absolute top-8 left-0" onClick={() => rouyter.back()}>
+    <Button size={"icon"} className="fixed top-8 left-8" onClick={() => rouyter.back()}>
         <ArrowBigLeft />
     </Button>
         <Card className="w-96">

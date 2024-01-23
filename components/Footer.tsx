@@ -16,8 +16,8 @@ const Footer = () => {
                     </div>
                     <div>
                         <p className='text-xs md:text-sm tracking-wider'>
-                            1024 Roosevelt Wilson Lane
-                            Walnut, California,
+                            3280 Peachtree Rd NE, 
+                            Atlanta, GA 30305,
                             United States.
                         </p>
                     </div>
@@ -28,9 +28,9 @@ const Footer = () => {
                         <Mail size={18} />
                     </div>
                     <div>
-                        <p className='text-xs md:text-sm tracking-wider'>
-                        srgrequests@noemdek.co.uk
-                        </p>
+                        <a href='mailto:innovate@diophalytics.io' className='text-xs md:text-sm tracking-wider'>
+                            innovate@diophalytics.io
+                        </a>
                     </div>
                 </div>
 

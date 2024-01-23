@@ -66,6 +66,12 @@ const DashboardLayout =  async ({
 
 
   return ( 
+    <ThemeProvider
+    attribute="class"
+    defaultTheme="light"
+    enableSystem
+    disableTransitionOnChange
+  >
       <div className="h-full relative">
         <div className="h-full relative m-4">
           <Navbar data={me?.data} />
@@ -83,6 +89,7 @@ const DashboardLayout =  async ({
         <EditUserTwo />
       </div>
 
+      </ThemeProvider>
 
    );
 }
