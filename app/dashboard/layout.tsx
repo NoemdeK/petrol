@@ -43,9 +43,9 @@ async function getMe(header: string) {
   // The return value is *not* serialized
   // You can return Date, Map, Set, etc.
 
- 
 }
 
+export const revalidate = 3600 // revalidate at most every hour
 
 const DashboardLayout =  async ({
   children,
