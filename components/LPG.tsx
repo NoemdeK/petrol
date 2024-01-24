@@ -27,7 +27,6 @@ const LPG = ({resData}: any) => {
   const regions = selectedRegions.map((_, idx) => {
     return _.label;
   });
-  console.log(regions);
 
   const filteredData = filterDataByRegions(resData, regions);
 

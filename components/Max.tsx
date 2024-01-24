@@ -36,7 +36,6 @@ export const Max = ({ result }: { result: any }) => {
     return _.label;
   });
 
-  console.log(result, "result")
 
   return (
     <div className='h-full max-w-screen'>

@@ -146,7 +146,6 @@ const Productpage = async ({ params, searchParams }: any) => {
       selectedComponent = <PMStest data={data} />; // Handle the case when product doesn't match any known type
   }
 
-  console.log(data)
 
 
   return (

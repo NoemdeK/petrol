@@ -37,7 +37,6 @@ export const MaxIce = ({ result }: { result: any }) => {
     return _.label;
   });
 
-  console.log(result)
   return (
     <div className='h-full max-w-screen'>
       <AreaChart

@@ -23,6 +23,7 @@ interface Dataset {
   
 const ClientComponent = ({stats, page, overall, recent} :any) => {
   const [isClient, setIsClient] = useState(false)
+  const [productData, setProductData] = useState<any>(null);
  
 
     const { selectedRegions, product } = useSelector(
@@ -59,7 +60,12 @@ const ClientComponent = ({stats, page, overall, recent} :any) => {
             return data?.PMSData; // Handle unknown product types
         }
       }
-      const productData = getProductData(product, stats.data);
+      useEffect(() => {
+        const data = getProductData(product, stats.data);
+        setProductData(data);
+      }, [getProductData, product, stats.data]);
+
+      // const productData = getProductData(product, stats.data);
 
 
       const isNegativeChange = parseFloat(overall) < 0;

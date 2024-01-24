@@ -23,9 +23,7 @@ import AccordLogin from "./AccordLogin"
               </div>
               <div className="text-left flex flex-col gap-2">
                 <p className="text-xs">
-                  Offers real-time data analytics and visulaization tools for the petroluem sector. Users
-                  can access the comprhensive information on production rates, market trends, and prices. The app also includes analytics for better 
-                  decision-making.
+                Offers real-time data analytics and visualization tools for the petroleum sector. Users can access comprehensive information on production rates, market trends, and prices. The app also includes analytics for better decision-making.
                 </p>
               </div>
             </div>
@@ -42,12 +40,7 @@ import AccordLogin from "./AccordLogin"
               </div>
               <div className="text-left flex flex-col gap-2">
                 <p className="text-xs">
-                This is a short description of the Records application.
-                </p>
-                <p className="text-xs opacity-0">
-                  Offers real-time data analytics and visulaization tools for the petroluem sector. Users
-                  can access the comprhensive information on production rates, market trends, and prices. The app also includes analytics for better 
-                  decision-making.
+                Professional due diligence and KYC verification for African vendors and high-profile individuals. Elevate business integrity with advanced algorithms, real-time monitoring, and regulatory compliance assurance.
                 </p>
               </div>
             </div>

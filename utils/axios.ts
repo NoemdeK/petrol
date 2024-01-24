@@ -2,6 +2,11 @@ import axios from "axios";
 import { getSession } from "next-auth/react";
 import useSWR from 'swr';
 
+interface FetchDataOptions {
+  headers?: Record<string, string>;
+}
+
+
 const baseURL = "https://petrodata.zainnovations.com/api/v1/";
 const instance = axios.create({
   baseURL,
@@ -56,3 +61,20 @@ export const MultiTransportDekApi = axios.create({
     'Content-Type': 'multipart/form-data;',
   },
 });
+
+export const fetchDatax = async (url: string, options?: FetchDataOptions) => {
+  try {
+    const response = await fetch(url, {
+      headers: options?.headers || {},
+    });
+
+    if (!response.ok) {
+      console.error(`Failed to fetch data from ${url}. Status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    
+  }
+};

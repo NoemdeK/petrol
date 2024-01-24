@@ -24,7 +24,6 @@ const DPK = ({resData}: any) => {
 
   const params = searchParams.get("period")
 
-  console.log(params)
 
   // const { resData } = useSelector((state: RootState) => state.DPK);
   // console.log("DPK Data", resData)
