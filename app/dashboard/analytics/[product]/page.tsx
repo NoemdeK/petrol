@@ -112,14 +112,14 @@ const Productpage = async ({ params, searchParams }: any) => {
   const main = await getAnalytics(`${params.product}`, `${searchParams.period}`)
   const dataa = await getData()
 
-  const data = main?.analysis || []
+  const data = main?.analysis
 
 
   const result = dataa
 
 
 
-
+  console.log(data)
 
 
   let selectedComponent;
