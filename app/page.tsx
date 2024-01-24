@@ -29,19 +29,19 @@ import Partners from '@/components/sections/Partners'
 export default function Home() {
   const components: { title: string; href: string; description: string }[] = [
     {
-      title: "Our approach",
+      title: "About Us",
       href: "/",
       description:
         "A modal dialog that interrupts the user with important content and expects a response.",
     },
     {
-      title: "Tools",
+      title: "Our Process",
       href: "/",
       description:
         "For sighted users to preview content available behind a link.",
     },
     {
-      title: "Contact",
+      title: "Contact Us",
       href: "/",
       description:
         "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",

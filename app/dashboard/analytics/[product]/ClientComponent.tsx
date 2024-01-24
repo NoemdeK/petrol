@@ -59,7 +59,7 @@ const ClientComponent = ({stats, page, overall, recent} :any) => {
             return data?.PMSData; // Handle unknown product types
         }
       }
-      const productData = getProductData(product, stats?.data);
+      const productData = getProductData(product, stats.data);
 
 
       const isNegativeChange = parseFloat(overall) < 0;
