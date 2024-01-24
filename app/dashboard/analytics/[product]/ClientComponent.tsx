@@ -69,6 +69,7 @@ const ClientComponent = ({stats, page, overall, recent} :any) => {
       const backgroundColorz = isNegativeChangez ? 'text-red-500' : 'text-green-600';
 
 
+      
 
       useEffect(() => {
         setIsClient(true)

@@ -105,6 +105,8 @@ const fetchPosts = async () => {
   }
 };
 
+export const revalidate = 0
+
 const Productpage = async ({ params, searchParams }: any) => {
   const posts = await fetchPosts()
   const news = await getDataNews(params.product)
@@ -112,7 +114,7 @@ const Productpage = async ({ params, searchParams }: any) => {
   const main = await getAnalytics(`${params.product}`, `${searchParams.period}`)
   const dataa = await getData()
 
-  const data = main?.analysis
+  const data = main.analysis
 
 
   const result = dataa
