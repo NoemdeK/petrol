@@ -13,7 +13,7 @@ import LoadingModal from '@/components/LoadingModal';
 import { DocumentView } from '@/components/DocumentView';
 
 export const metadata: Metadata = {
-  title: 'Diophalytics.io',
+  title: 'Petro Data: A Diophalytics Application',
   description: 'Solving the data',
 }
 

@@ -121,7 +121,6 @@ const Productpage = async ({ params, searchParams }: any) => {
 
 
 
-  console.log(data)
 
 
   let selectedComponent;

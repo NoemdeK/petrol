@@ -62,11 +62,10 @@ const Page = async ({searchParams}: any) => {
   const client = await getDataclient(`${user?.user.accessToken}`, searchParams.rows)
 
   
-  console.log(field.data.result, "name")
 
   return (
     <div>
-        <ClientComponent data={analyst?.data?.result} field={field?.data?.result} client={client} />
+        <ClientComponent data={analyst?.data?.result} field={field?.data?.result} client={client.data?.result} />
     </div>
   )
 }

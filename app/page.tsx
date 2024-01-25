@@ -49,7 +49,7 @@ export default function Home() {
 
   ]
   return (
-    <main className='min-h-screen flex-col flex  bghero'>
+    <main className='min-h-screen flex-col flex hero'>
       <div className='bg-whiteh/30  w-full h-full'>
 
         <div className="max-w-7xl w-full mx-auto  items-center justify-between flex py-4 px-4 md:px-0 md:py-8">

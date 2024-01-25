@@ -141,18 +141,21 @@ ol li{
 }
 
 .hero{
-  background-image: url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGdyYXBofGVufDB8fDB8fHww');
+  background-image: url('https://res.cloudinary.com/dnir0cslk/image/upload/v1706188326/dio_l4msde.jpg');
   background-repeat: no-repeat;
   background-size: cover;
 }
 
 
 .petrodata{
-  background: url("https://res.cloudinary.com/dnir0cslk/image/upload/v1706149986/petromain_xbyot1.png"), lightgray;
+  /* background: url("https://res.cloudinary.com/dnir0cslk/image/upload/v1706148980/petrobg_eg3spo.jpg"); */
+  /* background: linear-gradient(rgba(94, 94, 94, 0.7), rgba(0, 0, 0, .7)), url("https://res.cloudinary.com/dnir0cslk/image/upload/v1706148980/petrobg_eg3spo.jpg"); */
+
   /* background-image: url('https://res.cloudinary.com/dnir0cslk/image/upload/v1706148980/petrobg_eg3spo.jpg'); */
   background-repeat: no-repeat;
-  background-size: cover;
+  /* background-size: contain; */
   height: 100%;
+  width: 100%;
   background-position: center;
   position: relative;
   /* background-color: rgba(0, 0, 0, 0.6); */
@@ -165,6 +168,8 @@ ol li{
   /* background: rgba(4, 3, 3, 0.5);  */
   width: 100%;
   height: 100%;
+  position: absolute;
+  top: 0;
 }
 
 .canvasjs-chart-toolbar{

@@ -63,7 +63,7 @@ export const Pagnation:React.FC<PeriodTabProps> = ({ table, page})=> {
         // {label}
         // </div>
          <div>
-         <Select onValueChange={handleClick}>
+         <Select onValueChange={handleClick} defaultValue={rows}>
             <SelectTrigger className="w-[100px]">
                 <SelectValue placeholder="Show 10">Show {rows}</SelectValue>
             </SelectTrigger>

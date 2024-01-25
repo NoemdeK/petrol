@@ -1,10 +1,11 @@
 "use client"
-import {useSearchParams} from "next/navigation"
+import {usePathname, useSearchParams} from "next/navigation"
 import {Pagnation} from './Pagination'
 
 export const PageContainer = ({page, table}: any) => {
     const searchParams  = useSearchParams();
     const rows = searchParams?.get('rows');
+    const pathname = usePathname()
 
 
     const periods = [
@@ -26,7 +27,7 @@ export const PageContainer = ({page, table}: any) => {
         <p className="font-medium text-sm">Rows per page</p>
 
             <Pagnation 
-                page={page}  
+                page={pathname}  
                 table={table}
             />
 

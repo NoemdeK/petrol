@@ -3,7 +3,7 @@ import React, { useCallback, useState } from 'react'
 import { Label } from './ui/label'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import qs from 'query-string'
 
 const Filter = () => {
@@ -12,6 +12,8 @@ const Filter = () => {
 
     const router = useRouter()
     const params = useSearchParams()
+    const pathname = usePathname()
+
 
     
 
@@ -33,7 +35,7 @@ const Filter = () => {
         }
 
         const url = qs.stringifyUrl({
-            url: `/admin`,
+            url: pathname,
             query: updatedQuery
         }, {
             skipNull: true
@@ -46,7 +48,7 @@ const Filter = () => {
         router.push("/admin");
         setDateTwo('')
         setDate('')
-    }, [router]);
+    }, [router, pathname]);
 
 
   return (

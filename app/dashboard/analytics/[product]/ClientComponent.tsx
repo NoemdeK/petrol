@@ -61,9 +61,10 @@ const ClientComponent = ({stats, page, overall, recent} :any) => {
         }
       }
       useEffect(() => {
-        const data = getProductData(product, stats.data);
+        const data = getProductData(page, stats.data);
         setProductData(data);
-      }, [getProductData, product, stats.data]);
+      }, [getProductData, page, stats.data]);
+
 
       // const productData = getProductData(product, stats.data);
 

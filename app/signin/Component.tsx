@@ -62,19 +62,20 @@ export function LoginAccount() {
         // console.log(response)
         loading.onOpen()
         try {
-          const response = await signIn("credentials", {
-            email: values.email,
-            password: values.password,
-            redirect: false,
-          });
-
+          
           const res = await axios.post(`https://petrodata.zainnovations.com/api/v1/auth/login`, values, {
             headers: {
               'Content-Type': 'application/json',
             },
           });
 
- 
+          const response = await signIn("credentials", {
+            email: values.email,
+            password: values.password,
+            redirect: false,
+          });
+
+
 
           const role = res.data.data.role
 
@@ -99,7 +100,7 @@ export function LoginAccount() {
       
           if (response?.error) {
             // Handle authentication error
-            console.error("Authentication error:", response.error);
+            console.error("Authentication error:", response);
             toast({
               title: "User cannot login",
               description: "Cannot login, Check details",
@@ -119,7 +120,7 @@ export function LoginAccount() {
           // Handle unexpected errors
           toast({
             title: "User cannot login",
-            description: `${error?.message ||  "Cannot login, Check details"}`,
+            description: `${error.response.data.message ||  "Cannot login, Check details"}`,
             variant: "destructive"
             })
         } finally {
@@ -134,9 +135,6 @@ export function LoginAccount() {
       };
   return (
     <>
-      <Button size={"icon"} className="fixed top-8 left-8 bg-white text-black" onClick={() => router.back()}>
-                <ChevronLeft />
-        </Button>
     <Card className="w-96">
       <CardHeader className="space-y-1 text-center">
         <Logo />

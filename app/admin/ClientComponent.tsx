@@ -12,6 +12,8 @@ import { Approved } from './Approved'
 import { Rejected } from './Rejected'
 import Filter from '@/components/Filter'
 import useTab from '@/lib/useTab'
+import { usePathname } from 'next/navigation'
+import { PendingUser } from './PendingUser'
 
 interface ClientComponentProps{
     rejected: any[]
@@ -21,6 +23,7 @@ interface ClientComponentProps{
 
 const ClientComponent = ({rejected, approved, pending}: ClientComponentProps ) => {
   const {tab, setTab} = useTab()
+  const pathname = usePathname()
   return (
     <div>
         <div>
@@ -39,7 +42,12 @@ const ClientComponent = ({rejected, approved, pending}: ClientComponentProps ) =
                 </div>
 
                 <TabsContent value="pending">
+                  {
+                    pathname === "/admin" ?
                     <Pending  data={pending} />
+                    :
+                    <PendingUser  data={pending} />
+                  }
                 </TabsContent>
                 <TabsContent value="approved">
                     <Approved data={approved} />

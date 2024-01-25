@@ -86,12 +86,12 @@ export function Forgot() {
   return (
 
      <div className='petrodata'>
+      <img src='https://res.cloudinary.com/dnir0cslk/image/upload/v1706148980/petrobg_eg3spo.jpg' alt="hero" 
+          className='h-full w-full grayscale' />
       <div className='overlay  grid grid-cols-1 md:grid-cols-2  sm:p-8 lg:p-16'>
         <div className='h-full w-full flex justify-center items-center lg:mt-14'>
             
-            <Button size={"icon"} className="fixed top-8 left-8 bg-white text-black" onClick={() => rouyter.back()}>
-                <ChevronLeft />
-            </Button>
+           
                 <Card className="w-96">
                 <CardHeader className="space-y-1 text-center">
         
@@ -121,8 +121,11 @@ export function Forgot() {
         
                 </CardContent>
         
-                <CardFooter>
+                <CardFooter className="flex-col gap-2">
                     <Button className="w-full" type="submit">Submit</Button>
+                    <Button   className="bg-white text-black border w-full" onClick={() => rouyter.back()}>
+                       Back to Login
+                    </Button>
                 </CardFooter>
                 </form>
                 </Form>
@@ -138,3 +141,5 @@ export function Forgot() {
      </div>
   )
 }
+
+

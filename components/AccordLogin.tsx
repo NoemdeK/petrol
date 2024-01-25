@@ -19,7 +19,7 @@ import {
 
 
 import { Input } from "@/components/ui/input"
-import { Eye, EyeOff, Github } from "lucide-react"
+import { ArrowUpRight, Eye, EyeOff, Github } from "lucide-react"
 import { useState } from "react"
 
 import {  useRouter } from "next/navigation"
@@ -27,6 +27,7 @@ import { signIn } from "next-auth/react"
 import { toast } from "@/components/ui/use-toast"
 import useLoading from "@/lib/useLoading"
 import axios from "axios"
+import Link from 'next/link'
 
 const formSchema = z.object({
     email: z.string().email().min(2, {
@@ -68,25 +69,45 @@ const AccordLogin = () => {
  
 
           const role = res.data.data.role
+          // window.open()z
+          // switch (role) {
+          //   case 'rwx_data_entry_user':
+          //     router.replace('/data-entry');
+          //     break;
+          //   case 'rwx_admin':
+          //     router.replace('/dashboard/analytics/PMS');
+          //     break;
+          //   case 'rwx_user':
+          //     router.replace('/dashboard/analytics/PMS');
+          //     break;
+          //     case 'rwx_data_entry_analyst':
+          //     router.replace('/dashboard/analytics/PMS');
+          //     break;
+          //   default:
+          //     router.replace('/dashboard/analytics/PMS');
+          //     break;
+          // }
+          const newTab = window.open('', '_blank');
 
           switch (role) {
+            
             case 'rwx_data_entry_user':
-              router.replace('/data-entry');
+              if (newTab) {
+                newTab.location.href = '/data-entry'; // Change this URL to your desired location
+              }
               break;
             case 'rwx_admin':
-              router.replace('/dashboard/analytics/PMS');
-              break;
             case 'rwx_user':
-              router.replace('/dashboard/analytics/PMS');
-              break;
-              case 'rwx_data_entry_analyst':
-              router.replace('/dashboard/analytics/PMS');
+            case 'rwx_data_entry_analyst':
+              // Open a new tab upon successful authentication
+              if (newTab) {
+                newTab.location.href = '/dashboard/analytics/PMS'; // Change this URL to your desired location
+              }
               break;
             default:
               router.replace('/dashboard/analytics/PMS');
               break;
           }
-        
       
           if (response?.error) {
             // Handle authentication error
@@ -179,7 +200,12 @@ const AccordLogin = () => {
                     <Button className="w-full" type="submit">Log in</Button>
                 </div>
             </div>
-            <a href="mailto:kapata@noemdek.com" className='text-right font-medium mt-6 underline'>Contact</a>
+            <div className='flex items-center gap-4 mt-4'>
+              <p>Don&apos;t have an account?</p>
+              <Link href='/signup' target='_blank' className='w-40 text-xs border px-4 py-2 bg-gray-200 rounded-lg flex justify-between items-center' >
+                <span >Register here</span> <ArrowUpRight size={14} />
+              </Link>
+            </div>
       </form>
       </Form>
 

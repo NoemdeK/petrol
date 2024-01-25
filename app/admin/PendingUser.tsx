@@ -209,24 +209,6 @@ export const columns: ColumnDef<any>[] = [
       )
     }
   },
-  {
-    id: "actions",
-    enableHiding: false,
-    header: () => {
-        return (
-            <div className="text-right">
-                Actions
-            </div>
-        )
-    },
-    cell: ({ row }) => {
-
-       const entry = row.original
-      return (
-       <Actions entry={entry} />
-      )
-    },
-  },
 ]
 
 const View = ({entry}: any) => {
@@ -346,7 +328,7 @@ const Actions = (entry: any) => {
   )
 }
 
-export function Pending({data}: {data: any[]}) {
+export function PendingUser({data}: {data: any[]}) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
