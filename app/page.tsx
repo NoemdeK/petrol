@@ -49,7 +49,7 @@ export default function Home() {
 
   ]
   return (
-    <main className='min-h-screen flex-col flex hero'>
+    <main className='min-h-screen flex-col flex  hero'>
       <div className='bg-whiteh/30  w-full h-full'>
 
         <div className="max-w-7xl w-full mx-auto  items-center justify-between flex py-4 px-4 md:px-0 md:py-8">
@@ -103,7 +103,7 @@ export default function Home() {
             </div>
 
             <div className='w-full md:flex hidden'>
-              <Image src={hero} width={600} height={500} alt='hero' className='w-full h-auto max-h-96' />
+              <Image src={hero} width={600} height={600} alt='hero' className='w-full h-auto max-h-96' />
             </div>
 
           </div>

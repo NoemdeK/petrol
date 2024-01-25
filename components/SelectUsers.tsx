@@ -47,7 +47,7 @@ const SelectUsers = ({user}: any) => {
             skipNull: true
         })
         router.push(url)
-    },[ router, params, label])
+    },[ router, params])
 
   
 

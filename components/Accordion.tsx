@@ -16,7 +16,8 @@ import { ArrowUpRight } from "lucide-react"
 
   export function AccordionDemo() {
     return (
-      <Accordion type="single" collapsible className="w-full h-full text-black">
+     <div className="overflow-hidden h-full">
+       <Accordion type="single" collapsible className="w-full h-full text-black">
         <AccordionItem value="item-1" className="text-black">
           <AccordionTrigger>
             <div className="flex gap-4 flex-col ">
@@ -49,13 +50,15 @@ import { ArrowUpRight } from "lucide-react"
           </AccordionTrigger>
           <AccordionContent>
             <div>
-              <a href="https://recordsclient.vercel.app/auth/login" target="_blank" className="flex items-center gap-4">
+              <a href="https://recordsclient.vercel.app/auth/login" target="_blank" 
+                className="flex items-center gap-2 hover:underline font-medium">
                 Login   <ArrowUpRight size={16} />
               </a>
             </div>
           </AccordionContent>
         </AccordionItem>
       </Accordion>
+    </div>
     )
   }
   
