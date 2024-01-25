@@ -49,7 +49,7 @@ export default function Home() {
 
   ]
   return (
-    <main className='max-h-screen flex-col flex  bghero'>
+    <main className='min-h-screen flex-col flex  bghero'>
       <div className='bg-whiteh/30  w-full h-full'>
 
         <div className="max-w-7xl w-full mx-auto  items-center justify-between flex py-4 px-4 md:px-0 md:py-8">
@@ -93,7 +93,7 @@ export default function Home() {
                     data collection and <br />
                     verification challenges
                   </h4>
-                  <div className='flex  gap-4 w-full  flex-col'>
+                  <div className='flex  gap-4 w-full h-full flex-col'>
                     <p className='text-sm md:text-base text-black  text-left font-semibold'>Check out our tools:</p>
                       <AccordionDemo />
                       

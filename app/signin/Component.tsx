@@ -26,7 +26,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Eye, EyeOff, Github } from "lucide-react"
+import { ChevronLeft, Eye, EyeOff, Github } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 import Logo from "@/components/sections/Logo"
@@ -133,6 +133,10 @@ export function LoginAccount() {
         setShowPassword(!showPassword);
       };
   return (
+    <>
+      <Button size={"icon"} className="fixed top-8 left-8 bg-white text-black" onClick={() => router.back()}>
+                <ChevronLeft />
+        </Button>
     <Card className="w-96">
       <CardHeader className="space-y-1 text-center">
         <Logo />
@@ -202,5 +206,7 @@ export function LoginAccount() {
       </form>
     </Form>
     </Card>
+    </>
+
   )
 }

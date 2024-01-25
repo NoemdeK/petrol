@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { ArrowBigLeft, Eye, EyeOff, Github } from "lucide-react"
+import { ArrowBigLeft, ChevronLeft, ChevronRight, Eye, EyeOff, Github } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 import Logo from "@/components/sections/Logo"
@@ -35,6 +35,7 @@ import { PlainTransportDekApi, authAxiosInstance } from "@/utils/axios"
 import { signIn } from "next-auth/react"
 import { useToast } from "@/components/ui/use-toast"
 import useLoading from "@/lib/useLoading"
+import Footer from "@/components/Footer"
 
 const formSchema = z.object({
     email: z.string().email().min(2, {
@@ -83,46 +84,57 @@ export function Forgot() {
         }
       
   return (
-    <div className='h-full flex justify-center items-center relative'>
+
+     <div className='petrodata'>
+      <div className='overlay  grid grid-cols-1 md:grid-cols-2  sm:p-8 lg:p-16'>
+        <div className='h-full w-full flex justify-center items-center lg:mt-14'>
+            
+            <Button size={"icon"} className="fixed top-8 left-8 bg-white text-black" onClick={() => rouyter.back()}>
+                <ChevronLeft />
+            </Button>
+                <Card className="w-96">
+                <CardHeader className="space-y-1 text-center">
         
-    <Button size={"icon"} className="fixed top-8 left-8" onClick={() => rouyter.back()}>
-        <ArrowBigLeft />
-    </Button>
-        <Card className="w-96">
-        <CardHeader className="space-y-1 text-center">
-
-            <Logo />
-            <CardTitle className="text-xl">Forgot Password</CardTitle>
-    
-        </CardHeader>
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
-        <CardContent className="grid gap-2">
-            <div className="grid gap-1">
-                <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                            <Input placeholder="email@gmail.com" type="email" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                />
-            </div>
+                    <Logo />
+                    <CardTitle className="text-xl">Forgot Password</CardTitle>
+            
+                </CardHeader>
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
+                <CardContent className="grid gap-2">
+                    <div className="grid gap-1">
+                        <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                                <FormItem>
+                                <FormLabel>Email</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="email@gmail.com" type="email" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+                
         
-
-        </CardContent>
-
-        <CardFooter>
-            <Button className="w-full" type="submit">Submit</Button>
-        </CardFooter>
-        </form>
-        </Form>
-        </Card>
-    </div>
+                </CardContent>
+        
+                <CardFooter>
+                    <Button className="w-full" type="submit">Submit</Button>
+                </CardFooter>
+                </form>
+                </Form>
+                </Card>
+          </div>
+        <div className='lg:block hidden'>
+          <h4 className='text-black text-3xl md:text-4xl lg:text-[2.5rem] font-bold text-right'>
+              Empower your business <br /> with <span className='text-[#A75C00]'>real-time</span> <br /> petroleum insights
+            </h4>
+        </div>
+      </div>
+      <Footer />
+     </div>
   )
 }

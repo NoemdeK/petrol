@@ -10,9 +10,7 @@ const Forgotpage = () => {
 
 
   return (
-    <div className='auth bghero'>
         <Forgot />
-    </div>
   )
 }
 

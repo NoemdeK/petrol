@@ -3,7 +3,7 @@ import { Client } from './Component'
 
 const Page = ({params}: any) => {
     return (
-    <div className='auth bghero'>
+    <div className='petrodata'>
     <div className='h-full flex justify-center items-center'>
       <Client id={params.id} />
     </div>

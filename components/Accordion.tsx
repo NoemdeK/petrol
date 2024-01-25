@@ -14,7 +14,7 @@ import AccordLogin from "./AccordLogin"
 
   export function AccordionDemo() {
     return (
-      <Accordion type="single" collapsible className="w-full text-black">
+      <Accordion type="single" collapsible className="w-full h-full text-black">
         <AccordionItem value="item-1" className="text-black">
           <AccordionTrigger>
             <div className="flex gap-4 flex-col ">
