@@ -202,9 +202,9 @@ const AccordLogin = () => {
             </div>
             <div className='flex items-center gap-4 mt-4'>
               <p>Don&apos;t have an account?</p>
-              <Link href='/signup' target='_blank' className='w-40 text-xs border px-4 py-2 bg-gray-200 rounded-lg flex justify-between items-center' >
-                <span >Register here</span> <ArrowUpRight size={14} />
-              </Link>
+              <a href='mailto:petro@diophalytics.io' className='border-2 w-40 text-xs px-4 py-2 bg-gray-200 rounded-lg flex justify-between items-center' >
+                <span >Get in touch</span> <ArrowUpRight size={14} />
+              </a>
             </div>
       </form>
       </Form>

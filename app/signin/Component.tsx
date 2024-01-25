@@ -142,9 +142,9 @@ export function LoginAccount() {
         <CardDescription>
          Don&apos;t have an account? 
          <span className="text-green-600 ml-2 font-medium">
-            <Link href={'/signup'}>
-                Sign Up
-            </Link>
+            <a href={'mailto:petro@diophalytics.io'}>
+               Get in touch
+            </a>
          </span>
         </CardDescription>
       </CardHeader>
