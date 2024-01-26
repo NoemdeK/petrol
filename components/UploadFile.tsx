@@ -23,7 +23,7 @@ export const UploadFileInput = ({ form, name }: any) => {
                   </div>
                 </div>
                 <input {...getInputProps()} multiple name={name} onBlur={field.onBlur} />
-                <p>Drag & drop files here, or click to select files</p>
+                <p className="text-xs">Drag & drop files here, or click to select files</p>
               </div>
             )}
           </Dropzone>

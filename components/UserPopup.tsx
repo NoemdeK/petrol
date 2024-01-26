@@ -44,7 +44,6 @@ export function UserPop({data}: any) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const result = await response.text();
-        console.log(result)
         signOut()
         router.replace("/signin")
        

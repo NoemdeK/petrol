@@ -89,6 +89,9 @@ const EditUserTwo = () => {
         form.reset()
       }
 
+      const picture = form.watch("file")
+
+
       async function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values)
         loading.onOpen()
@@ -124,8 +127,7 @@ const EditUserTwo = () => {
             console.error("Error:", error);
             toast({
               variant: "destructive",
-              title: "Edit User Error",
-              description: `${error.response.data.message}`,
+              description: "Edit User Error",
               })
           })
           .finally(() => {
@@ -244,9 +246,9 @@ const EditUserTwo = () => {
         
         <div className="w-full flex justify-between mb-10">
             <SheetClose asChild>
-              <Button type="submit" variant="ghost" onClick={onCancel}>Close</Button>
+              <Button type="button" variant="ghost" onClick={onCancel}>Close</Button>
             </SheetClose>
-              <Button  type="submit">Save</Button>
+              <Button  type="submit" disabled={picture?.length === 0 ? true : false}>Save</Button>
         </div>
         </SheetFooter>
         </form>

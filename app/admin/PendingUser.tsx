@@ -47,6 +47,8 @@ import useDocumentView from "@/lib/useDocumentView";
 
 import { PageContainer } from "@/components/PageContainer"
 import { usePathname } from "next/navigation";
+import useEditEntry from "@/lib/useEditEntry";
+import EditEntryUser from "@/components/EditUserEntry";
 
 
 
@@ -191,6 +193,24 @@ export const columns: ColumnDef<any>[] = [
       )
     }
   },
+  {
+    id: "actions",
+    enableHiding: false,
+    header: () => {
+        return (
+            <div className="text-right">
+                Actions
+            </div>
+        )
+    },
+    cell: ({ row }) => {
+
+       const entry = row.original
+      return (
+       <Actions entry={entry} />
+      )
+    },
+  },
 ]
 
 const View = ({entry}: any) => {
@@ -210,8 +230,7 @@ const View = ({entry}: any) => {
 }
 
 const Actions = (entry: any) => {
-  const approve = useApprove()
-  const reject = useReject()
+  const approve = useEditEntry()
   const session = useSession()
   const loading = useLoading()
 
@@ -248,64 +267,25 @@ const Actions = (entry: any) => {
     }
   };
 
-  const rejectEntry = async (id: string) => {
-    loading.onOpen()
-    const headers = {
-      Authorization: `Bearer ${session.data?.user.accessToken}`, // Replace YOUR_ACCESS_TOKEN with the actual token
-      // Other headers if needed
-    };
-  
-    await PlainTransportDekApi.patch(`data-entry/actions?flag=reject&entryId=${id}`,
-    { rejectionReason: reject.data },
-    { headers })
-    .then(() => {
-        toast({
-          title: `Rejected!`,
-          description: `Entry is rejected!`,
-          })
-          window.location.reload()
-     })
-     .catch((error) => {
-      console.error("Error:", error);
-      toast({
-        variant: "destructive",
-        title: `Rejected not done!`,
-        description: `Error occured`,
-        })
-    })
-    .finally(() => {
-      loading.onClose()
-    })
-  };
+
 
   return (
    <div className="flex gap-1 justify-end">
-    <Button className="" variant={"outline"}
-      onClick={() => {
-        reject.setId(entry.entry.entryId)
-        reject.onOpen()
-      }}
-    >
-        Reject
-    </Button>
     <Button 
       onClick={() => {
         approve.setId(entry.entry.entryId);
+        approve.setData(entry.entry)
         approve.onOpen()
       }}>
-        Approve
+        Edit
     </Button>
 
     {
         approve.isOpen && (
-          <ApproveModal onCancel={approve.onClose} onSubmit={() => approveEntryd(approve.id)}/>
+          <EditEntryUser />
         )
       }
-      {
-        reject.isOpen && (
-          <RejectedModal onCancel={reject.onClose} onSubmit={() => rejectEntry(reject.id)}/>
-        )
-      }
+      
   </div>
   )
 }
