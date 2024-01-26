@@ -126,7 +126,12 @@ const EditEntryUser = () => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),  
         defaultValues: {
-  
+            products: {
+                AGO: item.products.AGO,
+                DPK: item.products.DPK,
+                LPG: item.products.LPG,
+                PMS: item.products.PMS
+            }
         }
       })
 
@@ -146,14 +151,31 @@ const EditEntryUser = () => {
         // Filter out empty or falsy values
         let nonEmptyValues: Record<string, any> = {};
         Object.keys(values).forEach((key) => {
-            //@ts-ignore
+                    //@ts-ignore
           if (values[key] !== null && values[key] !== undefined && values[key] !== "") {
-            //@ts-ignore
+                    //@ts-ignore
             nonEmptyValues[key] = values[key];
+      
+            // Check for nested objects
+            if (key === "products" && typeof values[key] === "object") {
+              nonEmptyValues[key] = {};
+              Object.keys(values[key]).forEach((nestedKey) => {
+                if (
+                    //@ts-ignore
+                  values[key][nestedKey] !== null &&
+                    //@ts-ignore
+                  values[key][nestedKey] !== undefined &&
+                    //@ts-ignore
+                  values[key][nestedKey] !== ""
+                ) {
+                    //@ts-ignore
+                  nonEmptyValues[key][nestedKey] = values[key][nestedKey];
+                }
+              });
+            }
           }
         });
 
-        console.log(nonEmptyValues);
       
         // Now, update data entry with the non-empty values (including the file URL, if uploaded)
         try {

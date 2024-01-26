@@ -352,7 +352,6 @@ export function Pending({data}: {data: any[]}) {
     []
   )
   const pathname = usePathname()
-  console.log(pathname)
 
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
