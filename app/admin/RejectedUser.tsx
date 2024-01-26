@@ -18,6 +18,7 @@ import {
 
 
 import { Button } from "@/components/ui/button"
+import { PageContainer } from "@/components/PageContainer"
 
 import {
   Table,
@@ -37,8 +38,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { Input } from "@/components/ui/input"
 import { format } from "date-fns";
 import useDocumentView from "@/lib/useDocumentView";
-
-import { PageContainer } from "@/components/PageContainer"
 
 
 
@@ -89,32 +88,32 @@ export const columns: ColumnDef<any>[] = [
     },    cell: ({ row }) => {
           return (
             <div className="text-xs">
-            {row.getValue("state")}
+              {row.getValue("state")}
             </div>
             )
         },
   },
   {
     accessorKey: "region",
-    header: ({  }) => {
-      return (
-        <div className="gap-2 flex items-center">
-            Region
-        </div>
-      )
-    },
-    cell: ({ row }) =>  {
-      return (
-        <div className="text-xs">
-          {row.getValue("region")}
-        </div>      )
-    }
+    header: ({}) => {
+        return (
+            <div className="flex gap-2 items-center"> 
+             Region
+            </div>
+        )
+    },    cell: ({ row }) => {
+          return (
+            <div className="text-xs">
+              {row.getValue("region")}
+            </div>
+            )
+        },
   },
   {
-    accessorKey: "product",
+    accessorKey: "products",
     header: ({  }) => {
       return (
-        <div className="">
+        <div className="flex items-center gap-2">
             Product
           
         </div>
@@ -141,9 +140,8 @@ export const columns: ColumnDef<any>[] = [
     accessorKey: "price",
     header: ({  }) => {
       return (
-       <div className=" text-right">
-        Price
-         
+       <div className="text-right">
+        Price  (₦)
        </div>
       )
     },
@@ -162,6 +160,7 @@ export const columns: ColumnDef<any>[] = [
       )
     }
   },
+ 
   {
     accessorKey: "supportingDocument",
     header: ({  }) => {
@@ -199,29 +198,30 @@ export const columns: ColumnDef<any>[] = [
     }
   },
   {
-    accessorKey: "submittedBy",
+    accessorKey: "reason",
     header: ({  }) => {
       return (
-       <div className="flex items-center gap-2">
-        Submitted By
+       <div className="">
+        Reason
          
        </div>
       )
     },
     cell: ({ row }) =>  {
       return (
-        <div className="capitalize text-xs">
-            {row.getValue("submittedBy")}
+        <div className="capitalize  text-xs">
+          
+            {row.getValue("reason")}
         </div>
       )
     }
   },
   {
-    accessorKey: "approvedBy",
+    accessorKey: "dateRejected",
     header: ({  }) => {
       return (
        <div className="flex items-center gap-2">
-        Approved By
+            Date Rejected 
          
        </div>
       )
@@ -229,31 +229,12 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) =>  {
       return (
         <div className="capitalize text-xs">
-            {row.getValue("approvedBy")}
-        </div>
-      )
-    }
-  },
-  {
-    accessorKey: "dateApproved",
-    header: ({  }) => {
-      return (
-       <div className="flex items-center gap-2">
-            Date Approved 
-         
-       </div>
-      )
-    },
-    cell: ({ row }) =>  {
-      return (
-        <div className="capitalize text-xs">
-            {row.getValue("dateApproved")}
+            {row.getValue("dateRejected")}
         </div>
       )
     }
   },
 ]
-
 
 const View = ({entry}: any) => {
   const { onOpen, setData} = useDocumentView()
@@ -263,8 +244,8 @@ const View = ({entry}: any) => {
     onOpen()
   }
   return (
-    <div className="capitalize text-xs flex justify-center items-center">
-        <Button variant={"link" } onClick={onclickSet} className="text-sky-600 text-center"> 
+    <div className="capitalize text-xs">
+        <Button variant={"link" } onClick={onclickSet} className="text-sky-600"> 
         View
         </Button>
     </div>
@@ -272,8 +253,7 @@ const View = ({entry}: any) => {
 }
 
 
-
-export function Approved({data}: {data: Payment[]}) {
+export function RejectedUser({data}: {data: Payment[]}) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -307,7 +287,7 @@ export function Approved({data}: {data: Payment[]}) {
       },
     })
 
-      
+
   return (
     <div className="px-2 h-full">
     <div className="flex items-start md:items-center flex-col md:flex-row gap-4 justify-between py-3">
@@ -377,8 +357,7 @@ export function Approved({data}: {data: Payment[]}) {
       </div>
 
       <div className="flex items-center justify-between space-x-2 p-4">
-      <PageContainer page="/admin"  table={table} />
-
+        <PageContainer page="/admin" table={table} />
         <div className="space-x-2">
           <Button
             variant="outline"

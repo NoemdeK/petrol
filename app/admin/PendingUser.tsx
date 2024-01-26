@@ -174,24 +174,6 @@ export const columns: ColumnDef<any>[] = [
     }
   },
   {
-    accessorKey: "submittedBy",
-    header: ({  }) => {
-      return (
-       <div className="flex items-center gap-2">
-        Submitted By
-         
-       </div>
-      )
-    },
-    cell: ({ row }) =>  {
-      return (
-        <div className="capitalize text-xs">
-                {row.getValue('submittedBy')}
-        </div>
-      )
-    }
-  },
-  {
     accessorKey: "dateSubmitted",
     header: ({  }) => {
       return (

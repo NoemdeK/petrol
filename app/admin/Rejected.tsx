@@ -94,17 +94,17 @@ export const columns: ColumnDef<any>[] = [
         },
   },
   {
-    accessorKey: "state",
+    accessorKey: "region",
     header: ({}) => {
         return (
             <div className="flex gap-2 items-center"> 
-             State
+             region
             </div>
         )
     },    cell: ({ row }) => {
           return (
             <div className="text-xs">
-              {row.getValue("state")}
+              {row.getValue("region")}
             </div>
             )
         },
@@ -274,7 +274,6 @@ export const columns: ColumnDef<any>[] = [
 
 const View = ({entry}: any) => {
   const { onOpen, setData} = useDocumentView()
-  console.log("entry", entry)
 
   const onclickSet = () => {
     setData(entry.supportingDocument)

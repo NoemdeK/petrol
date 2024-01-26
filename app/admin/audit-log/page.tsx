@@ -39,10 +39,11 @@ async function getDataUser(header: string) {
 
 const Page = async ({searchParams}: any) => {
   const user = await getServerSession(authOptions);
-  const data = await getData(`${user?.user.accessToken}`, searchParams.rows, searchParams.startDate && `&filterStartDate=${searchParams.date}`,
+  const data = await getData(`${user?.user.accessToken}`, searchParams.rows, searchParams.date && `&filterStartDate=${searchParams.date}`,
   searchParams.endDate && `&filterEndDate=${searchParams.endDate}`,searchParams.datePeriod && `&datePeriod=${searchParams.datePeriod}`,
     searchParams.user && `&userId=${searchParams.user}`
   )
+
   const userx = await getDataUser(`${user?.user.accessToken}`)
   console.log(data.data.result, "autiot")
   return (

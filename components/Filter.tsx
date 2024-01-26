@@ -41,11 +41,11 @@ const Filter = () => {
             skipNull: true
         })
         router.push(url)
-    },[date, dateTwo, router, params])
+    },[date, dateTwo, router, params, pathname])
 
     const handleClear = useCallback(() => {
         // Clear all search parameters
-        router.push("/admin");
+        router.push(pathname);
         setDateTwo('')
         setDate('')
     }, [router, pathname]);

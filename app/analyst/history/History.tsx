@@ -200,7 +200,7 @@ export function History({data}: any) {
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="text-sm font-medium text-black" >
+                    <TableHead key={header.id} className="text-sm font-medium " >
                       {header.isPlaceholder
                         ? null
                         : flexRender(

@@ -63,7 +63,6 @@ const Page = async ({searchParams}: any) => {
   const rejected = await getDataRejected(`${user?.user.accessToken}`, searchParams.rows, searchParams.startDate && `&filterStartDate=${searchParams.date}`,
   searchParams.endDate && `&filterEndDate=${searchParams.endDate}`)
 
-
   return (
     <div>
       <ClientComponent rejected={rejected?.data?.result || []} approved={approved?.data?.result || []} pending={data?.data?.result || []} />
