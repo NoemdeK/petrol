@@ -12,7 +12,7 @@ import Canvas from '@/components/Canvas'
 
 import type { Metadata } from 'next'
 
-import hero from "@/assets/how-to-solve-worlds-biggest-problems 1.png"
+import hero from "@/assets/how-to-solve-worlds-biggest-problems 1.svg"
 import { AccordionDemo } from '@/components/Accordion'
 import Footer from '@/components/Footer'
 import Partners from '@/components/sections/Partners'
@@ -22,8 +22,9 @@ import NavigationBar from '@/components/NavigationBar'
 export default function Home() {
 
   return (
-    <main className='min-h-screen flex-col flex  hero'>
-      <div className='bg-whiteh/30  w-full h-full'>
+    <main className='min-h-screen flex-col flex hero p-0 m-0 justify-between gap-0'>
+      
+      <div className=' w-full h-full relative'>
 
         <div className="max-w-7xl w-full mx-auto  items-center justify-between flex py-4 px-4 md:px-0 md:py-8">
           <p className=" left-0 top-0 flex w-full text-lg sm:text-2xl md:text-4xl pb-6 pt-8 text-sky-400  lg:static lg:w-auto   lg:p-4 ">
@@ -36,7 +37,7 @@ export default function Home() {
 
           </div>
         </div>
-        <div className="max-w-7xl mx-auto flex h-full flex-col w-full pb-8  gap-12 p-4 ">
+        <div className=" max-w-7xl mx-auto flex h-full flex-col w-full pb-8  gap-12 p-4 ">
           <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-4">
 
             <div className='text-secondary  h-full w-full flex items-center flex-col justify-center text-left md:text-lefkt md:itejms-start'>
@@ -56,7 +57,7 @@ export default function Home() {
             </div>
 
             <div className='w-full md:flex hidden'>
-              <Image src={hero} width={600} height={600} alt='hero' className='w-full h-auto max-h-96' />
+              <Image src={hero} width={600} height={600} alt='hero' className='w-full h-full object-cover' />
             </div>
 
           </div>

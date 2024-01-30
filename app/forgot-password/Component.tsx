@@ -87,7 +87,7 @@ export function Forgot() {
 
      <div className='petrodata'>
       <img src='https://res.cloudinary.com/dnir0cslk/image/upload/v1706148980/petrobg_eg3spo.jpg' alt="hero" 
-          className='h-full w-full grayscale' />
+          className='h-full w-full  grayscale-[90%]' />
       <div className='overlay  grid grid-cols-1 md:grid-cols-2  sm:p-8 lg:p-16'>
         <div className='h-full w-full flex justify-center items-center lg:mt-14'>
             

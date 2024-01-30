@@ -56,11 +56,14 @@
 html, body{
   height: 100%;
   overflow: hidden;
+  padding: 0;
+  margin: 0;
 }
 
 body{
   /* height: 80vh; */
   overflow-y: scroll
+  
 }
 
 .scroll ::-webkit-scrollbar {
@@ -141,9 +144,10 @@ ol li{
 }
 
 .hero{
-  background-image: url('https://res.cloudinary.com/dnir0cslk/image/upload/v1706188326/dio_l4msde.jpg');
+  background-image: url('https://res.cloudinary.com/dnir0cslk/image/upload/v1706613791/eddd_cs2pg8.png');
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
+  /* background: url("https://res.cloudinary.com/dnir0cslk/image/upload/v1706188326/dio_l4msde.jpg"), lightgray 50% / cover no-repeat, #FFF !important; */
 }
 
 
