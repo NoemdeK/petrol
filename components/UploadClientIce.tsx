@@ -105,7 +105,7 @@ export function UploadClientIce({setBatchData,batchData}: any) {
 
 
   return (
-    <div className="grid gap-4  max-w-xl my-4 p-4">
+    <div className="grid gap-4  max-w-xl my-4 p-2 md:p-4">
       <Form {...form}>
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">

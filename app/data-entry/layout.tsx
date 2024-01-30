@@ -80,7 +80,7 @@ const DashboardLayout =  async ({
               <div className="hidden md:flex h-full md:h-[90vh]  md:w-60 md:flex-col  md:fidxed md:inset-y-0 z-80">
               <SidebarData   />
               </div>
-              <main className=" pb-10 w-full h-[90vh] overflow-hidden overflow-y-scroll">
+              <main className="pt-10 md:pt-4 pb-10 w-full h-[90vh] overflow-hidden overflow-y-scroll">
                 {/* <HeaderStat data={result} /> */}
                   {children}
               </main>

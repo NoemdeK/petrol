@@ -65,7 +65,7 @@ body{
 
 .scroll ::-webkit-scrollbar {
   -webkit-appearance: none;
-  width: 10px;
+  width: 2.5px;
   background-color: #ff0000;
   /* @apply bg-secondary; */
 }

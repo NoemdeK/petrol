@@ -120,7 +120,7 @@ export function LoginAccount() {
           // Handle unexpected errors
           toast({
             title: "User cannot login",
-            description: `${error.response.data.message ||  "Cannot login, Check details"}`,
+            description: `${error?.response?.data?.message ||  "Cannot login, Check details"}`,
             variant: "destructive"
             })
         } finally {

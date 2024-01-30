@@ -5,15 +5,7 @@ import Logo from '@/components/sections/Logo'
 import Image from 'next/image'
 import Link from 'next/link'
 
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu"
+
 import React from 'react'
 import { cn } from '@/lib/utils'
 import Canvas from '@/components/Canvas'
@@ -24,30 +16,11 @@ import hero from "@/assets/how-to-solve-worlds-biggest-problems 1.png"
 import { AccordionDemo } from '@/components/Accordion'
 import Footer from '@/components/Footer'
 import Partners from '@/components/sections/Partners'
+import NavigationBar from '@/components/NavigationBar'
 
 
 export default function Home() {
-  const components: { title: string; href: string; description: string }[] = [
-    {
-      title: "About Us",
-      href: "/",
-      description:
-        "A modal dialog that interrupts the user with important content and expects a response.",
-    },
-    {
-      title: "Our Process",
-      href: "/",
-      description:
-        "For sighted users to preview content available behind a link.",
-    },
-    {
-      title: "Contact Us",
-      href: "/",
-      description:
-        "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-    },
 
-  ]
   return (
     <main className='min-h-screen flex-col flex  hero'>
       <div className='bg-whiteh/30  w-full h-full'>
@@ -59,28 +32,8 @@ export default function Home() {
 
           <div className="w-fit items-end justify-end bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
 
-                <NavigationMenu>
-            <NavigationMenuList>
+         <NavigationBar />
 
-              <NavigationMenuItem>
-                <NavigationMenuTrigger>About Us</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="grid gap-3 p-2 w-36">
-                    {components.map((component) => (
-                      <ListItem
-                        key={component.title}
-                        title={component.title}
-                        href={component.href}
-                      >
-                        {component.description}
-                      </ListItem>
-                    ))}
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-            
-            </NavigationMenuList>
-          </NavigationMenu>
           </div>
         </div>
         <div className="max-w-7xl mx-auto flex h-full flex-col w-full pb-8  gap-12 p-4 ">
@@ -120,25 +73,3 @@ export default function Home() {
 }
 
 
-const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <a
-          ref={ref}
-          className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
-          )}
-          {...props}
-        >
-          <div className="text-sm font-medium leading-none">{title}</div>
-        </a>
-      </NavigationMenuLink>
-    </li>
-  )
-})
-ListItem.displayName = "ListItem"

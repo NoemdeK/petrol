@@ -208,7 +208,7 @@ const ClientComponent = ({data}: any) => {
                 alt="Photo by Drew Beamer"
                 
                 // fill
-                className="rounded-full w-28 aspect-square"
+                className="rounded-full w-28 aspect-square object-cover"
               />
             </AspectRatio>
             </div>

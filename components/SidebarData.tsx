@@ -6,6 +6,7 @@ import { BarChart4, Code, Database,  Settings, Table, Upload,History, VideoIcon 
 import { usePathname, useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
+import useNavbar from "@/lib/useNavbar";
 
 
 const routes = [
@@ -29,6 +30,7 @@ const routes = [
 
 export const SidebarData = () => {
   const pathname = usePathname();
+  const {  onClose} = useNavbar()
 
 
 
@@ -45,6 +47,7 @@ export const SidebarData = () => {
                 "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition",
                 pathname === route.href ? "text-black font-bold bg-white/50 " : "text-accent-foreground",
               )}
+              onClick={onClose}
             >
               <div className="flex items-center flex-1">
                 <route.icon className={cn("h-5 w-5 mr-3")} />

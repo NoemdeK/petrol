@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import { MobileSidebar } from './mobilr-sidebar'
 import AvatarDrop from './AvatarDrop'
@@ -8,6 +9,9 @@ import { ModeToggle } from './mode'
 import { MobileSidebarData } from './mobilr-sidebardata'
 import LogoDashTwo from './sections/LogoDash2'
 import { NotifyDrop } from './NotifyDrop'
+import { Button } from './ui/button'
+import { Menu } from 'lucide-react'
+import useNavbar from '@/lib/useNavbar'
 
 interface NotifyProps{
   data: any;
@@ -16,12 +20,13 @@ interface NotifyProps{
 }
 
 const Navbar = ({data, length, notification}: NotifyProps) => {
+  const { onOpen} = useNavbar()
   if(!data){
     return null
 }
   return (
-    <div className="flex items-center justify-between  p-0  w-full ">
-        <div className="flex items-center pl-3">
+    <div className=" z-10 flex items-center justify-between  p-0 py-4  w-full ">
+        <div className="flex items-center ">
           {
             data.role === "rwx_user" ? 
             <LogoDash />
@@ -37,8 +42,19 @@ const Navbar = ({data, length, notification}: NotifyProps) => {
     }
       <ModeToggle />
       <AvatarDrop data={data} />
-        <MobileSidebar session={data?.role} />
-      
+        {
+            data.role === "rwx_data_entry_user" ? (
+              <MobileSidebarData  />
+            )
+            :
+            <>
+            <MobileSidebar session={data?.role} />
+
+            </>
+    }
+        <Button variant="ghost" size="icon" className="md:hidden" onClick={onOpen}>
+          <Menu  />
+        </Button>
     </div>
   </div>
   )

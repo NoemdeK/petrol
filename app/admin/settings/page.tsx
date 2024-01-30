@@ -27,7 +27,6 @@ const Page = async () => {
   const user = await getServerSession(authOptions);
   const me = await getMe(`${user?.user.accessToken}`)
 
-  console.log(me);
 
   return (
     <ClientComponent data={me.data} /> 

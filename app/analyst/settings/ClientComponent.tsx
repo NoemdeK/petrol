@@ -207,7 +207,7 @@ const ClientComponent = ({data}: any) => {
                 src={data.avatar}
                 alt="Photo by Drew Beamer"
                 // fill
-                className="rounded-md "
+                className="rounded-md object-cover"
               />
             </AspectRatio>
             </div>

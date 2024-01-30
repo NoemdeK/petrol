@@ -52,7 +52,7 @@ const Filter = () => {
 
 
   return (
-    <div className='flex gap-4 items-center mt-2 justify-end ml-auto'>
+    <div className='flex gap-4 items-center mt-2 justify-end ml-auto flex-wrap'>
         <div  className='flex gap-2 items-center'>
             <Label>From</Label>
             <Input type='date' value={date} onChange={(e) => setDate(e.target.value)} />

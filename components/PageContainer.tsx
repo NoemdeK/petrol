@@ -24,7 +24,7 @@ export const PageContainer = ({page, table}: any) => {
   ]
     return (
         <div className="flex gap-4 items-center">
-        <p className="font-medium text-sm">Rows per page</p>
+        <p className="font-medium text-xs md:text-sm ">Rows per page</p>
 
             <Pagnation 
                 page={pathname}  
