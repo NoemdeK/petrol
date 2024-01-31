@@ -1,4 +1,5 @@
 "use client"
+
 import {
     NavigationMenu,
     NavigationMenuContent,
@@ -9,6 +10,7 @@ import {
     navigationMenuTriggerStyle,
   } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 export default function NavigationBar() {
@@ -21,23 +23,42 @@ export default function NavigationBar() {
         },
         {
         title: "Our Process",
-        href: "/",
+        href: "/process",
         description:
             "For sighted users to preview content available behind a link.",
         },
         {
         title: "Contact Us",
-        href: "/",
+        href: "/contact",
         description:
             "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
         },
 
     ]
+
+    const pathname = usePathname()
+    
+    let trigger = "About Us" 
+
+    switch(pathname) {
+      case "/process":
+        trigger = "Our Process";
+      break;
+      case "/contact":
+        trigger= "Contact Us";
+      break;
+        default:
+          trigger = "About Us"
+    }
+    
   return(
     <NavigationMenu>
     <NavigationMenuList>
       <NavigationMenuItem>
-        <NavigationMenuTrigger>About Us</NavigationMenuTrigger>
+        <NavigationMenuTrigger>
+
+          {trigger}
+        </NavigationMenuTrigger>
         <NavigationMenuContent>
           <ul className="grid gap-3 p-2 w-36">
             {components.map((component) => (
