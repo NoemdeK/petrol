@@ -31,7 +31,9 @@ const ClientComponent = ({rejected, approved, pending}: ClientComponentProps ) =
   return (
     <div>
         <div>
-            <h4 className='text-xl font-bold'>Data</h4>
+        <h4 className="text-lg md:text-xl font-medium my-4">
+           Field Data
+          </h4>
         </div>
         <div className=" w-full ">  
             <Tabs defaultValue={tab} className="w-full">

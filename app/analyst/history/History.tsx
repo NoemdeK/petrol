@@ -187,8 +187,8 @@ export function History({data}: any) {
   return (
     <div className="px-2 h-full mt-12">
       <div className="flex justify-between lg:flex-row flex-col lg:items-center py-4">
-          <h4 className="text-lg md:text-xl font-bold">
-            Upload History
+          <h4 className="text-lg md:text-xl font-medium my-4">
+           ICE Data
           </h4>
           <Filter />
         </div>

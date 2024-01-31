@@ -60,7 +60,7 @@ import { usePathname, useRouter } from "next/navigation";
                 >
                 <div className="flex items-center flex-1">
                     <History className={cn("h-5 w-5 mr-3")} />
-                    Upload History
+                    Data History
                 </div>
                 </Link>  
 
@@ -143,7 +143,7 @@ import { usePathname, useRouter } from "next/navigation";
                 >
                 <div className="flex items-center flex-1">
                     <Database className={cn("h-5 w-5 mr-3")} />
-                    Data
+                    Data History
                 </div>
                 </Link>   
                 <Link

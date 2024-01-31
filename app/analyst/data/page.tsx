@@ -61,7 +61,6 @@ const Page = async ({searchParams}: any) => {
   const approved = await getDataApproved(`${user?.user.accessToken}`, searchParams.rows, `&${searchParams.date}`, `&${searchParams.endDate}`)
   const rejected = await getDataRejected(`${user?.user.accessToken}`, searchParams.rows, `&${searchParams.date}`, `&${searchParams.endDate}`)
 
-  console.log(data, "rejeced")
 
   return (
     <div>

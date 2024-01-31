@@ -54,7 +54,7 @@ const Offers = () => {
     ]
   return (
     <div className='py-12'>
-        <h4 className='text-xl md:text-2xl font-bold capitalize'>
+            <h4 className='text-base font-semibold text-left my-4'>
             Our Process
         </h4>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 mt-8'>

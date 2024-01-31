@@ -12,6 +12,7 @@ import CreateUser from "./users/CreateUser";
 import EditUser from "./users/EditUser";
 import EditUserTwo from "../data-entry/settings/EditUser";
 import { Sidebar } from "@/components/Sidebar";
+import TabData from "./TabData";
 
 
 export const metadata: Metadata = {
@@ -96,11 +97,12 @@ const DashboardLayout =  async ({
 <div className="h-full relative mx-2 my-4 md:m-4">
             <Navbar data={me?.data} length={notify.data.result.length} notification={notify.data.result} />
             <div className="flex gap-4 w-full"> 
-                <div className="hidden md:flex h-full md:h-[90vh]  md:w-60 md:flex-col  md:fidxed md:inset-y-0 z-80">
+                <div className="hidden md:flex h-full md:h-[85vh]  md:w-60 md:flex-col  md:fidxed md:inset-y-0 z-80">
                 <Sidebar session={me?.data?.role}  />
                 </div>
                 <main className="pt-10 md:pt-4 w-full h-[90vh] overflow-hidden overflow-y-scroll">
                   {/* <HeaderStat data={result} /> */}
+                  <TabData />
 
                     {children}
                     <CreateUser />
