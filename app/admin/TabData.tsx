@@ -7,6 +7,14 @@ import React from 'react'
 
 const TabData = () => {
     const pathname = usePathname()
+
+    const isMainPage = pathname === '/admin';
+    const isMainPageData = pathname === '/admin/data';
+
+
+    if(!isMainPage && !isMainPageData){
+      return null
+    }
   return (
     <div>
         <div className='w-full flex items-center justify-between text-center my-4'>
