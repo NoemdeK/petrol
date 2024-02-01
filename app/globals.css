@@ -152,6 +152,14 @@ ol li{
   /* background: url("https://res.cloudinary.com/dnir0cslk/image/upload/v1706188326/dio_l4msde.jpg"), lightgray 50% / cover no-repeat, #FFF !important; */
 }
 
+.contact{
+  background-image: url('https://res.cloudinary.com/dnir0cslk/image/upload/v1706772625/ef16d7d75fcf306a0e31cd2de88fa91f_p5yl2x.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  /* background: url("https://res.cloudinary.com/dnir0cslk/image/upload/v1706188326/dio_l4msde.jpg"), lightgray 50% / cover no-repeat, #FFF !important; */
+}
 
 .petrodata{
   /* background: url("https://res.cloudinary.com/dnir0cslk/image/upload/v1706148980/petrobg_eg3spo.jpg"); */

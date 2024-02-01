@@ -14,10 +14,8 @@ export default  async function RootLayout({
     
     return (
       <section className="w-full">
-        <div className="w-screen fixed top-0 left-0 bg-white">
           <Navigation />
-        </div>
-        <div className=" max-w-7xl mx-auto pt-28">
+        <div className=" ">
             {children} 
         </div>
         <Partners />

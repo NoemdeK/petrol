@@ -4,7 +4,9 @@ import { Mail, MapPin, PhoneCall } from 'lucide-react';
 
 const Page = () => {
   return (
-    <div className='py-16'>
+    <div className='py-16 contact'>
+        <div className='max-w-7xl mx-auto pt-28'>
+
         <div className='grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12'>
             <Form />
             <div className='flex flex-col justify-center '>
@@ -50,6 +52,8 @@ const Page = () => {
                 </div>
             </div>
         </div>
+        </div>
+
     </div>
   )
 }

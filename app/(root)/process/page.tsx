@@ -3,7 +3,7 @@ import Offers from '../components/Offers'
 
 const Page = () => {
   return (
-    <div>
+    <div className='max-w-7xl mx-auto pt-28'>
       <div className='flex gap-4'>
         <div>
         <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
