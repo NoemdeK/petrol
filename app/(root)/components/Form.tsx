@@ -49,11 +49,11 @@ const FormComponent = () => {
  
       }
   return (
-    <Card className="sm:w-96 w-full lg:w-4/5">
+    <Card className="sm:w-96 w-full md:w-[600px]">
     <CardHeader className="space-y-1 text-left">
-      <CardTitle className="text-2xl">Solving the hardest data collection and verification challenges</CardTitle>
+      <CardTitle className="text-2xl">Get in touch</CardTitle>
       <CardDescription className='font-medium'>
-      Get in touch with us
+      Need more information? Reach out to our team with your inquiries.
       </CardDescription>
     </CardHeader>
     <Form {...form}>

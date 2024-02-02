@@ -1,5 +1,6 @@
 "use client"
 import { Mail, MapPin, PhoneCall } from 'lucide-react';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react'
 
@@ -61,6 +62,46 @@ const Footer = () => {
 
                 </div>
             </div>
+            <div>
+                <h4 className='font-medium text-base md:text-lg text-white/40 mb-2'>Diophalytics.io</h4>
+                <div className='flex flex-col gap-3'>
+                    <ul className='space-y-3'>
+                        <li className='text-sm'>
+                            <Link href={"/"}>
+                                Home
+                            </Link>
+                        </li>
+                        <li className='text-sm'>
+                            <Link href={"/"}>
+                                About Us
+                            </Link>
+                        </li>
+                        <li className='text-sm'>
+                            <Link href={"/"}>
+                                Contact
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <h4 className='font-medium text-base md:text-lg text-white/40 mb-2'>Legal</h4>
+                <div className='flex flex-col gap-3'>
+                    <ul className='space-y-3'>
+                        <li className='text-sm'>
+                            <Link href={"/"}>
+                                Privacy Policy
+                            </Link>
+                        </li>
+                        <li className='text-sm'>
+                            <Link href={"/"}>
+                               Terms & Conditions
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
 
             </div>
             <div>

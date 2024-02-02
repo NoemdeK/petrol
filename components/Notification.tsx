@@ -24,20 +24,20 @@ import { useSession } from "next-auth/react"
 import { Label } from "./ui/label"
 
 const notificationsFormSchema = z.object({
-  emails: z.boolean().default(false).optional(),
+  emails: z.boolean().optional(),
 })
 
 type NotificationsFormValues = z.infer<typeof notificationsFormSchema>
 
 // This can come from your database or API.
-const defaultValues: Partial<NotificationsFormValues> = {
-  emails: true,
-}
 
-export function NotificationsForm() {
+
+export function NotificationsForm({data}:any) {
   const form = useForm<NotificationsFormValues>({
     resolver: zodResolver(notificationsFormSchema),
-    defaultValues,
+    defaultValues: {
+      emails: data.notificationType === "email"
+    }
   })
   const session = useSession()
 
@@ -59,7 +59,7 @@ export function NotificationsForm() {
     };
   
     await PlainTransportDekApi.patch(`/data-entry/settings?flag=notifications`,
-    { notificationType: values.emails === true ? "email" : "none" },
+    { notificationType: values.emails === true ? "email" : "push" },
     { headers })
     .then(() => {
       toast({
@@ -78,6 +78,8 @@ export function NotificationsForm() {
       loading.onClose()
     })
   };
+
+ 
 
   return (
     <Form {...form}>

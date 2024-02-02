@@ -240,7 +240,7 @@ const ClientComponent = ({data}: any) => {
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <NotificationsForm />
+                <NotificationsForm data={data} />
 
             </CardContent>
         </Card>

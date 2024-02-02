@@ -48,7 +48,7 @@ export default function NavigationBar() {
         trigger= "Contact Us";
       break;
         default:
-          trigger = "About Us"
+          trigger = "Home"
     }
     
   return(
