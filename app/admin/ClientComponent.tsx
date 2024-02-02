@@ -48,28 +48,18 @@ const ClientComponent = ({rejected, approved, pending}: ClientComponentProps ) =
                 </div>
 
                 <TabsContent value="pending">
-                  {
-                    pathname === "/admin" ?
+
                     <Pending  data={pending} />
-                    :
-                    <PendingUser  data={pending} />
-                  }
+
                 </TabsContent>
                 <TabsContent value="approved">
-                {
-                    pathname === "/admin" ?
+
                     <Approved data={approved} />
-                    :
-                    <ApprovedUser data={approved} />
-                  }
+
                 </TabsContent>
                 <TabsContent value="rejected">
-                {
-                    pathname === "/admin" ?
                     <Rejected data={rejected} />
-                    :
-                    <RejectedUser data={rejected} />
-                  }
+                 
                 </TabsContent>
             </Tabs>
     </div>

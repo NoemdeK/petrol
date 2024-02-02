@@ -33,10 +33,10 @@ import { usePathname, useRouter } from "next/navigation";
           </AccordionTrigger>
           <AccordionContent>
             <div className="ml-4">
-                <Link
+            <Link
                 href={'/analyst'}
                 className={cn(
-                    "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition",
+                    "text-xs group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition",
                     pathname === "/analyst" ? "text-black font-bold bg-white/50 " : "text-accent-foreground",
                 )}
 
@@ -45,14 +45,29 @@ import { usePathname, useRouter } from "next/navigation";
                 >
                 <div className="flex items-center flex-1">
                     <Upload className={cn("h-5 w-5 mr-3")} />
-                    Upload Data
+                    Upload Data (ICE)
                 </div>
                 </Link>  
+                <Link
+                href={'/data-entry'}
+                className={cn(
+                    "text-xs group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition",
+                    pathname === "/data-entry" ? "text-black font-bold bg-white/50 " : "text-accent-foreground",
+                )}
+
+                onClick={onClose}
+
+                >
+                <div className="flex items-center flex-1">
+                    <Upload className={cn("h-5 w-5 mr-3")} />
+                    Upload Data (Field)
+                </div>
+                </Link> 
 
                 <Link
                 href={'/analyst/history'}
                 className={cn(
-                    "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition",
+                    "text-xs group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition",
                     pathname === '/analyst/history' ? "text-black font-bold bg-white/50 " : "text-accent-foreground",
                 )}
                 onClick={onClose}
@@ -67,7 +82,7 @@ import { usePathname, useRouter } from "next/navigation";
                 <Link
                 href={'/dashboard/table/1'}
                 className={cn(
-                    "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition",
+                    "text-xs group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition",
                     pathname === "/dashboard/table/1" ? "text-black font-bold bg-white/50 " : "text-accent-foreground",
                 )}
                 onClick={onClose}
@@ -98,7 +113,7 @@ import { usePathname, useRouter } from "next/navigation";
                 <Link
                 href={'/analyst/settings'}
                 className={cn(
-                    "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition",
+                    "text-xs group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition",
                     pathname === "/analyst/settings" ? "text-black font-bold bg-white/50 " : "text-accent-foreground",
                 )}
                 onClick={onClose}
@@ -132,10 +147,41 @@ import { usePathname, useRouter } from "next/navigation";
           </AccordionTrigger>
           <AccordionContent>
             <div className="ml-4">
+              <Link
+                href={'/analyst'}
+                className={cn(
+                    "text-xs group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition",
+                    pathname === "/analyst" ? "text-black font-bold bg-white/50 " : "text-accent-foreground",
+                )}
+
+                onClick={onClose}
+
+                >
+                <div className="flex items-center flex-1">
+                    <Upload className={cn("h-5 w-5 mr-3")} />
+                    Upload Data (ICE)
+                </div>
+                </Link>  
+                <Link
+                href={'/data-entry'}
+                className={cn(
+                    "text-xs group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition",
+                    pathname === "/data-entry" ? "text-black font-bold bg-white/50 " : "text-accent-foreground",
+                )}
+
+                onClick={onClose}
+
+                >
+                <div className="flex items-center flex-1">
+                    <Upload className={cn("h-5 w-5 mr-3")} />
+                    Upload Data (Field)
+                </div>
+                </Link>  
+
                 <Link
                 href={'/admin'}
                 className={cn(
-                    "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition",
+                    "text-xs group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition",
                     pathname === "/admin" ? "text-black font-bold bg-white/50 " : "text-accent-foreground",
                 )}
                 onClick={onClose}
@@ -149,7 +195,7 @@ import { usePathname, useRouter } from "next/navigation";
                 <Link
                 href={'/dashboard/table/1'}
                 className={cn(
-                    "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition",
+                    "text-xs group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition",
                     pathname === "/dashboard/table/1" ? "text-black font-bold bg-white/50 " : "text-accent-foreground",
                 )}
                 onClick={onClose}
@@ -179,7 +225,7 @@ import { usePathname, useRouter } from "next/navigation";
                 <Link
                 href={'/admin/users'}
                 className={cn(
-                    "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition",
+                    "text-xs group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition",
                     pathname === '/admin/users' ? "text-black font-bold bg-white/50 " : "text-accent-foreground",
                 )}
                 onClick={onClose}
@@ -192,7 +238,7 @@ import { usePathname, useRouter } from "next/navigation";
                 <Link
                 href={'/admin/audit-log'}
                 className={cn(
-                    "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition",
+                    "text-xs group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition",
                     pathname === "/admin/audit-log" ? "text-black font-bold bg-white/50 " : "text-accent-foreground",
                 )}
                 onClick={onClose}
@@ -205,7 +251,7 @@ import { usePathname, useRouter } from "next/navigation";
                 <Link
                 href={'/admin/settings'}
                 className={cn(
-                    "text-sm group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition",
+                    "text-xs group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition",
                     pathname === "/admin/settings" ? "text-black font-bold bg-white/50 " : "text-accent-foreground",
                 )}
                 onClick={onClose}

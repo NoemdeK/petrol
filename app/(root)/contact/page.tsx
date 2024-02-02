@@ -4,10 +4,15 @@ import { Mail, MapPin, PhoneCall } from 'lucide-react';
 
 const Page = () => {
   return (
-    <div className='py-16 contact'>
-        <div className='max-w-7xl mx-auto pt-28'>
+    <div className=''>
+        {/* <img src="https://res.cloudinary.com/dnir0cslk/image/upload/v1706772625/ef16d7d75fcf306a0e31cd2de88fa91f_p5yl2x.jpg"
+            className='w-full h-full object-fill'
+        alt="" /> */}
+        <div className='contact py-16 '>
 
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12'>
+        <div className='max-w-7xl mx-auto pt-28 '>
+
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 place-items-center'>
             <Form />
             <div className='flex flex-col justify-center '>
                 <h4 className='font-bold text-base md:text-lg  mb-2'>Contact</h4>
@@ -51,6 +56,7 @@ const Page = () => {
 
                 </div>
             </div>
+        </div>
         </div>
         </div>
 

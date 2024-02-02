@@ -13,9 +13,9 @@ export default  async function RootLayout({
   
     
     return (
-      <section className="w-full">
+      <section className="w-full flex justify-between flex-col space-x-0 h-full">
           <Navigation />
-        <div className=" ">
+        <div className="m-0 p-0">
             {children} 
         </div>
         <Partners />

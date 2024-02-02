@@ -25,6 +25,7 @@ export default withAuth(
 
         if (request.nextUrl.pathname.startsWith("/data-entry")
         && request.nextauth.token?.role !== "rwx_admin"
+        && request.nextauth.token?.role !== "rwx_data_entry_analyst"
         && request.nextauth.token?.role !== "rwx_data_entry_user") {
         return NextResponse.rewrite(
             new URL("/denied", request.url)

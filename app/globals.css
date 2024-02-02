@@ -124,6 +124,7 @@ ol li{
   color: #ff0000;
 }
 
+
 .auth{
   display: flex;
   justify-content: center;
@@ -158,6 +159,7 @@ ol li{
   background-size: cover;
   width: 100%;
   height: 100%;
+  background-position: left;
   /* background: url("https://res.cloudinary.com/dnir0cslk/image/upload/v1706188326/dio_l4msde.jpg"), lightgray 50% / cover no-repeat, #FFF !important; */
 }
 

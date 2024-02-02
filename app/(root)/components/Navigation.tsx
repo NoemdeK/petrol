@@ -8,7 +8,7 @@ const Navigation = () => {
 
   const changeBackground = () => {
     
-    if (window.scrollY >= 50) {
+    if (window.scrollY >= 100) {
       setScrolled(true)
     } else {
       setScrolled(false)
@@ -19,10 +19,10 @@ const Navigation = () => {
     changeBackground()
   })
   return (
-    <div className={cn(`w-screen fixed top-0 left-0 bg-white`, scrolled ? "bg-white" : "bg-transparent")}>
+    <div className={cn(`w-screen fixed top-0 left-0 bg-white`)}>
 
     <div className="max-w-7xl mx-auto  items-center justify-between flex px-4 md:px-0 ">
-    <p className=" left-0 top-0 flex w-full text-lg sm:text-2xl md:text-4xl pb-6 pt-8 text-sky-400  lg:static lg:w-auto   lg:p-4 ">
+    <p className=" left-0 top-0 flex w-full text-lg sm:text-2xl md:text-4xl pb-6 pt-8 text-sky-400  lg:static lg:w-auto">
       dio<span className='font-bold'>phalytics</span><span className='text-black'>.io</span>
     </p>
 

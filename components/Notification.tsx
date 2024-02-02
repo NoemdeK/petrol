@@ -18,23 +18,20 @@ import {
 } from "./ui/form"
 import { Switch } from "./ui/switch"
 import { toast } from "./ui/use-toast" 
+import useLoading from "@/lib/useLoading"
+import { PlainTransportDekApi } from "@/utils/axios"
+import { useSession } from "next-auth/react"
+import { Label } from "./ui/label"
 
 const notificationsFormSchema = z.object({
-  mobile: z.boolean().default(false).optional(),
-  communication_emails: z.boolean().default(false).optional(),
-  social_emails: z.boolean().default(false).optional(),
-  marketing_emails: z.boolean().default(false).optional(),
-  security_emails: z.boolean(),
+  emails: z.boolean().default(false).optional(),
 })
 
 type NotificationsFormValues = z.infer<typeof notificationsFormSchema>
 
 // This can come from your database or API.
 const defaultValues: Partial<NotificationsFormValues> = {
-  communication_emails: false,
-  marketing_emails: false,
-  social_emails: true,
-  security_emails: true,
+  emails: true,
 }
 
 export function NotificationsForm() {
@@ -42,44 +39,66 @@ export function NotificationsForm() {
     resolver: zodResolver(notificationsFormSchema),
     defaultValues,
   })
+  const session = useSession()
 
-  function onSubmit(data: NotificationsFormValues) {
-    toast({
-      title: "Notifications Updated",
-      description: "You have successfully updated notifications"
+
+  const loading = useLoading()
+
+  // function onSubmit(data: NotificationsFormValues) {
+  //   toast({
+  //     title: "Notifications Updated",
+  //     description: "You have successfully updated notifications"
+  //   })
+  // }
+
+  const onSubmit = async (values: NotificationsFormValues) => {
+    loading.onOpen()
+    const headers = {
+      Authorization: `Bearer ${session.data?.user.accessToken}`, // Replace YOUR_ACCESS_TOKEN with the actual token
+      // Other headers if needed
+    };
+  
+    await PlainTransportDekApi.patch(`/data-entry/settings?flag=notifications`,
+    { notificationType: values.emails === true ? "email" : "none" },
+    { headers })
+    .then(() => {
+      toast({
+            title: "Notifications Updated",
+            description: "You have successfully updated notifications"
+          })
+     })
+     .catch((error) => {
+      console.error("Error:", error);
+      toast({
+        variant: "destructive",
+        description: `Error occured`,
+        })
     })
-  }
+    .finally(() => {
+      loading.onClose()
+    })
+  };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-2">
         <div>
           <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="communication_emails"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border px-4 py-2">
-                  <div className="space-y-0.5">
-                    <FormLabel className="text-base">
+
+                  <div className="space-y-0.5 flex justify-between items-center p-4 rounded-lg border">
+                    <Label className="text-base">
                       Push Notifications
-                    </FormLabel>
-                    <FormDescription className="text-xs">
-                    </FormDescription>
-                  </div>
-                  <FormControl>
+                    </Label>
                     <Switch
                       checked={true}
-                      onCheckedChange={field.onChange}
                       disabled={true}
                     />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+                  </div>
+                  
+  
             <FormField
               control={form.control}
-              name="marketing_emails"
+              name="emails"
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border px-4 py-2">
                   <div className="space-y-0.5">
@@ -103,7 +122,8 @@ export function NotificationsForm() {
 
           </div>
         </div>
-       
+        <Button type="submit">Submit</Button>
+
       </form>
     </Form>
   )
