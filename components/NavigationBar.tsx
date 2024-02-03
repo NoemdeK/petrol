@@ -16,7 +16,7 @@ import React from "react";
 export default function NavigationBar() {
     const components: { title: string; href: string; description: string }[] = [
         {
-        title: "About Us",
+        title: "Home",
         href: "/",
         description:
             "A modal dialog that interrupts the user with important content and expects a response.",
@@ -38,14 +38,17 @@ export default function NavigationBar() {
 
     const pathname = usePathname()
     
-    let trigger = "About Us" 
+    let trigger = "Home " 
 
     switch(pathname) {
       case "/process":
         trigger = "Our Process";
       break;
       case "/contact":
-        trigger= "Contact Us";
+        trigger = "Contact Us";
+      break;
+      case "/":
+        trigger = "Home";
       break;
         default:
           trigger = "Home"
@@ -55,7 +58,7 @@ export default function NavigationBar() {
     <NavigationMenu>
     <NavigationMenuList>
       <NavigationMenuItem>
-        <NavigationMenuTrigger>
+        <NavigationMenuTrigger className="text-black">
 
           {trigger}
         </NavigationMenuTrigger>
@@ -88,7 +91,7 @@ const ListItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            "block select-none text-black space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
             className
           )}
           {...props}

@@ -49,11 +49,9 @@ const FormComponent = () => {
  
       }
   return (
-    <Card className="sm:w-96 w-full md:w-[600px]">
+    <Card className="sm:w-96 w-full md:w-[500px] border-0 shadow-none">
     <CardHeader className="space-y-1 text-left">
-      <CardTitle className="text-2xl">Get in touch</CardTitle>
       <CardDescription className='font-medium'>
-      Need more information? Reach out to our team with your inquiries.
       </CardDescription>
     </CardHeader>
     <Form {...form}>
@@ -113,7 +111,7 @@ const FormComponent = () => {
     </CardContent>
 
     <CardFooter>
-      <Button className="w-full" type="submit">Submit</Button>
+      <Button className="w-full bg-[#4F545C] rounded-3xl" type="submit">Submit</Button>
     </CardFooter>
     </form>
   </Form>

@@ -53,14 +53,14 @@ const Offers = () => {
         }
     ]
   return (
-    <div className='py-12'>
+    <div className='py-12 px-4'>
             <h4 className='text-base font-semibold text-left my-4'>
             Our Process
         </h4>
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 mt-8'>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-4 md:gap-8 mt-8'>
       {
             OffersData.map((offer, i) => (
-                <div key={i} className='max bg-white shadow-lg rounded-xl'>
+                <div key={i} className='max bg-white shadow-lg rounded-xl md:mt-0 mt-4'>
                     <div className='w-full h-44'>
                         <Image src={offer.img} alt={offer.name} width={300} height={100} className='w-full h-full rounded-t-xl' />
                     </div>

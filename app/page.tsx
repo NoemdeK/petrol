@@ -1,31 +1,29 @@
 "use client"
 
 
-import Logo from '@/components/sections/Logo'
-import Image from 'next/image'
-import Link from 'next/link'
 
 
 import React from 'react'
-import { cn } from '@/lib/utils'
-import Canvas from '@/components/Canvas'
 
-import type { Metadata } from 'next'
-
-import hero from "@/assets/how-to-solve-worlds-biggest-problems 1.svg"
 import { AccordionDemo } from '@/components/Accordion'
 import Footer from '@/components/Footer'
 import Partners from '@/components/sections/Partners'
 import NavigationBar from '@/components/NavigationBar'
 
+import hero from "@/assets/how-to-solve-worlds-biggest-problems 1.svg"
+
+import substract from "@/assets/Subtract.svg"
+import Image from 'next/image'
 
 export default function Home() {
 
   return (
-    <main className='min-h-screen flex-col flex hero p-0 m-0 justify-between gap-0 w-full'>
+    <main className='min-h-screen flex-col flex  p-0 m-0 justify-between gap-0 w-full'>
       
-      <div className=' w-full h-full relative'>
-
+      <div className=' w-full h-full relative '>
+      <div className='absolute top-0 right-0'>
+                <Image src={substract} alt='contact' width={200} height={200} />
+              </div>
         <div className="max-w-7xl mx-auto  items-center justify-between flex py-4 px-4 md:px-0 md:py-8">
           <p className=" left-0 top-0 flex w-full text-lg sm:text-2xl md:text-4xl pb-6 pt-8 text-sky-400  lg:static lg:w-auto   lg:p-4 ">
             dio<span className='font-bold'>phalytics</span><span className='text-black'>.io</span>

@@ -77,7 +77,7 @@ export default function Hero(){
         </div>
       </div>
       <div className="max-w-7xl mx-auto flex h-full flex-col w-full pb-8  gap-12 p-4 ">
-        <div className="grid grid-cols-1 md:grid-cols-2 w-full gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 h-full w-full gap-4">
 
           <div className='text-secondary  h-full w-full flex items-center flex-col justify-center text-left md:text-lefkt md:itejms-start'>
             <div className='h-full flex flex-col gap-8 mt-16 justify-center items-center md:items-start'>

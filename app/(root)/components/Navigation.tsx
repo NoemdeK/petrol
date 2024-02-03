@@ -7,8 +7,7 @@ const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
 
   const changeBackground = () => {
-    
-    if (window.scrollY >= 100) {
+    if (window.scrollY > 100) {
       setScrolled(true)
     } else {
       setScrolled(false)
@@ -17,9 +16,13 @@ const Navigation = () => {
   useEffect(() => {
     window.addEventListener("scroll", changeBackground)
     changeBackground()
+    
   })
+
+  // <nav className={`flex  items-center fixed top-0 w-full z-20 ${scrolled ? 'bg-[#ffffff] text-black shadow-md font-black' : 'text-white'} transition-all`} aria-label='Navigation'>
+
   return (
-    <div className={cn(`w-screen fixed top-0 left-0 bg-white`)}>
+    <div className={cn(`w-screen  fixed top-0 left-0  bg-white`)}>
 
     <div className="max-w-7xl mx-auto  items-center justify-between flex px-4 md:px-0 ">
     <p className=" left-0 top-0 flex w-full text-lg sm:text-2xl md:text-4xl pb-6 pt-8 text-sky-400  lg:static lg:w-auto">

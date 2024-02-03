@@ -17,8 +17,8 @@ import Link from "next/link"
 
   export function AccordionDemo() {
     return (
-     <div className="overflow-hidden h-full">
-       <Accordion type="single" collapsible className="w-full h-full text-black">
+     <div className="overflow-hidden h-full text-black">
+       <Accordion type="single" collapsible className="w-full h-full overflow-hidden text-black">
         <AccordionItem value="item-1" className="text-black">
           <AccordionTrigger>
             <div className="flex gap-4 flex-col ">
