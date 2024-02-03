@@ -34,11 +34,11 @@ export default  async function RootLayout({
       <AuthProvider>
         <Redux >
           <body>
-              {children}
               <LoadingModal />
               <DocumentView />
               
               <Toaster />
+              {children}
           </body>
         </Redux>
         </AuthProvider>

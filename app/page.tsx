@@ -18,7 +18,7 @@ import Image from 'next/image'
 export default function Home() {
 
   return (
-    <main className='min-h-screen flex-col flex  p-0 m-0 justify-between gap-0 w-full'>
+    <main className=' flex-col flex  p-0 m-0 justify-between gap-0 w-full h-full max-h-full'>
       
       <div className=' w-full h-full relative '>
       <div className='absolute top-0 right-0'>
