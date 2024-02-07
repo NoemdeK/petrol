@@ -1,22 +1,21 @@
-"use client"
-import { RootState } from '@/redux/store';
-import React from 'react';
-import { useSelector } from 'react-redux';
+"use client";
+import { RootState } from "@/redux/store";
+import React from "react";
+import { useSelector } from "react-redux";
 
-import { Max } from './Max';
+import { Max } from "./Max";
 
-import { filterDataByRegions, transformTipToChartData } from './functions';
+import { filterDataByRegions, transformTipToChartData } from "./functions";
 
 function classNames(...classes: any) {
-  return classes.filter(Boolean).join(' ');
+  return classes.filter(Boolean).join(" ");
 }
 
-const AGO = ({resData}: any) => {
+const AGO = ({ resData }: any) => {
   const { selectedRegions } = useSelector((state: RootState) => state.prices);
 
   // const { resData } = useSelector((state: RootState) => state.AGO);
 
- 
   const regions = selectedRegions.map((_, idx) => {
     return _.label;
   });
@@ -34,10 +33,8 @@ const AGO = ({resData}: any) => {
     result[region].push(item);
 
     return result;
-
   }, {});
   // console.log("groupedData", groupedData)
-
 
   // Now groupedData is an object where keys are regions and values are arrays of objects for each region
 
@@ -113,16 +110,14 @@ const AGO = ({resData}: any) => {
   });
 
   const chartdata2 = transformTipToChartData(groupedData);
-  const data  = chartdata2.sort((a, b) => {
+  const data = chartdata2.sort((a, b) => {
     //@ts-ignore
     return new Date(a.date) - new Date(b.date);
   });
 
-
   return (
-    <div className=' md:pb-4  h-full'>
-        <Max result={data} />
-
+    <div className=" md:pb-4  h-full">
+      <Max result={data} />
 
       {/* <Tab.Group defaultIndex={6} selectedIndex={7}>
       <Tab.List className='flex gap-2 md:gap-4 text-[18px] text-slate-600'>

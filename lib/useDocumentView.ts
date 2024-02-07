@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
 interface AddNewCategoryModalStore {
   isOpen: boolean;
@@ -13,9 +13,7 @@ const useDocumentView = create<AddNewCategoryModalStore>((set) => ({
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false }),
   data: {},
-  setData: (data) => set({ data: {data}}),
-  
+  setData: (data) => set({ data: { data } }),
 }));
-
 
 export default useDocumentView;

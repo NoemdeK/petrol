@@ -1,9 +1,9 @@
-"use client"
-import React from 'react'
+"use client";
+import React from "react";
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Sheet,
   SheetClose,
@@ -13,41 +13,41 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
-import useDocumentView from '@/lib/useDocumentView'
+} from "@/components/ui/sheet";
+import useDocumentView from "@/lib/useDocumentView";
 
 export function DocumentView() {
-    const { isOpen, onClose, data, setData } = useDocumentView()
+  const { isOpen, onClose, data, setData } = useDocumentView();
 
+  if (!data) {
+    return null;
+  }
 
-    if(!data){
-      return null
-    }
-
-    const closeIt = () => {
-      onClose()
-      setData({})
-    }
+  const closeIt = () => {
+    onClose();
+    setData({});
+  };
 
   return (
-    <Sheet  onOpenChange={onClose} open={isOpen}  defaultOpen={isOpen}>
+    <Sheet onOpenChange={onClose} open={isOpen} defaultOpen={isOpen}>
       <SheetContent>
         <SheetHeader>
           <SheetTitle>View Document</SheetTitle>
-          <SheetDescription>
-          </SheetDescription>
+          <SheetDescription></SheetDescription>
         </SheetHeader>
         <div className="flex items-center justify-center my-8 h-[70vh] gap-4 py-4 ">
-          <div className='w-full h-96'>
-            <img src={data.data} alt="" className='object-contain' />
+          <div className="w-full h-96">
+            <img src={data.data} alt="" className="object-contain" />
           </div>
         </div>
         <SheetFooter>
           <SheetClose asChild>
-            <Button type="submit" onClick={closeIt}>Close</Button>
+            <Button type="submit" onClick={closeIt}>
+              Close
+            </Button>
           </SheetClose>
         </SheetFooter>
       </SheetContent>
     </Sheet>
-  )
+  );
 }
