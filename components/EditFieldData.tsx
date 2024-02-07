@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import useEditFieldData from "@/lib/useEditFieldData";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import close from "@/assets/icons/Close.svg";
+import close from "../assets/icons/close.svg";
 import Image from "next/image";
 import {
   Form,

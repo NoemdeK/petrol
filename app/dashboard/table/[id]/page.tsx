@@ -48,13 +48,6 @@ async function getAnalytics() {
     // console.log(response.json()), "repso"
     const result = await response.json();
 
-    if (response?.status === 403) {
-      toast({
-        title: "An error has occured",
-        description: `${result?.message || "Cannot fetch data"}`,
-        variant: "destructive",
-      });
-    }
     return result.data;
   } catch (error: any) {
     console.error("Error:", error.message);

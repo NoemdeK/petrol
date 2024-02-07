@@ -1,13 +1,13 @@
-*{
-    &::-webkit-scrollbar {
-      -webkit-appearance: none;
-      width: 10px;
-    }
-    
-    &::-webkit-scrollbar-thumb {
-      border-radius: 7px;
-      background-color: rgb(148 163 184 / 0.1);
-
-      // background-color: #bdbaba
-    }
+* {
+  &::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 10px;
   }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 7px;
+    background-color: rgb(148 163 184 / 0.1);
+
+    // background-color: #bdbaba
+  }
+}
