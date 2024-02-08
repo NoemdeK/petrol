@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
 interface AddNewCategoryModalStore {
   isOpen: boolean;
@@ -15,10 +15,9 @@ const useEditEntry = create<AddNewCategoryModalStore>((set) => ({
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false }),
   id: "",
-  setId: (id) => set({id: id}),
+  setId: (id) => set({ id: id }),
   data: {},
-  setData: (data) => set({data: data}),
+  setData: (data) => set({ data: data }),
 }));
-
 
 export default useEditEntry;
