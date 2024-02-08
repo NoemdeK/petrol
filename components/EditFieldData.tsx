@@ -605,13 +605,14 @@ const EditFieldData = () => {
                       ) : (
                         <div className="grid grid-cols-2">
                           {editFielddata?.data?.supportingDocument?.map(
-                            (item: any) => (
+                            (item: any, idx: any) => (
                               <img
                                 src={item}
                                 alt="supporting document"
                                 width={150}
                                 height={150}
                                 className="object-contain"
+                                key={`supportDocs${idx}`}
                               />
                             )
                           )}

@@ -1,5 +1,4 @@
-"use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,15 +17,10 @@ import useDocumentView from "@/lib/useDocumentView";
 
 export function DocumentView() {
   const { isOpen, onClose, data, setData } = useDocumentView();
-  const [docs, setDocs] = useState<Array<any>>([]);
 
   if (!data) {
     return null;
   }
-
-  useEffect(() => {
-    setDocs(data?.data);
-  }, [data]);
 
   const closeIt = () => {
     onClose();
