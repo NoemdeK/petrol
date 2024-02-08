@@ -245,7 +245,8 @@ const Actions = (entry: any) => {
         loading.onClose();
       });
   };
-  const { onEditFieldDataOpen, setEditFieldData } = useEditFieldData();
+  const { onEditFieldDataOpen, setEditFieldData, userType } =
+    useEditFieldData();
 
   const onEditClick = () => {
     onEditFieldDataOpen();
@@ -253,41 +254,50 @@ const Actions = (entry: any) => {
   };
 
   return (
-    <div className="flex gap-1 justify-end">
-      {/* <Button
-        className=""
-        variant={"outline"}
-        onClick={() => {
-          reject.setId(entry.entry.entryId);
-          reject.onOpen();
-        }}
-      >
-        Reject
-      </Button> */}
-      <Button
-        // onClick={() => {
-        //   approve.setId(entry.entry.entryId);
-        //   approve.onOpen();
-        // }}
-        onClick={onEditClick}
-        size={"sm"}
-      >
-        Edit
-      </Button>
+    <>
+      {userType === "rwx_data_entry_user" ? (
+        <div className="flex gap-1 justify-end">
+          <Button onClick={onEditClick} size={"sm"}>
+            Edit
+          </Button>
+        </div>
+      ) : (
+        <div className="flex gap-1 justify-end">
+          <Button
+            className=""
+            variant={"outline"}
+            onClick={() => {
+              reject.setId(entry.entry.entryId);
+              reject.onOpen();
+            }}
+          >
+            Reject
+          </Button>
+          <Button
+            onClick={() => {
+              approve.setId(entry.entry.entryId);
+              approve.onOpen();
+            }}
+            size={"sm"}
+          >
+            Approve
+          </Button>
 
-      {approve.isOpen && (
-        <ApproveModal
-          onCancel={approve.onClose}
-          onSubmit={() => approveEntryd(approve.id)}
-        />
+          {approve.isOpen && (
+            <ApproveModal
+              onCancel={approve.onClose}
+              onSubmit={() => approveEntryd(approve.id)}
+            />
+          )}
+          {reject.isOpen && (
+            <RejectedModal
+              onCancel={reject.onClose}
+              onSubmit={() => rejectEntry(reject.id)}
+            />
+          )}
+        </div>
       )}
-      {reject.isOpen && (
-        <RejectedModal
-          onCancel={reject.onClose}
-          onSubmit={() => rejectEntry(reject.id)}
-        />
-      )}
-    </div>
+    </>
   );
 };
 

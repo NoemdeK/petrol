@@ -33,6 +33,7 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { TailSpin } from "react-loader-spinner";
 import { AnimatePresence, motion } from "framer-motion";
+import { EditUploadFile } from "./EditUploadFile";
 
 const EditFieldData = () => {
   const loading = useLoading();
@@ -44,14 +45,20 @@ const EditFieldData = () => {
 
   const [updateLoading, setUpdateLoading] = useState<boolean>(false);
 
-  const { isEditFeieldDataOpen, onEditFieldDataClose, editFielddata } =
-    useEditFieldData();
+  const {
+    isEditFeieldDataOpen,
+    onEditFieldDataClose,
+    editFielddata,
+    supportDocs,
+  } = useEditFieldData();
 
   useEffect(() => {
     if (editFielddata) {
       setDataId(editFielddata?.data?.entryId);
     }
   }, [editFielddata]);
+
+  const [existingDoc, setExistingDoc] = useState<any>([editFielddata]);
 
   const formatDate = (inputDate = "2024-01-01") => {
     type MonthMap = {
@@ -101,12 +108,13 @@ const EditFieldData = () => {
   });
 
   const formSchema = z.object({
-    fillingStation: z.string().optional(), // Make fillingStation not required
-    state: z.string().optional(), // Make state not required
-    city: z.string().optional(), // Make city not required
+    fillingStation: z.string().optional(),
+    state: z.string().optional(),
+    city: z.string().optional(),
     products: productsSchema,
-    priceDate: z.string().optional(), // Make priceDate not required
-    supportingDocument: z.string().optional(),
+    priceDate: z.string().optional(),
+    supportingDocument: z.any().optional(),
+    file: z.any().optional(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -124,6 +132,7 @@ const EditFieldData = () => {
       },
       priceDate: editFielddata?.data?.priceDate,
       supportingDocument: editFielddata?.data?.supportingDocument,
+      file: [],
     },
   });
 
@@ -159,6 +168,7 @@ const EditFieldData = () => {
         "supportingDocument",
         editFielddata?.data?.supportingDocument || ""
       );
+      form.setValue("file", []);
     }
   }, [editFielddata, form.setValue]);
 
@@ -210,12 +220,88 @@ const EditFieldData = () => {
   ];
 
   async function onSubmit(data: any) {
-    // loading.onOpen();
+    console.log(data);
+
+    let payload;
+
+    if (supportDocs) {
+      payload = (({ file, ...rest }) => ({
+        ...rest,
+        supportingDocument: supportDocs,
+      }))(data);
+    } else {
+      payload = (({ file, ...rest }) => ({
+        ...rest,
+        supportingDocument: editFielddata?.data?.supportingDocument,
+      }))(data);
+    }
+
+    loading.onOpen();
 
     setUpdateLoading(true);
 
-    const payload = data;
+    const uploadedImageURLs = await uploadFilesToDigitalOcean(
+      payload.supportingDocument
+    );
 
+    console.log(uploadedImageURLs);
+
+    async function uploadFilesToDigitalOcean(files: File[]): Promise<string[]> {
+      const uploadedImageURLs: string[] = [];
+
+      for (const file of files) {
+        try {
+          // Upload file to DigitalOcean and obtain image URL
+          const imageURL = await uploadFileToDigitalOcean(file);
+          uploadedImageURLs.push(imageURL);
+        } catch (error) {
+          // Handle individual file upload errors
+          console.error(`Error uploading file ${file.name}:`, error);
+        }
+      }
+
+      return uploadedImageURLs;
+    }
+
+    async function uploadFileToDigitalOcean(file: File): Promise<string> {
+      // Create FormData object to append the file
+      const formData = new FormData();
+      formData.append("file", file);
+
+      try {
+        // Make a POST request to upload the file
+        const response = await fetch(
+          "https://petrodata.zainnovations.com/api/v1/upload/files",
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${userData?.user.accessToken}`,
+            },
+            body: formData,
+          }
+        );
+
+        // Parse the response to get the uploaded image URL
+        const data = await response.json();
+        const imageURL = data?.data?.url; // Adjust this according to your response structure
+
+        // Return the uploaded image URL
+        return imageURL;
+      } catch (error) {
+        // Handle any errors that occur during the file upload
+        console.error("Error uploading file to DigitalOcean:", error);
+        toast({
+          title: "Error",
+          description: "Error uploading files",
+        });
+        throw new Error("Failed to upload file to DigitalOcean");
+      }
+    }
+
+    payload = {
+      ...payload,
+      supportingDocument: uploadedImageURLs,
+    };
     await PlainTransportDekApi.patch(
       `data-entry/update?dataEntryId=${dataId}`,
       JSON.stringify(payload),
@@ -233,7 +319,7 @@ const EditFieldData = () => {
           description: "Done",
         });
         router.refresh();
-        window.location.reload();
+        // window.location.reload();
         onEditFieldDataClose();
       })
       .catch((error) => {
@@ -251,6 +337,12 @@ const EditFieldData = () => {
       });
   }
 
+  const handleFileUpload = (newDocument: any) => {
+    // Update form state with uploaded file(s)
+    const existingDocuments = form.getValues("file") || [];
+    form.setValue("file", [...existingDocuments, newDocument]);
+  };
+
   return (
     <>
       <AnimatePresence>
@@ -261,9 +353,9 @@ const EditFieldData = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 1, x: 420 }}
               transition={{ duration: 0.3 }}
-              className="bg-white min-w-[420px] rounded-l-[0.7rem] overflow-hidden"
+              className="bg-accent min-w-[420px] rounded-l-[0.7rem] overflow-hidden"
             >
-              <div className="bg-[#FAFAFA] p-[1rem] flex justify-between items-center border-b-[#0000001f] border h-[60px]">
+              <div className="bg-accent p-[1rem] flex justify-between items-center border-b-[#0000001f] border h-[60px]">
                 <p className="text-sm font-medium text-[0.8rem]">Edit Data</p>
                 <span
                   onClick={() => {
@@ -488,34 +580,54 @@ const EditFieldData = () => {
                     </div>
                     <div>
                       <Label className="pb-2">Supporting Document</Label>
-                      <UploadFileInput name={"file"} form={form} />
-                    </div>
-                    <div>
-                      {/* <Image
-                      src={editFielddata?.data?.supportingDocument}
-                      alt="supporting document"
-                      width={300}
-                      height={300}
-                      className="object-contain"
-                    /> */}
-                      <img
-                        src={editFielddata?.data?.supportingDocument}
-                        alt="supporting document"
-                        width={150}
-                        height={150}
-                        className="object-contain"
+                      <EditUploadFile
+                        name={"file"}
+                        form={form}
+                        onUpload={handleFileUpload}
                       />
                     </div>
+
+                    <FormField
+                      control={form.control}
+                      name="supportingDocument"
+                      render={() => <></>}
+                    />
+                    <div>
+                      {typeof editFielddata?.data?.supportingDocument ===
+                      "string" ? (
+                        <img
+                          src={editFielddata?.data?.supportingDocument}
+                          alt="supporting document"
+                          width={150}
+                          height={150}
+                          className="object-contain"
+                        />
+                      ) : (
+                        <div className="grid grid-cols-2">
+                          {editFielddata?.data?.supportingDocument?.map(
+                            (item: any) => (
+                              <img
+                                src={item}
+                                alt="supporting document"
+                                width={150}
+                                height={150}
+                                className="object-contain"
+                              />
+                            )
+                          )}
+                        </div>
+                      )}
+                    </div>
                     <div className="w-full flex items-center gap-6">
-                      <button
-                        className="bg-[#F5F5F5] border border-[#0000001f] rounded-[5px] px-[0.9rem] py-[0.4rem] font-normal cursor-pointer text-[0.85rem]"
+                      <p
+                        className="bg-accent border border-[#0000001f] rounded-[5px] px-[0.9rem] py-[0.4rem] font-normal cursor-pointer text-[0.85rem]"
                         onClick={() => {
                           onEditFieldDataClose();
                           form.reset();
                         }}
                       >
                         Cancel
-                      </button>
+                      </p>
                       <button
                         className="bg-[#000] text-white border border-[#0000001f] rounded-[5px] w-full px-[0.6rem] py-[0.4rem] font-normal cursor-pointer text-[0.85rem] flex justify-center items-center"
                         type="submit"

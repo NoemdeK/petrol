@@ -48,7 +48,7 @@ export const formSchema = z.object({
   city: z.string(),
   products: productsSchema,
   priceDate: z.string(),
-  supportingDocument: z.string().optional(),
+  supportingDocument: z.array(z.string()).optional(),
   file: z.any(),
 });
 

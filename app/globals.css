@@ -2,8 +2,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
-
 
 @layer base {
   :root {
@@ -28,7 +26,7 @@
     --ring: 0 0% 3.9%;
     --radius: 0.3rem;
   }
- 
+
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -52,18 +50,17 @@
   }
 }
 
-
-html, body{
+html,
+body {
   height: 100%;
   overflow: hidden;
   padding: 0;
   margin: 0;
 }
 
-body{
+body {
   /* height: 80vh; */
-  overflow-y: scroll
-  
+  overflow-y: scroll;
 }
 
 .scroll ::-webkit-scrollbar {
@@ -80,35 +77,35 @@ body{
   /* @apply bg-secondary; */
 }
 
-
-.tremor-Legend-legendItem, .text-tremor-default, .text-tremor-content{
+.tremor-Legend-legendItem,
+.text-tremor-default,
+.text-tremor-content {
   text-transform: capitalize !important;
 }
- 
+
 @layer base {
   * {
     @apply border-border;
-    font-family: 'General Sans', sans-serif;
-
+    font-family: "General Sans", sans-serif;
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'General Sans', sans-serif;
+    font-family: "General Sans", sans-serif;
     height: 100%;
   }
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-       -webkit-appearance: none;
-        margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-input[type=number] {
-    -moz-appearance: textfield;
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
-.green{
+.green {
   background-color: #007d00;
 }
 
@@ -116,16 +113,15 @@ ol {
   list-style-type: decimal; /* Ensure decimal numbering */
   margin-left: 20px; /* Adjust the left margin as needed */
 }
-ol li{
+ol li {
   text-align: 0.85rem;
 }
 
-.color{
+.color {
   color: #ff0000;
 }
 
-
-.auth{
+.auth {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -133,7 +129,7 @@ ol li{
   width: 100%;
 }
 
-.bghero{
+.bghero {
   /* background-image: url('https://images.pexels.com/photos/5716025/pexels-photo-5716025.jpeg?auto=compress&cs=tinysrgb&w=800'); */
   background-image: url("https://res.cloudinary.com/dnir0cslk/image/upload/v1701582177/Homepage_Background_opxvy4.png");
   /* background-position: 0px 298px; */
@@ -144,8 +140,8 @@ ol li{
   height: 100%;
 }
 
-.hero{
-  background-image: url('https://images.unsplash.com/photo-1584291527935-456e8e2dd734?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+.hero {
+  background-image: url("https://images.unsplash.com/photo-1584291527935-456e8e2dd734?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
   background-repeat: no-repeat;
   background-size: cover;
   color: white;
@@ -154,8 +150,8 @@ ol li{
   /* background: url("https://res.cloudinary.com/dnir0cslk/image/upload/v1706188326/dio_l4msde.jpg"), lightgray 50% / cover no-repeat, #FFF !important; */
 }
 
-.contact{
-  background-image: url('https://res.cloudinary.com/dnir0cslk/image/upload/v1706772625/ef16d7d75fcf306a0e31cd2de88fa91f_p5yl2x.jpg');
+.contact {
+  background-image: url("https://res.cloudinary.com/dnir0cslk/image/upload/v1706772625/ef16d7d75fcf306a0e31cd2de88fa91f_p5yl2x.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
@@ -164,7 +160,7 @@ ol li{
   /* background: url("https://res.cloudinary.com/dnir0cslk/image/upload/v1706188326/dio_l4msde.jpg"), lightgray 50% / cover no-repeat, #FFF !important; */
 }
 
-.petrodata{
+.petrodata {
   /* background: url("https://res.cloudinary.com/dnir0cslk/image/upload/v1706148980/petrobg_eg3spo.jpg"); */
   /* background: linear-gradient(rgba(94, 94, 94, 0.7), rgba(0, 0, 0, .7)), url("https://res.cloudinary.com/dnir0cslk/image/upload/v1706148980/petrobg_eg3spo.jpg"); */
 
@@ -180,8 +176,7 @@ ol li{
   /* filter: grayscale(50); */
 }
 
-
-.overlay{
+.overlay {
   /* background: rgba(4, 3, 3, 0.5);  */
   width: 100%;
   height: 100%;
@@ -189,14 +184,13 @@ ol li{
   top: 0;
 }
 
-.canvasjs-chart-toolbar{
+.canvasjs-chart-toolbar {
   display: none;
 }
-tspan{
+tspan {
   font-size: 0.75rem;
   padding: 1rem;
 }
-
 
 .lds-spinner {
   color: green;
@@ -276,7 +270,7 @@ tspan{
     opacity: 0;
   }
 }
- 
+
 .swiper {
   width: 100%;
   height: 100%;
@@ -296,7 +290,7 @@ tspan{
 }
 
 @media screen and (max-width: 768px) {
-  .swiper-slide{
+  .swiper-slide {
     width: 150px !important;
     margin-right: 0;
   }
@@ -310,7 +304,7 @@ tspan{
 .loader:before,
 .loader:after {
   content: "";
-  --c:no-repeat linear-gradient(#111 0 0);
+  --c: no-repeat linear-gradient(#111 0 0);
   background: var(--c), var(--c);
   background-size: 25% 50%;
   animation: l5 1.5s infinite linear;
@@ -320,10 +314,20 @@ tspan{
 }
 @keyframes l5 {
   0%,
-  5%   {background-position:33.4% 100%,66.6% 100%}
-  25%  {background-position:33.4% 100%,100% 0}
-  50%  {background-position:0 0,100% 0}
-  75%  {background-position:0 0,66.6% 100%}
+  5% {
+    background-position: 33.4% 100%, 66.6% 100%;
+  }
+  25% {
+    background-position: 33.4% 100%, 100% 0;
+  }
+  50% {
+    background-position: 0 0, 100% 0;
+  }
+  75% {
+    background-position: 0 0, 66.6% 100%;
+  }
   95%,
-  100% {background-position:33.4% 100%,66.6% 100%}
-} 
+  100% {
+    background-position: 33.4% 100%, 66.6% 100%;
+  }
+}

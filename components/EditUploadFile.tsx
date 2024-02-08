@@ -4,19 +4,24 @@ import { Controller } from "react-hook-form";
 import { useEffect, useState, SetStateAction } from "react";
 import { FileUp } from "lucide-react";
 import React from "react";
+import useEditFieldData from "@/lib/useEditFieldData";
 
-export const UploadFileInput = ({ form, name, onUpload }: any) => {
+export const EditUploadFile = ({
+  form,
+  name,
+  onUpload,
+  existingFiles,
+}: any) => {
+  const { updateSupportDocs } = useEditFieldData();
   const [uploadedData, setUploadedData] = useState<Array<any>>([]);
 
   const imageee = form.watch("file") || [];
 
   useEffect(() => {
-    if (imageee) {
-      setUploadedData((prev) => {
-        return [...prev, ...imageee];
-      });
-    }
-  }, [imageee]);
+    const changedUploadedData = uploadedData.map((d) => URL.createObjectURL(d));
+
+    updateSupportDocs(uploadedData);
+  }, [uploadedData]);
 
   return (
     <Controller
@@ -26,7 +31,21 @@ export const UploadFileInput = ({ form, name, onUpload }: any) => {
       render={({ field }) => {
         return (
           <>
-            <Dropzone onDrop={field.onChange}>
+            <Dropzone
+              onDrop={(acceptedFiles) => {
+                if (onUpload) {
+                  onUpload(acceptedFiles);
+                }
+                console.log(acceptedFiles);
+                // Append new files to the existing uploadedData array
+                setUploadedData((prevUploadedData) => [
+                  ...prevUploadedData,
+                  ...acceptedFiles,
+                ]);
+                // Call the onChange function provided by react-hook-form
+                field.onChange([...field.value, ...acceptedFiles]);
+              }}
+            >
               {({ getRootProps, getInputProps }) => (
                 <div
                   {...getRootProps()}
@@ -60,6 +79,7 @@ export const UploadFileInput = ({ form, name, onUpload }: any) => {
               {field.value &&
                 uploadedData &&
                 uploadedData.map((f: any, index: any) => {
+                  console.log(f);
                   return (
                     <li key={index} className="text-xs cursor-pointer relative">
                       <img

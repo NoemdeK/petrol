@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,14 +18,18 @@ import useDocumentView from "@/lib/useDocumentView";
 
 export function DocumentView() {
   const { isOpen, onClose, data, setData } = useDocumentView();
+  const [docs, setDocs] = useState<Array<any>>([]);
 
   if (!data) {
     return null;
   }
 
+  useEffect(() => {
+    setDocs(data?.data);
+  }, [data]);
+
   const closeIt = () => {
     onClose();
-    setData({});
   };
 
   return (
@@ -35,10 +39,24 @@ export function DocumentView() {
           <SheetTitle>View Document</SheetTitle>
           <SheetDescription></SheetDescription>
         </SheetHeader>
-        <div className="flex items-center justify-center my-8 h-[70vh] gap-4 py-4 ">
-          <div className="w-full h-96">
-            <img src={data.data} alt="" className="object-contain" />
-          </div>
+        <div className="flex items-center justify-center my-8 h-[70vh] gap-4 py-4 overflow-y-scroll">
+          {typeof data?.data === "string" ? (
+            <div className="w-full h-96">
+              <img src={data?.data} alt="" className="object-contain" />
+            </div>
+          ) : (
+            <div className="grid grid-cols-1">
+              {data &&
+                data?.data?.map((item: any, idx: any) => (
+                  <img
+                    src={item}
+                    alt=""
+                    className="object-contain"
+                    key={`doc${idx}`}
+                  />
+                ))}
+            </div>
+          )}
         </div>
         <SheetFooter>
           <SheetClose asChild>
