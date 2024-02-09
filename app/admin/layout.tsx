@@ -12,7 +12,6 @@ import EditUser from "./users/EditUser";
 import EditUserTwo from "../data-entry/settings/EditUser";
 import { Sidebar } from "@/components/Sidebar";
 import TabData from "./TabData";
-import useEditFieldData from "@/lib/useEditFieldData";
 
 export const metadata: Metadata = {
   title: "Admin",
@@ -70,7 +69,6 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   const user = await getServerSession(authOptions);
   const me = await getMe(`${user?.user.accessToken}`);
   const notify = await getNotification(`${user?.user.accessToken}`);
-  const { setUserType } = useEditFieldData();
 
   return (
     <ThemeProvider

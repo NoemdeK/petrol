@@ -99,7 +99,7 @@ const fulling = [
 ];
 
 export function UploadClient({ setBatchData, batchData }: any) {
-  const { data } = useSession();
+  const { data: userData } = useSession();
   const router = useRouter();
   const loading = useLoading();
 
@@ -113,25 +113,69 @@ export function UploadClient({ setBatchData, batchData }: any) {
   };
 
   const isLoading = form.formState.isSubmitting;
+
+  async function uploadFileToDigitalOcean(file: File): Promise<string> {
+    // Create FormData object to append the file
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      // Make a POST request to upload the file
+      const response = await fetch(
+        "https://petrodata.zainnovations.com/api/v1/upload/files",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${userData?.user.accessToken}`,
+          },
+          body: formData,
+        }
+      );
+
+      // Parse the response to get the uploaded image URL
+      const data = await response.json();
+      const imageURL = data?.data?.url; // Adjust this according to your response structure
+
+      // Return the uploaded image URL
+      return imageURL;
+    } catch (error) {
+      // Handle any errors that occur during the file upload
+      console.error("Error uploading file to DigitalOcean:", error);
+      toast({
+        title: "Error",
+        description: "Error uploading files",
+      });
+      throw new Error("Failed to upload file to DigitalOcean");
+    }
+  }
+
+  async function uploadFilesToDigitalOcean(files: File[]): Promise<string[]> {
+    const uploadedImageURLs: string[] = [];
+
+    for (const file of files) {
+      try {
+        // Upload file to DigitalOcean and obtain image URL
+        const imageURL = await uploadFileToDigitalOcean(file);
+        uploadedImageURLs.push(imageURL);
+      } catch (error) {
+        // Handle individual file upload errors
+        console.error(`Error uploading file ${file.name}:`, error);
+      }
+    }
+
+    return uploadedImageURLs;
+  }
   const onAddToBatch = async () => {
     // Validate the current form data before adding to the batch
     await form.handleSubmit(async (values) => {
       try {
         // await form.validateForm(values);
 
-        const formData = new FormData();
-        formData.append("file", values.file[0]);
-
-        const fileUploadResponse = await MultiTransportDekApi.post(
-          "/upload/files",
-          formData
-        );
-
-        const imageUrl = fileUploadResponse.data.data.url;
+        const uploadedImageURLs = await uploadFilesToDigitalOcean(values.file);
 
         setBatchData((prevBatchData: any) => [
           ...prevBatchData,
-          { ...values, supportingDocument: imageUrl },
+          { ...values, supportingDocument: uploadedImageURLs },
         ]);
 
         router.refresh();
@@ -169,7 +213,7 @@ export function UploadClient({ setBatchData, batchData }: any) {
       JSON.stringify(payload),
       {
         headers: {
-          Authorization: `Bearer ${data?.user.accessToken}`,
+          Authorization: `Bearer ${userData?.user.accessToken}`,
         },
       }
     )

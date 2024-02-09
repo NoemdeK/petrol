@@ -6,27 +6,19 @@ import { FileUp } from "lucide-react";
 import React from "react";
 
 export const UploadFileInput = ({ form, name, onUpload }: any) => {
-  const [uploadedData, setUploadedData] = useState<Array<any>>([]);
-
-  const imageee = form.watch("file") || [];
-
-  useEffect(() => {
-    if (imageee) {
-      setUploadedData((prev) => {
-        return [...prev, ...imageee];
-      });
-    }
-  }, [imageee]);
-
   return (
     <Controller
       control={form.control}
       name={name}
       defaultValue={[]}
       render={({ field }) => {
+        const uploadedFiles = field.value || [];
+
         return (
           <>
-            <Dropzone onDrop={field.onChange}>
+            <Dropzone
+              onDrop={(files) => field.onChange([...uploadedFiles, ...files])}
+            >
               {({ getRootProps, getInputProps }) => (
                 <div
                   {...getRootProps()}
@@ -58,8 +50,8 @@ export const UploadFileInput = ({ form, name, onUpload }: any) => {
             </Dropzone>
             <ul className="flex gap-1 flex-wrap">
               {field.value &&
-                uploadedData &&
-                uploadedData.map((f: any, index: any) => {
+                uploadedFiles &&
+                uploadedFiles.map((f: any, index: any) => {
                   return (
                     <li key={index} className="text-xs cursor-pointer relative">
                       <img
