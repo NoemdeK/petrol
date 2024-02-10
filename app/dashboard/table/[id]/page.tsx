@@ -65,7 +65,7 @@ const Page = async ({ params }: any) => {
 
   const page = parseInt(params.id, 10);
 
-  const result = data.data.result;
+  const result = data.data?.result;
   return (
     <div>
       <div className="my-4">
@@ -79,7 +79,7 @@ const Page = async ({ params }: any) => {
           our flexi export tool to create your own data series
         </p>
       </div>
-      <RawDataTable data={result} page={page} />
+      <RawDataTable data={result ? result : []} page={page} />
     </div>
   );
 };

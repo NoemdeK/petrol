@@ -353,7 +353,7 @@ const EditFieldData = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 1, x: 420 }}
               transition={{ duration: 0.3 }}
-              className="bg-accent min-w-[420px] rounded-l-[0.7rem] overflow-hidden"
+              className="bg-accent min-w-[400px] rounded-l-[0.7rem] overflow-hidden"
             >
               <div className="bg-accent p-[1rem] flex justify-between items-center border-b-[#0000001f] border h-[60px]">
                 <p className="text-sm font-medium text-[0.8rem]">Edit Data</p>
