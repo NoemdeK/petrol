@@ -10,8 +10,6 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 const News = ({ posts, other }: any) => {
-  // const flag = params.get("product")
-
   if (!posts || posts.length < 1) {
     return (
       <div className="m-6 w-full overflow-hidden">
