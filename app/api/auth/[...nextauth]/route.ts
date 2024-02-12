@@ -2,28 +2,24 @@ import { authOptions } from "@/utils/auth";
 import NextAuth, { AuthOptions } from "next-auth";
 import { JWT } from "next-auth/jwt";
 
-
 declare module "next-auth" {
   interface Session {
     user: User & {
       accessToken: string;
-      role: string
-    }
+      role: string;
+    };
   }
-  interface User{
+  interface User {
     data: {
-      auth: string
-    }
+      auth: string;
+    };
   }
 }
-
-
 
 const handler = NextAuth(authOptions);
 
 // const handler = NextAuth(authOptions)
 
-export {handler as GET, handler as POST}
+export { handler as GET, handler as POST };
 
-
-
+export const maxDuration = 250;
