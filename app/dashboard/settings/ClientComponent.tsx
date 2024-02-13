@@ -59,7 +59,7 @@ const ClientComponent = ({ data }: any) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
-
+  console.log(data);
   const { data: session } = useSession();
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -115,9 +115,11 @@ const ClientComponent = ({ data }: any) => {
 
   return (
     <Tabs defaultValue="account" className="w-[700px]">
-      <TabsList className="grid w-full grid-cols-2">
+      <TabsList className="grid w-full grid-cols-2 mt-4">
         <TabsTrigger value="account">Profile</TabsTrigger>
-        <TabsTrigger value="password">Notification</TabsTrigger>
+        {session?.user.role === "rwx_user" || (
+          <TabsTrigger value="password">Notification</TabsTrigger>
+        )}
       </TabsList>
       <TabsContent value="account">
         <Card>
@@ -174,6 +176,42 @@ const ClientComponent = ({ data }: any) => {
                       </FormItem>
                     )}
                   />
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="shadcn"
+                            {...field}
+                            defaultValue={data.email}
+                            disabled={true}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  {/* <FormField
+                    control={form.control}
+                    name="lastName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Company Name</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="shadcn"
+                            {...field}
+                            defaultValue={data.lastName}
+                            disabled={isLoading}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  /> */}
                 </div>
 
                 <CardFooter className="p-0">
