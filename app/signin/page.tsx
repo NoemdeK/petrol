@@ -50,6 +50,9 @@ const Page = () => {
     } catch (error) {
       if (error) {
         console.log(error);
+        setBg(
+          "https://res.cloudinary.com/dnir0cslk/image/upload/v1706148980/petrobg_eg3spo.jpg"
+        );
       }
     }
   };
