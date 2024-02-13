@@ -26,7 +26,7 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <AuthProvider>
         <Redux>
-          <body>
+          <body className="no-scrollbar">
             <LoadingModal />
             <DocumentView />
             <EditFieldData />

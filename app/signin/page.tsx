@@ -61,7 +61,7 @@ const Page = () => {
     getBg();
   }, []);
   return (
-    <div className="petrodata relative w-full">
+    <div className="petrodata relative w-screen">
       <img
         src={currBg}
         alt="hero"
@@ -69,19 +69,19 @@ const Page = () => {
       />
       <div className="overlay">
         <div className="h-full grid grid-cols-1 md:grid-cols-2  max-w-7xl mx-auto px-[1rem]">
-          <div className="h-full flex md:justify-normal justify-center items-center lg:mt-14 order-2 md:order-1 mx-2">
+          <div className="h-full flex md:justify-normal justify-center items-center lg:mt-14 order-2 md:order-1">
             <LoginAccount />
           </div>
           <div className=" relative order-1 md:order-2">
             <div className="absolute right-3 md:right-0 top-4 md:top-8">
               <NavigationBar />
             </div>
-            <h4 className="lg:block hidden text-black text-3xl md:text-4xl lg:text-[2.5rem] font-bold text-right mt-20 mx-2">
+            <h4 className="lg:block hidden text-black text-3xl md:text-4xl lg:text-[2.5rem] font-bold text-right mt-20">
               Empower your business <br /> with{" "}
               <span className="text-[#FF9F27]">real-time</span> <br /> petroleum
               insights
             </h4>
-            <h4 className="lg:hidden block text-black  text-2xl md:text-4xl lg:text-[2.5rem] font-bold text-right mt-20 mx-2">
+            <h4 className="lg:hidden block text-black  text-2xl md:text-4xl lg:text-[2.5rem] font-bold text-right mt-20">
               Empower your business with{" "}
               <span className="text-[#FF9F27]">real-time</span> petroleum
               insights
