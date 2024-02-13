@@ -264,7 +264,7 @@ export const columns: ColumnDef<Payment>[] = [
   },
 ];
 
-export function RawDataTable({ data, page }: any) {
+export function RawTable({ data, page }: any) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -274,9 +274,6 @@ export function RawDataTable({ data, page }: any) {
   const [rowSelection, setRowSelection] = React.useState({});
   const router = useRouter();
   const { currentPage, goToNextPage, goToPreviousPage } = usePaginationStore();
-
-  const session = useSession();
-  const token = session?.data?.user?.accessToken;
 
   const table = useReactTable({
     data,
@@ -300,7 +297,10 @@ export function RawDataTable({ data, page }: any) {
   const handleFetchClick = async () => {
     try {
       const myHeaders = new Headers();
-      myHeaders.append("Authorization", `Bearer ${token}`);
+      myHeaders.append(
+        "Authorization",
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc4N2QzMTI1NWIxYTA1ZGZhZDQ4MTIiLCJyb2xlIjoicnd4X3VzZXIiLCJpYXQiOjE3MDIzOTUyMDF9.iZXOHmjSEBIG-kBJscRKMCd9WpZZEdRXGzN7_yDxTIg"
+      );
 
       const requestOptions: any = {
         method: "POST",
