@@ -29,8 +29,6 @@ export const UploadFileInput = ({ form, name, onUpload }: any) => {
           form.setValue(name, updatedFiles);
         };
 
-        useEffect(() => {}, [uploadedFiles]);
-
         return (
           <>
             <Dropzone
