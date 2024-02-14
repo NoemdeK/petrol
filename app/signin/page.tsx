@@ -65,7 +65,7 @@ const Page = () => {
       <img
         src={currBg}
         alt="hero"
-        className="h-full w-full grayscale-[100%] object-cover"
+        className="h-full w-full grayscale-[95%] object-cover"
       />
       <div className="overlay">
         <div className="h-full grid grid-cols-1 md:grid-cols-2  max-w-7xl mx-auto px-[1rem]">
