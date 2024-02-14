@@ -17,6 +17,7 @@ const News = ({ posts, other }: any) => {
       </div>
     );
   }
+  console.log(posts);
   return (
     <div className="space-y-4">
       {other?.map((item: any, i: number) => (
@@ -32,7 +33,6 @@ const News = ({ posts, other }: any) => {
               src={item.image}
               width={128}
             />
-            {/* <img src={item.image} alt={item.title} className='aspect-square object-cover rounded-md h-full w-full' /> */}
           </div>
           <div className="w-full space-y-0.5 py-2 md:py-0 px-3 md:px-0">
             <a
@@ -43,18 +43,13 @@ const News = ({ posts, other }: any) => {
               {item?.title}
             </a>
 
-            <p className="text-xs font-medium text-accent-foreground">
-              {/* {format(new Date(item.publishedAt), "dd MMMM, yyyy.")} */}
-            </p>
+            <p className="text-xs font-medium text-accent-foreground"></p>
 
             <p className="text-[10px]">{item?.description}</p>
             <div className="flex gap-2">
               <p className="text-xs">
                 <strong>Source</strong> : {item?.source.name || "Noemdek"}
               </p>
-              {/* <p className='text-xs font-medium'>
-                {format(new Date(item.publishedAt), "dd MMMM, yyyy.")}
-              </p> */}
             </div>
           </div>
         </div>
@@ -73,7 +68,6 @@ const News = ({ posts, other }: any) => {
               src={urlFor(item?.mainImage).url()}
               width={128}
             />
-            {/* <img src={item.image} alt={item.title} className='aspect-square object-cover rounded-md h-full w-full' /> */}
           </div>
           <div className="w-full space-y-0.5 py-2 md:py-0">
             <h4 className="text-sm font-semibold">{item?.title}</h4>
@@ -87,9 +81,6 @@ const News = ({ posts, other }: any) => {
               <p className="text-xs">
                 <strong>Source</strong> : {item?.source || "Noemdek"}
               </p>
-              {/* <p className='text-xs font-medium'>
-                {format(new Date(item.publishedAt), "dd MMMM, yyyy.")}
-              </p> */}
             </div>
           </div>
         </div>

@@ -30,7 +30,6 @@ export default async function RootLayout({
             <LoadingModal />
             <DocumentView />
             <EditFieldData />
-
             <Toaster />
             {children}
           </body>

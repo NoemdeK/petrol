@@ -159,7 +159,7 @@ const ClientComponent = ({ data }: any) => {
   const data_entry = [
     {
       role: "User ID",
-      name: "PD-AI3",
+      name: data.pdfaId,
     },
     {
       role: "First Name",
@@ -199,7 +199,10 @@ const ClientComponent = ({ data }: any) => {
               </Button>
             </div>
             <div className="w-32 mt-12">
-              <AspectRatio ratio={1 / 1} className="bg-muted">
+              <AspectRatio
+                ratio={1 / 1}
+                className="bg-muted flex justify-center items-center"
+              >
                 <img
                   src={data.avatar}
                   alt="Photo by Drew Beamer"

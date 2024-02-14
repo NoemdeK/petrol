@@ -159,7 +159,7 @@ const ClientComponent = ({ data }: any) => {
   const data_entry = [
     {
       role: "User ID",
-      name: data.pdfaid,
+      name: data.pdaId,
     },
     {
       role: "First Name",

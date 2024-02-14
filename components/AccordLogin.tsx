@@ -29,9 +29,13 @@ import axios from "axios";
 import Link from "next/link";
 
 const formSchema = z.object({
-  email: z.string().email().min(2, {
-    message: "Email must be at least 2 characters.",
-  }),
+  email: z
+    .string()
+    .email()
+    .min(2, {
+      message: "Email must be at least 2 characters.",
+    })
+    .trim(),
   password: z.string(),
 });
 

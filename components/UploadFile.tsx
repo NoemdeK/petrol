@@ -2,22 +2,40 @@
 import Dropzone from "react-dropzone";
 import { Controller } from "react-hook-form";
 import { useEffect, useState, SetStateAction } from "react";
-import { FileUp } from "lucide-react";
+import { FileUp, Archive } from "lucide-react";
 import React from "react";
+import Document from "./Document";
 
 export const UploadFileInput = ({ form, name, onUpload }: any) => {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <Controller
       control={form.control}
       name={name}
       defaultValue={[]}
       render={({ field }) => {
-        const uploadedFiles = field.value || [];
+        let uploadedFiles = field.value || [];
+        console.log(field.value);
+        const onDelete = (index: number, file: any) => {
+          uploadedFiles = uploadedFiles.filter(
+            (_: any, i: number) => i !== index
+          );
+          form.setValue(name, uploadedFiles);
+        };
+
+        const handleDrop = (files: File[]) => {
+          const updatedFiles = [...uploadedFiles, ...files];
+          form.setValue(name, updatedFiles);
+        };
+
+        useEffect(() => {}, [uploadedFiles]);
 
         return (
           <>
             <Dropzone
-              onDrop={(files) => field.onChange([...uploadedFiles, ...files])}
+              // onDrop={(files) => field.onChange([...uploadedFiles, ...files])}
+              onDrop={handleDrop}
             >
               {({ getRootProps, getInputProps }) => (
                 <div
@@ -48,18 +66,17 @@ export const UploadFileInput = ({ form, name, onUpload }: any) => {
                 </div>
               )}
             </Dropzone>
-            <ul className="flex gap-1 flex-wrap">
+            <ul className="flex gap-2 flex-wrap mt-4">
               {field.value &&
                 uploadedFiles &&
                 uploadedFiles.map((f: any, index: any) => {
                   return (
-                    <li key={index} className="text-xs cursor-pointer relative">
-                      <img
-                        src={URL.createObjectURL(f)}
-                        alt="Uploaded File"
-                        className="w-16 aspect-square object-contain"
-                      />
-                    </li>
+                    <Document
+                      key={index}
+                      index={index}
+                      data={f}
+                      onDelete={() => onDelete(index, f)}
+                    />
                   );
                 })}
             </ul>
