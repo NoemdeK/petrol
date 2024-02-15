@@ -4,62 +4,61 @@ import React, { useState, useEffect } from "react";
 import { LoginAccount } from "./Component";
 import Footer from "@/components/Footer";
 import NavigationBar from "@/components/NavigationBar";
-import { set } from "date-fns";
 
 const Page = () => {
-  const components: { title: string; href: string; description: string }[] = [
-    {
-      title: "About Us",
-      href: "/",
-      description:
-        "A modal dialog that interrupts the user with important content and expects a response.",
-    },
-    {
-      title: "Our Process",
-      href: "/",
-      description:
-        "For sighted users to preview content available behind a link.",
-    },
-    {
-      title: "Contact Us",
-      href: "/",
-      description:
-        "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-    },
-  ];
+  // const components: { title: string; href: string; description: string }[] = [
+  //   {
+  //     title: "About Us",
+  //     href: "/",
+  //     description:
+  //       "A modal dialog that interrupts the user with important content and expects a response.",
+  //   },
+  //   {
+  //     title: "Our Process",
+  //     href: "/",
+  //     description:
+  //       "For sighted users to preview content available behind a link.",
+  //   },
+  //   {
+  //     title: "Contact Us",
+  //     href: "/",
+  //     description:
+  //       "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
+  //   },
+  // ];
   const [currBg, setBg] = useState(
     "https://res.cloudinary.com/dnir0cslk/image/upload/v1706148980/petrobg_eg3spo.jpg"
   );
-  const getBg = async () => {
-    try {
-      const response = await fetch(
-        "https://petrodata.zainnovations.com/api/v1/petro-data/periodic-image",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const result = await response.json();
-      if (response.status !== 200) {
-        return;
-      }
-      setBg(result.data);
-      console.log(result);
-    } catch (error) {
-      if (error) {
-        console.log(error);
-        setBg(
-          "https://res.cloudinary.com/dnir0cslk/image/upload/v1706148980/petrobg_eg3spo.jpg"
-        );
-      }
-    }
-  };
+  // const getBg = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       "https://petrodata.zainnovations.com/api/v1/petro-data/periodic-image",
+  //       {
+  //         method: "GET",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+  //     const result = await response.json();
+  //     if (response.status !== 200) {
+  //       return;
+  //     }
+  //     setBg(result.data);
+  //     console.log(result);
+  //   } catch (error) {
+  //     if (error) {
+  //       console.log(error);
+  //       setBg(
+  //         "https://res.cloudinary.com/dnir0cslk/image/upload/v1706148980/petrobg_eg3spo.jpg"
+  //       );
+  //     }
+  //   }
+  // };
 
-  useEffect(() => {
-    getBg();
-  }, []);
+  // useEffect(() => {
+  //   getBg();
+  // }, []);
   return (
     <div className="petrodata relative w-screen">
       <img

@@ -84,36 +84,36 @@ export function Forgot() {
       });
   }
 
-  const getBg = async () => {
-    try {
-      const response = await fetch(
-        "https://petrodata.zainnovations.com/api/v1/petro-data/periodic-image",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const result = await response.json();
-      if (response.status !== 200) {
-        return;
-      }
-      setBg(result.data);
-      console.log(result);
-    } catch (error) {
-      if (error) {
-        console.log(error);
-        setBg(
-          "https://res.cloudinary.com/dnir0cslk/image/upload/v1706148980/petrobg_eg3spo.jpg"
-        );
-      }
-    }
-  };
+  // const getBg = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       "https://petrodata.zainnovations.com/api/v1/petro-data/periodic-image",
+  //       {
+  //         method: "GET",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+  //     const result = await response.json();
+  //     if (response.status !== 200) {
+  //       return;
+  //     }
+  //     setBg(result.data);
+  //     console.log(result);
+  //   } catch (error) {
+  //     if (error) {
+  //       console.log(error);
+  //       setBg(
+  //         "https://res.cloudinary.com/dnir0cslk/image/upload/v1706148980/petrobg_eg3spo.jpg"
+  //       );
+  //     }
+  //   }
+  // };
 
-  useEffect(() => {
-    getBg();
-  }, []);
+  // useEffect(() => {
+  //   getBg();
+  // }, []);
 
   return (
     <div className="petrodata">

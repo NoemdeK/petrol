@@ -35,13 +35,9 @@ import useLoading from "@/lib/useLoading";
 import axios from "axios";
 
 const formSchema = z.object({
-  email: z
-    .string()
-    .email()
-    .min(2, {
-      message: "Email must be at least 2 characters.",
-    })
-    .trim(),
+  email: z.string().email().min(2, {
+    message: "Email must be at least 2 characters.",
+  }),
   password: z.string(),
 });
 
