@@ -54,7 +54,7 @@ const Footer = () => {
                   <PhoneCall size={18} />
                 </div>
                 <div>
-                  <p className="text-xs md:text-sm">+1 909-869-2797</p>
+                  <p className="text-xs md:text-sm">+1 404-980-9392</p>
                 </div>
               </div>
             </div>
