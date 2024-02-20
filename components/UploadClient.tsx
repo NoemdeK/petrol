@@ -36,10 +36,10 @@ import useLoading from "@/lib/useLoading";
 import { useState } from "react";
 
 const productsSchema = z.object({
-  PMS: z.string(),
-  DPK: z.string(),
-  LPG: z.string(),
-  AGO: z.string(),
+  PMS: z.string().optional(),
+  DPK: z.string().optional(),
+  LPG: z.string().optional(),
+  AGO: z.string().optional(),
 });
 
 export const formSchema = z.object({
