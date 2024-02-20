@@ -79,6 +79,8 @@
 //   );
 // }
 
+"use client";
+
 import React from "react";
 import styled from "styled-components";
 import Image from "next/image";
@@ -88,7 +90,7 @@ import hawiti from "@/assets/hawiti.svg";
 import applied from "@/assets/applied.svg";
 import flutterwave from "@/assets/flutterwave.svg";
 // import madison from "@/assets/Madisonpark-L/ogo-2-reviewed-2v 1.svg";
-import gacn from "@/assets/logo3.ea68878976beba677b68cf7c4c316514 1.svg";
+// import gacn from "@/assets/logo3.ea68878976beba677b68cf7c4c316514 1.svg";
 import keramide from "@/assets/KERAMIDA-logo 1.svg";
 
 export const ScrollPartners = () => {
@@ -112,13 +114,7 @@ export const ScrollPartners = () => {
                 height={68}
                 className="object-contain"
               />
-              <Image
-                src={gacn}
-                alt=""
-                width={150}
-                height={68}
-                className="object-contain"
-              />
+
               <Image
                 src={keramide}
                 alt=""
@@ -163,13 +159,7 @@ export const ScrollPartners = () => {
                 height={68}
                 className="object-contain"
               />
-              <Image
-                src={gacn}
-                alt=""
-                width={150}
-                height={68}
-                className="object-contain"
-              />
+
               <Image
                 src={keramide}
                 alt=""
@@ -214,13 +204,7 @@ export const ScrollPartners = () => {
                 height={68}
                 className="object-contain"
               />
-              <Image
-                src={gacn}
-                alt=""
-                width={150}
-                height={68}
-                className="object-contain"
-              />
+
               <Image
                 src={keramide}
                 alt=""
@@ -286,7 +270,7 @@ const Wrapper = styled.div`
       overflow-x: hidden;
 
       .exts {
-        width: 440%;
+        width: 330%;
         display: flex;
         align-items: center;
         gap: 8rem;
