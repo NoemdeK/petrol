@@ -78,7 +78,7 @@ export function AccordionDemo() {
           <AccordionContent>
             <div>
               <a
-                href="https://recordsclient.vercel.app/auth/login"
+                href="https://diligence-records.vercel.app/auth/login"
                 target="_blank"
                 className="flex items-center gap-2 hover:underline font-medium"
               >
