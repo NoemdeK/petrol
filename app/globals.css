@@ -56,25 +56,12 @@ body {
   overflow: hidden;
   padding: 0;
   margin: 0;
+  scroll-behavior: smooth;
 }
 
 body {
   /* height: 80vh; */
   overflow-y: scroll;
-}
-
-.scroll ::-webkit-scrollbar {
-  -webkit-appearance: none;
-  width: 2.5px;
-  background-color: #ff0000;
-  /* @apply bg-secondary; */
-}
-
-.scroll ::-webkit-scrollbar-thumb {
-  border-radius: 7px;
-  /* background-color: #bdbaba */
-  background-color: #ff0000;
-  /* @apply bg-secondary; */
 }
 
 .tremor-Legend-legendItem,
@@ -92,21 +79,6 @@ body {
     @apply bg-background text-foreground;
     font-family: "General Sans", sans-serif;
     height: 100%;
-  }
-}
-
-@layer utilities {
-  @variants responsive {
-    /* Hide scrollbar for Chrome, Safari, and Opera */
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-
-    /* Hide scrollbar for IE, Edge, and Firefox */
-    .no-scrollbar {
-      -ms-overflow-style: none; /* IE and Edge */
-      scrollbar-width: none; /* Firefox */
-    }
   }
 }
 

@@ -91,8 +91,6 @@ const ExportRawData = () => {
     setEndDate(selectedEndDate);
   };
 
-  console.log(startDate, endDate);
-
   async function onSubmit(e: any) {
     e.preventDefault();
     setLoading(true);
@@ -142,7 +140,6 @@ const ExportRawData = () => {
     }
   }
 
-  console.log(filterData);
   return (
     <>
       <AnimatePresence>
