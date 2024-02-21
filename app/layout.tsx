@@ -11,6 +11,7 @@ import { ThemeProvider } from "./providers/theme-provider";
 import LoadingModal from "@/components/LoadingModal";
 import { DocumentView } from "@/components/DocumentView";
 import EditFieldData from "@/components/EditFieldData";
+import ExportRawData from "@/components/ExportRawData";
 
 export const metadata: Metadata = {
   title: "Petro Data: A Diophalytics Application",
@@ -30,6 +31,7 @@ export default async function RootLayout({
             <LoadingModal />
             <DocumentView />
             <EditFieldData />
+            <ExportRawData />
             <Toaster />
             {children}
           </body>

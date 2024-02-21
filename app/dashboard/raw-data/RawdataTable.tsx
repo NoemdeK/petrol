@@ -44,6 +44,7 @@ import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import usePaginationStore from "@/lib/usePage";
 import { useSession } from "next-auth/react";
+import useExportButton from "@/lib/useExportButton";
 
 // const data: Payment[] = [
 //   {
@@ -292,45 +293,43 @@ export function RawDataTable({ data, page }: any) {
       rowSelection,
     },
   });
+  const { onExportRawDataOpen } = useExportButton();
 
-  const handleFetchClick = async () => {
-    try {
-      const myHeaders = new Headers();
-      myHeaders.append("Authorization", `Bearer ${token}`);
-
-      const requestOptions: any = {
-        method: "POST",
-        headers: myHeaders,
-        redirect: "follow",
-      };
-
-      const response = await fetch(
-        `https://petrodata.zainnovations.com/api/v1/petro-data/export`,
-        requestOptions
-      );
-      const result = await response.json();
-      console.log(result);
-
-      if (result.status && result.data.url) {
-        // Create a temporary link to download the file
-        const downloadLink = document.createElement("a");
-        downloadLink.href = result.data.url;
-        downloadLink.target = "_blank";
-        downloadLink.download = `downloaded_file_export_petrodata.csv`;
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-        document.body.removeChild(downloadLink);
-
-        toast({
-          title: "Success",
-          description: "File downloaded successfully",
-        });
-      } else {
-        console.error("Failed to retrieve file URL");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
+  const handleFetchClick = () => {
+    onExportRawDataOpen();
+    // try {
+    //   const myHeaders = new Headers();
+    //   myHeaders.append("Authorization", `Bearer ${token}`);
+    //   const requestOptions: any = {
+    //     method: "POST",
+    //     headers: myHeaders,
+    //     redirect: "follow",
+    //   };
+    //   const response = await fetch(
+    //     `https://petrodata.zainnovations.com/api/v1/petro-data/export`,
+    //     requestOptions
+    //   );
+    //   const result = await response.json();
+    //   console.log(result);
+    //   if (result.status && result.data.url) {
+    //     // Create a temporary link to download the file
+    //     const downloadLink = document.createElement("a");
+    //     downloadLink.href = result.data.url;
+    //     downloadLink.target = "_blank";
+    //     downloadLink.download = `downloaded_file_export_petrodata.csv`;
+    //     document.body.appendChild(downloadLink);
+    //     downloadLink.click();
+    //     document.body.removeChild(downloadLink);
+    //     toast({
+    //       title: "Success",
+    //       description: "File downloaded successfully",
+    //     });
+    //   } else {
+    //     console.error("Failed to retrieve file URL");
+    //   }
+    // } catch (error) {
+    //   console.error("Error:", error);
+    // }
   };
 
   return (
@@ -338,7 +337,7 @@ export function RawDataTable({ data, page }: any) {
       <div className="flex items-center  justify-between">
         <div></div>
         <Button
-          className="text-green-600 font-bold bg-transparent"
+          className="bg-black text-white font-bold mb-3"
           onClick={handleFetchClick}
         >
           Export
