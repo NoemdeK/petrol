@@ -295,50 +295,62 @@ export function RawDataTable({ data, page }: any) {
   });
   const { onExportRawDataOpen } = useExportButton();
 
-  const handleFetchClick = () => {
-    onExportRawDataOpen();
-    // try {
-    //   const myHeaders = new Headers();
-    //   myHeaders.append("Authorization", `Bearer ${token}`);
-    //   const requestOptions: any = {
-    //     method: "POST",
-    //     headers: myHeaders,
-    //     redirect: "follow",
-    //   };
-    //   const response = await fetch(
-    //     `https://petrodata.zainnovations.com/api/v1/petro-data/export`,
-    //     requestOptions
-    //   );
-    //   const result = await response.json();
-    //   console.log(result);
-    //   if (result.status && result.data.url) {
-    //     // Create a temporary link to download the file
-    //     const downloadLink = document.createElement("a");
-    //     downloadLink.href = result.data.url;
-    //     downloadLink.target = "_blank";
-    //     downloadLink.download = `downloaded_file_export_petrodata.csv`;
-    //     document.body.appendChild(downloadLink);
-    //     downloadLink.click();
-    //     document.body.removeChild(downloadLink);
-    //     toast({
-    //       title: "Success",
-    //       description: "File downloaded successfully",
-    //     });
-    //   } else {
-    //     console.error("Failed to retrieve file URL");
-    //   }
-    // } catch (error) {
-    //   console.error("Error:", error);
-    // }
-  };
+  // const handleFetchClick = async (flag: string, token: any) => {
+  //   try {
+  //     const myHeaders = new Headers();
+  //     myHeaders.append("Authorization", `Bearer ${token}`);
 
+  //     const requestOptions: any = {
+  //       method: "POST",
+  //       headers: myHeaders,
+  //       redirect: "follow",
+  //     };
+
+  //     const response = await fetch(
+  //       `https://petrodata.zainnovations.com/api/v1/petro-data/raw/actions?flag=${flag}&weekStartDate=${action.weekStartDate}&weekEndDate=${action.weekEndDate}`,
+  //       requestOptions
+  //     );
+  //     const result = await response.json();
+  //     console.log(result);
+
+  //     if (result.status && result.data.url) {
+  //       // Create a temporary link to download the file
+  //       const downloadLink = document.createElement("a");
+  //       downloadLink.href = result.data.url;
+  //       downloadLink.target = "_blank";
+  //       downloadLink.download = `downloaded_file_${flag}.${flag}`;
+  //       document.body.appendChild(downloadLink);
+  //       downloadLink.click();
+  //       document.body.removeChild(downloadLink);
+
+  //       toast({
+  //         title: "Success",
+  //         description: "File downloaded successfully",
+  //       });
+  //     } else {
+  //       console.error("Failed to retrieve file URL");
+  //     }
+  //     if (response?.status === 403) {
+  //       toast({
+  //         title: "An error has occured",
+  //         description: `${result?.message || "Cannot fetch data"}`,
+  //         variant: "destructive",
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // };
+  const handleExportAll = () => {
+    onExportRawDataOpen();
+  };
   return (
     <div className="w-full my-4">
       <div className="flex items-center  justify-between">
         <div></div>
         <Button
           className="bg-black text-white font-bold mb-3"
-          onClick={handleFetchClick}
+          onClick={handleExportAll}
         >
           Export
         </Button>

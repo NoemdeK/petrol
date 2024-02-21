@@ -19,6 +19,15 @@ module.exports = {
     boxShadow: {
       "box-shadow": "0 4px 30px rgba(0, 0, 0, 0.1)",
     },
+    keyframes: {
+      marquee: {
+        from: { transform: "translateX(0)" },
+        to: { transform: "translateX(-100%)" },
+      },
+    },
+    animation: {
+      marquee: "60s marquee linear infinite",
+    },
     extend: {
       colors: {
         tremor: {
