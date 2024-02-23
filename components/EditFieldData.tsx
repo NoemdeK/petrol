@@ -353,7 +353,7 @@ const EditFieldData = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 1, x: 420 }}
               transition={{ duration: 0.3 }}
-              className="bg-accent w-screen  md:w-[400px] md:min-w-[400px] md:rounded-l-[0.7rem] overflow-hidden"
+              className="bg-accent w-screen  md:w-[400px] md:min-w-[400px] md:rounded-l-[0.7rem] overflow-hidden max-h-screen overflow-y-scroll"
             >
               <div className="bg-accent p-[1rem] flex justify-between items-center border-b-[#0000001f] border h-[60px]">
                 <p className="text-sm font-medium text-[0.8rem]">Edit Data</p>
@@ -372,7 +372,7 @@ const EditFieldData = () => {
                   />
                 </span>
               </div>
-              <div className="p-[1rem] max-h-[calc(100vh-120px)] overflow-y-scroll border">
+              <div className="p-[1rem] max-h-[calc(100vh-120px)] overflow-y-scroll">
                 <Form {...form}>
                   <form
                     onSubmit={form.handleSubmit(onSubmit)}
