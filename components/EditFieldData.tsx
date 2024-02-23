@@ -353,7 +353,7 @@ const EditFieldData = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 1, x: 420 }}
               transition={{ duration: 0.3 }}
-              className="bg-accent w-screen  md:w-[400px] md:min-w-[400px] rounded-l-[0.7rem] overflow-hidden"
+              className="bg-accent w-screen  md:w-[400px] md:min-w-[400px] md:rounded-l-[0.7rem] overflow-hidden"
             >
               <div className="bg-accent p-[1rem] flex justify-between items-center border-b-[#0000001f] border h-[60px]">
                 <p className="text-sm font-medium text-[0.8rem]">Edit Data</p>
@@ -372,7 +372,7 @@ const EditFieldData = () => {
                   />
                 </span>
               </div>
-              <div className="p-[1rem] max-h-[calc(100vh-60px)] overflow-y-scroll border">
+              <div className="p-[1rem] max-h-[calc(100vh-120px)] overflow-y-scroll border">
                 <Form {...form}>
                   <form
                     onSubmit={form.handleSubmit(onSubmit)}
@@ -619,39 +619,40 @@ const EditFieldData = () => {
                         </div>
                       )}
                     </div>
-                    <div className="w-full flex items-center gap-6">
-                      <p
-                        className="bg-accent border border-[#0000001f] rounded-[5px] px-[0.9rem] py-[0.4rem] font-normal cursor-pointer text-[0.85rem]"
-                        onClick={() => {
-                          onEditFieldDataClose();
-                          form.reset();
-                        }}
-                      >
-                        Cancel
-                      </p>
-                      <button
-                        className="bg-[#000] text-white border border-[#0000001f] rounded-[5px] w-full px-[0.6rem] py-[0.4rem] font-normal cursor-pointer text-[0.85rem] flex justify-center items-center"
-                        type="submit"
-                        disabled={isLoading}
-                      >
-                        {updateLoading ? (
-                          <TailSpin
-                            visible={true}
-                            height="20"
-                            width="20"
-                            color="#fff"
-                            ariaLabel="tail-spin-loading"
-                            radius="1"
-                            wrapperStyle={{}}
-                            wrapperClass=""
-                          />
-                        ) : (
-                          "Submit"
-                        )}
-                      </button>
-                    </div>
                   </form>
                 </Form>
+              </div>
+              <div className="w-full flex items-center gap-6 p-[1rem]">
+                <p
+                  className="bg-accent border border-[#0000001f] rounded-[5px] px-[0.9rem] py-[0.4rem] font-normal cursor-pointer text-[0.85rem]"
+                  onClick={() => {
+                    onEditFieldDataClose();
+                    form.reset();
+                  }}
+                >
+                  Cancel
+                </p>
+                <button
+                  className="bg-[#000] text-white border border-[#0000001f] rounded-[5px] w-full px-[0.6rem] py-[0.4rem] font-normal cursor-pointer text-[0.85rem] flex justify-center items-center"
+                  type="submit"
+                  disabled={isLoading}
+                  onClick={form.handleSubmit(onSubmit)}
+                >
+                  {updateLoading ? (
+                    <TailSpin
+                      visible={true}
+                      height="20"
+                      width="20"
+                      color="#fff"
+                      ariaLabel="tail-spin-loading"
+                      radius="1"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                    />
+                  ) : (
+                    "Submit"
+                  )}
+                </button>
               </div>
             </motion.div>
           </div>
