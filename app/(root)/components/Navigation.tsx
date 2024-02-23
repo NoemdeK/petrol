@@ -7,10 +7,6 @@ import React, { useEffect, useState } from "react";
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
 
-  // window.onscroll = () => {
-  //   console.log(window.scrollY);
-  // };
-  console.log(window);
   console.log(scrolled);
   const changeBackground = () => {
     if (window.scrollY > 100) {
