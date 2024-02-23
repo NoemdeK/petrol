@@ -68,6 +68,7 @@ export default function NavigationBar() {
             <ul className="grid gap-3 p-2 w-36">
               {components.map((component) => (
                 <ListItem
+                  className="text-[0.8rem]"
                   key={component.title}
                   title={component.title}
                   href={component.href}

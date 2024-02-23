@@ -53,7 +53,7 @@ export function AccordionDemo() {
           <AccordionTrigger>
             <div className="flex gap-4 flex-col">
               <a
-                href="https://recordsclient.vercel.app/auth/login"
+                href="https://diligence-records.vercel.app/auth/login"
                 target="_blank"
                 className="w-32"
               >

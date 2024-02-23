@@ -7,6 +7,11 @@ import React, { useEffect, useState } from "react";
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
 
+  // window.onscroll = () => {
+  //   console.log(window.scrollY);
+  // };
+  console.log(window);
+  console.log(scrolled);
   const changeBackground = () => {
     if (window.scrollY > 100) {
       setScrolled(true);
@@ -23,7 +28,9 @@ const Navigation = () => {
 
   return (
     <div
-      className={cn(`w-screen fixed top-0 left-0 z-20 bg-white px-0 md:px-4`)}
+      className={cn(
+        `w-screen fixed top-0 left-0 z-[22] bg-[#ffffff] px-0 md:px-4`
+      )}
     >
       <div className="max-w-7xl mx-auto  items-center justify-between flex px-4 md:px-0 ">
         <Link href="/">
