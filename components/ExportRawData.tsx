@@ -170,16 +170,11 @@ const ExportRawData = () => {
                   />
                 </span>
               </div>
-              <p className="p-[1rem] text-[#666666] text-[0.7rem]">
-                Lorem ipsum dolor sit amet consectetur. Tincidunt at consectetur
-                at mauris. Est tincidunt neque auctor accumsan bibendum nisl
-                eget egestas. Sagittis id lacus morbi eu viverra rutrum quis
-                tortor. Non auctor ornare molestie tellus velit aliquet amet
-                laoreet iaculis. Elit turpis cursus quis imperdiet tellus eget
-                sed volutpat sociis. Aliquam quis vitae imperdiet orci proin
-                viverra curabitur. Vulputate magna nullam cras blandit vitae
-                feugiat consectetur sed integer. Elementum in egestas dignissim
-                turpis pharetra tortor. Curabitur ultricies nibh donec tempus{" "}
+              <p className="p-[1rem] text-[0.7rem]">
+                Data Download Limitation: You can download up to two months'
+                worth of data per month using the button below. If you require
+                more data bandwidth, please contact support for assistance.
+                Thank you for your understanding.
               </p>
 
               <div className="p-[1rem]">
@@ -214,9 +209,7 @@ const ExportRawData = () => {
                                 }
                               }}
                             />
-                            <p className="text-[0.9rem] text-[#212121]">
-                              {product.name}
-                            </p>
+                            <p className="text-[0.9rem]">{product.name}</p>
                           </div>
                         );
                       }
