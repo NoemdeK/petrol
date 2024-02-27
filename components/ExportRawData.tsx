@@ -171,7 +171,7 @@ const ExportRawData = () => {
                 </span>
               </div>
               <p className="p-[1rem] text-[0.7rem]">
-                Data Download Limitation: You can download up to two months'
+                Data Download Limitation: You can download up to two months
                 worth of data per month using the button below. If you require
                 more data bandwidth, please contact support for assistance.
                 Thank you for your understanding.
