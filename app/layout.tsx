@@ -14,8 +14,9 @@ import EditFieldData from "@/components/EditFieldData";
 import ExportRawData from "@/components/ExportRawData";
 
 export const metadata: Metadata = {
-  title: "Petro Data: A Diophalytics Application",
-  description: "Solving the data",
+  title: "diophalytics",
+  description:
+    "Solving the hardest data collection and verification challenges",
 };
 
 export default async function RootLayout({
