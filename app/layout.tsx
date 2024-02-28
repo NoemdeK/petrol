@@ -14,7 +14,7 @@ import EditFieldData from "@/components/EditFieldData";
 import ExportRawData from "@/components/ExportRawData";
 
 export const metadata: Metadata = {
-  title: "diophalytics",
+  title: "Diophalytics",
   description:
     "Solving the hardest data collection and verification challenges",
 };

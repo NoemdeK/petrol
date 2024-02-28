@@ -117,7 +117,7 @@ const ClientComponent = ({ data }: any) => {
     <Tabs defaultValue="account" className="w-[700px]">
       <TabsList className="grid w-full grid-cols-2 mt-4">
         <TabsTrigger value="account">Profile</TabsTrigger>
-        {session?.user.role === "rwx_user" || (
+        {session?.user.role === "rwx_user" && (
           <TabsTrigger value="password">Notification</TabsTrigger>
         )}
       </TabsList>
@@ -231,9 +231,15 @@ const ClientComponent = ({ data }: any) => {
         <Card>
           <CardHeader>
             <CardTitle>Notifications</CardTitle>
-            <CardDescription>
-              Configure how you receive notifications.
-            </CardDescription>
+            {session?.user.role === "rwx_user" ? (
+              <CardDescription>
+                Configure how often you receive email notifications.
+              </CardDescription>
+            ) : (
+              <CardDescription>
+                Configure how you receive notifications.
+              </CardDescription>
+            )}
           </CardHeader>
           <CardContent>
             <NotificationsForm />

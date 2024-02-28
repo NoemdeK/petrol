@@ -15,6 +15,8 @@ import {
   Users,
   VideoIcon,
 } from "lucide-react";
+import { FileSearch2 } from "lucide-react";
+
 import { usePathname, useRouter } from "next/navigation";
 
 import { cn } from "@/lib/utils";
@@ -180,6 +182,18 @@ export const Sidebar = ({ session }: any) => {
                   Analytics
                 </div>
               </Link>
+              {/* <Link
+                href={"/dashboard/reports"}
+                className={cn(
+                  "text-[0.8rem] group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition"
+                )}
+                onClick={onClose}
+              >
+                <div className="flex items-center flex-1">
+                  <FileSearch2 className={cn("h-5 w-5 mr-3")} />
+                  Research & Reports
+                </div>
+              </Link> */}
 
               {session !== "rwx_user" ? (
                 <AccordionDemo session={session} />
