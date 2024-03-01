@@ -17,7 +17,7 @@ import CreateInvoice from "@/components/CreateInvoice";
 export const metadata: Metadata = {
   title: "Diophalytics",
   description:
-    "Solving the hardest data collection and verification challenges",
+    "Solving the hardest data collection and verification challenges. Revolutionizes decision-making through the seamless integration and analysis of data",
 };
 
 export default async function RootLayout({
