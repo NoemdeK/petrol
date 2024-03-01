@@ -80,8 +80,8 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
       <div className="h-full relative mx-2 my-4 md:m-4">
         <Navbar
           data={me?.data}
-          length={notify.data.result.length}
-          notification={notify.data.result}
+          length={notify?.data.result.length}
+          notification={notify?.data.result}
         />
         <div className="flex gap-4 w-full">
           <div className="hidden md:flex h-full md:h-[85vh]  md:w-60 md:flex-col  md:fidxed md:inset-y-0 z-80">

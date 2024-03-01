@@ -182,8 +182,8 @@ export const Sidebar = ({ session }: any) => {
                   Analytics
                 </div>
               </Link>
-              {/* <Link
-                href={"/dashboard/reports"}
+              <Link
+                href={"/dashboard/reports/report"}
                 className={cn(
                   "text-[0.8rem] group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition"
                 )}
@@ -193,7 +193,7 @@ export const Sidebar = ({ session }: any) => {
                   <FileSearch2 className={cn("h-5 w-5 mr-3")} />
                   Research & Reports
                 </div>
-              </Link> */}
+              </Link>
 
               {session !== "rwx_user" ? (
                 <AccordionDemo session={session} />

@@ -1,10 +1,10 @@
 import React from "react";
-import Home from "./Home";
+import AddReport from "./AddReport";
 
 const page = () => {
   return (
     <div>
-      <Home />
+      <AddReport />
     </div>
   );
 };

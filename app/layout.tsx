@@ -12,6 +12,7 @@ import LoadingModal from "@/components/LoadingModal";
 import { DocumentView } from "@/components/DocumentView";
 import EditFieldData from "@/components/EditFieldData";
 import ExportRawData from "@/components/ExportRawData";
+import CreateInvoice from "@/components/CreateInvoice";
 
 export const metadata: Metadata = {
   title: "Diophalytics",
@@ -33,6 +34,7 @@ export default async function RootLayout({
             <DocumentView />
             <EditFieldData />
             <ExportRawData />
+            <CreateInvoice />
             <Toaster />
             {children}
           </body>

@@ -159,19 +159,19 @@ const ClientComponent = ({ data }: any) => {
   const data_entry = [
     {
       role: "User ID",
-      name: data.pdfaid,
+      name: data?.pdfaid,
     },
     {
       role: "First Name",
-      name: data.firstName,
+      name: data?.firstName,
     },
     {
       role: "Last Name",
-      name: data.lastName,
+      name: data?.lastName,
     },
     {
       role: "Email Address",
-      name: data.email,
+      name: data?.email,
     },
     {
       role: "Role",
@@ -201,7 +201,7 @@ const ClientComponent = ({ data }: any) => {
             <div className="w-32 mt-12">
               <AspectRatio ratio={1 / 1} className="bg-muted">
                 <img
-                  src={data.avatar}
+                  src={data?.avatar}
                   alt="Photo by Drew Beamer"
                   // fill
                   className="rounded-full w-28 aspect-square object-cover"

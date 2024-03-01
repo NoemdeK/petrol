@@ -6,7 +6,11 @@ interface DocumentProps {
   data?: any;
   onDelete?: any;
 }
-const Document: React.FC<DocumentProps> = ({ index, data, onDelete }) => {
+const UploadedDocument: React.FC<DocumentProps> = ({
+  index,
+  data,
+  onDelete,
+}) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -25,7 +29,7 @@ const Document: React.FC<DocumentProps> = ({ index, data, onDelete }) => {
         <Archive color="#ffffff" size={16} />
       </span>
       <img
-        src={URL.createObjectURL(data)}
+        src={data}
         alt="Uploaded File"
         className="w-full h-full aspect-square object-contain"
       />
@@ -33,4 +37,4 @@ const Document: React.FC<DocumentProps> = ({ index, data, onDelete }) => {
   );
 };
 
-export default Document;
+export default UploadedDocument;

@@ -6,6 +6,7 @@ const nextConfig = {
       "i.insider.com",
       "cdn.sanity.io",
       "png.pngtree.com",
+      "erp-noemdek.sfo3.digitaloceanspaces.com",
     ],
   },
 };

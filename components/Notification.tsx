@@ -30,7 +30,8 @@ const notificationsFormSchema = z.object({
 });
 
 const userNotifsSchema = z.object({
-  notificationFrequency: z.string(),
+  dailyOption: z.string(),
+  weeklyOption: z.string(),
 });
 
 type NotificationsFormValues = z.infer<typeof notificationsFormSchema>;
@@ -49,17 +50,21 @@ export function NotificationsForm({ data }: any) {
   const freqForm = useForm<UserNotifFormValues>({
     resolver: zodResolver(userNotifsSchema),
     defaultValues: {
-      notificationFrequency: data?.notificationFrequency,
+      weeklyOption: "",
+      dailyOption: "",
     },
   });
 
   const [isWeeklyChecked, setWeeklyChecked] = useState<boolean>(true);
   const [isDailyChecked, setDailyChecked] = useState<boolean>(false);
 
+  const [notificationOption, setNotificationOption] = useState<string>("");
+
   const handleWeeklyChange = (isChecked: any) => {
     setWeeklyChecked(isChecked);
     if (isChecked) {
       setDailyChecked(false); // Uncheck and disable daily if weekly is checked
+      setNotificationOption("weekly");
     }
   };
 
@@ -67,6 +72,7 @@ export function NotificationsForm({ data }: any) {
     setDailyChecked(isChecked);
     if (isChecked) {
       setWeeklyChecked(false); // Uncheck and disable weekly if daily is checked
+      setNotificationOption("daily");
     }
   };
 
@@ -111,12 +117,47 @@ export function NotificationsForm({ data }: any) {
       });
   };
 
+  const onSubmitNotifOption = async (values: UserNotifFormValues) => {
+    loading.onOpen();
+    console.log(values, notificationOption);
+    const headers = {
+      Authorization: `Bearer ${session.data?.user.accessToken}`, // Replace YOUR_ACCESS_TOKEN with the actual token
+      // Other headers if needed
+    };
+    await PlainTransportDekApi.patch(
+      `/user/settings?flag=notifications`,
+      {
+        notificationOption: notificationOption,
+      },
+      { headers }
+    )
+      .then((res) => {
+        console.log(res);
+        toast({
+          title: "Notifications Option Updated",
+          description: "You have successfully updated notifications option",
+        });
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        toast({
+          variant: "destructive",
+          description: `Error occured`,
+        });
+      })
+      .finally(() => {
+        loading.onClose();
+      })
+      .finally(() => {
+        loading.onClose();
+      });
+  };
   return (
     <>
       {session?.data?.user.role === "rwx_user" ? (
         <Form {...freqForm}>
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={freqForm.handleSubmit(onSubmitNotifOption)}
             className="space-y-4 py-2"
           >
             <div className="space-y-0.5 flex justify-between items-center p-4 rounded-lg border">
@@ -125,6 +166,8 @@ export function NotificationsForm({ data }: any) {
                 checked={isWeeklyChecked}
                 onCheckedChange={handleWeeklyChange}
                 disabled={isDailyChecked}
+                name="weeklyOption"
+                value="weekly"
               />
             </div>
             <div className="space-y-0.5 flex justify-between items-center p-4 rounded-lg border">
@@ -133,7 +176,12 @@ export function NotificationsForm({ data }: any) {
                 checked={isDailyChecked}
                 onCheckedChange={(isChecked) => handleDailyChange(isChecked)}
                 disabled={isWeeklyChecked}
+                name="dailyOption"
+                value="daily"
               />
+            </div>
+            <div className="flex justify-end">
+              <Button type="submit">Save</Button>
             </div>
           </form>
         </Form>

@@ -11,6 +11,7 @@ export const EditUploadFile = ({
   name,
   onUpload,
   existingFiles,
+  acceptMultipleFiles = true,
 }: any) => {
   const { updateSupportDocs } = useEditFieldData();
   const [uploadedData, setUploadedData] = useState<Array<any>>([]);
@@ -65,7 +66,7 @@ export const EditUploadFile = ({
                   </div>
                   <input
                     {...getInputProps()}
-                    multiple
+                    multiple={acceptMultipleFiles}
                     name={name}
                     onBlur={field.onBlur}
                   />

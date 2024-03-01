@@ -7,8 +7,6 @@ import React from "react";
 import Document from "./Document";
 
 export const UploadFileInput = ({ form, name, onUpload }: any) => {
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
     <Controller
       control={form.control}

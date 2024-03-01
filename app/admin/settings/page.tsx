@@ -22,7 +22,7 @@ const Page = async () => {
   const user = await getServerSession(authOptions);
   const me = await getMe(`${user?.user.accessToken}`);
 
-  return <ClientComponent data={me.data} />;
+  return <ClientComponent data={me?.data} />;
 };
 
 export default Page;

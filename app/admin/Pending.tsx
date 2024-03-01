@@ -80,8 +80,7 @@ export const columns: ColumnDef<any>[] = [
     },
     cell: ({ row }) => {
       const batch = row.original;
-
-      const productNames = Object.keys(batch?.products);
+      const productNames = batch?.products ? Object.keys(batch?.products) : [];
 
       return (
         <div className="text-xs ">
@@ -99,7 +98,10 @@ export const columns: ColumnDef<any>[] = [
     },
     cell: ({ row }) => {
       const batch = row.original;
-      const numericalValues = Object.values(batch.products).map(Number);
+      console.log(batch);
+      const numericalValues = batch?.products
+        ? Object.values(batch.products).map(Number)
+        : [];
 
       return (
         <div className="capitalize text-xs text-right">
