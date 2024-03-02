@@ -52,7 +52,7 @@ const MostRead = () => {
           {Array(3)
             .fill(0)
             .map((_, i) => (
-              <SkeletonContainer width="100%" height="100px" />
+              <SkeletonContainer key={i} width="100%" height="100px" />
             ))}
         </div>
       ) : (

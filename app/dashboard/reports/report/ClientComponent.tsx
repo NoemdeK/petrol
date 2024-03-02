@@ -95,7 +95,7 @@ const ClientComponent = () => {
           {Array(3)
             .fill(0)
             .map((_, i) => (
-              <SkeletonContainer width="100%" height="130px" />
+              <SkeletonContainer key={i} width="100%" height="130px" />
             ))}
         </div>
       ) : (
