@@ -150,7 +150,7 @@ const ClientComponent = () => {
         <div className="flex flex-col gap-4 mt-4">
           {reports?.length > 0 ? (
             reports?.map((report: any, i: number) => (
-              <Report recent={false} report={report} />
+              <Report recent={false} report={report} key={i} />
             ))
           ) : (
             <div className="justify-center flex mt-8">
