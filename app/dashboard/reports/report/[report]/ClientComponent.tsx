@@ -10,13 +10,19 @@ import { toast } from "@/components/ui/use-toast";
 import { useParams } from "next/navigation";
 import { parseISO, format } from "date-fns";
 import SkeletonContainer from "@/components/ui/skeleton";
+import MostRead from "../../MostRead";
+import { useRouter } from "next/navigation";
+import { DeleteReportModal } from "@/components/DeleteReport";
+import useDeleteReport from "@/lib/useDeleteReport";
 
 const ClientComponent = () => {
   const { data: session } = useSession();
   const [report, setReport] = useState<any>();
   const [loading, setLoading] = useState(false);
   const { report: reportId } = useParams();
+  const router = useRouter();
 
+  const { isOpen, onOpen, onClose } = useDeleteReport();
   const token = session && session.user.accessToken;
 
   const fetchReport = async () => {
@@ -39,6 +45,8 @@ const ClientComponent = () => {
 
       if (response.status === 200) {
         setReport(data?.data);
+      } else if (response.status === 401) {
+        console.log("getting access");
       } else {
         toast({
           title: "An error has occured",
@@ -56,6 +64,49 @@ const ClientComponent = () => {
   useEffect(() => {
     fetchReport();
   }, [session]);
+
+  const handleDeleteReport = async () => {
+    const token = session && session.user.accessToken;
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}api/v1/research-report/delete?reportId=${reportId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          method: "DELETE",
+        }
+      );
+
+      const data = await response.json();
+      setLoading(false);
+      console.log(data);
+
+      if (response.status === 200) {
+        toast({
+          title: "Success",
+          description: `${data?.message || "Report deleted successfully"}`,
+          variant: "default",
+        });
+        router.push("/dashboard/reports/report");
+      } else {
+        toast({
+          title: "An error has occured",
+          description: `${data?.message || "Cannot fetch data"}`,
+          variant: "destructive",
+        });
+        console.log(data);
+      }
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+  const handleCancelDelete = () => {
+    onClose();
+  };
 
   console.log(report);
 
@@ -136,6 +187,28 @@ const ClientComponent = () => {
           <p className="mt-4 text-sm">{report ? report.reportBody : ""}</p>
         </div>
       )}
+
+      {session && session.user.role === "rwx_admin" && (
+        <div className="mt-3">
+          <button
+            onClick={() => {
+              onOpen();
+            }}
+            className="bg-red-500 text-white w-[130px] h-[40px] rounded"
+          >
+            Delete
+          </button>
+        </div>
+      )}
+
+      {isOpen && (
+        <DeleteReportModal
+          onSubmit={handleDeleteReport}
+          onCancel={handleCancelDelete}
+        />
+      )}
+
+      <div className="mt-5">{/* <MostRead /> */}</div>
     </div>
   );
 };

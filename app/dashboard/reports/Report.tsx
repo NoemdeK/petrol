@@ -6,18 +6,36 @@ import Image from "next/image";
 import edit from "@/assets/icons/edit.svg";
 import deleteIcon from "@/assets/icons/delete.svg";
 import { useSession } from "next-auth/react";
+import useDeleteReport from "@/lib/useDeleteReport";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface ReportProps {
   recent: boolean;
   report?: any;
 }
 const Report: React.FC<ReportProps> = ({ recent, report }) => {
+  const { onOpen, setId } = useDeleteReport();
   const { data: session } = useSession();
+  const router = useRouter();
+
+  const handleViewReport = (e: any) => {
+    e.stopPropagation();
+    router.push(`/dashboard/reports/report/${report?.reportId}`);
+  };
+
+  const handleDeleteReport = (e: any) => {
+    e.stopPropagation();
+    onOpen();
+    setId(report?.reportId);
+  }; //handleDeleteReport
   return (
     <div
       className={`border border-[#E0E0E0] flex ${
         recent ? "gap-1" : "gap-3"
-      } rounded-md`}
+      } rounded-md cursor-pointer hover:bg-[#eeeeee] transition-all duration-300`}
+      // href={`/dashboard/reports/report/${report?.reportId}`}
+      onClick={handleViewReport}
     >
       <div className={recent ? `flex-[0.6]` : `flex-[0.4]`}>
         <Image
@@ -31,7 +49,11 @@ const Report: React.FC<ReportProps> = ({ recent, report }) => {
         />
       </div>
 
-      <div className={`flex-1 ${recent ? "p-[0.7rem]" : "p-[0.5rem]"}`}>
+      <div
+        className={`flex-1 ${
+          recent ? "p-[0.7rem]" : "p-[0.5rem]"
+        } flex flex-col justify-center`}
+      >
         <div className="flex items-start gap-1 justify-between">
           <h3
             className={`font-medium ${
@@ -46,20 +68,24 @@ const Report: React.FC<ReportProps> = ({ recent, report }) => {
             <>
               {recent || (
                 <div className="flex gap-2">
-                  <Image
-                    src={edit}
-                    alt='"edit_icon'
-                    width={15}
-                    height={15}
-                    className="cursor-pointer"
-                  />
-                  <Image
-                    src={deleteIcon}
-                    alt='"delete_icon'
-                    width={15}
-                    height={15}
-                    className="cursor-pointer"
-                  />
+                  <div>
+                    <Image
+                      src={edit}
+                      alt='"edit_icon'
+                      width={15}
+                      height={15}
+                      className="cursor-pointer"
+                    />
+                  </div>
+                  <div onClick={handleDeleteReport}>
+                    <Image
+                      src={deleteIcon}
+                      alt='"delete_icon'
+                      width={15}
+                      height={15}
+                      className="cursor-pointer"
+                    />
+                  </div>
                 </div>
               )}
             </>
@@ -68,7 +94,7 @@ const Report: React.FC<ReportProps> = ({ recent, report }) => {
 
         {recent || (
           <p className="font-normal text-[0.7rem] mt-[0.6rem]">
-            {report ? report.reportBody : ""}
+            {report ? `${report.reportBody.substring(0, 90)}...` : ""}
           </p>
         )}
         <div

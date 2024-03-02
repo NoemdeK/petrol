@@ -4,9 +4,11 @@ import { Search } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import Report from "../Report";
 import Link from "next/link";
-
 import { useSession } from "next-auth/react";
 import SkeletonContainer from "@/components/ui/skeleton";
+import { DeleteReportModal } from "@/components/DeleteReport";
+import useDeleteReport from "@/lib/useDeleteReport";
+import { toast } from "@/components/ui/use-toast";
 
 const ClientComponent = () => {
   const { data: session } = useSession();
@@ -16,6 +18,7 @@ const ClientComponent = () => {
   const [search, setSearch] = useState("");
   const [debounced, setDebounced] = useState("");
   const [loading, setLoading] = useState(false);
+  const { isOpen, id, onClose, setId } = useDeleteReport();
 
   const fetchReports = async () => {
     const token = session && session.user.accessToken;
@@ -44,6 +47,51 @@ const ClientComponent = () => {
       console.log(error);
       setLoading(false);
     }
+  };
+
+  const handleDeleteReport = async () => {
+    const token = session && session.user.accessToken;
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}api/v1/research-report/delete?reportId=${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          method: "DELETE",
+        }
+      );
+
+      const data = await response.json();
+      setLoading(false);
+      console.log(data);
+
+      if (response.status === 200) {
+        toast({
+          title: "Success",
+          description: `${data?.message || "Report deleted successfully"}`,
+          variant: "default",
+        });
+        fetchReports();
+      } else {
+        toast({
+          title: "An error has occured",
+          description: `${data?.message || "Cannot fetch data"}`,
+          variant: "destructive",
+        });
+        console.log(data);
+      }
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setId("");
+    onClose();
   };
 
   useEffect(() => {
@@ -100,14 +148,9 @@ const ClientComponent = () => {
         </div>
       ) : (
         <div className="flex flex-col gap-4 mt-4">
-          {reports.length > 0 ? (
-            reports.map((report: any, i: number) => (
-              <Link
-                href={`/dashboard/reports/report/${report?.reportId}`}
-                key={i}
-              >
-                <Report recent={false} report={report} />
-              </Link>
+          {reports?.length > 0 ? (
+            reports?.map((report: any, i: number) => (
+              <Report recent={false} report={report} />
             ))
           ) : (
             <div className="justify-center flex mt-8">
@@ -117,6 +160,13 @@ const ClientComponent = () => {
             </div>
           )}
         </div>
+      )}
+
+      {isOpen && (
+        <DeleteReportModal
+          onSubmit={handleDeleteReport}
+          onCancel={handleCancelDelete}
+        />
       )}
     </div>
   );

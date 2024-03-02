@@ -54,6 +54,7 @@ export const formSchema = z.object({
 
 const statesInNigeria = [
   "Abia",
+  "Abuja",
   "Adamawa",
   "Akwa Ibom",
   "Anambra",
@@ -89,7 +90,6 @@ const statesInNigeria = [
   "Taraba",
   "Yobe",
   "Zamfara",
-  "Federal Capital Territory (FCT)",
 ];
 
 const fulling = [

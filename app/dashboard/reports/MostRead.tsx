@@ -57,8 +57,8 @@ const MostRead = () => {
         </div>
       ) : (
         <div className="flex flex-col gap-4 mt-4">
-          {reports.length > 0 ? (
-            reports.map((report: any, i: number) => (
+          {reports?.length > 0 ? (
+            reports?.map((report: any, i: number) => (
               <Link
                 href={`/dashboard/reports/report/${report?.reportId}`}
                 key={i}

@@ -140,6 +140,8 @@ export const Sidebar = ({ session }: any) => {
     setUserType(session);
   }, [session]);
 
+  const isUserOrAdmin = session === "rwx_user" || session === "rwx_admin";
+
   return (
     <div className="my-9 md:my-0 space-y-4 py-4 rounded-lg flex flex-col h-full bg-accent">
       <div className="px-3 py-2 flex-1">
@@ -182,18 +184,20 @@ export const Sidebar = ({ session }: any) => {
                   Analytics
                 </div>
               </Link>
-              <Link
-                href={"/dashboard/reports/report"}
-                className={cn(
-                  "text-[0.8rem] group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition"
-                )}
-                onClick={onClose}
-              >
-                <div className="flex items-center flex-1">
-                  <FileSearch2 className={cn("h-5 w-5 mr-3")} />
-                  Research & Reports
-                </div>
-              </Link>
+              {isUserOrAdmin && (
+                <Link
+                  href={"/dashboard/reports/report"}
+                  className={cn(
+                    "text-[0.8rem] group flex p-3 w-full justify-start font-medium cursor-pointer  hover:bg-white/50 rounded-lg transition"
+                  )}
+                  onClick={onClose}
+                >
+                  <div className="flex items-center flex-1">
+                    <FileSearch2 className={cn("h-5 w-5 mr-3")} />
+                    Research & Reports
+                  </div>
+                </Link>
+              )}
 
               {session !== "rwx_user" ? (
                 <AccordionDemo session={session} />

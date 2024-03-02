@@ -209,8 +209,8 @@ export function Batch({ data, setBatchData }: any) {
           title: "New Data Entry Added",
           description: "Done",
         });
-        router.refresh();
-        window.location.reload();
+        // router.refresh();
+        // window.location.reload();
       })
       .catch((error: any) => {
         console.error("Error:", error);

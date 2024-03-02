@@ -1,5 +1,4 @@
-
-import * as React from "react"
+import * as React from "react";
 
 import {
   ColumnDef,
@@ -12,12 +11,9 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
 
-
-
-
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 
 import {
   Table,
@@ -26,303 +22,229 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-
+} from "@/components/ui/table";
 
 import { useToast } from "@/components/ui/use-toast";
 
-
-
-
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/ui/input";
 import { format } from "date-fns";
 import useDocumentView from "@/lib/useDocumentView";
 
-import { PageContainer } from "@/components/PageContainer"
-
-
+import { PageContainer } from "@/components/PageContainer";
 
 export type Payment = {
-  id: string
-  amount: number
-  fname: string
-  lname: string
-  email: string
-  phoneNumber: number
-  clientAssignment: string
-  region: string,
-  position: string
-  tenure: string
-  age: number
-  salary: number
-  bonus: number
-  status: string
-}
+  id: string;
+  amount: number;
+  fname: string;
+  lname: string;
+  email: string;
+  phoneNumber: number;
+  clientAssignment: string;
+  region: string;
+  position: string;
+  tenure: string;
+  age: number;
+  salary: number;
+  bonus: number;
+  status: string;
+};
 
 export const columns: ColumnDef<any>[] = [
   {
     accessorKey: "fillingStation",
     header: ({}) => {
-        return (
-            <div className="flex gap-1 items-center">
-             Filling Station
-            </div>
-        )
+      return <div className="flex gap-1 items-center">Filling Station</div>;
     },
     cell: ({ row }) => {
-
       return (
         <div className="cursor-pointer flex gap-2 text-xs items-center">
           {row.getValue("fillingStation")}
         </div>
-      )
-    }, 
+      );
+    },
   },
   {
     accessorKey: "state",
     header: ({}) => {
-        return (
-            <div className="flex gap-2 items-center"> 
-             State
-            </div>
-        )
-    },    cell: ({ row }) => {
-          return (
-            <div className="text-xs">
-            {row.getValue("state")}
-            </div>
-            )
-        },
+      return <div className="flex gap-2 items-center">State</div>;
+    },
+    cell: ({ row }) => {
+      return <div className="text-xs">{row.getValue("state")}</div>;
+    },
   },
   {
     accessorKey: "region",
-    header: ({  }) => {
-      return (
-        <div className="gap-2 flex items-center">
-            Region
-        </div>
-      )
+    header: ({}) => {
+      return <div className="gap-2 flex items-center">Region</div>;
     },
-    cell: ({ row }) =>  {
-      return (
-        <div className="text-xs">
-          {row.getValue("region")}
-        </div>      )
-    }
+    cell: ({ row }) => {
+      return <div className="text-xs">{row.getValue("region")}</div>;
+    },
   },
   {
     accessorKey: "product",
-    header: ({  }) => {
-      return (
-        <div className="">
-            Product
-          
-        </div>
-      )
+    header: ({}) => {
+      return <div className="">Product</div>;
     },
     cell: ({ row }) => {
-      const batch = row.original
+      const batch = row.original;
+      console.log(batch);
 
-      const productNames = Object.keys(batch?.products);
-
+      const productNames = batch?.products ? Object.keys(batch?.products) : [];
 
       return (
         <div className="text-xs ">
-            {
-           productNames.map((item, i) => (
+          {productNames.map((item, i) => (
             <div key={i}>{item}</div>
-           )) 
-          }
+          ))}
         </div>
-      )
+      );
     },
   },
   {
     accessorKey: "price",
-    header: ({  }) => {
-      return (
-       <div className=" text-right">
-        Price
-         
-       </div>
-      )
+    header: ({}) => {
+      return <div className=" text-right">Price</div>;
     },
-    cell: ({ row }) =>  {
-      const batch = row.original
-      const numericalValues = Object.values(batch.products).map(Number);
+    cell: ({ row }) => {
+      const batch = row.original;
+      const numericalValues = batch?.products
+        ? Object.values(batch.products).map(Number)
+        : [];
 
       return (
         <div className="capitalize text-xs text-right">
-          {
-           numericalValues.map((item, i) => (
+          {numericalValues.map((item, i) => (
             <div key={i}>{Number(item).toLocaleString()}</div>
-           )) 
-          }
+          ))}
         </div>
-      )
-    }
+      );
+    },
   },
   {
     accessorKey: "supportingDocument",
-    header: ({  }) => {
-      return (
-       <div className="flex items-center gap-2">
-        Supporting Document
-         
-       </div>
-      )
+    header: ({}) => {
+      return <div className="flex items-center gap-2">Supporting Document</div>;
     },
-    cell: ({ row }) =>  {
-      const entry = row.original
+    cell: ({ row }) => {
+      const entry = row.original;
 
-      return (
-        <View entry={entry} />
-      )
-    }
+      return <View entry={entry} />;
+    },
   },
   {
     accessorKey: "dateSubmitted",
-    header: ({  }) => {
-      return (
-       <div className="flex items-center gap-2">
-            Date Submitted 
-         
-       </div>
-      )
+    header: ({}) => {
+      return <div className="flex items-center gap-2">Date Submitted</div>;
     },
-    cell: ({ row }) =>  {
+    cell: ({ row }) => {
       return (
         <div className="capitalize text-xs">
-            {row.getValue("dateSubmitted")}
+          {row.getValue("dateSubmitted")}
         </div>
-      )
-    }
+      );
+    },
   },
   {
     accessorKey: "submittedBy",
-    header: ({  }) => {
-      return (
-       <div className="flex items-center gap-2">
-        Submitted By
-         
-       </div>
-      )
+    header: ({}) => {
+      return <div className="flex items-center gap-2">Submitted By</div>;
     },
-    cell: ({ row }) =>  {
+    cell: ({ row }) => {
       return (
-        <div className="capitalize text-xs">
-            {row.getValue("submittedBy")}
-        </div>
-      )
-    }
+        <div className="capitalize text-xs">{row.getValue("submittedBy")}</div>
+      );
+    },
   },
   {
     accessorKey: "approvedBy",
-    header: ({  }) => {
-      return (
-       <div className="flex items-center gap-2">
-        Approved By
-         
-       </div>
-      )
+    header: ({}) => {
+      return <div className="flex items-center gap-2">Approved By</div>;
     },
-    cell: ({ row }) =>  {
+    cell: ({ row }) => {
       return (
-        <div className="capitalize text-xs">
-            {row.getValue("approvedBy")}
-        </div>
-      )
-    }
+        <div className="capitalize text-xs">{row.getValue("approvedBy")}</div>
+      );
+    },
   },
   {
     accessorKey: "dateApproved",
-    header: ({  }) => {
-      return (
-       <div className="flex items-center gap-2">
-            Date Approved 
-         
-       </div>
-      )
+    header: ({}) => {
+      return <div className="flex items-center gap-2">Date Approved</div>;
     },
-    cell: ({ row }) =>  {
+    cell: ({ row }) => {
       return (
-        <div className="capitalize text-xs">
-            {row.getValue("dateApproved")}
-        </div>
-      )
-    }
+        <div className="capitalize text-xs">{row.getValue("dateApproved")}</div>
+      );
+    },
   },
-]
+];
 
-
-const View = ({entry}: any) => {
-  const { onOpen, setData} = useDocumentView()
+const View = ({ entry }: any) => {
+  const { onOpen, setData } = useDocumentView();
 
   const onclickSet = () => {
-    setData(entry.supportingDocument)
-    onOpen()
-  }
+    setData(entry.supportingDocument);
+    onOpen();
+  };
   return (
     <div className="capitalize text-xs flex justify-center items-center">
-        <Button variant={"link" } onClick={onclickSet} className="text-sky-600 text-center"> 
+      <Button
+        variant={"link"}
+        onClick={onclickSet}
+        className="text-sky-600 text-center"
+      >
         View
-        </Button>
+      </Button>
     </div>
-    )
-}
+  );
+};
 
-
-
-export function Approved({data}: {data: Payment[]}) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
+export function Approved({ data }: { data: Payment[] }) {
+  const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
-  )
+  );
 
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
+    React.useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState({});
 
-
-  const [globalFilter, setGlobalFilter] = React.useState('')
+  const [globalFilter, setGlobalFilter] = React.useState("");
 
   const table = useReactTable({
-      data,
-      columns,
-      onSortingChange: setSorting,
-      onColumnFiltersChange: setColumnFilters,
-      onGlobalFilterChange: setGlobalFilter,
-      getCoreRowModel: getCoreRowModel(),
-      getPaginationRowModel: getPaginationRowModel(),
-      getSortedRowModel: getSortedRowModel(),
-      getFilteredRowModel: getFilteredRowModel(),
-      onColumnVisibilityChange: setColumnVisibility,
-      onRowSelectionChange: setRowSelection,
-      state: {
-        sorting,
-        columnFilters,
-        columnVisibility,
-        rowSelection,
-        globalFilter
-      },
-    })
+    data,
+    columns,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    onGlobalFilterChange: setGlobalFilter,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: setRowSelection,
+    state: {
+      sorting,
+      columnFilters,
+      columnVisibility,
+      rowSelection,
+      globalFilter,
+    },
+  });
 
-      
   return (
     <div className="px-2 h-full">
-    <div className="flex items-start md:items-center flex-col md:flex-row gap-4 justify-between py-3">
+      <div className="flex items-start md:items-center flex-col md:flex-row gap-4 justify-between py-3">
         <div className="w-full flex  items-center gap-2">
-        <DebouncedInput
-          value={globalFilter ?? ''}
-          onChange={value => setGlobalFilter(String(value))}
-          className="p-2 font-lg shadow border border-block w-full md:w-72"
-          placeholder="Search all columns..."
-        />
-
+          <DebouncedInput
+            value={globalFilter ?? ""}
+            onChange={(value) => setGlobalFilter(String(value))}
+            className="p-2 font-lg shadow border border-block w-full md:w-72"
+            placeholder="Search all columns..."
+          />
         </div>
-        <div className="flex gap-4 w-full md:justify-end">
-
-        </div>
+        <div className="flex gap-4 w-full md:justify-end"></div>
       </div>
 
       <div className="rounded-md border h-full">
@@ -332,7 +254,7 @@ export function Approved({data}: {data: Payment[]}) {
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="text-" >
+                    <TableHead key={header.id} className="text-">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -340,7 +262,7 @@ export function Approved({data}: {data: Payment[]}) {
                             header.getContext()
                           )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -377,7 +299,7 @@ export function Approved({data}: {data: Payment[]}) {
       </div>
 
       <div className="flex items-center justify-between space-x-2 p-4">
-      <PageContainer page="/admin"  table={table} />
+        <PageContainer page="/admin" table={table} />
 
         <div className="space-x-2">
           <Button
@@ -399,7 +321,7 @@ export function Approved({data}: {data: Payment[]}) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 function DebouncedInput({
@@ -408,25 +330,29 @@ function DebouncedInput({
   debounce = 500,
   ...props
 }: {
-  value: string | number
-  onChange: (value: string | number) => void
-  debounce?: number
-} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'>) {
-  const [value, setValue] = React.useState(initialValue)
+  value: string | number;
+  onChange: (value: string | number) => void;
+  debounce?: number;
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange">) {
+  const [value, setValue] = React.useState(initialValue);
 
   React.useEffect(() => {
-    setValue(initialValue)
-  }, [initialValue])
+    setValue(initialValue);
+  }, [initialValue]);
 
   React.useEffect(() => {
     const timeout = setTimeout(() => {
-      onChange(value)
-    }, debounce)
+      onChange(value);
+    }, debounce);
 
-    return () => clearTimeout(timeout)
-  }, [value])
+    return () => clearTimeout(timeout);
+  }, [value]);
 
   return (
-    <Input {...props} value={value} onChange={e => setValue(e.target.value)} />
-  )
+    <Input
+      {...props}
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+    />
+  );
 }
