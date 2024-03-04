@@ -85,9 +85,19 @@ async function getDataNews(product: string) {
   try {
     const res = await fetch(
       process.env.BACKEND_URL +
-        `api/v1/petro-data/analysis/projections?flag=${product || "PMS"}&page=1`
+        `api/v1/petro-data/analysis/projections?flag=${
+          product || "PMS"
+        }&page=1`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjU3Yzc2YjhmMGVjOTgzMGZhODJlYTY4Iiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzAyOTg2MjgwfQ.-cCnAO9oHGC7HkQWswONWVNcGbn0VUozPE2mVIOuuto`,
+        },
+        method: "GET",
+      }
     );
-    return res.json();
+    // console.log(await res.json());
+    return await res.json();
   } catch (error: any) {
     console.log(error);
   }
@@ -116,6 +126,8 @@ export const revalidate = 0;
 const Productpage = async ({ params, searchParams }: any) => {
   const posts = await fetchPosts();
   const news = await getDataNews(params.product);
+
+  console.log(news);
 
   const main = await getAnalytics(
     `${params.product}`,
@@ -176,7 +188,7 @@ const Productpage = async ({ params, searchParams }: any) => {
               <News
                 news={params?.product}
                 posts={posts}
-                other={news?.data?.articles}
+                other={news?.data?.data}
               />
             </div>
           </div>

@@ -17,7 +17,6 @@ const News = ({ posts, other }: any) => {
       </div>
     );
   }
-  console.log(posts);
   return (
     <div className="space-y-4">
       {other?.map((item: any, i: number) => (
