@@ -85,16 +85,7 @@ async function getDataNews(product: string) {
   try {
     const res = await fetch(
       process.env.BACKEND_URL +
-        `api/v1/petro-data/analysis/projections?flag=${
-          product || "PMS"
-        }&page=1`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjU3Yzc2YjhmMGVjOTgzMGZhODJlYTY4Iiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzAyOTg2MjgwfQ.-cCnAO9oHGC7HkQWswONWVNcGbn0VUozPE2mVIOuuto`,
-        },
-        method: "GET",
-      }
+        `api/v1/petro-data/analysis/projections?flag=${product || "PMS"}&page=1`
     );
     // console.log(await res.json());
     return await res.json();
