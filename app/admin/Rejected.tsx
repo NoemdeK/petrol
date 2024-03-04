@@ -207,9 +207,13 @@ const View = ({ entry }: any) => {
 export function Rejected({
   data,
   searchParams,
+  currentBatch,
+  setCurrentBatch,
 }: {
   data: Payment[];
   searchParams: any;
+  currentBatch: number;
+  setCurrentBatch: any;
 }) {
   console.log(data);
   const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -221,7 +225,7 @@ export function Rejected({
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
   const [globalFilter, setGlobalFilter] = React.useState("");
-  const [currentBatch, setCurrentBatch] = React.useState(1);
+  // const [currentBatch, setCurrentBatch] = React.useState(1);
 
   const table = useReactTable({
     data,

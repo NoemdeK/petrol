@@ -306,15 +306,18 @@ const Actions = (entry: any) => {
 export function Pending({
   data,
   searchParams,
+  currentBatch,
+  setCurrentBatch,
 }: {
   data: any[];
   searchParams: any;
+  currentBatch: number;
+  setCurrentBatch: any;
 }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
-  const [currentBatch, setCurrentBatch] = React.useState(1);
   const pathname = usePathname();
 
   const [columnVisibility, setColumnVisibility] =

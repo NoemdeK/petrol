@@ -201,12 +201,17 @@ export function UploadClient({ setBatchData, batchData }: any) {
     })();
   };
   // 2. Define a submit handler.
-  async function onSubmit() {
+  async function onSubmit(values: any) {
     loading.onOpen();
+    const uploadedImageURLs = await uploadFilesToDigitalOcean(values.file);
+
+    values.supportingDocument = uploadedImageURLs;
 
     const payload = {
-      dataEntry: batchData,
+      dataEntry: [values],
     };
+
+    console.log(payload);
 
     await PlainTransportDekApi.post(
       "data-entry/upload",

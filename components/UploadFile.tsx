@@ -14,7 +14,6 @@ export const UploadFileInput = ({ form, name, onUpload }: any) => {
       defaultValue={[]}
       render={({ field }) => {
         let uploadedFiles = field.value || [];
-        console.log(field.value);
         const onDelete = (index: number, file: any) => {
           uploadedFiles = uploadedFiles.filter(
             (_: any, i: number) => i !== index

@@ -195,34 +195,36 @@ export function Batch({ data, setBatchData }: any) {
       dataEntry: data,
     };
 
-    await PlainTransportDekApi.post(
-      "data-entry/upload",
-      JSON.stringify(payload),
-      {
-        headers: {
-          Authorization: `Bearer ${session?.user.accessToken}`,
-        },
-      }
-    )
-      .then(() => {
-        toast({
-          title: "New Data Entry Added",
-          description: "Done",
-        });
-        // router.refresh();
-        // window.location.reload();
-      })
-      .catch((error: any) => {
-        console.error("Error:", error);
-        toast({
-          variant: "destructive",
-          title: "Entry Error",
-          description: `${error.response.data.message}`,
-        });
-      })
-      .finally(() => {
-        loading.onClose();
-      });
+    console.log(payload);
+
+    // await PlainTransportDekApi.post(
+    //   "data-entry/upload",
+    //   JSON.stringify(payload),
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${session?.user.accessToken}`,
+    //     },
+    //   }
+    // )
+    //   .then(() => {
+    //     toast({
+    //       title: "New Data Entry Added",
+    //       description: "Done",
+    //     });
+    //     router.refresh();
+    //     window.location.reload();
+    //   })
+    //   .catch((error: any) => {
+    //     console.error("Error:", error);
+    //     toast({
+    //       variant: "destructive",
+    //       title: "Entry Error",
+    //       description: `${error.response.data.message}`,
+    //     });
+    //   })
+    //   .finally(() => {
+    //     loading.onClose();
+    //   });
   }
 
   return (

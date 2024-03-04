@@ -59,7 +59,6 @@ const ClientComponent = ({ data }: any) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
-  console.log(data);
   const { data: session } = useSession();
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
