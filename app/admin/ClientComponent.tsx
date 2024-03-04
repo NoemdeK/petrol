@@ -16,12 +16,14 @@ interface ClientComponentProps {
   rejected: any[];
   approved: any[];
   pending: any[];
+  searchParams: any;
 }
 
 const ClientComponent = ({
   rejected,
   approved,
   pending,
+  searchParams,
 }: ClientComponentProps) => {
   const { tab, setTab } = useTab();
   const pathname = usePathname();
@@ -43,13 +45,13 @@ const ClientComponent = ({
           </div>
 
           <TabsContent value="pending">
-            <Pending data={pending} />
+            <Pending data={pending} searchParams={searchParams} />
           </TabsContent>
           <TabsContent value="approved">
-            <Approved data={approved} />
+            <Approved data={approved} searchParams={searchParams} />
           </TabsContent>
           <TabsContent value="rejected">
-            <Rejected data={rejected} />
+            <Rejected data={rejected} searchParams={searchParams} />
           </TabsContent>
         </Tabs>
       </div>

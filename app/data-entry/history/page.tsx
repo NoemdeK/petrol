@@ -102,6 +102,7 @@ const Page = async ({ searchParams }: any) => {
         rejected={rejected?.data?.result || []}
         approved={approved?.data?.result || []}
         pending={data?.data?.result || []}
+        searchParams={searchParams}
       />
     </div>
   );

@@ -40,7 +40,7 @@ import useDocumentView from "@/lib/useDocumentView";
 import { PageContainer } from "@/components/PageContainer";
 import { usePathname } from "next/navigation";
 import useEditFieldData from "@/lib/useEditFieldData";
-
+import { useRouter } from "next/navigation";
 export const columns: ColumnDef<any>[] = [
   {
     accessorKey: "fillingStation",
@@ -303,11 +303,18 @@ const Actions = (entry: any) => {
   );
 };
 
-export function Pending({ data }: { data: any[] }) {
+export function Pending({
+  data,
+  searchParams,
+}: {
+  data: any[];
+  searchParams: any;
+}) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
+  const [currentBatch, setCurrentBatch] = React.useState(1);
   const pathname = usePathname();
 
   const [columnVisibility, setColumnVisibility] =
@@ -336,6 +343,26 @@ export function Pending({ data }: { data: any[] }) {
       globalFilter,
     },
   });
+
+  const { replace } = useRouter();
+  const params = new URLSearchParams(searchParams);
+
+  const handleNextPage = () => {
+    const newBatch = currentBatch + 1;
+    setCurrentBatch(newBatch);
+    params.set("batch", newBatch.toString());
+    replace(`${pathname}?${params.toString()}`);
+  };
+
+  const handlePreviousPage = () => {
+    if (currentBatch === 1) {
+      return;
+    }
+    const newBatch = currentBatch - 1;
+    setCurrentBatch(newBatch);
+    params.set("batch", newBatch.toString());
+    replace(`${pathname}?${params.toString()}`);
+  };
 
   return (
     <div className="px-2 h-full">
@@ -408,16 +435,16 @@ export function Pending({ data }: { data: any[] }) {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
+            onClick={handlePreviousPage}
+            disabled={currentBatch == 1}
           >
             Previous
           </Button>
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
+            onClick={handleNextPage}
+            disabled={false}
           >
             Next
           </Button>

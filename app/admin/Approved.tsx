@@ -31,6 +31,8 @@ import { format } from "date-fns";
 import useDocumentView from "@/lib/useDocumentView";
 
 import { PageContainer } from "@/components/PageContainer";
+import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 export type Payment = {
   id: string;
@@ -88,7 +90,7 @@ export const columns: ColumnDef<any>[] = [
     },
     cell: ({ row }) => {
       const batch = row.original;
-      console.log(batch);
+      // console.log(batch);
 
       const productNames = batch?.products ? Object.keys(batch?.products) : [];
 
@@ -200,7 +202,14 @@ const View = ({ entry }: any) => {
   );
 };
 
-export function Approved({ data }: { data: Payment[] }) {
+export function Approved({
+  data,
+  searchParams,
+}: {
+  data: Payment[];
+  searchParams: any;
+}) {
+  console.log(data);
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -211,6 +220,7 @@ export function Approved({ data }: { data: Payment[] }) {
   const [rowSelection, setRowSelection] = React.useState({});
 
   const [globalFilter, setGlobalFilter] = React.useState("");
+  const [currentBatch, setCurrentBatch] = React.useState(1);
 
   const table = useReactTable({
     data,
@@ -232,6 +242,27 @@ export function Approved({ data }: { data: Payment[] }) {
       globalFilter,
     },
   });
+
+  const pathname = usePathname();
+  const { replace } = useRouter();
+  const params = new URLSearchParams(searchParams);
+
+  const handleNextPage = () => {
+    const newBatch = currentBatch + 1;
+    setCurrentBatch(newBatch);
+    params.set("batch", newBatch.toString());
+    replace(`${pathname}?${params.toString()}`);
+  };
+
+  const handlePreviousPage = () => {
+    if (currentBatch === 1) {
+      return;
+    }
+    const newBatch = currentBatch - 1;
+    setCurrentBatch(newBatch);
+    params.set("batch", newBatch.toString());
+    replace(`${pathname}?${params.toString()}`);
+  };
 
   return (
     <div className="px-2 h-full">
@@ -305,16 +336,16 @@ export function Approved({ data }: { data: Payment[] }) {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
+            onClick={handlePreviousPage}
+            disabled={currentBatch == 1}
           >
             Previous
           </Button>
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
+            onClick={handleNextPage}
+            disabled={false}
           >
             Next
           </Button>

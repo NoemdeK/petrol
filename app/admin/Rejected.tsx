@@ -1,6 +1,6 @@
+"use client";
 
-import * as React from "react"
-
+import * as React from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -12,14 +12,9 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
-
-
-
-
-import { Button } from "@/components/ui/button"
-import { PageContainer } from "@/components/PageContainer"
-
+} from "@tanstack/react-table";
+import { Button } from "@/components/ui/button";
+import { PageContainer } from "@/components/PageContainer";
 import {
   Table,
   TableBody,
@@ -27,318 +22,262 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-
-
+} from "@/components/ui/table";
 import { useToast } from "@/components/ui/use-toast";
-
-
-
-
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/ui/input";
 import { format } from "date-fns";
 import useDocumentView from "@/lib/useDocumentView";
-
-
+import { usePathname, useRouter } from "next/navigation";
 
 export type Payment = {
-  id: string
-  amount: number
-  fname: string
-  lname: string
-  email: string
-  phoneNumber: number
-  clientAssignment: string
-  region: string,
-  position: string
-  tenure: string
-  age: number
-  salary: number
-  bonus: number
-  status: string
-}
+  id: string;
+  amount: number;
+  fname: string;
+  lname: string;
+  email: string;
+  phoneNumber: number;
+  clientAssignment: string;
+  region: string;
+  position: string;
+  tenure: string;
+  age: number;
+  salary: number;
+  bonus: number;
+  status: string;
+};
 
 export const columns: ColumnDef<any>[] = [
   {
     accessorKey: "fillingStation",
     header: ({}) => {
-        return (
-            <div className="flex gap-1 items-center">
-             Filling Station
-            </div>
-        )
+      return <div className="flex gap-1 items-center">Filling Station</div>;
     },
     cell: ({ row }) => {
-
       return (
         <div className="cursor-pointer flex gap-2 text-xs items-center">
           {row.getValue("fillingStation")}
         </div>
-      )
-    }, 
+      );
+    },
   },
   {
     accessorKey: "state",
     header: ({}) => {
-        return (
-            <div className="flex gap-2 items-center"> 
-             State
-            </div>
-        )
-    },    cell: ({ row }) => {
-          return (
-            <div className="text-xs">
-              {row.getValue("state")}
-            </div>
-            )
-        },
+      return <div className="flex gap-2 items-center">State</div>;
+    },
+    cell: ({ row }) => {
+      return <div className="text-xs">{row.getValue("state")}</div>;
+    },
   },
   {
     accessorKey: "region",
     header: ({}) => {
-        return (
-            <div className="flex gap-2 items-center"> 
-             region
-            </div>
-        )
-    },    cell: ({ row }) => {
-          return (
-            <div className="text-xs">
-              {row.getValue("region")}
-            </div>
-            )
-        },
+      return <div className="flex gap-2 items-center">region</div>;
+    },
+    cell: ({ row }) => {
+      return <div className="text-xs">{row.getValue("region")}</div>;
+    },
   },
   {
     accessorKey: "products",
-    header: ({  }) => {
-      return (
-        <div className="flex items-center gap-2">
-            Product
-          
-        </div>
-      )
+    header: ({}) => {
+      return <div className="flex items-center gap-2">Product</div>;
     },
     cell: ({ row }) => {
-      const batch = row.original
+      const batch = row.original;
 
-      const productNames = Object.keys(batch?.products);
-
+      const productNames = batch?.products ? Object.keys(batch?.products) : [];
 
       return (
         <div className="text-xs ">
-            {
-           productNames.map((item, i) => (
+          {productNames.map((item, i) => (
             <div key={i}>{item}</div>
-           )) 
-          }
+          ))}
         </div>
-      )
+      );
     },
   },
   {
     accessorKey: "price",
-    header: ({  }) => {
-      return (
-       <div className="text-right">
-        Price  (₦)
-       </div>
-      )
+    header: ({}) => {
+      return <div className="text-right">Price (₦)</div>;
     },
-    cell: ({ row }) =>  {
-      const batch = row.original
-      const numericalValues = Object.values(batch.products).map(Number);
+    cell: ({ row }) => {
+      const batch = row.original;
+      const numericalValues = batch.products
+        ? Object.values(batch.products).map(Number)
+        : [];
 
       return (
         <div className="capitalize text-xs text-right">
-          {
-           numericalValues.map((item, i) => (
+          {numericalValues.map((item, i) => (
             <div key={i}>{Number(item).toLocaleString()}</div>
-           )) 
-          }
+          ))}
         </div>
-      )
-    }
+      );
+    },
   },
- 
+
   {
     accessorKey: "supportingDocument",
-    header: ({  }) => {
-      return (
-       <div className="flex items-center gap-2">
-        Supporting Document
-         
-       </div>
-      )
+    header: ({}) => {
+      return <div className="flex items-center gap-2">Supporting Document</div>;
     },
-    cell: ({ row }) =>  {
-      const entry = row.original
+    cell: ({ row }) => {
+      const entry = row.original;
 
-      return (
-        <View entry={entry} />
-      )
-    }
+      return <View entry={entry} />;
+    },
   },
   {
     accessorKey: "submittedBy",
-    header: ({  }) => {
-      return (
-       <div className="flex items-center gap-2">
-        Submitted By
-         
-       </div>
-      )
+    header: ({}) => {
+      return <div className="flex items-center gap-2">Submitted By</div>;
     },
-    cell: ({ row }) =>  {
+    cell: ({ row }) => {
       return (
-        <div className="capitalize text-xs">
-                {row.getValue('submittedBy')}
-        </div>
-      )
-    }
+        <div className="capitalize text-xs">{row.getValue("submittedBy")}</div>
+      );
+    },
   },
   {
     accessorKey: "dateSubmitted",
-    header: ({  }) => {
-      return (
-       <div className="flex items-center gap-2">
-            Date Submitted 
-         
-       </div>
-      )
+    header: ({}) => {
+      return <div className="flex items-center gap-2">Date Submitted</div>;
     },
-    cell: ({ row }) =>  {
+    cell: ({ row }) => {
       return (
         <div className="capitalize text-xs">
-            {row.getValue("dateSubmitted")}
+          {row.getValue("dateSubmitted")}
         </div>
-      )
-    }
+      );
+    },
   },
   {
     accessorKey: "reason",
-    header: ({  }) => {
-      return (
-       <div className="">
-        Reason
-         
-       </div>
-      )
+    header: ({}) => {
+      return <div className="">Reason</div>;
     },
-    cell: ({ row }) =>  {
+    cell: ({ row }) => {
       return (
-        <div className="capitalize  text-xs">
-          
-            {row.getValue("reason")}
-        </div>
-      )
-    }
+        <div className="capitalize  text-xs">{row.getValue("reason")}</div>
+      );
+    },
   },
   {
     accessorKey: "rejectedBy",
-    header: ({  }) => {
-      return (
-       <div className="flex items-center gap-2">
-        Rejected By
-         
-       </div>
-      )
+    header: ({}) => {
+      return <div className="flex items-center gap-2">Rejected By</div>;
     },
-    cell: ({ row }) =>  {
+    cell: ({ row }) => {
       return (
-        <div className="capitalize text-xs">
-            {row.getValue("rejectedBy")}
-        </div>
-      )
-    }
+        <div className="capitalize text-xs">{row.getValue("rejectedBy")}</div>
+      );
+    },
   },
   {
     accessorKey: "dateRejected",
-    header: ({  }) => {
-      return (
-       <div className="flex items-center gap-2">
-            Date Rejected 
-         
-       </div>
-      )
+    header: ({}) => {
+      return <div className="flex items-center gap-2">Date Rejected</div>;
     },
-    cell: ({ row }) =>  {
+    cell: ({ row }) => {
       return (
-        <div className="capitalize text-xs">
-            {row.getValue("dateRejected")}
-        </div>
-      )
-    }
+        <div className="capitalize text-xs">{row.getValue("dateRejected")}</div>
+      );
+    },
   },
-]
+];
 
-const View = ({entry}: any) => {
-  const { onOpen, setData} = useDocumentView()
+const View = ({ entry }: any) => {
+  const { onOpen, setData } = useDocumentView();
 
   const onclickSet = () => {
-    setData(entry.supportingDocument)
-    onOpen()
-  }
+    setData(entry.supportingDocument);
+    onOpen();
+  };
   return (
     <div className="capitalize text-xs">
-        <Button variant={"link" } onClick={onclickSet} className="text-sky-600"> 
+      <Button variant={"link"} onClick={onclickSet} className="text-sky-600">
         View
-        </Button>
+      </Button>
     </div>
-    )
-}
+  );
+};
 
-
-export function Rejected({data}: {data: Payment[]}) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
+export function Rejected({
+  data,
+  searchParams,
+}: {
+  data: Payment[];
+  searchParams: any;
+}) {
+  console.log(data);
+  const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
-  )
+  );
 
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
-
-
-  const [globalFilter, setGlobalFilter] = React.useState('')
+    React.useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState({});
+  const [globalFilter, setGlobalFilter] = React.useState("");
+  const [currentBatch, setCurrentBatch] = React.useState(1);
 
   const table = useReactTable({
-      data,
-      columns,
-      onSortingChange: setSorting,
-      onColumnFiltersChange: setColumnFilters,
-      onGlobalFilterChange: setGlobalFilter,
-      getCoreRowModel: getCoreRowModel(),
-      getPaginationRowModel: getPaginationRowModel(),
-      getSortedRowModel: getSortedRowModel(),
-      getFilteredRowModel: getFilteredRowModel(),
-      onColumnVisibilityChange: setColumnVisibility,
-      onRowSelectionChange: setRowSelection,
-      state: {
-        sorting,
-        columnFilters,
-        columnVisibility,
-        rowSelection,
-        globalFilter
-      },
-    })
+    data,
+    columns,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    onGlobalFilterChange: setGlobalFilter,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: setRowSelection,
+    pageCount: 100,
+    state: {
+      sorting,
+      columnFilters,
+      columnVisibility,
+      rowSelection,
+      globalFilter,
+    },
+  });
 
+  const pathname = usePathname();
+  const { replace } = useRouter();
+  const params = new URLSearchParams(searchParams);
+
+  const handleNextPage = () => {
+    const newBatch = currentBatch + 1;
+    setCurrentBatch(newBatch);
+    params.set("batch", newBatch.toString());
+    replace(`${pathname}?${params.toString()}`);
+  };
+
+  const handlePreviousPage = () => {
+    if (currentBatch === 1) {
+      return;
+    }
+    const newBatch = currentBatch - 1;
+    setCurrentBatch(newBatch);
+    params.set("batch", newBatch.toString());
+    replace(`${pathname}?${params.toString()}`);
+  };
 
   return (
     <div className="px-2 h-full">
-    <div className="flex items-start md:items-center flex-col md:flex-row gap-4 justify-between py-3">
+      <div className="flex items-start md:items-center flex-col md:flex-row gap-4 justify-between py-3">
         <div className="w-full flex  items-center gap-2">
-        <DebouncedInput
-          value={globalFilter ?? ''}
-          onChange={value => setGlobalFilter(String(value))}
-          className="p-2 font-lg shadow border border-block w-full md:w-72"
-          placeholder="Search all columns..."
-        />
-
+          <DebouncedInput
+            value={globalFilter ?? ""}
+            onChange={(value) => setGlobalFilter(String(value))}
+            className="p-2 font-lg shadow border border-block w-full md:w-72"
+            placeholder="Search all columns..."
+          />
         </div>
-        <div className="flex gap-4 w-full md:justify-end">
-
-        </div>
+        <div className="flex gap-4 w-full md:justify-end"></div>
       </div>
 
       <div className="rounded-md border h-full">
@@ -348,7 +287,7 @@ export function Rejected({data}: {data: Payment[]}) {
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className="text-" >
+                    <TableHead key={header.id} className="text-">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -356,7 +295,7 @@ export function Rejected({data}: {data: Payment[]}) {
                             header.getContext()
                           )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -398,23 +337,25 @@ export function Rejected({data}: {data: Payment[]}) {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
+            // onClick={() => table.previousPage()}
+            onClick={handlePreviousPage}
+            disabled={currentBatch === 1}
           >
             Previous
           </Button>
           <Button
             variant="outline"
             size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
+            // onClick={() => table.nextPage()}
+            onClick={handleNextPage}
+            disabled={false}
           >
             Next
           </Button>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 function DebouncedInput({
@@ -423,25 +364,29 @@ function DebouncedInput({
   debounce = 500,
   ...props
 }: {
-  value: string | number
-  onChange: (value: string | number) => void
-  debounce?: number
-} & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'>) {
-  const [value, setValue] = React.useState(initialValue)
+  value: string | number;
+  onChange: (value: string | number) => void;
+  debounce?: number;
+} & Omit<React.InputHTMLAttributes<HTMLInputElement>, "onChange">) {
+  const [value, setValue] = React.useState(initialValue);
 
   React.useEffect(() => {
-    setValue(initialValue)
-  }, [initialValue])
+    setValue(initialValue);
+  }, [initialValue]);
 
   React.useEffect(() => {
     const timeout = setTimeout(() => {
-      onChange(value)
-    }, debounce)
+      onChange(value);
+    }, debounce);
 
-    return () => clearTimeout(timeout)
-  }, [value])
+    return () => clearTimeout(timeout);
+  }, [value]);
 
   return (
-    <Input {...props} value={value} onChange={e => setValue(e.target.value)} />
-  )
+    <Input
+      {...props}
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+    />
+  );
 }
