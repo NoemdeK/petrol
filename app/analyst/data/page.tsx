@@ -7,11 +7,12 @@ async function getData(
   header: string,
   limit: string,
   date: string,
-  endDate: string
+  endDate: string,
+  batch?: string
 ) {
   try {
     const res = await fetch(
-      `https://petrodata.zainnovations.com/api/v1/data-entry/retrieve?batch=1&flag=pending${
+      `https://petrodata.zainnovations.com/api/v1/data-entry/retrieve?batch=${batch}&flag=pending${
         date || ""
       }${endDate || ""}&limit=${limit || "10"}`,
       {
@@ -31,11 +32,12 @@ async function getDataApproved(
   header: string,
   limit: string,
   date: string,
-  endDate: string
+  endDate: string,
+  batch?: string
 ) {
   try {
     const res = await fetch(
-      `https://petrodata.zainnovations.com/api/v1/data-entry/retrieve?batch=1&flag=approved${
+      `https://petrodata.zainnovations.com/api/v1/data-entry/retrieve?batch=${batch}&flag=approved${
         date || ""
       }${endDate || ""}&limit=${limit || "10"}`,
       {
@@ -55,11 +57,12 @@ async function getDataRejected(
   header: string,
   limit: string,
   date: string,
-  endDate: string
+  endDate: string,
+  batch?: string
 ) {
   try {
     const res = await fetch(
-      `https://petrodata.zainnovations.com/api/v1/data-entry/retrieve?batch=1&flag=rejected${
+      `https://petrodata.zainnovations.com/api/v1/data-entry/retrieve?batch=${batch}&flag=rejected${
         date || ""
       }${endDate || ""}&limit=${limit || "10"}`,
       {
@@ -81,19 +84,22 @@ const Page = async ({ searchParams }: any) => {
     `${user?.user.accessToken}`,
     searchParams.rows,
     `&${searchParams.date}`,
-    `&${searchParams.endDate}`
+    `&${searchParams.endDate}`,
+    searchParams.batch ? searchParams.batch : `1`
   );
   const approved = await getDataApproved(
     `${user?.user.accessToken}`,
     searchParams.rows,
     `&${searchParams.date}`,
-    `&${searchParams.endDate}`
+    `&${searchParams.endDate}`,
+    searchParams.batch ? searchParams.batch : `1`
   );
   const rejected = await getDataRejected(
     `${user?.user.accessToken}`,
     searchParams.rows,
     `&${searchParams.date}`,
-    `&${searchParams.endDate}`
+    `&${searchParams.endDate}`,
+    searchParams.batch ? searchParams.batch : `1`
   );
 
   return (
