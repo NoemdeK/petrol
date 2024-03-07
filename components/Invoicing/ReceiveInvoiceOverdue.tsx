@@ -90,7 +90,7 @@ const ReceiveInvoiceOverdue = () => {
 
   return (
     <AnimatePresence>
-      {isOpen && (
+      {false && (
         <div className="bg-[#262626a3] fixed top-0 left-0 right-0 bottom-0 z-50 backdrop-blur-[3.1px] shadow-[0_4px_30px_#00000019] flex justify-end">
           <motion.div
             initial={{ opacity: 1, x: 420 }}

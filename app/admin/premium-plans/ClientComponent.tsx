@@ -5,9 +5,19 @@ import React from "react";
 import Plans from "./Plans";
 import useCreatePricing from "@/lib/useCreatePricing";
 import SubTable from "./SubTable";
+import { usePathname, useRouter } from "next/navigation";
 
-const ClientComponent = ({ availablePlans }: any) => {
+const ClientComponent = ({
+  availablePlans,
+  searchParams,
+  activeSubscriptions,
+  inactiveSubscriptions,
+}: any) => {
   const { onOpen } = useCreatePricing();
+  const params = new URLSearchParams(searchParams);
+  console.log(inactiveSubscriptions, activeSubscriptions);
+  const { replace } = useRouter();
+  const pathname = usePathname();
   return (
     <div>
       <div className="h-[80px] w-full rounded bg-accent"></div>
@@ -42,11 +52,32 @@ const ClientComponent = ({ availablePlans }: any) => {
           <TabsContent value="available_plans">
             <Plans availablePlans={availablePlans} />
           </TabsContent>
-          <TabsContent value="active_subs">
-            <SubTable data={[]} />
+          <TabsContent
+            value="active_subs"
+            onClick={() => {
+              params.set("flag", "active_subscriptions");
+              replace(`${pathname}?${params.toString()}`);
+            }}
+          >
+            <SubTable
+              data={activeSubscriptions?.data?.result || []}
+              searchParams={searchParams}
+              value="active_subscriptions"
+            />
           </TabsContent>
-          <TabsContent value="inactive_subs">
-            <SubTable data={[]} />{" "}
+          <TabsContent
+            value="inactive_subs"
+            onClick={() => {
+              params.set("flag", "inactive_subscriptions");
+              replace(`${pathname}?${params.toString()}`);
+              alert("hi");
+            }}
+          >
+            <SubTable
+              data={inactiveSubscriptions?.data?.result || []}
+              searchParams={searchParams}
+              value="active_subscriptions"
+            />
           </TabsContent>
         </div>
       </Tabs>

@@ -43,6 +43,7 @@ const CreatePricing = () => {
   const { isOpen, onClose, data: pricingData, setData } = useCreatePricing();
   const [planDetails, setPlanDetails] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   // const [dataState, setDataState] = useState(pricingData);
 
   console.log(pricingData);
@@ -176,6 +177,34 @@ const CreatePricing = () => {
         window.location.reload();
       });
   }
+  async function handlePlanDelete() {
+    setIsDeleting(true);
+
+    const token = userData && userData.user.accessToken;
+    await PlainTransportDekApi.delete(
+      `premium-plan/delete/available-plan?premiumPlanId=${pricingData?._id}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+      .then((res) => {
+        console.log(res);
+        toast({
+          title: "Success",
+          description: "Pricing plan deleted successfully",
+        });
+      })
+      .finally(() => {
+        onClose();
+        setPlanDetails([]);
+        form.reset();
+        setIsDeleting(false);
+        window.location.reload();
+      });
+  }
 
   useEffect(() => {
     if (pricingData) {
@@ -304,7 +333,7 @@ const CreatePricing = () => {
                     {planDetails.map((detail, index) => (
                       <div
                         key={index}
-                        className="bg-white p-[0.3rem] flex items-center gap-2"
+                        className="bg-accent p-[0.3rem] flex items-center gap-2"
                       >
                         <XSquare
                           className="cursor-pointer"
@@ -334,6 +363,28 @@ const CreatePricing = () => {
               >
                 Cancel
               </p>
+
+              {pricingData !== null && (
+                <button
+                  className="bg-transparent text-red-500 border border-red-500 rounded-[5px] w-full px-[0.6rem] py-[0.4rem] font-normal cursor-pointer text-[0.85rem] flex justify-center items-center"
+                  onClick={handlePlanDelete}
+                >
+                  {isDeleting ? (
+                    <TailSpin
+                      visible={true}
+                      height="20"
+                      width="20"
+                      color="#e52f2f"
+                      ariaLabel="tail-spin-loading"
+                      radius="1"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                    />
+                  ) : (
+                    "Delete Plan"
+                  )}
+                </button>
+              )}
 
               {pricingData === null ? (
                 <button

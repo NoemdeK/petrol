@@ -37,7 +37,13 @@ import { format } from "date-fns";
 import { VercelLogoIcon } from "@radix-ui/react-icons";
 
 const CreateInvoice = () => {
-  const { isOpen, onClose, data: clientData } = useCreateInvoice();
+  const {
+    isOpen,
+    onClose,
+    data: clientData,
+    isEditing,
+    setIsEditing,
+  } = useCreateInvoice();
   const [clientDataState, setClientDataState] = useState(clientData);
   console.log(clientDataState);
   const [priceState, setPriceState] = React.useState<any>({
@@ -399,13 +405,14 @@ const CreateInvoice = () => {
           >
             <div className="bg-accent p-[1rem] flex justify-between items-center border-b-[#0000001f] border h-[60px]">
               <p className="text-sm font-medium text-[0.8rem]">
-                Create Invoice
+                {isEditing ? "Edit Invoice" : "Create Invoice"}
               </p>
               <span
                 onClick={() => {
                   onClose();
                   form.reset();
                   setTotalAmount(0);
+                  setIsEditing(false);
                 }}
               >
                 <Image
@@ -541,15 +548,17 @@ const CreateInvoice = () => {
                         name="rate"
                         render={({ field }) => (
                           <FormItem className="flex-1">
-                            <FormLabel className="text-sm">Rate</FormLabel>
+                            <FormLabel className="text-sm text-accent">
+                              Rate
+                            </FormLabel>
                             <FormControl>
-                              <div className="border border-[#00000066] flex items-center bg-white px-2 rounded">
-                                <p className="text-[#00000099] text-sm">$</p>
+                              <div className="border border-[#00000066] flex items-center bg-accent px-2 rounded">
+                                <p className="text-sm">$</p>
                                 <Input
                                   {...field}
                                   disabled={true}
                                   type="number"
-                                  className="w-full border-none text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
+                                  className="w-full border-none text-sm focus-visible:ring-0 focus-visible:ring-offset-0 bg-accent disabled:bg-accent"
                                   onChange={(value: any) => {
                                     field.onChange(value);
                                     const rate = value.target.value;
@@ -566,15 +575,17 @@ const CreateInvoice = () => {
                         name="quantity"
                         render={({ field }) => (
                           <FormItem className="flex-1">
-                            <FormLabel>QTY (year)</FormLabel>
+                            <FormLabel className="text-accent">
+                              QTY (year)
+                            </FormLabel>
                             <FormControl>
-                              <div className="border border-[#00000066] flex items-center bg-white px-2 rounded">
-                                <p className="text-[#00000099] text-sm">$</p>
+                              <div className="border border-[#00000066] flex items-center bg-accent px-2 rounded">
+                                <p className="text-sm">$</p>
                                 <Input
                                   disabled={false}
                                   {...field}
                                   type="number"
-                                  className="w-full border-none text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
+                                  className="w-full border-none text-sm focus-visible:ring-0 focus-visible:ring-offset-0 bg-accent"
                                   onChange={(value: any) => {
                                     field.onChange(value);
 
@@ -601,15 +612,17 @@ const CreateInvoice = () => {
                         name="percentageDiscount"
                         render={({ field }) => (
                           <FormItem className="flex-1">
-                            <FormLabel>Discount (%)</FormLabel>
+                            <FormLabel className="text-accent">
+                              Discount (%)
+                            </FormLabel>
                             <FormControl>
-                              <div className="border border-[#00000066] flex items-center bg-white px-2 rounded">
-                                <p className="text-[#00000099] text-sm">$</p>
+                              <div className="border border-[#00000066] flex items-center bg-accent px-2 rounded">
+                                <p className="text-sm">%</p>
                                 <Input
                                   disabled={false}
                                   {...field}
                                   type="number"
-                                  className="w-full border-none text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
+                                  className="w-full border-none text-sm focus-visible:ring-0 focus-visible:ring-offset-0 bg-accent"
                                   onChange={(value: any) => {
                                     setDiscountTouched("percentage");
                                     field.onChange(value);
@@ -637,15 +650,17 @@ const CreateInvoice = () => {
                         name="monetaryDiscount"
                         render={({ field }) => (
                           <FormItem className="flex-1">
-                            <FormLabel>Discount ($)</FormLabel>
+                            <FormLabel className="text-accent">
+                              Discount ($)
+                            </FormLabel>
                             <FormControl>
-                              <div className="border border-[#00000066] flex items-center bg-white px-2 rounded">
-                                <p className="text-[#00000099] text-sm">$</p>
+                              <div className="border border-[#00000066] flex items-center bg-accent px-2 rounded">
+                                <p className="text-sm">$</p>
                                 <Input
                                   disabled={false}
                                   {...field}
                                   type="number"
-                                  className="w-full border-none text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
+                                  className="w-full border-none text-sm focus-visible:ring-0 focus-visible:ring-offset-0 bg-accent"
                                   onChange={(value: any) => {
                                     setDiscountTouched("monetary");
                                     field.onChange(value);
@@ -672,7 +687,7 @@ const CreateInvoice = () => {
                       />
                     </div>
                     <div className="flex justify-end mt-4">
-                      <h3 className="text-xl font-medium">
+                      <h3 className="text-xl font-medium text-accent">
                         Amount: ${totalAmount.toLocaleString()}
                       </h3>
                     </div>
@@ -696,6 +711,7 @@ const CreateInvoice = () => {
                 onClick={() => {
                   onClose();
                   setTotalAmount(0);
+                  setIsEditing(false);
                 }}
               >
                 Cancel

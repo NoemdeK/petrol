@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import {
   ColumnDef,
@@ -21,6 +21,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { usePathname, useRouter } from "next/navigation";
+import { format } from "date-fns";
 
 const columns: ColumnDef<any>[] = [
   {
@@ -29,15 +31,102 @@ const columns: ColumnDef<any>[] = [
       return <div className="flex gap-1 items-center">ID</div>;
     },
     cell: ({ row }) => {
+      console.log(row);
       return (
         <div className="cursor-pointer flex gap-2 text-xs items-center">
-          {row.getValue("fillingStation")}
+          {row.original.userId}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "firstName",
+    header: ({}) => {
+      return <div className="flex gap-1 items-center">First Name</div>;
+    },
+    cell: ({ row }) => {
+      console.log(row);
+      return (
+        <div className="cursor-pointer flex gap-2 text-xs items-center">
+          {row.original.firstName}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "lastName",
+    header: ({}) => {
+      return <div className="flex gap-1 items-center">Last Name</div>;
+    },
+    cell: ({ row }) => {
+      console.log(row);
+      return (
+        <div className="cursor-pointer flex gap-2 text-xs items-center">
+          {row.original.lastName}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "email",
+    header: ({}) => {
+      return <div className="flex gap-1 items-center">Email Address</div>;
+    },
+    cell: ({ row }) => {
+      console.log(row);
+      return (
+        <div className="cursor-pointer flex gap-2 text-xs items-center">
+          {row.original.clientEmail}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "status",
+    header: ({}) => {
+      return <div className="flex gap-1 items-center">Subscription Status</div>;
+    },
+    cell: ({ row }) => {
+      console.log(row);
+      return (
+        <div className="cursor-pointer flex gap-2 text-xs items-center">
+          {row.original.subscriptionStatus.charAt(0).toUpperCase() +
+            row.original.subscriptionStatus.slice(1)}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "plan",
+    header: ({}) => {
+      return <div className="flex gap-1 items-center">Premium Plan </div>;
+    },
+    cell: ({ row }) => {
+      console.log(row);
+      return (
+        <div className="cursor-pointer flex gap-2 text-xs items-center">
+          {row.original.premiumPlan.charAt(0).toUpperCase() +
+            row.original.premiumPlan.slice(1)}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "paymentDate",
+    header: ({}) => {
+      return <div className="flex gap-1 items-center">Payment Date </div>;
+    },
+    cell: ({ row }) => {
+      console.log(row);
+      return (
+        <div className="cursor-pointer flex gap-2 text-xs items-center">
+          {format(new Date(row.original.nextRenewalDate), "dd/MM/yyyy")}
         </div>
       );
     },
   },
 ];
-const SubTable = ({ data }: any) => {
+const SubTable = ({ data, searchParams, value }: any) => {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -67,6 +156,7 @@ const SubTable = ({ data }: any) => {
       globalFilter,
     },
   });
+
   return (
     <div>
       {" "}

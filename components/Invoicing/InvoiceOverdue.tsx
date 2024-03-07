@@ -28,7 +28,7 @@ import { useForm } from "react-hook-form";
 import { EditUploadFile } from "../EditUploadFile";
 import { toast } from "../ui/use-toast";
 import { useSession } from "next-auth/react";
-import { set } from "date-fns";
+import { format } from "date-fns";
 import Loader from "../ui/loader";
 import { PlainTransportDekApi } from "@/utils/axios";
 import { ChevronRight } from "lucide-react";
@@ -44,6 +44,7 @@ import useReceiveInvoice from "@/lib/useReceiveInvoice";
 const InvoiceOverdue = () => {
   const { data: userData } = useSession();
   const { isOpen, onOpen, onClose, data, setData } = useReceiveInvoice();
+  console.log(data);
 
   const formSchema = z.object({});
 
@@ -76,9 +77,19 @@ const InvoiceOverdue = () => {
           >
             <div className="bg-accent p-[1rem] flex justify-between items-center border-b-[#0000001f] border h-[60px]">
               <p className="text-sm font-medium text-[0.8rem]">
-                Invoice 0001 <span className="ml-4 text-red-500">Overdue</span>
+                Invoice -{" "}
+                {data.premiumPlanPackage.charAt(0).toUpperCase() +
+                  data.premiumPlanPackage.slice(1)}
+                {data.overdue && (
+                  <span className="ml-4 text-red-500">Overdue</span>
+                )}
               </p>
-              <span onClick={() => {}}>
+              <span
+                onClick={() => {
+                  onClose();
+                  setData(null);
+                }}
+              >
                 <Image
                   src={close}
                   width={27}
@@ -94,21 +105,27 @@ const InvoiceOverdue = () => {
             </Form> */}
               <div className="mt-6">
                 <p className="font-medium text-sm">Total Due</p>
-                <h2 className="font-medium text-2xl">$300,000</h2>
+                <h2 className="font-medium text-2xl">
+                  ${data.totalAmount.toLocaleString()}
+                </h2>
               </div>
               <div className="mt-6 flex justify-between">
                 <div className="flex-1">
                   <p className="font-medium text-sm">Invoice Date</p>
-                  <p className="font-normal text-[1em]">01/02/2024</p>
+                  <p className="font-normal text-[1em]">
+                    {format(new Date(data.invoiceDate), "dd/MM/yyyy")}
+                  </p>
                 </div>
                 <div className="flex-1">
                   <p className="font-medium text-sm">Due Date</p>
-                  <p className="font-normal text-[1em]">29/02/2024</p>
+                  <p className="font-normal text-[1em]">
+                    {format(new Date(data.dueDate), "dd/MM/yyyy")}
+                  </p>
                 </div>
               </div>
               <div className="mt-6 border rounded-lg p-[1rem]">
-                <p className="font-medium">Isaac Adeleke</p>
-                <p>isaacadeleke@gmail.com</p>
+                <p className="font-medium">{data.client}</p>
+                <p>{data.clientEmail}</p>
               </div>
               <div className="mt-6 border rounded-lg p-[1rem]">
                 <div className="flex justify-between" onClick={toggleDetails}>
@@ -128,19 +145,19 @@ const InvoiceOverdue = () => {
                   <div className="mt-6 flex flex-col gap-2">
                     <div className="flex justify-between">
                       <p className="flex-1">Enterprise(Company)</p>
-                      <p className="flex-1">$150,000</p>
+                      <p className="flex-1">${data.rate.toLocaleString()}</p>
                     </div>
                     <div className="flex justify-between">
                       <p className="flex-1">Quantity (Year)</p>
-                      <p className="flex-1">2</p>
+                      <p className="flex-1">{data.quantity}</p>
                     </div>
                     <div className="flex justify-between">
                       <p className="flex-1">Dsicount (%)</p>
-                      <p className="flex-1">0</p>
+                      <p className="flex-1">{data.percentageDiscount}</p>
                     </div>
                     <div className="flex justify-between">
                       <p className="flex-1">Discount ($)</p>
-                      <p className="flex-1">0</p>
+                      <p className="flex-1">{data.monetaryDiscount}</p>
                     </div>
                   </div>
                 )}
@@ -167,11 +184,15 @@ const InvoiceOverdue = () => {
                     </div>
                     <div className="flex justify-between">
                       <p className="flex-1">Sent</p>
-                      <p className="flex-1"></p>
+                      <p className="flex-1">
+                        {data.invoiceSent === false ? "No" : "Yes"}
+                      </p>
                     </div>
                     <div className="flex justify-between">
                       <p className="flex-1">Paid</p>
-                      <p className="flex-1"></p>
+                      <p className="flex-1">
+                        {data.invoiceAmountPaid === true ? "Yes" : "No"}
+                      </p>
                     </div>
                   </div>
                 )}
@@ -180,7 +201,10 @@ const InvoiceOverdue = () => {
             <div className="w-full flex items-center gap-6 p-[1rem]">
               <p
                 className="bg-accent border border-[#0000001f] rounded-[5px] px-[0.9rem] py-[0.4rem] font-normal cursor-pointer text-[0.85rem]"
-                onClick={() => {}}
+                onClick={() => {
+                  onClose();
+                  setData(null);
+                }}
               >
                 Cancel
               </p>

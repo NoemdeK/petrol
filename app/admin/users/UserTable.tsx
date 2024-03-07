@@ -45,6 +45,7 @@ import { PageContainer } from "@/components/PageContainer";
 import { DeletUserModal } from "@/components/DeleteUser";
 import useCreateInvoice from "@/lib/useCreateInvoice";
 import { PlainTransportDekApi } from "@/utils/axios";
+import useReceiveInvoice from "@/lib/useReceiveInvoice";
 
 export type Payment = {
   id: string;
@@ -64,11 +65,13 @@ export type Payment = {
 };
 
 export function UsersTable({ data, setBatch, setLimit, batch, limit }: any) {
-  const { onOpen: onCreateInvoice, setData } = useCreateInvoice();
+  const { onOpen: onCreateInvoice, setData, setIsEditing } = useCreateInvoice();
+  const { onOpen: onReceiveInvoice, setData: receiveData } =
+    useReceiveInvoice();
   const { tab } = useEditUser();
   const session = useSession();
 
-  const retreiveUserInvoice = async (id: any) => {
+  const retreiveUserInvoice = async (id: any, retreiveType: string) => {
     await PlainTransportDekApi.get(
       `premium-plan/invoice/retrieve?invoiceId=${id}`,
       {
@@ -78,7 +81,12 @@ export function UsersTable({ data, setBatch, setLimit, batch, limit }: any) {
       }
     )
       .then((res) => {
-        setData({ ...res.data.data, invoiceId: id });
+        console.log(res);
+        if (retreiveType === "receive") {
+          receiveData({ ...res.data.data, invoiceId: id });
+        } else if (retreiveType === "update") {
+          setData({ ...res.data.data, invoiceId: id });
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -178,26 +186,37 @@ export function UsersTable({ data, setBatch, setLimit, batch, limit }: any) {
                     >
                       Create Invoice
                     </button>
-                  ) : row.original.payment?.action === "create_invoice" &&
+                  ) : row.original.payment?.action === "update_invoice" &&
                     row.original.payment.invoiceId !== null ? (
                     <button
                       className="text-[#0A98A9] font-medium cursor-pointer"
                       onClick={async () => {
                         await retreiveUserInvoice(
-                          row.original.payment.invoiceId
+                          row.original.payment.invoiceId,
+                          "receive"
                         );
-                        onCreateInvoice();
+                        onReceiveInvoice();
+
+                        // onCreateInvoice();
+                        // setIsEditing(true);
                       }}
                     >
-                      Update Invoice
+                      View Invoice
                     </button>
                   ) : (
                     <button
-                      onClick={() => {
+                      className="text-[#0A98A9] font-medium cursor-pointer"
+                      onClick={async () => {
+                        await retreiveUserInvoice(
+                          row.original.payment.invoiceId,
+                          "update"
+                        );
+                        onCreateInvoice();
+                        setIsEditing(true);
                         console.log(row);
                       }}
                     >
-                      Invoice (Overdue)
+                      Update Invoice
                     </button>
                   )}
                   {/* <button
