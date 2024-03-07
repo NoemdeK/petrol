@@ -4,8 +4,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React from "react";
 import Plans from "./Plans";
 import useCreatePricing from "@/lib/useCreatePricing";
+import SubTable from "./SubTable";
 
-const ClientComponent = () => {
+const ClientComponent = ({ availablePlans }: any) => {
   const { onOpen } = useCreatePricing();
   return (
     <div>
@@ -39,13 +40,13 @@ const ClientComponent = () => {
         </div>
         <div className="mt-10">
           <TabsContent value="available_plans">
-            <Plans />
+            <Plans availablePlans={availablePlans} />
           </TabsContent>
           <TabsContent value="active_subs">
-            <p>active</p>
+            <SubTable data={[]} />
           </TabsContent>
           <TabsContent value="inactive_subs">
-            <p>inactive</p>
+            <SubTable data={[]} />{" "}
           </TabsContent>
         </div>
       </Tabs>

@@ -40,8 +40,12 @@ import { XSquare } from "lucide-react";
 import { da } from "date-fns/locale";
 
 const CreatePricing = () => {
-  const { isOpen, onClose, data: pricingData } = useCreatePricing();
+  const { isOpen, onClose, data: pricingData, setData } = useCreatePricing();
   const [planDetails, setPlanDetails] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  // const [dataState, setDataState] = useState(pricingData);
+
+  console.log(pricingData);
 
   const { data: userData } = useSession();
 
@@ -79,6 +83,7 @@ const CreatePricing = () => {
   ];
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(true);
     let tempData = {
       ...values,
     };
@@ -99,7 +104,87 @@ const CreatePricing = () => {
     };
 
     console.log(data);
+
+    const token = userData && userData.user.accessToken;
+    await PlainTransportDekApi.post("premium-plan/create", data, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        toast({
+          title: "Success",
+          description: "Pricing plan created successfully",
+        });
+      })
+      .finally(() => {
+        onClose();
+        setPlanDetails([]);
+        form.reset();
+        setIsLoading(false);
+        window.location.reload();
+      });
   }
+  async function updatePlan(values: z.infer<typeof formSchema>) {
+    setIsLoading(true);
+    let tempData = {
+      ...values,
+    };
+    if (tempData.period === "Per Month") {
+      tempData.period = "per_month";
+    }
+    if (tempData.period === "Per Week") {
+      tempData.period = "per_week";
+    }
+    if (tempData.period === "Per Year") {
+      tempData.period = "per_year";
+    }
+    const { detail, ...tempDataWithoutDetail } = tempData;
+
+    const data = {
+      ...tempDataWithoutDetail,
+      planDetails,
+    };
+
+    console.log(data);
+
+    const token = userData && userData.user.accessToken;
+    await PlainTransportDekApi.patch(
+      `premium-plan/update/available-plan?premiumPlanId=${pricingData?._id}`,
+      data,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+      .then((res) => {
+        console.log(res);
+        toast({
+          title: "Success",
+          description: "Pricing plan updated successfully",
+        });
+      })
+      .finally(() => {
+        onClose();
+        setPlanDetails([]);
+        form.reset();
+        setIsLoading(false);
+        window.location.reload();
+      });
+  }
+
+  useEffect(() => {
+    if (pricingData) {
+      form.setValue("planName", pricingData?.planName);
+      form.setValue("amount", pricingData?.amount);
+      form.setValue("period", pricingData?.period);
+      setPlanDetails(pricingData?.planDetails);
+    }
+  }, [pricingData]);
 
   return (
     <AnimatePresence>
@@ -121,6 +206,7 @@ const CreatePricing = () => {
                   onClose();
                   setPlanDetails([]);
                   form.reset();
+                  setData(null);
                 }}
               >
                 <Image
@@ -243,34 +329,61 @@ const CreatePricing = () => {
                   onClose();
                   setPlanDetails([]);
                   form.reset();
+                  setData(null);
                 }}
               >
                 Cancel
               </p>
 
-              <button
-                className="bg-[#000] text-white border border-[#0000001f] rounded-[5px] w-full px-[0.6rem] py-[0.4rem] font-normal cursor-pointer text-[0.85rem] flex justify-center items-center"
-                // type="submit"
-                disabled={false}
-                onClick={() => {
-                  onSubmit(form.getValues());
-                }}
-              >
-                {false ? (
-                  <TailSpin
-                    visible={true}
-                    height="20"
-                    width="20"
-                    color="#fff"
-                    ariaLabel="tail-spin-loading"
-                    radius="1"
-                    wrapperStyle={{}}
-                    wrapperClass=""
-                  />
-                ) : (
-                  "Create Plan"
-                )}
-              </button>
+              {pricingData === null ? (
+                <button
+                  className="bg-[#000] text-white border border-[#0000001f] rounded-[5px] w-full px-[0.6rem] py-[0.4rem] font-normal cursor-pointer text-[0.85rem] flex justify-center items-center"
+                  // type="submit"
+                  disabled={false}
+                  onClick={() => {
+                    onSubmit(form.getValues());
+                  }}
+                >
+                  {isLoading ? (
+                    <TailSpin
+                      visible={true}
+                      height="20"
+                      width="20"
+                      color="#fff"
+                      ariaLabel="tail-spin-loading"
+                      radius="1"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                    />
+                  ) : (
+                    "Create Plan"
+                  )}
+                </button>
+              ) : (
+                <button
+                  className="bg-[#000] text-white border border-[#0000001f] rounded-[5px] w-full px-[0.6rem] py-[0.4rem] font-normal cursor-pointer text-[0.85rem] flex justify-center items-center"
+                  // type="submit"
+                  disabled={false}
+                  onClick={() => {
+                    updatePlan(form.getValues());
+                  }}
+                >
+                  {isLoading ? (
+                    <TailSpin
+                      visible={true}
+                      height="20"
+                      width="20"
+                      color="#fff"
+                      ariaLabel="tail-spin-loading"
+                      radius="1"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                    />
+                  ) : (
+                    "Update Plan"
+                  )}
+                </button>
+              )}
             </div>
           </motion.div>
         </div>
