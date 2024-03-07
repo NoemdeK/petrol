@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import close from "../assets/icons/close.svg";
+import close from "@/assets/icons/close.svg";
 import { TailSpin } from "react-loader-spinner";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,11 +25,21 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
-import { EditUploadFile } from "./EditUploadFile";
+import { EditUploadFile } from "../EditUploadFile";
 import useCreateInvoice from "@/lib/useCreateInvoice";
+import { toast } from "../ui/use-toast";
+import { useSession } from "next-auth/react";
+import { set } from "date-fns";
+import Loader from "../ui/loader";
+import { UploadFileInput } from "../UploadFile";
+import { PlainTransportDekApi } from "@/utils/axios";
+import { format } from "date-fns";
+import { VercelLogoIcon } from "@radix-ui/react-icons";
 
 const CreateInvoice = () => {
   const { isOpen, onClose, data: clientData } = useCreateInvoice();
+  const [clientDataState, setClientDataState] = useState(clientData);
+  console.log(clientDataState);
   const [priceState, setPriceState] = React.useState<any>({
     rate: 0,
     quantity: 0,
@@ -37,13 +47,19 @@ const CreateInvoice = () => {
     monetaryDiscount: 0,
   });
   const [totalAmount, setTotalAmount] = React.useState<number>(0);
+  const [discountTouched, setDiscountTouched] = useState("");
+  const [attachment, setAttachment] = useState<string>("");
+  const [attachmentUploading, setAttachmentUploading] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+  const { data: userData } = useSession();
 
   const formSchema = z.object({
     client: z.string(),
     clientEmail: z.string(),
     invoiceDate: z.string(),
     dueDate: z.string(),
-    premiumPackage: z.string(),
+    premiumPlanPackage: z.string(),
     rate: z.string(),
     quantity: z.string(),
     percentageDiscount: z.string(),
@@ -60,7 +76,7 @@ const CreateInvoice = () => {
       clientEmail: "",
       invoiceDate: "",
       dueDate: "",
-      premiumPackage: "",
+      premiumPlanPackage: "",
       rate: "",
       quantity: "",
       percentageDiscount: "",
@@ -71,39 +87,303 @@ const CreateInvoice = () => {
   });
 
   useEffect(() => {
-    if (clientData) {
-      form.setValue(
-        "client",
-        `${clientData?.firstName} ${clientData?.lastName}` || ""
-      );
-      form.setValue("clientEmail", clientData?.email || "");
+    setClientDataState(clientData);
+  });
+  useEffect(() => {
+    form.setValue(
+      "client",
+      clientDataState.firstName
+        ? `${clientDataState?.firstName} ${clientDataState?.lastName}`
+        : clientDataState.client
+        ? clientDataState.client
+        : ""
+    );
+    form.setValue(
+      "clientEmail",
+      clientDataState.email
+        ? clientDataState?.email || ""
+        : clientDataState.clientEmail
+        ? clientDataState.clientEmail
+        : ""
+    );
+    form.setValue(
+      "invoiceDate",
+      clientDataState.invoiceDate
+        ? format(new Date(clientDataState.invoiceDate), "yyyy-MM-dd")
+        : ""
+    );
+    form.setValue(
+      "dueDate",
+      clientDataState.invoiceDate
+        ? format(new Date(clientDataState.dueDate), "yyyy-MM-dd")
+        : ""
+    );
+    form.setValue(
+      "premiumPlanPackage",
+      clientDataState.premiumPlanPackage === "starter"
+        ? "Starter Package (Individual)"
+        : clientDataState.premiumPlanPackage === "enterprise"
+        ? "Enterprise (Company)"
+        : ""
+    );
+    form.setValue("rate", clientDataState.rate ? clientDataState.rate : "");
+    form.setValue(
+      "quantity",
+      clientDataState.quantity ? clientDataState.quantity : ""
+    );
+    form.setValue(
+      "percentageDiscount",
+      clientDataState.percentageDiscount
+        ? clientDataState.percentageDiscount
+        : ""
+    );
+    form.setValue(
+      "monetaryDiscount",
+      clientDataState.monetaryDiscount ? clientDataState.monetaryDiscount : ""
+    );
+    if (clientDataState.totalAmount) {
+      setTotalAmount(clientDataState.totalAmount);
     }
-  }, [clientData]);
+  }, [clientDataState]);
 
   const premiumPlans = [
     {
       name: "Starter Package (Individual)",
+      short: "starter",
       value: 50000,
     },
     {
-      name: "Enterprise (Company",
+      name: "Enterprise (Company)",
+      short: "enterprise",
       value: 150000,
     },
   ];
 
-  async function onSubmit(values: any) {
-    const data = { ...values, attachment: "" };
+  async function createAndSaveInvoice(values: any) {
+    let tempData = { ...values };
+    if (tempData.premiumPlanPackage === "Starter Package (Individual)") {
+      tempData.premiumPlanPackage = "starter";
+    } else if (tempData.premiumPlanPackage === "Enterprise (Company)") {
+      tempData.premiumPlanPackage = "enterprise";
+    } else {
+      tempData.premiumPlanPackage = "";
+    }
+    setIsSaving(true);
+    const data = {
+      ...tempData,
+      attachment: attachment,
+      totalAmount: totalAmount,
+      rate: tempData.rate * 1,
+      quantity: tempData.quantity * 1,
+      percentageDiscount: tempData.percentageDiscount * 1,
+      monetaryDiscount: tempData.monetaryDiscount * 1,
+    };
     console.log(data);
+
+    await PlainTransportDekApi.post(
+      "premium-plan/invoice/create",
+      JSON.stringify(data),
+      {
+        headers: {
+          Authorization: `Bearer ${userData?.user.accessToken}`,
+        },
+      }
+    )
+      .then(() => {
+        form.reset();
+        toast({
+          title: "New Invoice Created",
+          description: "Done",
+        });
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log("Error", error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description:
+            `${error.response.data.message}` || "Something went wrong",
+        });
+      })
+      .finally(() => {
+        setIsSaving(false);
+      });
+  }
+
+  async function updateAndSaveInvoice(values: any) {
+    let tempData = { ...values };
+    if (tempData.premiumPlanPackage === "Starter Package (Individual)") {
+      tempData.premiumPlanPackage = "starter";
+    } else if (tempData.premiumPlanPackage === "Enterprise (Company)") {
+      tempData.premiumPlanPackage = "enterprise";
+    } else {
+      tempData.premiumPlanPackage = "";
+    }
+
+    // console.log(tempData);
+    // setIsSaving(true);
+    const data = {
+      ...tempData,
+      attachment: clientDataState.attachment,
+      totalAmount: totalAmount,
+      rate: tempData.rate * 1,
+      quantity: tempData.quantity * 1,
+      percentageDiscount: tempData.percentageDiscount * 1,
+      monetaryDiscount: tempData.monetaryDiscount * 1,
+    };
+    console.log(data);
+
+    setIsSaving(true);
+
+    await PlainTransportDekApi.patch(
+      `premium-plan/invoice/update?invoiceId=${clientDataState.invoiceId}`,
+      JSON.stringify(data),
+      {
+        headers: {
+          Authorization: `Bearer ${userData?.user.accessToken}`,
+        },
+      }
+    )
+      .then(() => {
+        form.reset();
+        toast({
+          title: "Invoice Updated Successfully",
+          description: "Done",
+        });
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log("Error", error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description:
+            `${error.response.data.message}` || "Something went wrong",
+        });
+      })
+      .finally(() => {
+        setIsSaving(false);
+      });
+  }
+
+  async function onSubmit(values: any) {
+    let tempData = { ...values };
+    if (tempData.premiumPlanPackage === "Starter Package (Individual)") {
+      tempData.premiumPlanPackage = "starter";
+    } else if (tempData.premiumPlanPackage === "Enterprise (Company)") {
+      tempData.premiumPlanPackage = "enterprise";
+    } else {
+      tempData.premiumPlanPackage = "";
+    }
+    const data = {
+      ...tempData,
+      attachment: attachment ? attachment : clientDataState.attachment,
+      totalAmount: totalAmount,
+      rate: tempData.rate * 1,
+      quantity: tempData.quantity * 1,
+      percentageDiscount: tempData.percentageDiscount * 1,
+      monetaryDiscount: tempData.monetaryDiscount * 1,
+    };
+    console.log(data);
+    setIsSending(true);
+    await PlainTransportDekApi.patch(
+      `premium-plan/invoice/send?invoiceId=${clientDataState.invoiceId}`,
+      JSON.stringify(data),
+      {
+        headers: {
+          Authorization: `Bearer ${userData?.user.accessToken}`,
+        },
+      }
+    )
+      .then(() => {
+        form.reset();
+        toast({
+          title: "Invoice Semt Successfully",
+          description: "Done",
+        });
+        onClose();
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log("Error", error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description:
+            `${error.response.data.message}` || "Something went wrong",
+        });
+      })
+      .finally(() => {
+        setIsSending(false);
+      });
+  }
+
+  async function uploadFileToDigitalOcean(file: File): Promise<string> {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}api/v1/upload/files`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${userData?.user.accessToken}`,
+          },
+          body: formData,
+        }
+      );
+
+      const data = await response.json();
+      const imageURL = data?.data?.url;
+      return imageURL;
+    } catch (error) {
+      console.error("Error uploading file to DigitalOcean:", error);
+      toast({
+        title: "Error",
+        description: "Error uploading files",
+      });
+      throw new Error("Failed to upload file to DigitalOcean");
+    }
+  }
+
+  async function uploadFilesToDigitalOcean(files: File[]): Promise<string[]> {
+    const uploadedImageURLs: string[] = [];
+
+    for (const file of files) {
+      try {
+        const imageURL = await uploadFileToDigitalOcean(file);
+        uploadedImageURLs.push(imageURL);
+      } catch (error) {
+        console.error(`Error uploading file ${file.name}:`, error);
+      }
+    }
+
+    return uploadedImageURLs;
   }
 
   const handleFileUpload = async (newDocument: any) => {
-    console.log(newDocument);
+    setAttachmentUploading(true);
+    const urls = await uploadFilesToDigitalOcean(newDocument);
+    setAttachment(urls[0]);
+    setAttachmentUploading(false);
   };
 
   useEffect(() => {
-    setTotalAmount(
-      priceState.rate * priceState.quantity - priceState.monetaryDiscount
-    );
+    if (discountTouched === "monetary" || discountTouched === "") {
+      setTotalAmount(
+        priceState.rate * priceState.quantity - priceState.monetaryDiscount
+      );
+    } else if (discountTouched === "percentage") {
+      setTotalAmount(
+        priceState.rate * priceState.quantity -
+          (priceState.rate *
+            priceState.quantity *
+            priceState.percentageDiscount) /
+            100
+      );
+    }
   }, [priceState, priceState.percentageDiscount]);
 
   return (
@@ -125,6 +405,7 @@ const CreateInvoice = () => {
                 onClick={() => {
                   onClose();
                   form.reset();
+                  setTotalAmount(0);
                 }}
               >
                 <Image
@@ -213,7 +494,7 @@ const CreateInvoice = () => {
                   </div>
                   <FormField
                     control={form.control}
-                    name="premiumPackage"
+                    name="premiumPlanPackage"
                     render={({ field }) => (
                       <FormItem className="mt-4">
                         <FormLabel>Premium Plan</FormLabel>
@@ -228,6 +509,10 @@ const CreateInvoice = () => {
                                 "rate",
                                 selectedPlanObject.value.toString()
                               );
+                              form.setValue("quantity", "0");
+                              form.setValue("monetaryDiscount", "0");
+                              form.setValue("percentageDiscount", "0");
+                              setTotalAmount(selectedPlanObject.value * 1);
                             }
                           }}
                         >
@@ -261,8 +546,8 @@ const CreateInvoice = () => {
                               <div className="border border-[#00000066] flex items-center bg-white px-2 rounded">
                                 <p className="text-[#00000099] text-sm">$</p>
                                 <Input
-                                  disabled={true}
                                   {...field}
+                                  disabled={true}
                                   type="number"
                                   className="w-full border-none text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
                                   onChange={(value: any) => {
@@ -292,8 +577,13 @@ const CreateInvoice = () => {
                                   className="w-full border-none text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
                                   onChange={(value: any) => {
                                     field.onChange(value);
+
                                     const quantity = value.target.value * 1;
                                     const log = form.getValues();
+                                    form.setValue("monetaryDiscount", "0");
+                                    form.setValue("percentageDiscount", "0");
+                                    let amt = quantity * Number(log.rate);
+                                    setTotalAmount(amt);
                                     setPriceState({
                                       ...priceState,
                                       quantity,
@@ -321,6 +611,7 @@ const CreateInvoice = () => {
                                   type="number"
                                   className="w-full border-none text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
                                   onChange={(value: any) => {
+                                    setDiscountTouched("percentage");
                                     field.onChange(value);
                                     const discount = value.target.value * 1;
                                     const discPerc =
@@ -356,6 +647,7 @@ const CreateInvoice = () => {
                                   type="number"
                                   className="w-full border-none text-sm focus-visible:ring-0 focus-visible:ring-offset-0"
                                   onChange={(value: any) => {
+                                    setDiscountTouched("monetary");
                                     field.onChange(value);
                                     console.log(form.getValues());
                                     const discount = value.target.value * 1;
@@ -381,27 +673,8 @@ const CreateInvoice = () => {
                     </div>
                     <div className="flex justify-end mt-4">
                       <h3 className="text-xl font-medium">
-                        Amount: ${totalAmount}
+                        Amount: ${totalAmount.toLocaleString()}
                       </h3>
-                      {/* <FormField
-                        control={form.control}
-                        name="totalAmount"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormControl>
-                              <div className="flex items-center px-2 rounded">
-                          
-                                <Input
-                                  disabled={true}
-                                  {...field}
-                                  type="number"
-                                  className="border-none w-[90px] min-w-[90px] focus-visible:ring-0 focus-visible:ring-offset-0 bg-transparent text-xl font-medium py-0 px-1"
-                                />
-                              </div>
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      /> */}
                     </div>
                   </div>
                   <div className="mt-6 flex-col gap-2">
@@ -410,6 +683,8 @@ const CreateInvoice = () => {
                       name="attachment"
                       form={form}
                       onUpload={handleFileUpload}
+                      acceptMultipleFiles={false}
+                      isUploading={attachmentUploading}
                     />
                   </div>
                 </form>
@@ -420,24 +695,69 @@ const CreateInvoice = () => {
                 className="bg-accent border border-[#0000001f] rounded-[5px] px-[0.9rem] py-[0.4rem] font-normal cursor-pointer text-[0.85rem]"
                 onClick={() => {
                   onClose();
+                  setTotalAmount(0);
                 }}
               >
                 Cancel
               </p>
-              <button
-                className="bg-[#000] text-white border border-[#0000001f] rounded-[5px] w-full px-[0.6rem] py-[0.4rem] font-normal cursor-pointer text-[0.85rem] flex justify-center items-center"
-                disabled={false}
-                //   onClick={form.handleSubmit(onSubmit)}
-              >
-                Save
-              </button>
+              {clientDataState.invoiceCreated || (
+                <button
+                  className="bg-[#000] text-white border border-[#0000001f] rounded-[5px] w-full px-[0.6rem] py-[0.4rem] font-normal cursor-pointer text-[0.85rem] flex justify-center items-center"
+                  disabled={isSaving || attachmentUploading}
+                  onClick={() => {
+                    createAndSaveInvoice(form.getValues());
+                  }}
+                >
+                  {isSaving ? (
+                    <TailSpin
+                      visible={true}
+                      height="20"
+                      width="20"
+                      color="#fff"
+                      ariaLabel="tail-spin-loading"
+                      radius="1"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                    />
+                  ) : (
+                    "Save"
+                  )}
+                </button>
+              )}
+              {clientDataState.invoiceCreated && (
+                <button
+                  className="bg-[#000] text-white border border-[#0000001f] rounded-[5px] w-full px-[0.6rem] py-[0.4rem] font-normal cursor-pointer text-[0.85rem] flex justify-center items-center"
+                  disabled={isSaving || attachmentUploading}
+                  onClick={() => {
+                    updateAndSaveInvoice(form.getValues());
+                  }}
+                >
+                  {isSaving ? (
+                    <TailSpin
+                      visible={true}
+                      height="20"
+                      width="20"
+                      color="#fff"
+                      ariaLabel="tail-spin-loading"
+                      radius="1"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                    />
+                  ) : (
+                    "Update Invoice"
+                  )}
+                </button>
+              )}
+
               <button
                 className="bg-[#000] text-white border border-[#0000001f] rounded-[5px] w-full px-[0.6rem] py-[0.4rem] font-normal cursor-pointer text-[0.85rem] flex justify-center items-center"
                 // type="submit"
-                disabled={false}
-                onClick={form.handleSubmit(onSubmit)}
+                disabled={isSaving || attachmentUploading}
+                onClick={() => {
+                  onSubmit(form.getValues());
+                }}
               >
-                {false ? (
+                {isSending ? (
                   <TailSpin
                     visible={true}
                     height="20"

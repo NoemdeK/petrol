@@ -87,7 +87,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
           <div className="hidden md:flex h-full md:h-[85vh]  md:w-60 md:flex-col  md:fidxed md:inset-y-0 z-80">
             <Sidebar session={me?.data?.role} />
           </div>
-          <main className="pt-10 md:pt-4 w-full h-[90vh] overflow-hidden overflow-y-scroll">
+          <main className="pt-10 md:pt-0 w-full h-[90vh] overflow-hidden overflow-y-scroll">
             {/* <HeaderStat data={result} /> */}
             <TabData />
 

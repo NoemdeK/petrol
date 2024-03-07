@@ -8,7 +8,7 @@ import report from "@/assets/report.svg";
 import { useSession } from "next-auth/react";
 import { toast } from "@/components/ui/use-toast";
 import { useParams } from "next/navigation";
-import { parseISO, format } from "date-fns";
+import { format } from "date-fns";
 import SkeletonContainer from "@/components/ui/skeleton";
 import MostRead from "../../MostRead";
 import { useRouter } from "next/navigation";

@@ -1,5 +1,5 @@
+"use client";
 import * as React from "react";
-
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -12,19 +12,14 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
 import { Button } from "@/components/ui/button";
-
 import {
   Table,
   TableBody,
@@ -33,19 +28,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-import { toast, useToast } from "@/components/ui/use-toast";
-
+import { toast } from "@/components/ui/use-toast";
 import { useSearchParams } from "next/navigation";
-
 import { Input } from "@/components/ui/input";
-
 import { useSession } from "next-auth/react";
 import useLoading from "@/lib/useLoading";
-import useDocumentView from "@/lib/useDocumentView";
 import useCreate from "@/lib/useCreate";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { AvatarImage } from "@radix-ui/react-avatar";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { SupsendUserModal } from "@/components/SuspendUser";
 import { VerifyModal } from "@/components/VerifyModal";
@@ -53,10 +41,10 @@ import useSuspend from "@/lib/useSuspend";
 import useVerify from "@/lib/useVerify";
 import useDelete from "@/lib/useDelete";
 import useEditUser from "@/lib/useEdit";
-
 import { PageContainer } from "@/components/PageContainer";
 import { DeletUserModal } from "@/components/DeleteUser";
 import useCreateInvoice from "@/lib/useCreateInvoice";
+import { PlainTransportDekApi } from "@/utils/axios";
 
 export type Payment = {
   id: string;
@@ -77,166 +65,372 @@ export type Payment = {
 
 export function UsersTable({ data, setBatch, setLimit, batch, limit }: any) {
   const { onOpen: onCreateInvoice, setData } = useCreateInvoice();
+  const { tab } = useEditUser();
+  const session = useSession();
 
-  const columns: ColumnDef<any>[] = [
-    {
-      id: "select",
-      header: "ID",
-      cell: ({ row }) => {
-        const data = row.original;
-        return (
-          <div className="flex gap-1 items-center">
-            {/* <Avatar className="w-8">
+  const retreiveUserInvoice = async (id: any) => {
+    await PlainTransportDekApi.get(
+      `premium-plan/invoice/retrieve?invoiceId=${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${session.data?.user.accessToken}`,
+        },
+      }
+    )
+      .then((res) => {
+        setData({ ...res.data.data, invoiceId: id });
+      })
+      .catch((err) => {
+        console.log(err);
+        toast({
+          description: err.message || `Couldn't retreive invoice`,
+          title: "Error",
+          variant: "destructive",
+        });
+      })
+      .finally(() => {});
+  };
+
+  const columns: ColumnDef<any>[] =
+    tab === "rwx_user"
+      ? [
+          {
+            id: "select",
+            header: "ID",
+            cell: ({ row }) => {
+              const data = row.original;
+              return (
+                <div className="flex gap-1 items-center">
+                  {/* <Avatar className="w-8">
                             <AvatarImage src={data?.avatar} alt="@shadcn" />
                             <AvatarFallback>CN</AvatarFallback>
                         </Avatar> */}
-            <p>{data.pdaId}</p>
-          </div>
-        );
-      },
-      enableSorting: false,
-      enableHiding: false,
-    },
-    {
-      accessorKey: "firstName",
-      header: ({}) => {
-        return <div className="flex gap-1 items-center">First Name</div>;
-      },
-      cell: ({ row }) => {
-        return (
-          <div className="cursor-pointer flex gap-2 text-xs items-center">
-            {row.getValue("firstName")}
-          </div>
-        );
-      },
-    },
-    {
-      accessorKey: "lastName",
-      header: ({}) => {
-        return <div className="flex gap-2 items-center">Last Name</div>;
-      },
-      cell: ({ row }) => {
-        return <div className="text-xs">{row.getValue("lastName")}</div>;
-      },
-    },
-    {
-      accessorKey: "email",
-      header: ({}) => {
-        return <div className="gap-2 flex items-center">Email</div>;
-      },
-      cell: ({ row }) => {
-        return (
-          <div className="text-xs text-[#0A98A9] font-medium">
-            {row.getValue("email")}
-          </div>
-        );
-      },
-    },
-    {
-      accessorKey: "status",
-      header: ({}) => {
-        return <div className="flex items-center gap-2">Status</div>;
-      },
-      cell: ({ row }) => (
-        <div className="capitalize text-xs ">{row.getValue("status")}</div>
-      ),
-    },
-    // {
-    //   accessorKey: "payment",
-    //   header: ({}) => {
-    //     return <div className="flex items-center gap-2">Payment</div>;
-    //   },
-    //   cell: ({ row }) => {
-    //     return (
-    //       <div className="capitalize text-xs ">
-    //         <button
-    //           className="text-[#0A98A9] font-medium cursor-pointer"
-    //           onClick={() => {
-    //             console.log(row);
-    //             setData(row.original);
-    //             onCreateInvoice();
-    //           }}
-    //         >
-    //           {row.original.payment.action === "create_invoice"
-    //             ? "Create Invoice"
-    //             : row.original.payment.action === "create_invoice"
-    //             ? "Invoice (Overdue)"
-    //             : row.original.payment.action === "invoice_paid"
-    //             ? "Invoice (Paid)"
-    //             : ""}
-    //         </button>
-    //       </div>
-    //     );
-    //   },
-    // },
+                  <p>{data.pdaId}</p>
+                </div>
+              );
+            },
+            enableSorting: false,
+            enableHiding: false,
+          },
+          {
+            accessorKey: "firstName",
+            header: ({}) => {
+              return <div className="flex gap-1 items-center">First Name</div>;
+            },
+            cell: ({ row }) => {
+              return (
+                <div className="cursor-pointer flex gap-2 text-xs items-center">
+                  {row.getValue("firstName")}
+                </div>
+              );
+            },
+          },
+          {
+            accessorKey: "lastName",
+            header: ({}) => {
+              return <div className="flex gap-2 items-center">Last Name</div>;
+            },
+            cell: ({ row }) => {
+              return <div className="text-xs">{row.getValue("lastName")}</div>;
+            },
+          },
+          {
+            accessorKey: "email",
+            header: ({}) => {
+              return <div className="gap-2 flex items-center">Email</div>;
+            },
+            cell: ({ row }) => {
+              return (
+                <div className="text-xs text-[#0A98A9] font-medium">
+                  {row.getValue("email")}
+                </div>
+              );
+            },
+          },
+          {
+            accessorKey: "status",
+            header: ({}) => {
+              return <div className="flex items-center gap-2">Status</div>;
+            },
+            cell: ({ row }) => (
+              <div className="capitalize text-xs ">
+                {row.getValue("status")}
+              </div>
+            ),
+          },
+          {
+            accessorKey: "payment",
+            header: ({}) => {
+              return <div className="flex items-center gap-2">Payment</div>;
+            },
+            cell: ({ row }) => {
+              return (
+                <div className="capitalize text-xs ">
+                  {row.original.payment?.action === "create_invoice" &&
+                  row.original.payment.invoiceId === null ? (
+                    <button
+                      className="text-[#0A98A9] font-medium cursor-pointer"
+                      onClick={() => {
+                        setData(row.original);
+                        onCreateInvoice();
+                        console.log(row);
+                      }}
+                    >
+                      Create Invoice
+                    </button>
+                  ) : row.original.payment?.action === "create_invoice" &&
+                    row.original.payment.invoiceId !== null ? (
+                    <button
+                      className="text-[#0A98A9] font-medium cursor-pointer"
+                      onClick={async () => {
+                        await retreiveUserInvoice(
+                          row.original.payment.invoiceId
+                        );
+                        onCreateInvoice();
+                      }}
+                    >
+                      Update Invoice
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        console.log(row);
+                      }}
+                    >
+                      Invoice (Overdue)
+                    </button>
+                  )}
+                  {/* <button
+                    className="text-[#0A98A9] font-medium cursor-pointer"
+                    onClick={() => {
+                      console.log(row);
+                      if (row.original.payment.invoiceId === null) {
+                        setData(row.original);
+                        onCreateInvoice();
+                      } else {
+                        retreiveUserInvoice(row.original.payment.invoiceId);
+                      }
+                    }}
+                  >
+                    {row.original.payment.action === "create_invoice"
+                      ? "Create Invoice"
+                      : toUpdateInvoice
+                      ? "Update Invoice"
+                      : row.original.payment.action === "invoice_overdue" &&
+                        row.original.payment.invoiceId
+                      ? "Invoice (Overdue)"
+                      : row.original.payment.action === "invoice_paid"
+                      ? "Invoice (Paid)"
+                      : ""}
+                  </button> */}
+                </div>
+              );
+            },
+          },
+          {
+            accessorKey: "createdBy",
+            header: ({}) => {
+              return <div className="flex items-center gap-2">Created By</div>;
+            },
+            cell: ({ row }) => {
+              return (
+                <div className="capitalize text-xs">
+                  {row.getValue("createdBy")}
+                </div>
+              );
+            },
+          },
 
-    {
-      accessorKey: "createdBy",
-      header: ({}) => {
-        return <div className="flex items-center gap-2">Created By</div>;
-      },
-      cell: ({ row }) => {
-        return (
-          <div className="capitalize text-xs">{row.getValue("createdBy")}</div>
-        );
-      },
-    },
+          {
+            accessorKey: "dateCreated",
+            header: ({}) => {
+              return (
+                <div className="flex items-center gap-2">Date Created</div>
+              );
+            },
+            cell: ({ row }) => {
+              return (
+                <div className="capitalize text-xs">
+                  {row.getValue("dateCreated")}
+                </div>
+              );
+            },
+          },
+          {
+            accessorKey: "lastLoggedIn",
+            header: ({}) => {
+              return <div className="flex items-center gap-2">Last Login</div>;
+            },
+            cell: ({ row }) => {
+              return (
+                <div className="capitalize text-xs">
+                  {row.getValue("lastLoggedIn")}
+                </div>
+              );
+            },
+          },
+          {
+            accessorKey: "duration",
+            header: ({}) => {
+              return <div className="flex items-center gap-2">Duration</div>;
+            },
+            cell: ({ row }) => {
+              return (
+                <div className="capitalize text-xs">
+                  {row.getValue("duration")}
+                </div>
+              );
+            },
+          },
+          {
+            id: "actions",
+            enableHiding: false,
+            header: () => {
+              return <div className="text-right">Actions</div>;
+            },
+            cell: ({ row }) => {
+              const entry = row.original;
+              return <Actions entry={entry} />;
+            },
+          },
+        ]
+      : [
+          {
+            id: "select",
+            header: "ID",
+            cell: ({ row }) => {
+              const data = row.original;
+              return (
+                <div className="flex gap-1 items-center">
+                  {/* <Avatar className="w-8">
+                            <AvatarImage src={data?.avatar} alt="@shadcn" />
+                            <AvatarFallback>CN</AvatarFallback>
+                        </Avatar> */}
+                  <p>{data.pdaId}</p>
+                </div>
+              );
+            },
+            enableSorting: false,
+            enableHiding: false,
+          },
+          {
+            accessorKey: "firstName",
+            header: ({}) => {
+              return <div className="flex gap-1 items-center">First Name</div>;
+            },
+            cell: ({ row }) => {
+              return (
+                <div className="cursor-pointer flex gap-2 text-xs items-center">
+                  {row.getValue("firstName")}
+                </div>
+              );
+            },
+          },
+          {
+            accessorKey: "lastName",
+            header: ({}) => {
+              return <div className="flex gap-2 items-center">Last Name</div>;
+            },
+            cell: ({ row }) => {
+              return <div className="text-xs">{row.getValue("lastName")}</div>;
+            },
+          },
+          {
+            accessorKey: "email",
+            header: ({}) => {
+              return <div className="gap-2 flex items-center">Email</div>;
+            },
+            cell: ({ row }) => {
+              return (
+                <div className="text-xs text-[#0A98A9] font-medium">
+                  {row.getValue("email")}
+                </div>
+              );
+            },
+          },
+          {
+            accessorKey: "status",
+            header: ({}) => {
+              return <div className="flex items-center gap-2">Status</div>;
+            },
+            cell: ({ row }) => (
+              <div className="capitalize text-xs ">
+                {row.getValue("status")}
+              </div>
+            ),
+          },
+          {
+            accessorKey: "createdBy",
+            header: ({}) => {
+              return <div className="flex items-center gap-2">Created By</div>;
+            },
+            cell: ({ row }) => {
+              return (
+                <div className="capitalize text-xs">
+                  {row.getValue("createdBy")}
+                </div>
+              );
+            },
+          },
 
-    {
-      accessorKey: "dateCreated",
-      header: ({}) => {
-        return <div className="flex items-center gap-2">Date Created</div>;
-      },
-      cell: ({ row }) => {
-        return (
-          <div className="capitalize text-xs">
-            {row.getValue("dateCreated")}
-          </div>
-        );
-      },
-    },
-    {
-      accessorKey: "lastLoggedIn",
-      header: ({}) => {
-        return <div className="flex items-center gap-2">Last Login</div>;
-      },
-      cell: ({ row }) => {
-        return (
-          <div className="capitalize text-xs">
-            {row.getValue("lastLoggedIn")}
-          </div>
-        );
-      },
-    },
-    {
-      accessorKey: "duration",
-      header: ({}) => {
-        return <div className="flex items-center gap-2">Duration</div>;
-      },
-      cell: ({ row }) => {
-        return (
-          <div className="capitalize text-xs">{row.getValue("duration")}</div>
-        );
-      },
-    },
-    {
-      id: "actions",
-      enableHiding: false,
-      header: () => {
-        return <div className="text-right">Actions</div>;
-      },
-      cell: ({ row }) => {
-        const entry = row.original;
-        return <Actions entry={entry} />;
-      },
-    },
-  ];
+          {
+            accessorKey: "dateCreated",
+            header: ({}) => {
+              return (
+                <div className="flex items-center gap-2">Date Created</div>
+              );
+            },
+            cell: ({ row }) => {
+              return (
+                <div className="capitalize text-xs">
+                  {row.getValue("dateCreated")}
+                </div>
+              );
+            },
+          },
+          {
+            accessorKey: "lastLoggedIn",
+            header: ({}) => {
+              return <div className="flex items-center gap-2">Last Login</div>;
+            },
+            cell: ({ row }) => {
+              return (
+                <div className="capitalize text-xs">
+                  {row.getValue("lastLoggedIn")}
+                </div>
+              );
+            },
+          },
+          {
+            accessorKey: "duration",
+            header: ({}) => {
+              return <div className="flex items-center gap-2">Duration</div>;
+            },
+            cell: ({ row }) => {
+              return (
+                <div className="capitalize text-xs">
+                  {row.getValue("duration")}
+                </div>
+              );
+            },
+          },
+          {
+            id: "actions",
+            enableHiding: false,
+            header: () => {
+              return <div className="text-right">Actions</div>;
+            },
+            cell: ({ row }) => {
+              const entry = row.original;
+              return <Actions entry={entry} />;
+            },
+          },
+        ];
 
   const Actions = (entry: any) => {
     const remove = useDelete();
     const verify = useVerify();
     const reject = useSuspend();
-    const session = useSession();
     const edit = useEditUser();
     const loading = useLoading();
 

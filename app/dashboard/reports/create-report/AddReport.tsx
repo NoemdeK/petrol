@@ -25,6 +25,9 @@ import { XSquare } from "lucide-react";
 import { PlainTransportDekApi } from "@/utils/axios";
 import Loader from "@/components/ui/loader";
 import { useRouter } from "next/navigation";
+import { MultiSelect } from "primereact/multiselect";
+import "primereact/resources/themes/tailwind-light/theme.css";
+
 // interface IAddReport {
 //   setShowAddReport: Dispatch<SetStateAction<boolean>>;
 //   showReports: boolean;
@@ -69,8 +72,8 @@ const AddReport = () => {
     console.log(data);
     const formatedData = {
       ...data,
-      tags,
-      reportCategory,
+      tags: selectedTag,
+      reportCategory: selectedCategoryies,
     };
     console.log(formatedData);
 
@@ -114,6 +117,19 @@ const AddReport = () => {
       });
     }
   }
+  const [selectedCategoryies, setSlectedCategoryies] = useState(null);
+  const categories = [
+    { name: "Latest Report", value: "latest_reports" },
+    { name: "Top Report", value: "top_reports" },
+  ];
+  const [selectedTag, setSlectedTag] = useState(null);
+  const availableTags = [
+    { name: "AGO", value: "AGO" },
+    { name: "PMS", value: "PMS" },
+    { name: "ICE", value: "ICE" },
+    { name: "DPK", value: "DPK" },
+    { name: "LPG", value: "LPG" },
+  ];
 
   return (
     <div className="">
@@ -204,45 +220,22 @@ const AddReport = () => {
                     <FormItem>
                       <FormLabel>Report Category </FormLabel>
                       <FormControl>
-                        <Input
-                          type="text"
-                          placeholder="E.g., Latest Report, e.t.c."
-                          disabled={isLoading}
-                          {...field}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter") {
-                              e.preventDefault();
-                              const value = form.getValues("category");
-                              setReportCategory((prev) => [...prev, value]);
-                              form.setValue("category", "");
-                            }
+                        <MultiSelect
+                          value={selectedCategoryies}
+                          onChange={(e) => {
+                            setSlectedCategoryies(e.value);
                           }}
+                          options={categories}
+                          optionLabel="name"
+                          placeholder="Select Categories"
+                          maxSelectedLabels={3}
+                          className="w-full border h-[40px]"
                         />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                {reportCategory.length > 0 && (
-                  <div className="mt-3 grid grid-cols-3 gap-2">
-                    {reportCategory.map((item, index) => (
-                      <div
-                        key={index}
-                        className="flex gap-1 items-center bg-[#E0E0E0] rounded-[5px] px-[0.3rem] py-[0.4rem] font-normal cursor-pointer text-[0.85rem] w-max"
-                      >
-                        <XSquare
-                          onClick={() => {
-                            setReportCategory((prev) =>
-                              prev.filter((_, i) => i !== index)
-                            );
-                          }}
-                        />
-
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-                )}
               </div>
               <div className="flex-1">
                 <FormField
@@ -252,45 +245,22 @@ const AddReport = () => {
                     <FormItem>
                       <FormLabel>Tag </FormLabel>
                       <FormControl>
-                        <Input
-                          type="text"
-                          placeholder="E.g., AGO, PMS, e.t.c."
-                          disabled={isLoading}
-                          {...field}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter") {
-                              e.preventDefault();
-                              const value = form.getValues("tag");
-                              setTags((prev) => [...prev, value]);
-                              form.setValue("tag", "");
-                            }
+                        <MultiSelect
+                          value={selectedTag}
+                          onChange={(e) => {
+                            setSlectedTag(e.value);
                           }}
+                          options={availableTags}
+                          optionLabel="name"
+                          placeholder="Select Tags"
+                          maxSelectedLabels={3}
+                          className="w-full border h-[40px]"
                         />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                {tags.length > 0 && (
-                  <div className="mt-3 grid grid-cols-3 gap-2">
-                    {tags.map((item, index) => (
-                      <div
-                        key={index}
-                        className="flex gap-1 items-center bg-[#E0E0E0] rounded-[5px] px-[0.3rem] py-[0.4rem] font-normal cursor-pointer text-[0.85rem] w-max"
-                      >
-                        <XSquare
-                          onClick={() => {
-                            setTags((prev) =>
-                              prev.filter((_, i) => i !== index)
-                            );
-                          }}
-                        />
-
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-                )}
               </div>
             </div>
             <div className="w-full flex items-center justify-between">

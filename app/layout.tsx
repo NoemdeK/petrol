@@ -12,7 +12,11 @@ import LoadingModal from "@/components/LoadingModal";
 import { DocumentView } from "@/components/DocumentView";
 import EditFieldData from "@/components/EditFieldData";
 import ExportRawData from "@/components/ExportRawData";
-import CreateInvoice from "@/components/CreateInvoice";
+import CreateInvoice from "@/components/Invoicing/CreateInvoice";
+import { PrimeReactProvider } from "primereact/api";
+import InvoiceOverdue from "@/components/Invoicing/InvoiceOverdue";
+import ReceiveInvoiceOverdue from "@/components/Invoicing/ReceiveInvoiceOverdue";
+import CreatePricing from "@/components/pricing/CreatePricing";
 
 export const metadata: Metadata = {
   title: "Diophalytics",
@@ -29,15 +33,20 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <AuthProvider>
         <Redux>
-          <body className="no-scrollbar">
-            <LoadingModal />
-            <DocumentView />
-            <EditFieldData />
-            <ExportRawData />
-            <CreateInvoice />
-            <Toaster />
-            {children}
-          </body>
+          <PrimeReactProvider>
+            <body className="no-scrollbar">
+              <LoadingModal />
+              <DocumentView />
+              <EditFieldData />
+              <ExportRawData />
+              <CreateInvoice />
+              <InvoiceOverdue />
+              <ReceiveInvoiceOverdue />
+              <CreatePricing />
+              <Toaster />
+              {children}
+            </body>
+          </PrimeReactProvider>
         </Redux>
       </AuthProvider>
     </html>

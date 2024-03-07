@@ -11,6 +11,9 @@ import News from "../News";
 
 import { groq } from "next-sanity";
 import { client } from "@/sanity/lib/client";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/utils/auth";
+import useStorage from "@/hooks/useStorage";
 
 async function getAnalytics(params: string | undefined, search: string) {
   let product = "PMS"; // Default value for product if params is undefined or invalid
@@ -47,7 +50,6 @@ async function getAnalytics(params: string | undefined, search: string) {
       "https://petrodata.zainnovations.com/api/v1/petro-data/analysis";
     const headers = new Headers();
     headers.append("Content-Type", "application/json");
-    // headers.append('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTc4N2QzMTI1NWIxYTA1ZGZhZDQ4MTIiLCJyb2xlIjoicnd4X3VzZXIiLCJpYXQiOjE3MDIzOTUyMDF9.iZXOHmjSEBIG-kBJscRKMCd9WpZZEdRXGzN7_yDxTIg');
 
     const requestOptions = {
       method: "POST",
@@ -87,8 +89,7 @@ async function getDataNews(product: string) {
       process.env.BACKEND_URL +
         `api/v1/petro-data/analysis/projections?flag=${product || "PMS"}&page=1`
     );
-    // console.log(await res.json());
-    return await res.json();
+    return res.json();
   } catch (error: any) {
     console.log(error);
   }
@@ -116,9 +117,12 @@ export const revalidate = 0;
 
 const Productpage = async ({ params, searchParams }: any) => {
   const posts = await fetchPosts();
-  const news = await getDataNews(params.product);
+  const user = await getServerSession(authOptions);
 
-  console.log(news);
+  const { setItem } = useStorage();
+  setItem("token", JSON.stringify(user?.user.accessToken));
+
+  const news = await getDataNews(params.product);
 
   const main = await getAnalytics(
     `${params.product}`,

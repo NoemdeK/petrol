@@ -111,13 +111,13 @@ const ClientComponent = () => {
     <div>
       <div className="border border-[#0000001F] p-4 rounded-md">
         <h3 className="text-sm font-medium">Research & Reports</h3>
-        <div className="mt-4 flex justify-between items-center gap-[2rem]">
-          <div className="flex items-center gap-1 text-xs">
+        <div className="mt-4 flex flex-col md:flex-row justify-between items-center gap-[0.6rem] md:gap-[2rem]">
+          <div className="flex items-center gap-1 text-xs w-full">
             <p>View:</p>
             <button>Latest Reports</button>
             <button>Top Reports</button>
           </div>
-          <div className="border border-[#0000004d] p-[0.25rem] rounded-[0.2rem] flex gap-1 items-center flex-1">
+          <div className="border border-[#0000004d] p-[0.25rem] rounded-[0.2rem] flex gap-1 items-center flex-1 w-full">
             <Search color="#00000099" size={12} />
             <input
               type="text"
@@ -130,7 +130,7 @@ const ClientComponent = () => {
           {role === "rwx_admin" && (
             <Link
               href="/dashboard/reports/create-report"
-              className="bg-[#000000] px-4 rounded-md text-white text-xs h-[33px] flex items-center"
+              className="bg-[#000000] px-4 rounded-md text-white text-xs h-[33px] flex items-center w-full"
             >
               Add New Report
             </Link>

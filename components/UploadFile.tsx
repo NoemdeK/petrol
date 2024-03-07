@@ -2,11 +2,11 @@
 import Dropzone from "react-dropzone";
 import { Controller } from "react-hook-form";
 import { useEffect, useState, SetStateAction } from "react";
-import { FileUp, Archive } from "lucide-react";
+import { FileUp, Archive, Loader } from "lucide-react";
 import React from "react";
 import Document from "./Document";
 
-export const UploadFileInput = ({ form, name, onUpload }: any) => {
+export const UploadFileInput = ({ form, name, acceptMultipleFiles }: any) => {
   return (
     <Controller
       control={form.control}
@@ -51,7 +51,7 @@ export const UploadFileInput = ({ form, name, onUpload }: any) => {
                   </div>
                   <input
                     {...getInputProps()}
-                    multiple
+                    multiple={acceptMultipleFiles ? acceptMultipleFiles : true}
                     name={name}
                     onBlur={field.onBlur}
                   />
@@ -61,6 +61,7 @@ export const UploadFileInput = ({ form, name, onUpload }: any) => {
                 </div>
               )}
             </Dropzone>
+
             <ul className="flex gap-2 flex-wrap mt-4">
               {field.value &&
                 uploadedFiles &&
