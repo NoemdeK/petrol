@@ -28,7 +28,7 @@ import { useForm } from "react-hook-form";
 import { EditUploadFile } from "../EditUploadFile";
 import { toast } from "../ui/use-toast";
 import { useSession } from "next-auth/react";
-import { set } from "date-fns";
+import { format, set } from "date-fns";
 import Loader from "../ui/loader";
 import { PlainTransportDekApi } from "@/utils/axios";
 import { ChevronRight } from "lucide-react";
@@ -41,22 +41,13 @@ import {
 } from "../ui/dropdown-menu";
 import useReceiveInvoice from "@/lib/useReceiveInvoice";
 
-const ReceiveInvoiceOverdue = () => {
+const ReceiveInvoicePayment = () => {
   const { data: userData } = useSession();
-
   const { onOpen, onClose, isOpen, data, setData } = useReceiveInvoice();
+  const [isLoading, setIsLoading] = useState(false);
 
   const formSchema = z.object({
-    // client: z.string().trim(),
-    // clientEmail: z.string().trim(),
-    // invoiceDate: z.string(),
-    // dueDate: z.string(),
-    // premiumPlanPackage: z.string(),
-    // rate: z.string(),
-    // quantity: z.string(),
-    // percentageDiscount: z.string(),
-    // monetaryDiscount: z.string(),
-    amountPaid: z.string(),
+    amountPaid: z.string().trim(),
     paymentDate: z.string(),
   });
 
@@ -64,33 +55,95 @@ const ReceiveInvoiceOverdue = () => {
     mode: "onBlur",
     resolver: zodResolver(formSchema),
     defaultValues: {
-      // client: "",
-      // clientEmail: "",
-      // invoiceDate: "",
-      // dueDate: "",
-      // premiumPlanPackage: "",
-      // rate: "",
-      // quantity: "",
-      // percentageDiscount: "",
-      // monetaryDiscount: "",
       amountPaid: "",
       paymentDate: "",
     },
   });
 
   const [showDetails, setShowDetails] = useState(false);
-  //   const [showActivity, setShowActivity] = useState(true);
 
   const toggleDetails = () => {
     setShowDetails((prevState) => !prevState);
   };
-  //   const toggleActivity = () => {
-  //     setShowActivity((prevState) => !prevState);
-  //   };
+
+  async function onSubmit(values: any) {
+    if (values.amountPaid === "" || values.paymentDate === "") {
+      toast({
+        title: "Error",
+        description: "Please fill all the fields",
+        variant: "destructive",
+      });
+      return;
+    }
+    console.log(values);
+
+    const {
+      client,
+      clientEmail,
+      invoiceDate,
+      dueDate,
+      premiumPlanPackage,
+      rate,
+      quantity,
+      percentageDiscount,
+      monetaryDiscount,
+      attachment,
+    } = data;
+    const payload = {
+      ...values,
+      client,
+      clientEmail,
+      invoiceDate,
+      dueDate,
+      premiumPlanPackage,
+      rate,
+      quantity,
+      percentageDiscount,
+      monetaryDiscount,
+      totalAmount: values.amountPaid * 1,
+      invoiceAmountPaidDate: values.paymentDate,
+      attachment,
+    };
+    console.log(payload);
+
+    setIsLoading(true);
+
+    await PlainTransportDekApi.patch(
+      `premium-plan/invoice/confirm-payment?invoiceId=${data.invoiceId}`,
+      JSON.stringify(payload),
+      {
+        headers: {
+          Authorization: `Bearer ${userData?.user.accessToken}`,
+        },
+      }
+    )
+      .then(() => {
+        toast({
+          title: "Success",
+          description: "Payment confirmed successfully",
+          variant: "default",
+        });
+        onClose();
+      })
+      .catch((error) => {
+        toast({
+          title: "Error",
+          description:
+            error.response.data.message ||
+            "There was an issue with your request",
+          variant: "destructive",
+        });
+      })
+      .finally(() => {
+        setIsLoading(false);
+        onClose();
+        window.location.reload();
+      });
+  }
 
   return (
     <AnimatePresence>
-      {false && (
+      {isOpen && (
         <div className="bg-[#262626a3] fixed top-0 left-0 right-0 bottom-0 z-50 backdrop-blur-[3.1px] shadow-[0_4px_30px_#00000019] flex justify-end">
           <motion.div
             initial={{ opacity: 1, x: 420 }}
@@ -103,7 +156,11 @@ const ReceiveInvoiceOverdue = () => {
               <p className="text-sm font-medium text-[0.8rem]">
                 Invoice 0001 <span className="ml-4 text-red-500">Overdue</span>
               </p>
-              <span onClick={() => {}}>
+              <span
+                onClick={() => {
+                  onClose();
+                }}
+              >
                 <Image
                   src={close}
                   width={27}
@@ -119,21 +176,30 @@ const ReceiveInvoiceOverdue = () => {
             </Form> */}
               <div className="mt-6">
                 <p className="font-medium text-sm">Total Due</p>
-                <h2 className="font-medium text-2xl">$300,000</h2>
+                <h2 className="font-medium text-2xl">
+                  {" "}
+                  ${data.totalAmount.toLocaleString()}
+                </h2>
               </div>
               <div className="mt-6 flex justify-between">
                 <div className="flex-1">
                   <p className="font-medium text-sm">Invoice Date</p>
-                  <p className="font-normal text-[1em]">01/02/2024</p>
+                  <p className="font-normal text-[1em]">
+                    {" "}
+                    {format(new Date(data.invoiceDate), "dd/MM/yyyy")}
+                  </p>
                 </div>
                 <div className="flex-1">
                   <p className="font-medium text-sm">Due Date</p>
-                  <p className="font-normal text-[1em]">29/02/2024</p>
+                  <p className="font-normal text-[1em]">
+                    {" "}
+                    {format(new Date(data.dueDate), "dd/MM/yyyy")}
+                  </p>
                 </div>
               </div>
               <div className="mt-6 border rounded-lg p-[1rem]">
-                <p className="font-medium">Isaac Adeleke</p>
-                <p>isaacadeleke@gmail.com</p>
+                <p className="font-medium">{data.client}</p>
+                <p>{data.clientEmail}</p>
               </div>
               <div className="mt-6 border rounded-lg p-[1rem]">
                 <div className="flex justify-between" onClick={toggleDetails}>
@@ -153,19 +219,19 @@ const ReceiveInvoiceOverdue = () => {
                   <div className="mt-6 flex flex-col gap-2">
                     <div className="flex justify-between">
                       <p className="flex-1">Enterprise(Company)</p>
-                      <p className="flex-1">$150,000</p>
+                      <p className="flex-1">${data.rate.toLocaleString()}</p>
                     </div>
                     <div className="flex justify-between">
                       <p className="flex-1">Quantity (Year)</p>
-                      <p className="flex-1">2</p>
+                      <p className="flex-1">{data.quantity}</p>
                     </div>
                     <div className="flex justify-between">
                       <p className="flex-1">Dsicount (%)</p>
-                      <p className="flex-1">0</p>
+                      <p className="flex-1">{data.percentageDiscount}</p>
                     </div>
                     <div className="flex justify-between">
                       <p className="flex-1">Discount ($)</p>
-                      <p className="flex-1">0</p>
+                      <p className="flex-1">{data.monetaryDiscount}</p>
                     </div>
                   </div>
                 )}
@@ -211,7 +277,12 @@ const ReceiveInvoiceOverdue = () => {
                         <FormItem className="flex flex-col gap-0">
                           <FormLabel>Payment Date</FormLabel>
                           <FormControl>
-                            <Input placeholder="DD/MM/YYYY" {...field} />
+                            <Input
+                              placeholder="DD/MM/YYYY"
+                              {...field}
+                              required
+                              type="date"
+                            />
                           </FormControl>
                         </FormItem>
                       )}
@@ -231,6 +302,7 @@ const ReceiveInvoiceOverdue = () => {
                                 placeholder="0"
                                 {...field}
                                 className="w-full border-none text-sm focus-visible:ring-0 focus-visible:ring-offset-0 pl-0"
+                                required
                               />
                             </div>
                           </FormControl>
@@ -244,7 +316,9 @@ const ReceiveInvoiceOverdue = () => {
             <div className="w-full flex items-center gap-6 p-[1rem]">
               <p
                 className="bg-accent border border-[#0000001f] rounded-[5px] px-[0.9rem] py-[0.4rem] font-normal cursor-pointer text-[0.85rem]"
-                onClick={() => {}}
+                onClick={() => {
+                  onClose();
+                }}
               >
                 Cancel
               </p>
@@ -253,7 +327,7 @@ const ReceiveInvoiceOverdue = () => {
                 className="bg-[#000] text-white border border-[#0000001f] rounded-[5px] w-full px-[0.6rem] py-[0.4rem] font-normal cursor-pointer text-[0.85rem] flex justify-center items-center"
                 // type="submit"
                 disabled={false}
-                //   onClick={form.handleSubmit(onSubmit)}
+                onClick={form.handleSubmit(onSubmit)}
               >
                 {false ? (
                   <TailSpin
@@ -278,4 +352,4 @@ const ReceiveInvoiceOverdue = () => {
   );
 };
 
-export default ReceiveInvoiceOverdue;
+export default ReceiveInvoicePayment;

@@ -45,7 +45,7 @@ import { PageContainer } from "@/components/PageContainer";
 import { DeletUserModal } from "@/components/DeleteUser";
 import useCreateInvoice from "@/lib/useCreateInvoice";
 import { PlainTransportDekApi } from "@/utils/axios";
-import useReceiveInvoice from "@/lib/useReceiveInvoice";
+import useInvoiceOverdue from "@/lib/useInvoiceOverdue";
 
 export type Payment = {
   id: string;
@@ -67,7 +67,7 @@ export type Payment = {
 export function UsersTable({ data, setBatch, setLimit, batch, limit }: any) {
   const { onOpen: onCreateInvoice, setData, setIsEditing } = useCreateInvoice();
   const { onOpen: onReceiveInvoice, setData: receiveData } =
-    useReceiveInvoice();
+    useInvoiceOverdue();
   const { tab } = useEditUser();
   const session = useSession();
 
@@ -201,7 +201,7 @@ export function UsersTable({ data, setBatch, setLimit, batch, limit }: any) {
                         // setIsEditing(true);
                       }}
                     >
-                      View Invoice
+                      Invoice
                     </button>
                   ) : (
                     <button
@@ -215,6 +215,7 @@ export function UsersTable({ data, setBatch, setLimit, batch, limit }: any) {
                         setIsEditing(true);
                         console.log(row);
                       }}
+                      // onClick={() => console.log(row)}
                     >
                       Update Invoice
                     </button>

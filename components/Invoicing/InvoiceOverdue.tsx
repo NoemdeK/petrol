@@ -39,11 +39,16 @@ import {
   DropdownMenuPortal,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import useInvoiceOverdue from "@/lib/useInvoiceOverdue";
 import useReceiveInvoice from "@/lib/useReceiveInvoice";
+import useLoading from "@/lib/useLoading";
 
 const InvoiceOverdue = () => {
   const { data: userData } = useSession();
-  const { isOpen, onOpen, onClose, data, setData } = useReceiveInvoice();
+  const { isOpen, onOpen, onClose, data, setData } = useInvoiceOverdue();
+  const { onOpen: OpenReceivePayment, setData: setReceivedPaymentData } =
+    useReceiveInvoice();
+  const sendLoading = useLoading();
   console.log(data);
 
   const formSchema = z.object({});
@@ -64,6 +69,65 @@ const InvoiceOverdue = () => {
     setShowActivity((prevState) => !prevState);
   };
 
+  async function sendInvoice() {
+    const {
+      client,
+      clientEmail,
+      invoiceDate,
+      dueDate,
+      premiumPlanPackage,
+      rate,
+      quantity,
+      percentageDiscount,
+      monetaryDiscount,
+      totalAmount,
+      attachment,
+    } = data;
+    const payload = {
+      client,
+      clientEmail,
+      invoiceDate,
+      dueDate,
+      premiumPlanPackage,
+      rate,
+      quantity,
+      percentageDiscount,
+      monetaryDiscount,
+      totalAmount,
+      attachment,
+    };
+    sendLoading.onOpen();
+    await PlainTransportDekApi.patch(
+      `premium-plan/invoice/send?invoiceId=${data.invoiceId}`,
+      JSON.stringify(payload),
+      {
+        headers: {
+          Authorization: `Bearer ${userData?.user.accessToken}`,
+        },
+      }
+    )
+      .then(() => {
+        form.reset();
+        toast({
+          title: "Invoice Semt Successfully",
+          description: "Done",
+        });
+      })
+      .catch((error) => {
+        console.log("Error", error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description:
+            `${error.response.data.message}` || "Something went wrong",
+        });
+      })
+      .finally(() => {
+        sendLoading.onClose();
+        onClose();
+      });
+  }
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -77,11 +141,14 @@ const InvoiceOverdue = () => {
           >
             <div className="bg-accent p-[1rem] flex justify-between items-center border-b-[#0000001f] border h-[60px]">
               <p className="text-sm font-medium text-[0.8rem]">
-                Invoice -{" "}
-                {data.premiumPlanPackage.charAt(0).toUpperCase() +
-                  data.premiumPlanPackage.slice(1)}
-                {data.overdue && (
-                  <span className="ml-4 text-red-500">Overdue</span>
+                Invoice -
+                {data.overdue === false && data.invoiceAmountPaid === false ? (
+                  <span className="ml-1 text-indigo-600">Not Paid</span>
+                ) : data.overdue === false &&
+                  data.invoiceAmountPaid === true ? (
+                  <span className="ml-1 text-green-500">Paid</span>
+                ) : (
+                  <span className="ml-1 text-red-500"> Overdue</span>
                 )}
               </p>
               <span
@@ -180,12 +247,17 @@ const InvoiceOverdue = () => {
                   <div className="mt-6 flex flex-col gap-2">
                     <div className="flex justify-between">
                       <p className="flex-1">Invoice Created</p>
-                      <p className="flex-1">01/02/2024</p>
+                      <p className="flex-1">
+                        {format(
+                          new Date(data.invoiceCreatedDate),
+                          "dd/MM/yyyy"
+                        )}
+                      </p>
                     </div>
                     <div className="flex justify-between">
-                      <p className="flex-1">Sent</p>
+                      <p className="flex-1">Last Sent</p>
                       <p className="flex-1">
-                        {data.invoiceSent === false ? "No" : "Yes"}
+                        {format(new Date(data.invoiceSentDate), "dd/MM/yyyy")}
                       </p>
                     </div>
                     <div className="flex justify-between">
@@ -223,10 +295,19 @@ const InvoiceOverdue = () => {
                     </div>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-[360px] flex flex-col mb-2 gap-2">
-                    <DropdownMenuItem className="w-[360px] flex-1 text-sm">
+                    <DropdownMenuItem
+                      className="w-[360px] flex-1 text-sm"
+                      onClick={() => {
+                        OpenReceivePayment();
+                        setReceivedPaymentData(data);
+                      }}
+                    >
                       Receive Payment
                     </DropdownMenuItem>
-                    <DropdownMenuItem className="w-[360px] flex-1 text-sm">
+                    <DropdownMenuItem
+                      className="w-[360px] flex-1 text-sm"
+                      onClick={() => sendInvoice()}
+                    >
                       Send Invoice
                     </DropdownMenuItem>
                     <DropdownMenuItem className="w-[360px] flex-1 text-sm">

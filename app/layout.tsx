@@ -15,7 +15,7 @@ import ExportRawData from "@/components/ExportRawData";
 import CreateInvoice from "@/components/Invoicing/CreateInvoice";
 import { PrimeReactProvider } from "primereact/api";
 import InvoiceOverdue from "@/components/Invoicing/InvoiceOverdue";
-import ReceiveInvoiceOverdue from "@/components/Invoicing/ReceiveInvoiceOverdue";
+import ReceiveInvoicePayment from "@/components/Invoicing/ReceiveInvoicePayment";
 import CreatePricing from "@/components/pricing/CreatePricing";
 
 export const metadata: Metadata = {
@@ -41,7 +41,7 @@ export default async function RootLayout({
               <ExportRawData />
               <CreateInvoice />
               <InvoiceOverdue />
-              <ReceiveInvoiceOverdue />
+              <ReceiveInvoicePayment />
               <CreatePricing />
               <Toaster />
               {children}
