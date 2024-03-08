@@ -3,9 +3,9 @@ import MostRead from "./MostRead";
 
 const ReportsLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="py-4 reportsPage">
-      <div className="leftReportsPanel">{children}</div>
-      <div className="rightReportsPanel">
+    <div className="py-4 flex flex-col lg:flex-row lg:justify-between lg:gap-8 gap-10">
+      <div className="flex-1 lg:flex-[0.6]">{children}</div>
+      <div className="flex-1 lg:flex-[0.4]">
         <MostRead />
       </div>
     </div>
