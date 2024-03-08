@@ -52,7 +52,8 @@ const News = ({ posts, other }: any) => {
             <div className="flex gap-2">
               <p className="text-xs">
                 <strong>Source</strong> :{" "}
-                {item?.source.toUpperCase() || "Noemdek"}
+                {item?.source.charAt(0).toUpperCase() + item?.source.slice(1) ||
+                  "Noemdek"}
               </p>
             </div>
           </div>
