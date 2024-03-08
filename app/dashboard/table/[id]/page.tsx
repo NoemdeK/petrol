@@ -1,10 +1,18 @@
 import React from "react";
 import { RawDataTable } from "@/app/dashboard/raw-data/RawdataTable";
 import { toast } from "@/components/ui/use-toast";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/utils/auth";
 
-async function getData(id: number) {
+async function getData(id: number, token: any) {
   const res = await fetch(
-    process.env.BACKEND_URL + `api/v1/petro-data/raw?batch=${id}`
+    process.env.BACKEND_URL + `api/v1/petro-data/raw?batch=${id}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
   );
   // The return value is *not* serialized
   // You can return Date, Map, Set, etc.
@@ -14,7 +22,7 @@ async function getData(id: number) {
     console.log("Failed to fetch data");
   }
 
-  return res.json();
+  return await res.json();
 }
 
 async function getAnalytics() {
@@ -60,8 +68,11 @@ async function getAnalytics() {
 }
 
 const Page = async ({ params }: any) => {
-  const data = await getData(params.id);
   const dassd = await getAnalytics();
+  const session = await getServerSession(authOptions);
+  const token = session && session.user.accessToken;
+
+  const data = await getData(params.id, token);
 
   const page = parseInt(params.id, 10);
 

@@ -203,6 +203,22 @@ export function UsersTable({ data, setBatch, setLimit, batch, limit }: any) {
                     >
                       Invoice
                     </button>
+                  ) : row.original.payment?.action == "invoice_paid" &&
+                    row.original.payment?.invoiceId !== null ? (
+                    <button
+                      className="text-[#0A98A9] font-medium cursor-pointer"
+                      onClick={async () => {
+                        await retreiveUserInvoice(
+                          row.original.payment.invoiceId,
+                          "update"
+                        );
+                        onReceiveInvoice();
+                        setIsEditing(false);
+                        console.log(row);
+                      }}
+                    >
+                      Invoice (Paid)
+                    </button>
                   ) : (
                     <button
                       className="text-[#0A98A9] font-medium cursor-pointer"
