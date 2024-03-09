@@ -295,24 +295,44 @@ const InvoiceOverdue = () => {
                     </div>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-[360px] flex flex-col mb-2 gap-2">
-                    <DropdownMenuItem
-                      className="w-[360px] flex-1 text-sm"
-                      onClick={() => {
-                        OpenReceivePayment();
-                        setReceivedPaymentData(data);
-                      }}
-                    >
-                      Receive Payment
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      className="w-[360px] flex-1 text-sm"
-                      onClick={() => sendInvoice()}
-                    >
-                      Send Invoice
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="w-[360px] flex-1 text-sm">
-                      Download Invoice
-                    </DropdownMenuItem>
+                    {data.invoiceAmountPaid === false && (
+                      <>
+                        <DropdownMenuItem
+                          className="w-[360px] flex-1 text-sm"
+                          onClick={() => {
+                            OpenReceivePayment();
+                            setReceivedPaymentData(data);
+                          }}
+                        >
+                          Receive Payment
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          className="w-[360px] flex-1 text-sm"
+                          onClick={() => sendInvoice()}
+                        >
+                          Send Invoice
+                        </DropdownMenuItem>
+                        <DropdownMenuItem className="w-[360px] flex-1 text-sm">
+                          Download Invoice
+                        </DropdownMenuItem>
+                      </>
+                    )}
+                    {data.invoiceAmountPaid === true && (
+                      <>
+                        <DropdownMenuItem
+                          className="w-[360px] flex-1 text-sm"
+                          onClick={() => {}}
+                        >
+                          Send Receipt
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          className="w-[360px] flex-1 text-sm"
+                          onClick={() => {}}
+                        >
+                          Download Receipt
+                        </DropdownMenuItem>
+                      </>
+                    )}
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>

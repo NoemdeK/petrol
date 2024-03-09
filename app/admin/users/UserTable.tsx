@@ -86,6 +86,8 @@ export function UsersTable({ data, setBatch, setLimit, batch, limit }: any) {
           receiveData({ ...res.data.data, invoiceId: id });
         } else if (retreiveType === "update") {
           setData({ ...res.data.data, invoiceId: id });
+        } else if (retreiveType === "paid") {
+          receiveData({ ...res.data.data, invoiceId: id });
         }
       })
       .catch((err) => {
@@ -210,7 +212,7 @@ export function UsersTable({ data, setBatch, setLimit, batch, limit }: any) {
                       onClick={async () => {
                         await retreiveUserInvoice(
                           row.original.payment.invoiceId,
-                          "update"
+                          "paid"
                         );
                         onReceiveInvoice();
                         setIsEditing(false);
