@@ -29,9 +29,15 @@ const Report: React.FC<ReportProps> = ({ recent, report }) => {
     onOpen();
     setId(report?.reportId);
   }; //handleDeleteReport
+
+  const handleEditReport = (e: any) => {
+    e.stopPropagation();
+    router.push(`/dashboard/reports/edit-report/${report?.reportId}`);
+  };
+
   return (
     <div
-      className={`border border-[#E0E0E0] flex ${
+      className={`border border-[#E0E0E0] flex flex-col lg:flex-row ${
         recent
           ? "gap-1 flex-col h-[190px]"
           : "gap-3 lg:h-[190px] overflow-hidden"
@@ -46,7 +52,7 @@ const Report: React.FC<ReportProps> = ({ recent, report }) => {
           width={recent ? 500 : 500}
           height={recent ? 500 : 500}
           className={`${
-            recent ? "w-full h-[120px]" : "w-[400px] h-full"
+            recent ? "w-full h-[110px]" : "w-[400px] h-full"
           } object-fill`}
         />
       </div>
@@ -70,7 +76,7 @@ const Report: React.FC<ReportProps> = ({ recent, report }) => {
             <>
               {recent || (
                 <div className="flex gap-2">
-                  <div>
+                  <div onClick={handleEditReport}>
                     <Image
                       src={edit}
                       alt='"edit_icon'

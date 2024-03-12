@@ -46,8 +46,6 @@ const CreatePricing = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   // const [dataState, setDataState] = useState(pricingData);
 
-  console.log(pricingData);
-
   const { data: userData } = useSession();
 
   const formSchema = z.object({

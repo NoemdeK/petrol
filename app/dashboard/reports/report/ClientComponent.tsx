@@ -45,7 +45,6 @@ const ClientComponent = () => {
       const data = await response.json();
       setLoading(false);
       setReports(data?.data.result);
-      console.log(data);
     } catch (error) {
       console.log(error);
       setLoading(false);

@@ -49,8 +49,6 @@ const InvoiceOverdue = () => {
   const { onOpen: OpenReceivePayment, setData: setReceivedPaymentData } =
     useReceiveInvoice();
   const sendLoading = useLoading();
-  console.log(data);
-
   const formSchema = z.object({});
 
   const form = useForm<z.infer<typeof formSchema>>({

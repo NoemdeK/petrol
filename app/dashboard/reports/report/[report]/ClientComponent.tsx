@@ -108,8 +108,6 @@ const ClientComponent = () => {
     onClose();
   };
 
-  console.log(report);
-
   return (
     <div>
       <Link

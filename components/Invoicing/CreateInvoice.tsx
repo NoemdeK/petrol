@@ -45,7 +45,6 @@ const CreateInvoice = () => {
     setIsEditing,
   } = useCreateInvoice();
   const [clientDataState, setClientDataState] = useState(clientData);
-  console.log(clientDataState);
   const [priceState, setPriceState] = React.useState<any>({
     rate: 0,
     quantity: 0,
