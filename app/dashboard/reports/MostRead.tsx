@@ -45,14 +45,14 @@ const MostRead = () => {
     }, 1000);
   }, [session]);
   return (
-    <div className="border border-[#E0E0E0] p-4 rounded-md">
+    <div className="lg:border border-[#E0E0E0] p-2 lg:p-4 rounded-md">
       <h3 className="text-sm font-medium">Most Read</h3>
       {loading ? (
         <div className="mt-4 flex-col flex gap-4">
           {Array(3)
             .fill(0)
             .map((_, i) => (
-              <SkeletonContainer key={i} width="100%" height="100px" />
+              <SkeletonContainer key={i} width="100%" height="190px" />
             ))}
         </div>
       ) : (

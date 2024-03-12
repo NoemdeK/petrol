@@ -28,6 +28,9 @@ module.exports = {
     animation: {
       marquee: "60s marquee linear infinite",
     },
+    backgroundImage: {
+      "reports-cover": "url(../assets/rCover.png)",
+    },
     extend: {
       colors: {
         tremor: {

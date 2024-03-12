@@ -358,6 +358,12 @@ tspan {
   color: #000000 !important;
   background: #eaeaea !important;
 }
+.reportCover {
+  background-image: url(../assets/rCover.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
 
 @media only screen and (max-width: 600px) {
   .reportsPage {

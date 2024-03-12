@@ -9,6 +9,8 @@ import SkeletonContainer from "@/components/ui/skeleton";
 import { DeleteReportModal } from "@/components/DeleteReport";
 import useDeleteReport from "@/lib/useDeleteReport";
 import { toast } from "@/components/ui/use-toast";
+import coverBg from "@/assets/rCover.png";
+import Image from "next/image";
 
 const ClientComponent = () => {
   const { data: session } = useSession();
@@ -19,6 +21,7 @@ const ClientComponent = () => {
   const [debounced, setDebounced] = useState("");
   const [loading, setLoading] = useState(false);
   const { isOpen, id, onClose, setId } = useDeleteReport();
+  const [flag, setFlag] = useState<string>("latest_reports");
 
   const fetchReports = async () => {
     const token = session && session.user.accessToken;
@@ -27,7 +30,7 @@ const ClientComponent = () => {
       const response = await fetch(
         `${
           process.env.NEXT_PUBLIC_BASE_URL
-        }api/v1/research-report/retrieve?flag=latest_reports&limit=5&search=${
+        }api/v1/research-report/retrieve?flag=${flag}&limit=5&search=${
           debounced || ""
         }`,
         {
@@ -98,7 +101,7 @@ const ClientComponent = () => {
     setTimeout(() => {
       fetchReports();
     }, 1000);
-  }, [session, debounced]);
+  }, [session, debounced, flag]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -109,32 +112,55 @@ const ClientComponent = () => {
 
   return (
     <div>
-      <div className="border border-[#0000001F] p-4 rounded-md">
-        <h3 className="text-sm font-medium">Research & Reports</h3>
-        <div className="mt-4 flex flex-col md:flex-row justify-between items-center gap-[0.6rem] md:gap-[2rem]">
-          <div className="flex items-center gap-1 text-xs md:flex-1 w-full">
-            <p>View:</p>
-            <button>Latest Reports</button>
-            <button>Top Reports</button>
+      <div className="border border-[#0000001F] p-4 rounded-md relative bg-reports-cover w-full h-[250px] md:h-[150px] bg-cover bg-center bg-no-repeat">
+        <div>
+          <Image
+            src={coverBg}
+            alt="cover_background"
+            className="absolute left-0 w-full h-[250px] md:h-[150px] top-0 rounded-md object-cover"
+          />
+        </div>
+        <div className="absolute w-full md:h-[150px] left-0 top-0 p-4 grid grid-rows-2">
+          <h3 className="text-sm font-semibold">Research & Reports</h3>
+          <div className="mt-1 lg:mt-4 flex flex-col md:flex-row justify-between items-center gap-[0.6rem] md:gap-[2rem]">
+            <div className="flex items-center gap-1 text-xs md:flex-1 w-full">
+              <p>View:</p>
+              <button
+                className={
+                  flag === "latest_reports" ? `underline leading-relaxed` : ""
+                }
+                onClick={() => setFlag("latest_reports")}
+              >
+                Latest Reports
+              </button>
+              <button
+                className={
+                  flag === "top_reports" ? `underline leading-relaxed` : ""
+                }
+                onClick={() => setFlag("top_reports")}
+              >
+                Top Reports
+              </button>
+            </div>
+            <div className="border border-[#0000004d] p-[0.25rem] rounded-[0.2rem] flex gap-1 items-center  lg:flex-1 w-full md:w-[250px] bg-[#fff]">
+              <Search className="text-tremor-background-emphasis" size={12} />
+              <input
+                type="text"
+                placeholder="Search Tags. E.g., AGO, Petrol"
+                className="text-sm text-[#000] flex-1 h-[25px] outline-none placeholder:text-xs bg-[#fff]"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
+            </div>
+            {role === "rwx_admin" && (
+              <Link
+                href="/dashboard/reports/create-report"
+                className="bg-[#000000] px-4 rounded-md text-white text-xs h-[33px] flex items-center justify-center w-full md:w-[150px]"
+              >
+                Add New Report
+              </Link>
+            )}
           </div>
-          <div className="border border-[#0000004d] p-[0.25rem] rounded-[0.2rem] flex gap-1 items-center  lg:flex-1 w-full md:w-[250px]">
-            <Search color="#00000099" size={12} />
-            <input
-              type="text"
-              placeholder="Search Tags. E.g., AGO, Petrol"
-              className="text-sm text-[#00000099] flex-1 h-[25px] outline-none placeholder:text-xs"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
-          {role === "rwx_admin" && (
-            <Link
-              href="/dashboard/reports/create-report"
-              className="bg-[#000000] px-4 rounded-md text-white text-xs h-[33px] flex items-center justify-center w-full md:w-[150px]"
-            >
-              Add New Report
-            </Link>
-          )}
         </div>
       </div>
 
@@ -143,11 +169,11 @@ const ClientComponent = () => {
           {Array(3)
             .fill(0)
             .map((_, i) => (
-              <SkeletonContainer key={i} width="100%" height="130px" />
+              <SkeletonContainer key={i} width="100%" height="190px" />
             ))}
         </div>
       ) : (
-        <div className="flex flex-col gap-4 mt-4">
+        <div className="flex flex-col gap-4 mt-8">
           {reports?.length > 0 ? (
             reports?.map((report: any, i: number) => (
               <Report recent={false} report={report} key={i} />
@@ -155,7 +181,9 @@ const ClientComponent = () => {
           ) : (
             <div className="justify-center flex mt-8">
               <p className="font-medium text-[#666666]">
-                There are no reports for now
+                {flag === "latest_reports"
+                  ? "There are no latest reports for now"
+                  : " There are no top reports for now"}
               </p>
             </div>
           )}

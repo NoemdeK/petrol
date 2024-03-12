@@ -32,26 +32,28 @@ const Report: React.FC<ReportProps> = ({ recent, report }) => {
   return (
     <div
       className={`border border-[#E0E0E0] flex ${
-        recent ? "gap-1" : "gap-3"
-      } rounded-md cursor-pointer hover:bg-[#eeeeee] transition-all duration-300`}
+        recent
+          ? "gap-1 flex-col h-[190px]"
+          : "gap-3 lg:h-[190px] overflow-hidden"
+      } rounded-md cursor-pointer hover:scale-95 transition-all duration-300 overflow-hidden`}
       // href={`/dashboard/reports/report/${report?.reportId}`}
       onClick={handleViewReport}
     >
-      <div className={recent ? `flex-[0.6]` : `flex-[0.4]`}>
+      <div className={recent ? `flex-[0.6]` : `flex-[0.35]`}>
         <Image
           src={report ? report.headlinePicture : ""}
           alt="report_image"
           width={recent ? 500 : 500}
           height={recent ? 500 : 500}
           className={`${
-            recent ? "w-full h-[100px]" : "w-[200px] h-[120px]"
-          } object-fit`}
+            recent ? "w-full h-[120px]" : "w-[400px] h-full"
+          } object-fill`}
         />
       </div>
 
       <div
-        className={`flex-1 ${
-          recent ? "p-[0.7rem]" : "p-[0.5rem]"
+        className={` ${
+          recent ? "p-[0.7rem] flex-[0.4]" : "p-[0.5rem] flex-[0.65]"
         } flex flex-col justify-center`}
       >
         <div className="flex items-start gap-1 justify-between">
@@ -93,7 +95,7 @@ const Report: React.FC<ReportProps> = ({ recent, report }) => {
         </div>
 
         {recent || (
-          <p className="font-normal text-[0.7rem] mt-[0.6rem]">
+          <p className="font-normal text-[0.7rem] mt-[1rem]">
             {report ? `${report.reportBody.substring(0, 90)}...` : ""}
           </p>
         )}
