@@ -37,10 +37,10 @@ const Report: React.FC<ReportProps> = ({ recent, report }) => {
 
   return (
     <div
-      className={`border border-[#E0E0E0] flex flex-col lg:flex-row ${
+      className={`border border-[#E0E0E0] flex ${
         recent
           ? "gap-1 flex-col h-[190px]"
-          : "gap-3 lg:h-[190px] overflow-hidden"
+          : "gap-3 lg:h-[190px] overflow-hidden flex-col lg:flex-row"
       } rounded-md cursor-pointer hover:scale-95 transition-all duration-300 overflow-hidden`}
       // href={`/dashboard/reports/report/${report?.reportId}`}
       onClick={handleViewReport}
