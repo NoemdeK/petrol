@@ -59,7 +59,7 @@ const Report: React.FC<ReportProps> = ({ recent, report }) => {
         <div className="flex items-start gap-1 justify-between">
           <h3
             className={`font-medium ${
-              recent ? "text-[0.7rem]" : "text-[0.7rem]"
+              recent ? "text-[0.7rem]" : "text-[1rem] font-semibold"
             }`}
           >
             {report
@@ -95,7 +95,7 @@ const Report: React.FC<ReportProps> = ({ recent, report }) => {
         </div>
 
         {recent || (
-          <p className="font-normal text-[0.7rem] mt-[1rem]">
+          <p className="font-normal text-[1rem] mt-[1rem]">
             {report ? `${report.reportBody.substring(0, 90)}...` : ""}
           </p>
         )}
