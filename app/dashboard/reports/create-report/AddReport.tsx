@@ -27,7 +27,7 @@ import Loader from "@/components/ui/loader";
 import { useRouter } from "next/navigation";
 import { MultiSelect } from "primereact/multiselect";
 import "primereact/resources/themes/tailwind-light/theme.css";
-import useUploadFileToDigitalOcean from "@/lib/useDigitalOcean";
+import uploadFileToDigitalOcean from "@/lib/uploadToiDigitalOcean";
 import { FileUploader } from "@/components/FileUploader";
 import { Plus } from "lucide-react";
 import { Type } from "lucide-react";
@@ -141,7 +141,7 @@ const AddReport = () => {
     index: number
   ) => {
     console.log(files);
-    const fileName = await useUploadFileToDigitalOcean(
+    const fileName = await uploadFileToDigitalOcean(
       files[0],
       userData?.user.accessToken
     );
