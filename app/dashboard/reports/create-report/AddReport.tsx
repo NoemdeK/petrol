@@ -475,7 +475,7 @@ const AddReport = () => {
               <div className="flex-1">
                 <FormField
                   control={form.control}
-                  name="category"
+                  name="reportCategory"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Report Category </FormLabel>
