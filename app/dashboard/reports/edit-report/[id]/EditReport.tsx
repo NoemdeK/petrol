@@ -28,16 +28,11 @@ import { useParams, useRouter } from "next/navigation";
 import { MultiSelect } from "primereact/multiselect";
 import "primereact/resources/themes/tailwind-light/theme.css";
 
-// interface IAddReport {
-//   setShowAddReport: Dispatch<SetStateAction<boolean>>;
-//   showReports: boolean;
-// }
-
 const EditReport = () => {
   const [fileUrl, setFileUrl] = useState<string>("");
   const [reportCategory, setReportCategory] = useState<Array<string>>([]);
   const [tags, setTags] = useState<Array<string>>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [uploadLoading, setUploadLoading] = useState(false);
   const [report, setReport] = useState<any>();
 
@@ -356,7 +351,7 @@ const EditReport = () => {
                     wrapperClass=""
                   />
                 ) : (
-                  "Add New Report"
+                  "Edit Report"
                 )}
               </button>
             </div>{" "}

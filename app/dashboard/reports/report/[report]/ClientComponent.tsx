@@ -182,12 +182,29 @@ const ClientComponent = () => {
               </p>
             </div>
           </div>
-          <p className="mt-4 text-sm">{report ? report.reportBody : ""}</p>
+          {/* <p className="mt-4 text-sm">{report ? report.reportBody : ""}</p> */}
+          <div className="flex flex-col gap-[3rem]">
+            {report &&
+              report.reportBody.map((body: any, index: number) => {
+                return (
+                  <div key={index}>
+                    <p className="mt-4 text-sm">{body.paragraph}</p>
+                    {body.attachment && (
+                      <img
+                        src={body.attachment}
+                        alt="attachment_image"
+                        className="w-[300px] mt-5 h-[300px] aspect-square object-fill mx-auto"
+                      />
+                    )}
+                  </div>
+                );
+              })}
+          </div>
         </div>
       )}
 
       {session && session.user.role === "rwx_admin" && (
-        <div className="mt-3">
+        <div className="mt-[4rem]">
           <button
             onClick={() => {
               onOpen();

@@ -349,6 +349,7 @@ tspan {
 }
 .p-multiselect-label {
   padding: 0 !important;
+  font-size: 13px !important;
 }
 
 .p-checkbox .p-checkbox-box.p-highlight {

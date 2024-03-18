@@ -85,14 +85,12 @@ export const UploadReportHeader = ({
               {({ getRootProps, getInputProps }) => (
                 <div
                   {...getRootProps()}
-                  className=" p-4 py-6 text-center rounded-md h-20 cursor-pointer border-2 border-dashed border-primary"
+                  className=" p-4 py-6 text-center rounded-md h-20 cursor-pointer border border-[#E0E0E0]"
                 >
                   <div
                     style={{
                       display: "flex",
                       justifyContent: "center",
-                      alignItems: "center",
-                      width: "100%",
                     }}
                   >
                     <div className="animate-bounce">

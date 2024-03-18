@@ -16,10 +16,10 @@ const ClientComponent = () => {
   const { data: session } = useSession();
   const role = session && session.user.role;
 
-  const [reports, setReports] = useState([]);
+  const [reports, setReports] = useState<any[]>([]);
   const [search, setSearch] = useState("");
   const [debounced, setDebounced] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { isOpen, id, onClose, setId } = useDeleteReport();
   const [flag, setFlag] = useState<string>("latest_reports");
 
@@ -43,6 +43,8 @@ const ClientComponent = () => {
       );
 
       const data = await response.json();
+
+      console.log(data);
       setLoading(false);
       setReports(data?.data.result);
     } catch (error) {

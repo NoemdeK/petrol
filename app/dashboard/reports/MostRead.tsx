@@ -12,7 +12,7 @@ const MostRead = () => {
   const role = session && session.user.role;
 
   const [reports, setReports] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const fetchMostReadReports = async () => {
     const token = session && session.user.accessToken;

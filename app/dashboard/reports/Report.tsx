@@ -39,7 +39,7 @@ const Report: React.FC<ReportProps> = ({ recent, report }) => {
     <div
       className={`border border-[#E0E0E0] flex ${
         recent
-          ? "gap-1 flex-col h-[190px]"
+          ? "gap-1 flex-col "
           : "gap-3 lg:h-[190px] overflow-hidden flex-col lg:flex-row"
       } rounded-md cursor-pointer hover:scale-95 transition-all duration-300 overflow-hidden`}
       // href={`/dashboard/reports/report/${report?.reportId}`}
@@ -52,7 +52,7 @@ const Report: React.FC<ReportProps> = ({ recent, report }) => {
           width={recent ? 500 : 500}
           height={recent ? 500 : 500}
           className={`${
-            recent ? "w-full h-[110px]" : "w-[400px] h-full"
+            recent ? "w-full h-full" : "w-[400px] h-full"
           } object-fill`}
         />
       </div>
@@ -102,7 +102,9 @@ const Report: React.FC<ReportProps> = ({ recent, report }) => {
 
         {recent || (
           <p className="font-normal text-[1rem] mt-[1rem]">
-            {report ? `${report.reportBody.substring(0, 90)}...` : ""}
+            {report
+              ? `${report?.reportBody[0]?.paragraph.substring(0, 90)}...`
+              : ""}
           </p>
         )}
         <div
