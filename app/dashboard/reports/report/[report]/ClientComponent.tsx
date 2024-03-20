@@ -136,10 +136,10 @@ const ClientComponent = () => {
             alt="report"
             width={500}
             height={500}
-            className="w-full"
+            className="w-full rounded object-fill"
           />
 
-          <h3 className="text-[1.5rem] font-medium mt-4 leading-tight">
+          <h3 className="text-[2rem] font-medium mt-4 leading-tight">
             {report ? report.reportHeadline : ""}
           </h3>
           <div className="mt-3 text-xs text-[#666666] flex gap-6">
@@ -193,7 +193,7 @@ const ClientComponent = () => {
                       <img
                         src={body.attachment}
                         alt="attachment_image"
-                        className="w-[300px] mt-5 h-[300px] aspect-square object-fill mx-auto"
+                        className="w-[300px] mt-5 h-[300px] md:w-[600px] md:h-[500px] aspect-square object-fill mx-auto"
                       />
                     )}
                   </div>

@@ -25,7 +25,11 @@ export function DeleteReportModal({ onCancel, onSubmit }: any) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={onCancel} type="button" className="">
+          <AlertDialogCancel
+            onClick={onCancel}
+            type="button"
+            className="bg-white text-black"
+          >
             Cancel
           </AlertDialogCancel>
           <AlertDialogAction onClick={onSubmit} type="submit" className="">

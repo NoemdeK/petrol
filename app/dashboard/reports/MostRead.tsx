@@ -45,7 +45,7 @@ const MostRead = () => {
   }, [session]);
   return (
     <div className="lg:border border-[#E0E0E0] p-2 lg:p-4 rounded-md">
-      <h3 className="text-sm font-medium">Most Read</h3>
+      <h3 className="text-sm font-semibold">Most Read</h3>
       {loading ? (
         <div className="mt-4 flex-col flex gap-4">
           {Array(3)

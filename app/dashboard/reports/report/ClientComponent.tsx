@@ -156,7 +156,7 @@ const ClientComponent = () => {
             {role === "rwx_admin" && (
               <Link
                 href="/dashboard/reports/create-report"
-                className="bg-[#000000] px-4 rounded-md text-white text-xs h-[33px] flex items-center justify-center w-full md:w-[150px]"
+                className="bg-accent hover:bg-[accent] px-4 rounded-md text-xs h-[33px] flex items-center justify-center w-full md:w-[150px]"
               >
                 Add New Report
               </Link>
