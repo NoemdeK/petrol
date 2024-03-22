@@ -27,6 +27,8 @@ import Loader from "@/components/ui/loader";
 import { useParams, useRouter } from "next/navigation";
 import { MultiSelect } from "primereact/multiselect";
 import "primereact/resources/themes/tailwind-light/theme.css";
+import { FileUploader } from "@/components/FileUploader";
+import uploadFileToDigitalOcean from "@/lib/uploadToiDigitalOcean";
 
 const EditReport = () => {
   const [fileUrl, setFileUrl] = useState<string>("");
@@ -35,6 +37,9 @@ const EditReport = () => {
   const [loading, setLoading] = useState(true);
   const [uploadLoading, setUploadLoading] = useState(false);
   const [report, setReport] = useState<any>();
+  const [reportBody, setReportBody] = useState<any[]>([
+    { paragraph: "", attachment: "" },
+  ]);
 
   const router = useRouter();
 
@@ -88,20 +93,7 @@ const EditReport = () => {
 
       if (response.status === 200) {
         setReport(data?.data);
-
-        // if (data?.data?.tagAGO) {
-        //   setSlectedTag((prev) => {
-        //     return [...prev, "AGO"];
-        //   });
-        // } else if (data?.data?.tagDPK) {
-        //   setSlectedTag((prev) => {
-        //     return [...prev, "DPK"];
-        //   });
-        // } else if (data?.data?.tagICE) {
-        //   setSlectedTag((prev) => {
-        //     return [...prev, "ICE"];
-        //   });
-        // }
+        setReportBody(data?.data?.reportBody);
       } else if (response.status === 401) {
         console.log("getting access");
       } else {
@@ -121,6 +113,8 @@ const EditReport = () => {
   useEffect(() => {
     fetchReport();
   }, [session]);
+
+  console.log(report);
 
   const [selectedCategoryies, setSlectedCategoryies] = useState(null);
   const categories = [
@@ -194,6 +188,34 @@ const EditReport = () => {
     setFileUrl(report?.headlinePicture);
   }, [report]);
 
+  const handleTextInputChange = (event: any, index: number) => {
+    setReportBody((prev) => {
+      return prev.map((item, i) => {
+        if (i === index) {
+          return { ...item, paragraph: event.target.value };
+        }
+        return item;
+      });
+    });
+  };
+
+  const onFileUplooadHandler = async (
+    files: any,
+    fieldName: any,
+    index: number
+  ) => {
+    console.log(files);
+    const fileName = await uploadFileToDigitalOcean(files[0], token);
+    setReportBody((prev) => {
+      return prev.map((item, i) => {
+        if (i === index) {
+          return { ...item, attachment: fileName };
+        }
+        return item;
+      });
+    });
+  };
+
   return (
     <div className="">
       <div className="border border-[#E0E0E0] p-4 rounded-[0.2rem] flex gap-1 items-center flex-1">
@@ -247,7 +269,7 @@ const EditReport = () => {
                 </div>
               )}
             </>
-            <FormField
+            {/* <FormField
               control={form.control}
               name="reportBody"
               render={({ field }) => (
@@ -273,6 +295,57 @@ const EditReport = () => {
                   acceptMultipleFiles={false}
                 />{" "}
               </div>
+            </div> */}
+            <div>
+              {reportBody?.map((item, index) => (
+                <div>
+                  <div className="mb-5">
+                    <Label className="mb-2">Report Body {index + 1}</Label>
+                    <Textarea
+                      name="paragraph"
+                      onChange={(e) => {
+                        handleTextInputChange(e, index);
+                      }}
+                      value={item.paragraph}
+                      disabled={isLoading}
+                      className="resize-none h-[200px]"
+                    />
+                  </div>
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex-1 flex-col gap-2">
+                      <Label className="mb-2">Attachment {index + 1}</Label>
+                      <FileUploader
+                        name={`attachment${index + 1}`}
+                        form={form}
+                        acceptMultipleFiles={false}
+                        handleDrop={(file: File) =>
+                          onFileUplooadHandler(
+                            file,
+                            `attachment${index + 1}`,
+                            index
+                          )
+                        }
+                      />{" "}
+                    </div>
+
+                    <div className="">
+                      {reportBody.map((item: any, i: number) => {
+                        if (index === i && item.attachment !== "") {
+                          return (
+                            <div key={i}>
+                              <img
+                                src={item.attachment}
+                                alt=""
+                                className="w-[200px] h-[200px]"
+                              />
+                            </div>
+                          );
+                        }
+                      })}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
             <div className="flex items-start gap-6">
               <div className="flex-1">

@@ -59,7 +59,7 @@ const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
       enableSystem
       disableTransitionOnChange
     >
-      <div className="h-full relative mx-2 my-4 md:m-4">
+      <div className="h-full relative mx-2 my-4 md:m-4 w-full max-w-[1440px] lg:mx-auto">
         <Navbar data={me?.data} />
         <div className="flex gap-4 w-full">
           <div className="hidden md:flex h-full md:h-[85vh]  md:w-60 md:flex-col  md:fidxed md:inset-y-0 z-80">

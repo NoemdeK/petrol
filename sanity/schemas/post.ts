@@ -33,6 +33,11 @@ export default defineType({
       type: "string",
     }),
     defineField({
+      name: "author",
+      title: "Author",
+      type: "string",
+    }),
+    defineField({
       name: "description",
       title: "description",
       type: "string",
