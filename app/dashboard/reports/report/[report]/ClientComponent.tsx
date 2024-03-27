@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 import { DeleteReportModal } from "@/components/DeleteReport";
 import useDeleteReport from "@/lib/useDeleteReport";
 import CustomReportBody from "./CustomReportBody";
-import HawiltiReportBody from "./HawiltiReportBody";
+// import HawiltiReportBody from "./HawiltiReportBody";
 
 const ClientComponent = () => {
   const { data: session } = useSession();
@@ -242,14 +242,13 @@ const ClientComponent = () => {
           report={report}
           session={session}
         />
-      ) : (
-        <HawiltiReportBody
-          loading={loading}
-          setLoading={setLoading}
-          report={report}
-          session={session}
-        />
-      )}
+      ) : // <HawiltiReportBody
+      //   loading={loading}
+      //   setLoading={setLoading}
+      //   report={report}
+      //   session={session}
+      // />
+      null}
     </>
   );
 };

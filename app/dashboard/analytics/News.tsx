@@ -105,7 +105,7 @@ const News = ({ posts, other }: any) => {
         </div>
       ))}
 
-      {posts.map((item: any, i: number) => (
+      {posts?.map((item: any, i: number) => (
         <div
           key={`${item.slug}-${i}`}
           className="flex  flex-col md:flex-row items-center gap-2 cursor-pointer rounded-md transition-all hover:scale-95 bg-muted p-1"
