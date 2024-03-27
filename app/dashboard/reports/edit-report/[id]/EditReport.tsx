@@ -298,7 +298,7 @@ const EditReport = () => {
             </div> */}
             <div>
               {reportBody?.map((item, index) => (
-                <div>
+                <div key={index}>
                   <div className="mb-5">
                     <Label className="mb-2">Report Body {index + 1}</Label>
                     <Textarea
