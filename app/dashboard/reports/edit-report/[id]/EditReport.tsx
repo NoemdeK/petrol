@@ -329,7 +329,7 @@ const EditReport = () => {
                     </div>
 
                     <div className="">
-                      {reportBody.map((item: any, i: number) => {
+                      {reportBody?.map((item: any, i: number) => {
                         if (index === i && item.attachment !== "") {
                           return (
                             <div key={i}>

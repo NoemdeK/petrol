@@ -49,7 +49,7 @@ const Report: React.FC<ReportProps> = ({ recent, report }) => {
     >
       <div className={recent ? `flex-[0.6]` : `flex-[0.35]`}>
         <Image
-          src={report ? report.headlinePicture : ""}
+          src={report ? report?.headlinePicture : ""}
           alt="report_image"
           width={recent ? 500 : 500}
           height={recent ? 500 : 500}
