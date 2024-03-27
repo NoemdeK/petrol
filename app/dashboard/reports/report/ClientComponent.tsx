@@ -11,6 +11,7 @@ import useDeleteReport from "@/lib/useDeleteReport";
 import { toast } from "@/components/ui/use-toast";
 import coverBg from "@/assets/rCover.png";
 import Image from "next/image";
+import HawiltiReport from "../HawiltiReport";
 
 const ClientComponent = () => {
   const { data: session } = useSession();
@@ -177,7 +178,13 @@ const ClientComponent = () => {
         <div className="flex flex-col gap-4 mt-8">
           {reports?.length > 0 ? (
             reports?.map((report: any, i: number) => (
-              <Report recent={false} report={report} key={i} />
+              <div key={i}>
+                {report.reportBody ? (
+                  <Report recent={false} report={report} />
+                ) : (
+                  <HawiltiReport recent={false} report={report} />
+                )}
+              </div>
             ))
           ) : (
             <div className="justify-center flex mt-8">
