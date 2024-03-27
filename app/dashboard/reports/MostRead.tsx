@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import SkeletonContainer from "@/components/ui/skeleton";
-import HawiltiReport from "./HawiltiReport";
+// import HawiltiReport from "./HawiltiReport";
 
 const MostRead = () => {
   const { data: session } = useSession();
@@ -59,18 +59,14 @@ const MostRead = () => {
         <div className="flex flex-col gap-4 mt-4">
           {reports?.length > 0 ? (
             reports?.map((report: any, i: number) => (
-              <>
+              <div key={i}>
                 {report.reportBody ? (
-                  <Link
-                    href={`/dashboard/reports/report/${report?.reportId}`}
-                    key={i}
-                  >
+                  <Link href={`/dashboard/reports/report/${report?.reportId}`}>
                     <Report recent={true} report={report} />
                   </Link>
-                ) : (
-                  <HawiltiReport recent={true} report={report} />
-                )}
-              </>
+                ) : // <HawiltiReport recent={true} report={report} />
+                null}
+              </div>
             ))
           ) : (
             <div className="justify-center flex mt-8">

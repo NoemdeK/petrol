@@ -11,7 +11,7 @@ import useDeleteReport from "@/lib/useDeleteReport";
 import { toast } from "@/components/ui/use-toast";
 import coverBg from "@/assets/rCover.png";
 import Image from "next/image";
-import HawiltiReport from "../HawiltiReport";
+// import HawiltiReport from "../HawiltiReport";
 
 const ClientComponent = () => {
   const { data: session } = useSession();
@@ -181,9 +181,8 @@ const ClientComponent = () => {
               <div key={i}>
                 {report.reportBody ? (
                   <Report recent={false} report={report} />
-                ) : (
-                  <HawiltiReport recent={false} report={report} />
-                )}
+                ) : // <HawiltiReport recent={false} report={report} />
+                null}
               </div>
             ))
           ) : (
