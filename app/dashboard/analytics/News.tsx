@@ -1,19 +1,13 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
 import urlFor from "@/sanity/lib/urlFor";
-import axios from "axios";
-import { format } from "date-fns";
-import { useSession } from "next-auth/react";
 import Image from "next/image";
-import newsFallback from "../../../assets/news-fb.png";
 import React, { useEffect, useState } from "react";
 import crudebent from "@/assets/projections images/crudebent.png";
 import fuelpump from "@/assets/projections images/fuelpump.png";
 import gasplant from "@/assets/projections images/gasplant.png";
 import oilcash from "@/assets/projections images/oilcash.png";
 import pipeline from "@/assets/projections images/pipeline.png";
-import { match } from "path-to-regexp";
 
 const News = ({ posts, other }: any) => {
   // if (!posts || posts.length < 1) {
