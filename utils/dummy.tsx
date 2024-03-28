@@ -19,10 +19,10 @@ export function generateDummyData(
     const randomPetrolPrice =
       Math.floor(Math.random() * (maxPrice - minPrice + 1)) + minPrice;
     dummyData.push({
-      date: `${date.toLocaleDateString('en-US', {
-        weekday: 'short',
+      date: `${date.toLocaleDateString("en-US", {
+        weekday: "short",
       })} ${date.getDate()}`,
-      'Petrol Price': randomPetrolPrice,
+      "Petrol Price": randomPetrolPrice,
     });
   }
 
@@ -50,10 +50,10 @@ export function generateLinearData(
     date.setDate(date.getDate() + 1)
   ) {
     linearData.push({
-      date: `${date.toLocaleDateString('en-US', {
-        weekday: 'short',
+      date: `${date.toLocaleDateString("en-US", {
+        weekday: "short",
       })} ${date.getDate()}`,
-      'Petrol Price': currentPrice,
+      "Petrol Price": currentPrice,
     });
 
     currentPrice += priceIncrement;
@@ -97,18 +97,18 @@ export function generateDummyDataX(startDate: any, endDate: any) {
 
   // Array of month names for formatting
   const monthNames = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ];
 
   // Loop through each day and create an object
@@ -123,7 +123,7 @@ export function generateDummyDataX(startDate: any, endDate: any) {
 
     dummyData.push({
       date: `${day}-${month}-${year}`,
-      average: '0',
+      average: "0",
     });
   }
 
@@ -149,10 +149,10 @@ export function generateDummyDataX(startDate: any, endDate: any) {
 
 // Your existing data array
 const data = [
-  { period: '4-Dec-20', average: '315.96' },
-  { period: '8-Dec-20', average: '315.96' },
-  { period: '11-Dec-20', average: '316.21' },
-  { period: '15-Dec-20', average: '325.58' },
+  { period: "4-Dec-20", average: "315.96" },
+  { period: "8-Dec-20", average: "315.96" },
+  { period: "11-Dec-20", average: "316.21" },
+  { period: "15-Dec-20", average: "325.58" },
 ];
 
 // Function to fill in missing periods with average '0'
@@ -168,79 +168,79 @@ export const fillMissingPeriods = (
 
   const filledData: any = [];
 
-  let currentNorthEast: any = '0'; // Initial value
-  let currentNorthWest: any = '0';
-  let currentNorthCentral: any = '0';
-  let currentSouthWest: any = '0';
-  let currentSouthEast: any = '0';
-  let currentSouthSouth: any = '0';
+  let currentNorthEast: any = "0"; // Initial value
+  let currentNorthWest: any = "0";
+  let currentNorthCentral: any = "0";
+  let currentSouthWest: any = "0";
+  let currentSouthEast: any = "0";
+  let currentSouthSouth: any = "0";
 
   let tamp: any = {};
   allPeriods.forEach((date) => {
     const existingItem = existingData.find((item) => item.date === date.date);
 
-    const north_east = regions?.includes('NORTH EAST');
+    const north_east = regions?.includes("NORTH EAST");
     if (north_east) {
-      tamp['NORTH EAST'] = currentNorthEast;
+      tamp["NORTH EAST"] = currentNorthEast;
     }
     if (existingItem) {
       if (north_east) {
-        currentNorthEast = existingItem['NORTH EAST'];
-        tamp['NORTH EAST'] = currentNorthEast;
+        currentNorthEast = existingItem["NORTH EAST"];
+        tamp["NORTH EAST"] = currentNorthEast;
       }
     }
 
-    const north_west = regions?.includes('NORTH WEST');
+    const north_west = regions?.includes("NORTH WEST");
     if (north_west) {
-      tamp['NORTH WEST'] = currentNorthWest;
+      tamp["NORTH WEST"] = currentNorthWest;
     }
     if (existingItem) {
       if (north_west) {
-        currentNorthWest = existingItem['NORTH WEST'];
-        tamp['NORTH WEST'] = currentNorthWest;
+        currentNorthWest = existingItem["NORTH WEST"];
+        tamp["NORTH WEST"] = currentNorthWest;
       }
     }
 
-    const north_central = regions?.includes('NORTH CENTRAL');
+    const north_central = regions?.includes("NORTH CENTRAL");
     if (north_central) {
-      tamp['NORTH CENTRAL'] = currentNorthCentral;
+      tamp["NORTH CENTRAL"] = currentNorthCentral;
     }
     if (existingItem) {
       if (north_central) {
-        currentNorthCentral = existingItem['NORTH CENTRAL'];
-        tamp['NORTH CENTRAL'] = currentNorthCentral;
+        currentNorthCentral = existingItem["NORTH CENTRAL"];
+        tamp["NORTH CENTRAL"] = currentNorthCentral;
       }
     }
-    const south_south = regions?.includes('SOUTH SOUTH');
+    const south_south = regions?.includes("SOUTH SOUTH");
     if (south_south) {
-      tamp['SOUTH SOUTH'] = currentSouthSouth;
+      tamp["SOUTH SOUTH"] = currentSouthSouth;
     }
     if (existingItem) {
       if (south_south) {
-        currentSouthSouth = existingItem['SOUTH SOUTH'];
-        tamp['SOUTH SOUTH'] = currentSouthSouth;
+        currentSouthSouth = existingItem["SOUTH SOUTH"];
+        tamp["SOUTH SOUTH"] = currentSouthSouth;
       }
     }
 
-    const south_east = regions?.includes('SOUTH EAST');
+    const south_east = regions?.includes("SOUTH EAST");
     if (south_east) {
-      tamp['SOUTH EAST'] = currentSouthEast;
+      tamp["SOUTH EAST"] = currentSouthEast;
     }
     if (existingItem) {
       if (south_east) {
-        currentSouthEast = existingItem['SOUTH EAST'];
-        tamp['SOUTH EAST'] = currentSouthEast;
+        currentSouthEast = existingItem["SOUTH EAST"];
+        tamp["SOUTH EAST"] = currentSouthEast;
       }
     }
 
-    const south_west = regions?.includes('SOUTH WEST');
+    const south_west = regions?.includes("SOUTH WEST");
     if (south_west) {
-      tamp['SOUTH WEST'] = currentSouthWest;
+      tamp["SOUTH WEST"] = currentSouthWest;
     }
     if (existingItem) {
       if (south_west) {
-        currentSouthWest = existingItem['SOUTH WEST'];
-        tamp['SOUTH WEST'] = currentSouthWest;
+        currentSouthWest = existingItem["SOUTH WEST"];
+        tamp["SOUTH WEST"] = currentSouthWest;
       }
     }
     filledData.push({

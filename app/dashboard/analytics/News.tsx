@@ -2,7 +2,7 @@
 
 import urlFor from "@/sanity/lib/urlFor";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import crudebent from "@/assets/projections images/crudebent.png";
 import fuelpump from "@/assets/projections images/fuelpump.png";
 import gasplant from "@/assets/projections images/gasplant.png";
@@ -17,10 +17,6 @@ const News = ({ posts, other }: any) => {
   //     </div>
   //   );
   // }
-
-  interface KeywordImageMap {
-    [key: string]: any;
-  }
 
   function articleImageHandler(title: string, article: string): any {
     // Define a mapping of keywords to image URLs
